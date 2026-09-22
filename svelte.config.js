@@ -1,7 +1,7 @@
 let adapter;
 
 try {
-	const vercel = (await import('@sveltejs/adapter-vercel')).default;
+	const vercel = (await import('@sveltejs/adapter-cloudflare')).default;
 	adapter = vercel({
 		runtime: 'nodejs22.x'
 	});
