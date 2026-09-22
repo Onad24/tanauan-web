@@ -1,0 +1,126 @@
+=== DOWNLOADING MARKET ===
+To: /home/krixan/Documents/tanauan/tanauan-leyte-clone/migration/drive_data/MARKET/Organizational Structure/Market Organizational Structure.png
+  0%|          | 0.00/1.31M [00:00<?, ?B/s] 40%|███▉      | 524k/1.31M [00:04<00:06, 130kB/s] 80%|███████▉  | 1.05M/1.31M [00:04<00:01, 246kB/s]100%|██████████| 1.31M/1.31M [00:05<00:00, 304kB/s]100%|██████████| 1.31M/1.31M [00:05<00:00, 252kB/s]
+Download completed
+--- MARKET done ---
+=== DOWNLOADING MBO ===
+Building directory structure
+Building directory structure completed
+Download completed
+--- MBO done ---
+=== DOWNLOADING MAO ===
+To: /home/krixan/Documents/tanauan/tanauan-leyte-clone/migration/drive_data/MAO/SERVICES OFFERED/MAO_SERVICES_OFFERED.pdf
+  0%|          | 0.00/353k [00:00<?, ?B/s]100%|██████████| 353k/353k [00:00<00:00, 371kB/s]100%|██████████| 353k/353k [00:00<00:00, 371kB/s]
+Download completed
+--- MAO done ---
+=== DOWNLOADING TOURISM ===
+To: /home/krixan/Documents/tanauan/tanauan-leyte-clone/migration/drive_data/TOURISM/Tourism Spots/Tanauan_Leyte_Tourism_Spots.docx
+  0%|          | 0.00/14.2k [00:00<?, ?B/s]100%|██████████| 14.2k/14.2k [00:00<00:00, 609kB/s]
+Download completed
+--- TOURISM done ---
+=== DOWNLOADING BPLO ===
+To: /home/krixan/Documents/tanauan/tanauan-leyte-clone/migration/drive_data/BPLO/Organizational Structure/Organizational Structure
+  0%|          | 0.00/291k [00:00<?, ?B/s]100%|██████████| 291k/291k [00:00<00:00, 444kB/s]100%|██████████| 291k/291k [00:00<00:00, 444kB/s]
+Download completed
+--- BPLO done ---
+=== DOWNLOADING MASSO ===
+To: /home/krixan/Documents/tanauan/tanauan-leyte-clone/migration/drive_data/MASSO/Municipal Assessors Office.pdf
+  0%|          | 0.00/2.35M [00:00<?, ?B/s] 22%|██▏       | 524k/2.35M [00:01<00:04, 414kB/s] 45%|████▍     | 1.05M/2.35M [00:02<00:02, 435kB/s] 67%|██████▋   | 1.57M/2.35M [00:03<00:01, 420kB/s] 89%|████████▉ | 2.10M/2.35M [00:04<00:00, 423kB/s]100%|██████████| 2.35M/2.35M [00:05<00:00, 472kB/s]100%|██████████| 2.35M/2.35M [00:05<00:00, 446kB/s]
+Download completed
+--- MASSO done ---
+=== DOWNLOADING HRMO ===
+To: /home/krixan/Documents/tanauan/tanauan-leyte-clone/migration/drive_data/HRMO/TOTAL NUMBER OF PERSONNEL/TOTAL PERSONNEL.pdf
+  0%|          | 0.00/103k [00:00<?, ?B/s]100%|██████████| 103k/103k [00:00<00:00, 978kB/s]100%|██████████| 103k/103k [00:00<00:00, 976kB/s]
+Download completed
+--- HRMO done ---
+=== DOWNLOADING PROCUREMENT ===
+To: /home/krixan/Documents/tanauan/tanauan-leyte-clone/migration/drive_data/PROCUREMENT/Procurement-Section-Organizational-Structure.pdf
+  0%|          | 0.00/156k [00:00<?, ?B/s]100%|██████████| 156k/156k [00:00<00:00, 916kB/s]100%|██████████| 156k/156k [00:00<00:00, 915kB/s]
+Download completed
+--- PROCUREMENT done ---
+=== DOWNLOADING VICE_MAYOR ===
+To: /home/krixan/Documents/tanauan/tanauan-leyte-clone/migration/drive_data/VICE_MAYOR/ORGANIZATIONAL CHARTS VM.pdf
+  0%|          | 0.00/402k [00:00<?, ?B/s]100%|██████████| 402k/402k [00:00<00:00, 1.10MB/s]100%|██████████| 402k/402k [00:00<00:00, 1.10MB/s]
+Download completed
+--- VICE_MAYOR done ---
+=== DOWNLOADING MACCO ===
+To: /home/krixan/Documents/tanauan/tanauan-leyte-clone/migration/drive_data/MACCO/MACCO - ORGANIZATIONAL CHART.jpg
+  0%|          | 0.00/4.03M [00:00<?, ?B/s] 13%|█▎        | 524k/4.03M [00:00<00:03, 1.05MB/s] 26%|██▌       | 1.05M/4.03M [00:00<00:02, 1.11MB/s] 39%|███▉      | 1.57M/4.03M [00:01<00:02, 1.13MB/s] 52%|█████▏    | 2.10M/4.03M [00:01<00:01, 1.15MB/s] 65%|██████▍   | 2.62M/4.03M [00:02<00:01, 1.16MB/s] 78%|███████▊  | 3.15M/4.03M [00:02<00:00, 1.16MB/s] 91%|█████████ | 3.67M/4.03M [00:03<00:00, 1.15MB/s]100%|██████████| 4.03M/4.03M [00:03<00:00, 1.09MB/s]100%|██████████| 4.03M/4.03M [00:03<00:00, 1.12MB/s]
+Download completed
+--- MACCO done ---
+=== DOWNLOADING MCR ===
+To: /home/krixan/Documents/tanauan/tanauan-leyte-clone/migration/drive_data/MCR/MCRO Services Offered.docx
+  0%|          | 0.00/1.02M [00:00<?, ?B/s] 51%|█████▏    | 524k/1.02M [00:00<00:00, 936kB/s]100%|██████████| 1.02M/1.02M [00:01<00:00, 965kB/s]100%|██████████| 1.02M/1.02M [00:01<00:00, 961kB/s]
+Download completed
+--- MCR done ---
+=== DOWNLOADING IT ===
+Building directory structure
+Building directory structure completed
+Download completed
+--- IT done ---
+=== DOWNLOADING SLAUGHTERHOUSE ===
+To: /home/krixan/Documents/tanauan/tanauan-leyte-clone/migration/drive_data/SLAUGHTERHOUSE/SLAUGHTER ORG STRUCTURE.pdf
+  0%|          | 0.00/68.9k [00:00<?, ?B/s]100%|██████████| 68.9k/68.9k [00:00<00:00, 765kB/s]
+Download completed
+--- SLAUGHTERHOUSE done ---
+=== DOWNLOADING PESO ===
+- PESO/PROGRAMS & SERVICES OFFERED BY PESO/How to apply SPES.docx
+- PESO/PROGRAMS & SERVICES OFFERED BY PESO/How to avail LIVELIHOOD.docx
+- PESO/2025 Tanauan Leyte LMI Profile.pdf
+--- PESO done ---
+=== DOWNLOADING BAC ===
+Building directory structure
+Building directory structure completed
+Download completed
+--- BAC done ---
+=== DOWNLOADING SB ===
+but Gdown can't. Please check connections and permissions.
+Failed to download the following files:
+- SB/SB OFFICE/SB ORGANIZATIONAL STRUCTURE.pdf
+--- SB done ---
+=== DOWNLOADING MEO ===
+- MEO/Municipal Engineering Office/03 Project Implementation Forms/REQUEST FOR FINAL INSPECTION SAMPLE.docx
+- MEO/Municipal Engineering Office/03 Project Implementation Forms/Sample - Project Implementation Weekly Accomplishment Report.xlsx
+- MEO/Municipal Engineering Office/ORGANIZATIONAL CHART.pdf
+--- MEO done ---
+=== DOWNLOADING MDRRMO ===
+- MDRRMO/SERVICES/MDRRMO ISSUANCE OF DISASTER INCIDENT CERTIFICATION.pdf
+- MDRRMO/MDRRMO CONTACT AND COMMUNICATION INFORMATION.pdf
+- MDRRMO/MDRRMO Organizational Structure .pdf
+--- MDRRMO done ---
+=== DOWNLOADING MPDO ===
+- MPDO/Zoning Certification/Zoning Certification.pdf
+- MPDO/MPDC Citizens Charter.pdf
+- MPDO/Step-by-Step Provision of Planning Data and Information to National Agencies.docx
+--- MPDO done ---
+=== DOWNLOADING GSO ===
+To: /home/krixan/Documents/tanauan/tanauan-leyte-clone/migration/drive_data/GSO/GSO VISSON AND MISSION.docx
+  0%|          | 0.00/14.5k [00:00<?, ?B/s]100%|██████████| 14.5k/14.5k [00:00<00:00, 1.39MB/s]
+Download completed
+--- GSO done ---
+=== DOWNLOADING MENRO ===
+To: /home/krixan/Documents/tanauan/tanauan-leyte-clone/migration/drive_data/MENRO/Waste Classification/SPECIAL WASTE.pdf
+  0%|          | 0.00/242k [00:00<?, ?B/s]100%|██████████| 242k/242k [00:00<00:00, 1.05MB/s]100%|██████████| 242k/242k [00:00<00:00, 1.05MB/s]
+Download completed
+--- MENRO done ---
+=== DOWNLOADING MTO ===
+To: /home/krixan/Documents/tanauan/tanauan-leyte-clone/migration/drive_data/MTO/3. Services Offered _ Citizen's Charter/MTO-CITIZEN'S CHARTER.pdf
+  0%|          | 0.00/310k [00:00<?, ?B/s]100%|██████████| 310k/310k [00:00<00:00, 942kB/s]100%|██████████| 310k/310k [00:00<00:00, 942kB/s]
+Download completed
+--- MTO done ---
+=== DOWNLOADING MPCO ===
+To: /home/krixan/Documents/tanauan/tanauan-leyte-clone/migration/drive_data/MPCO/MPCO ORGANIZATIONAL CHART
+  0%|          | 0.00/1.37M [00:00<?, ?B/s] 38%|███▊      | 524k/1.37M [00:00<00:00, 1.03MB/s] 76%|███████▋  | 1.05M/1.37M [00:00<00:00, 1.10MB/s]100%|██████████| 1.37M/1.37M [00:01<00:00, 1.13MB/s]100%|██████████| 1.37M/1.37M [00:01<00:00, 1.11MB/s]
+Download completed
+--- MPCO done ---
+=== DOWNLOADING MHO ===
+To: /home/krixan/Documents/tanauan/tanauan-leyte-clone/migration/drive_data/MHO/Work Schedule and Services.docx
+  0%|          | 0.00/16.4k [00:00<?, ?B/s]100%|██████████| 16.4k/16.4k [00:00<00:00, 669kB/s]
+Download completed
+--- MHO done ---
+=== DOWNLOADING MSWDO ===
+To: /home/krixan/Documents/tanauan/tanauan-leyte-clone/migration/drive_data/MSWDO/PROGRAMS - PROCESS & REQUIREMENTS.docx
+  0%|          | 0.00/32.0k [00:00<?, ?B/s]100%|██████████| 32.0k/32.0k [00:00<00:00, 415kB/s]
+Download completed
+--- MSWDO done ---
+ALL DOWNLOADS COMPLETE
