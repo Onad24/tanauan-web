@@ -281,6 +281,7 @@ export const DEPT_DEFAULTS = {
       room: 'General Services Office, Ground Floor, Tanauan Municipal Hall, Real St., Tanauan, Leyte',
       schedule: 'Monday – Friday: 8:00 AM – 5:00 PM'
     },
+    orgChartImage: '/GSO-OrgChart-Part1.png',
     vision:
       'Effective, efficient and sustainable operation of programs, projects and activities, with competent manpower and responsive to the needs of the clients with the right quality of service to support the vision of the Municipality.',
     mission:

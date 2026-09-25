@@ -7,6 +7,7 @@
 	import PersonnelSection from '$lib/PersonnelSection.svelte';
 	import AccomplishmentSection from '$lib/AccomplishmentSection.svelte';
 	import OrgChartSection from '$lib/OrgChartSection.svelte';
+	import GSOOrgChart from '$lib/Components/Offices/GSOOrgChart.svelte';
 
 	let {
 		officeName = "Municipal Treasurer's Office",
@@ -1499,7 +1500,11 @@
 
 				<!-- Interactive Blueprint Canvas Frame -->
 				<div class="rounded-3xl border-2 border-slate-300 bg-white p-6 shadow-sm sm:p-8">
-					<OrgChartSection {department} defaultImage={orgChartImage} cleanLayout={true} />
+					{#if officeCode === 'GSO' || department === 'GSO' || department === 'General Services Office'}
+						<GSOOrgChart />
+					{:else}
+						<OrgChartSection {department} defaultImage={orgChartImage} cleanLayout={true} />
+					{/if}
 				</div>
 			</div>
 		</section>

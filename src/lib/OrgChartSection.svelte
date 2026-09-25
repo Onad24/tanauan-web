@@ -10,7 +10,9 @@
 		Market: '/Market-OrgChart.jpg',
 		'Municipal Market Office': '/Market-OrgChart.jpg',
 		Engineering: '/Engineering Office-OrgChart.webp',
-		'Engineering Office': '/Engineering Office-OrgChart.webp'
+		'Engineering Office': '/Engineering Office-OrgChart.webp',
+		GSO: '/GSO-OrgChart-Part1.png',
+		'General Services Office': '/GSO-OrgChart-Part1.png'
 	};
 
 	let awards = [];
