@@ -301,6 +301,13 @@ export const DEPT_DEFAULTS = {
       { value: '3', suffix: '+', label: 'Civic Venues Managed', description: 'Tanauan Amphitheater, Municipal Lobby, and Civic Center' },
       { value: '100', suffix: '%', label: 'Service Reliability', description: 'Committed to responsive and quality public service' }
     ],
+    downloadableForms: [
+      {
+        title: "Borrower's & Return Slip Form (Tents, Chairs, Sound System)",
+        description: 'Official downloadable form for municipal equipment borrowing and return clearance.',
+        url: 'https://drive.google.com/file/d/1fS19TSJvtyiP4jMTnBwMYi1GSD8glY8G/view?usp=drive_link'
+      }
+    ],
     servicesOffered: [
       {
         id: 'borrowing-equipment',
@@ -309,6 +316,9 @@ export const DEPT_DEFAULTS = {
         badge: 'Service Offered 1',
         description: 'Standard procedure for requesting and borrowing municipal tents, tables, chairs, and sound system units for civic, community, and official events.',
         equipmentList: ['Tents', 'Chairs & Tables', 'Sound System'],
+        downloadableFormUrl: 'https://drive.google.com/file/d/1fS19TSJvtyiP4jMTnBwMYi1GSD8glY8G/view?usp=drive_link',
+        downloadableFormTitle: "Borrower's & Return Form",
+        downloadableFormDescription: 'Official downloadable form for equipment borrowing and return inspection clearance.',
         steps: [
           'Submits Letter of Request detailing equipment, date, time and venue.',
           'Bring the approved letter request to the GSO Office for verification of availability of Tents.',
@@ -1214,6 +1224,11 @@ export function mergeOfficeData(defaults = {}, dynamic = {}) {
 	// Services Offered array: overwrite only if non-empty array
 	if (Array.isArray(dynamic.servicesOffered) && dynamic.servicesOffered.length > 0) {
 		result.servicesOffered = dynamic.servicesOffered;
+	}
+
+	// Downloadable forms array: overwrite only if non-empty array
+	if (Array.isArray(dynamic.downloadableForms) && dynamic.downloadableForms.length > 0) {
+		result.downloadableForms = dynamic.downloadableForms;
 	}
 
 	// Signatories: merge if provided

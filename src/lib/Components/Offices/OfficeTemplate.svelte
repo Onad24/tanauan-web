@@ -154,6 +154,7 @@
 		vision = '',
 		mission = '',
 		servicesOffered = [],
+		downloadableForms = [],
 		preparedBy = null,
 		reviewedBy = null
 	} = $props();
@@ -898,6 +899,53 @@
 											<p class="font-medium italic text-slate-800">
 												{svc.note}
 											</p>
+										</div>
+									{/if}
+
+									<!-- Downloadable Form Banner on Card -->
+									{#if svc.downloadableFormUrl}
+										<div
+											class="mt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-2xl border border-emerald-300 bg-emerald-50/80 p-3.5 shadow-2xs"
+										>
+											<div class="flex items-center gap-2.5">
+												<div
+													class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-emerald-600 text-white"
+												>
+													<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+														<path
+															stroke-linecap="round"
+															stroke-linejoin="round"
+															stroke-width="2"
+															d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+														/>
+													</svg>
+												</div>
+												<div>
+													<div class="text-[10px] font-black uppercase tracking-wider text-emerald-800">
+														Downloadable Form Available
+													</div>
+													<div class="text-xs font-black text-slate-900">
+														{svc.downloadableFormTitle || "Borrower & Return Form"}
+													</div>
+												</div>
+											</div>
+											<a
+												href={svc.downloadableFormUrl}
+												target="_blank"
+												rel="noopener noreferrer"
+												onclick={(e) => e.stopPropagation()}
+												class="inline-flex shrink-0 items-center justify-center gap-1.5 rounded-xl bg-emerald-600 px-3.5 py-1.5 text-xs font-black text-white shadow-2xs transition-all hover:bg-emerald-700 active:scale-95"
+											>
+												<svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+													<path
+														stroke-linecap="round"
+														stroke-linejoin="round"
+														stroke-width="2"
+														d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+													/>
+												</svg>
+												<span>Download Form ↗</span>
+											</a>
 										</div>
 									{/if}
 								</div>
@@ -1920,6 +1968,63 @@
 								</div>
 							{/if}
 
+							<!-- Downloadable Form Banner in Modal -->
+							{#if activeFloatingModal.downloadableFormUrl}
+								<div
+									class="rounded-3xl border-2 border-emerald-300 bg-gradient-to-r from-emerald-50 via-white to-emerald-50/70 p-5 shadow-sm"
+								>
+									<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+										<div class="flex items-start gap-3.5">
+											<div
+												class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-emerald-600 text-white shadow-sm"
+											>
+												<svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+													<path
+														stroke-linecap="round"
+														stroke-linejoin="round"
+														stroke-width="2"
+														d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+													/>
+												</svg>
+											</div>
+											<div>
+												<div class="mb-1 flex items-center gap-2">
+													<span
+														class="inline-block rounded-full bg-emerald-100 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-emerald-900 border border-emerald-200"
+													>
+														Official Downloadable Form
+													</span>
+													<span class="text-xs font-bold text-slate-500">Google Drive Document</span>
+												</div>
+												<h4 class="text-base font-black text-slate-900">
+													{activeFloatingModal.downloadableFormTitle || "Borrower & Return Form"}
+												</h4>
+												<p class="mt-0.5 text-xs font-medium text-slate-600">
+													{activeFloatingModal.downloadableFormDescription || "Official printable slip for equipment borrowing and return clearance."}
+												</p>
+											</div>
+										</div>
+
+										<a
+											href={activeFloatingModal.downloadableFormUrl}
+											target="_blank"
+											rel="noopener noreferrer"
+											class="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-3 text-xs font-black text-white shadow-md transition-all hover:bg-emerald-700 hover:scale-105 active:scale-95"
+										>
+											<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+												<path
+													stroke-linecap="round"
+													stroke-linejoin="round"
+													stroke-width="2"
+													d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+												/>
+											</svg>
+											<span>Download Form ↗</span>
+										</a>
+									</div>
+								</div>
+							{/if}
+
 							<!-- Procedure Steps -->
 							{#if activeFloatingModal.steps && activeFloatingModal.steps.length > 0}
 								<div class="space-y-3">
@@ -2004,6 +2109,16 @@
 					</div>
 
 					<div class="flex items-center gap-2.5 w-full sm:w-auto justify-end">
+						{#if typeof activeFloatingModal === 'object' && activeFloatingModal !== null && activeFloatingModal.downloadableFormUrl}
+							<a
+								href={activeFloatingModal.downloadableFormUrl}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="inline-flex items-center justify-center gap-1.5 rounded-xl border border-emerald-600 bg-emerald-50 px-4 py-2 text-xs font-black text-emerald-900 transition-colors hover:bg-emerald-100"
+							>
+								<span>📥 Download Form ↗</span>
+							</a>
+						{/if}
 						{#if typeof activeFloatingModal === 'object' && activeFloatingModal !== null && citizensCharterUrl}
 							<a
 								href={citizensCharterUrl}

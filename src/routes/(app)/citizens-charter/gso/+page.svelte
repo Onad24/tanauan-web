@@ -42,6 +42,11 @@
 				total_processing_time: '15 – 25 minutes (subject to equipment availability)',
 				total_fee: 'None (Free for public/community service)',
 				equipment_covered: ['Tents', 'Tables & Chairs', 'Sound System Units'],
+				downloadable_form: {
+					title: "Official Borrower & Return Slip Form",
+					url: 'https://drive.google.com/file/d/1fS19TSJvtyiP4jMTnBwMYi1GSD8glY8G/view?usp=drive_link',
+					description: 'Download the official printable GSO form for equipment borrowing applications and return inspection clearance.'
+				},
 				checklist_of_requirements: [
 					{
 						item: '1',
@@ -59,13 +64,15 @@
 						item: '3',
 						requirement: 'Accomplished GSO Borrower’s Slip',
 						condition: 'Mandatory (upon availability confirmation)',
-						source: 'General Services Office (GSO)'
+						source: 'General Services Office (GSO)',
+						downloadUrl: 'https://drive.google.com/file/d/1fS19TSJvtyiP4jMTnBwMYi1GSD8glY8G/view?usp=drive_link'
 					},
 					{
 						item: '4',
 						requirement: 'Accomplished GSO Return Slip',
 						condition: 'Upon return of equipment',
-						source: 'General Services Office (GSO)'
+						source: 'General Services Office (GSO)',
+						downloadUrl: 'https://drive.google.com/file/d/1fS19TSJvtyiP4jMTnBwMYi1GSD8glY8G/view?usp=drive_link'
 					}
 				],
 				process_steps: [
@@ -544,6 +551,63 @@
 					</div>
 				</div>
 
+				<!-- Downloadable Form Banner (When available) -->
+				{#if service.downloadable_form}
+					<div
+						class="mb-8 rounded-3xl border-2 border-emerald-300 bg-gradient-to-r from-emerald-50 via-white to-emerald-50/60 p-6 shadow-sm"
+					>
+						<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-5">
+							<div class="flex items-start gap-4">
+								<div
+									class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-emerald-600 text-white shadow-sm"
+								>
+									<svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											stroke-width="2"
+											d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+										/>
+									</svg>
+								</div>
+								<div>
+									<div class="mb-1 flex items-center gap-2">
+										<span
+											class="inline-block rounded-full bg-emerald-100 px-3 py-0.5 text-[10px] font-black uppercase tracking-wider text-emerald-900 border border-emerald-200"
+										>
+											Official Downloadable Form
+										</span>
+										<span class="text-xs font-bold text-slate-500">Google Drive Document</span>
+									</div>
+									<h4 class="text-base sm:text-lg font-black text-slate-900">
+										{service.downloadable_form.title}
+									</h4>
+									<p class="mt-0.5 text-xs sm:text-sm font-medium text-slate-600">
+										{service.downloadable_form.description}
+									</p>
+								</div>
+							</div>
+
+							<a
+								href={service.downloadable_form.url}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-emerald-600 px-6 py-3 text-xs font-black text-white shadow-md transition-all hover:bg-emerald-700 hover:scale-105 active:scale-95"
+							>
+								<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										stroke-width="2"
+										d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+									/>
+								</svg>
+								<span>Download Form ↗</span>
+							</a>
+						</div>
+					</div>
+				{/if}
+
 				<!-- Checklist of Requirements -->
 				<div class="mb-8">
 					<div class="mb-4 flex items-center justify-between">
@@ -567,7 +631,22 @@
 								{#each service.checklist_of_requirements as req}
 									<tr class="hover:bg-slate-50 transition-colors">
 										<td class="p-3.5 font-mono font-bold text-blue-900">{req.item}</td>
-										<td class="p-3.5 font-bold text-slate-900">{req.requirement}</td>
+										<td class="p-3.5 font-bold text-slate-900">
+											<div class="flex flex-wrap items-center gap-2">
+												<span>{req.requirement}</span>
+												{#if req.downloadUrl}
+													<a
+														href={req.downloadUrl}
+														target="_blank"
+														rel="noopener noreferrer"
+														class="inline-flex items-center gap-1 rounded-md bg-emerald-100 px-2 py-0.5 text-[11px] font-black text-emerald-900 border border-emerald-300 hover:bg-emerald-200 transition-colors"
+													>
+														<span>📥 Download Form</span>
+														<span>↗</span>
+													</a>
+												{/if}
+											</div>
+										</td>
 										<td class="p-3.5">
 											<span
 												class="rounded px-2 py-0.5 text-xs font-black {req.condition === 'Mandatory'
