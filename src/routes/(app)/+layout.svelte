@@ -225,14 +225,16 @@
 		const ScrollTrigger = (await import('gsap/ScrollTrigger')).default;
 		gsap.registerPlugin(ScrollTrigger);
 
-		const wave = gsap.timeline({ repeat: -1, yoyo: true });
-		wave.to('.wave-path', {
-			duration: 2,
-			attr: {
-				d: `M0 160L80 133.3C160 107 320 53 480 69.3C640 85 800 171 960 186.7C1120 203 1280 149 1360 122.7L1440 96V320H1360C1280 320 1120 320 960 320C800 320 640 320 480 320C320 320 160 320 80 320H0Z`
-			},
-			ease: 'sine.inOut'
-		});
+		if (document.querySelector('.wave-path')) {
+			const wave = gsap.timeline({ repeat: -1, yoyo: true });
+			wave.to('.wave-path', {
+				duration: 2,
+				attr: {
+					d: `M0 160L80 133.3C160 107 320 53 480 69.3C640 85 800 171 960 186.7C1120 203 1280 149 1360 122.7L1440 96V320H1360C1280 320 1120 320 960 320C800 320 640 320 480 320C320 320 160 320 80 320H0Z`
+				},
+				ease: 'sine.inOut'
+			});
+		}
 
 		// scroll handler: update scrollY and decide whether to hide navbar
 		const handleScroll = () => {
@@ -259,27 +261,37 @@
 		// attach listener (passive for performance)
 		window.addEventListener('scroll', handleScroll, { passive: true });
 
-		// Start slideshow interval
-		loaderInterval = setInterval(() => {
-			currentImageIndex = (currentImageIndex + 1) % loaderImages.length;
-		}, 400);
+		// Start slideshow interval only on home page if loader is showing
+		if (showLoader && get(isHome)) {
+			loaderInterval = setInterval(() => {
+				currentImageIndex = (currentImageIndex + 1) % loaderImages.length;
+			}, 400);
 
-		setTimeout(() => {
-			if (loaderInterval) clearInterval(loaderInterval);
-			gsap.to('.loader', {
-				opacity: 0,
-				duration: 0.5,
-				onComplete: () => (showLoader = false)
-			});
+			setTimeout(() => {
+				if (loaderInterval) clearInterval(loaderInterval);
+				if (document.querySelector('.loader')) {
+					gsap.to('.loader', {
+						opacity: 0,
+						duration: 0.5,
+						onComplete: () => (showLoader = false)
+					});
+				} else {
+					showLoader = false;
+				}
 
-			gsap.from('.navbar', {
-				y: -50,
-				opacity: 0,
-				duration: 0.6,
-				delay: 0.1,
-				ease: 'power2.out'
-			});
-		}, 1200);
+				if (document.querySelector('.navbar')) {
+					gsap.from('.navbar', {
+						y: -50,
+						opacity: 0,
+						duration: 0.6,
+						delay: 0.1,
+						ease: 'power2.out'
+					});
+				}
+			}, 1200);
+		} else {
+			showLoader = false;
+		}
 
 		// cleanup
 		return () => {
@@ -305,7 +317,7 @@
 	<link rel="preload" as="image" href="/Tourism/municipyo-1.jpg" />
 </svelte:head>
 
-{#if showLoader}
+{#if showLoader && $isHome}
 	<div
 		class="loader fixed top-0 left-0 z-50 flex h-screen w-full items-center justify-center overflow-hidden bg-black text-white"
 	>
@@ -372,7 +384,8 @@
 			</p>
 		</div>
 	</div>
-{:else}
+{/if}
+
 	<!-- Top Philippine Flag colored ribbon -->
 	<div
 		class="fixed top-0 right-0 left-0 z-50 h-[4px] w-full bg-gradient-to-r from-[#0038a8] via-[#fcd116] to-[#ce1126] shadow-sm"
@@ -1948,7 +1961,6 @@
 			</div>
 		</div>
 	</footer>
-{/if}
 
 <style>
 	/* Lock navbar font regardless of any sub-page global CSS */

@@ -105,6 +105,11 @@
 			href: '/citizens-charter/ABATTOIR',
 			title: 'Slaughterhouse',
 			icon: 'M17 14v6m-3-3h6M6 10h2m-2 4h2m-2 4h2m10-14L10 6.5 4 10v10a1 1 0 001 1h14a1 1 0 001-1V5a1 1 0 00-1-1z'
+		},
+		{
+			href: '/citizens-charter/market',
+			title: 'Market Office',
+			icon: 'M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z'
 		}
 	];
 

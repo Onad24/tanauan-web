@@ -147,11 +147,14 @@
 			email: 'treasurer@tanauanleyte.gov.ph',
 			helpline: 'Citizens Helpdesk: Windows 1 to 4, Treasury Hall'
 		},
-		department = 'Treasurer'
+		department = 'Treasurer',
+		orgChartImage = '',
+		dutiesAndResponsibilities = null
 	} = $props();
 
 	let scrollY = $state(0);
 	let activeSection = $state('overview');
+	let showFullDuties = $state(false);
 
 	// 3D Perspective Card Tilt handler for the Official Plaque
 	let plaqueRotateX = $state(0);
@@ -559,50 +562,144 @@
 					</p>
 				</div>
 
-				<!-- Mandates Grid (Clean White Cards, Gold Top Borders, Large Clear Text, Zero AI Icons) -->
+				<!-- Mandates Grid (Matching exact civic card design with orange top border, badges, and dash items) -->
 				<div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
 					{#each mandates as mandate}
 						<div
-							class="flex flex-col justify-between rounded-2xl border-x border-t-4 border-b border-slate-200 border-t-amber-500 bg-white p-7 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+							class="flex flex-col justify-between rounded-2xl border border-slate-200/80 border-t-4 border-t-amber-500 bg-white p-7 sm:p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
 						>
 							<div>
-								<!-- Header: Clean Civic Numbering (No AI Icons) -->
-								<div class="mb-4 flex items-center justify-between border-b border-slate-100 pb-3">
-									<span class="font-mono text-3xl font-black text-amber-600">
+								<!-- Header: Index Number & Code Badge -->
+								<div class="mb-6 flex items-center justify-between">
+									<span class="text-3xl font-black text-amber-500 tracking-tight">
 										{mandate.index}
 									</span>
 									<span
-										class="rounded border border-blue-200 bg-blue-50 px-2.5 py-1 font-mono text-xs font-bold text-blue-950"
+										class="rounded border border-blue-200 bg-blue-50/70 px-2 py-0.5 text-[10px] font-bold text-blue-900 tracking-wider uppercase font-mono"
 									>
 										{mandate.code}
 									</span>
 								</div>
 
+								<!-- Category Tag -->
 								<span
-									class="mb-1 inline-block text-xs font-black tracking-wider text-blue-900 uppercase"
+									class="mb-2 block text-xs font-black tracking-wider text-blue-900 uppercase"
 								>
 									{mandate.tag}
 								</span>
-								<h3 class="mb-3 text-xl leading-snug font-black text-slate-950">
+
+								<!-- Main Function Title -->
+								<h3 class="mb-3 text-xl leading-snug font-black text-slate-900">
 									{mandate.title}
 								</h3>
-								<p class="mb-6 text-base leading-relaxed font-normal text-slate-800">
+
+								<!-- Description -->
+								<p class="mb-8 text-sm leading-relaxed font-normal text-slate-600">
 									{mandate.description}
 								</p>
 							</div>
 
-							<!-- Bullet Points with Bold Dash -->
-							<div class="space-y-2 border-t border-slate-100 pt-4">
+							<!-- Bullet Points with Orange Dash -->
+							<div class="space-y-3.5 border-t border-slate-100 pt-6">
 								{#each mandate.details as detail}
-									<div class="flex items-start gap-2.5 text-sm font-medium text-slate-900">
-										<span class="leading-none font-bold text-amber-600 select-none">—</span>
-										<span class="leading-tight">{detail}</span>
+									<div class="flex items-start text-xs sm:text-sm font-medium text-slate-800 leading-snug">
+										<span class="text-amber-500 font-bold select-none mr-2.5">—</span>
+										<span>{detail}</span>
 									</div>
 								{/each}
 							</div>
 						</div>
 					{/each}
 				</div>
+
+				<!-- Optional Expandable Full 17 Statutory Duties (Verbatim COA/CSC Enumeration) -->
+				{#if dutiesAndResponsibilities}
+					<div class="mt-8 flex flex-col items-center">
+						<button
+							type="button"
+							onclick={() => (showFullDuties = !showFullDuties)}
+							class="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-5 py-2.5 text-xs font-black uppercase tracking-wider text-blue-950 shadow-2xs hover:bg-slate-50 hover:border-blue-900 transition-all"
+						>
+							<svg class="h-4 w-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+							</svg>
+							<span>{showFullDuties ? 'Hide' : 'View'} Full 17 Statutory Duties & Responsibilities</span>
+							<span class="text-xs text-slate-400">{showFullDuties ? '▲' : '▼'}</span>
+						</button>
+
+						{#if showFullDuties}
+							<div class="mt-6 w-full rounded-3xl border-2 border-slate-300 bg-white p-6 sm:p-8 shadow-sm transition-all">
+								<div class="border-b-2 border-slate-100 pb-5 mb-6">
+									<div class="inline-flex items-center gap-2 rounded-md border border-blue-300 bg-blue-100 px-3 py-1 text-xs font-black tracking-wider text-blue-950 uppercase">
+										<span class="h-2 w-2 rounded-full bg-blue-900"></span>
+										STATUTORY ENUMERATION // {officeName}
+									</div>
+									<h3 class="mt-2 text-2xl font-black text-blue-950">
+										Complete 17 Duties and Responsibilities
+									</h3>
+									<p class="mt-2 text-sm text-slate-700 font-medium leading-relaxed max-w-4xl border-l-4 border-amber-500 pl-4 py-1 bg-amber-50/50 rounded-r-xl">
+										{dutiesAndResponsibilities.preamble}
+									</p>
+								</div>
+
+								<div class="grid gap-3 sm:grid-cols-2">
+									{#each dutiesAndResponsibilities.list as duty, idx}
+										<div class="flex items-start gap-3 rounded-2xl border border-slate-200 bg-slate-50/60 p-3.5 hover:border-blue-900 hover:bg-white hover:shadow-xs transition-all">
+											<span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-blue-950 text-xs font-black text-amber-300 shadow-2xs">
+												{idx + 1}
+											</span>
+											<p class="text-xs font-medium text-slate-800 leading-snug">
+												{duty}
+											</p>
+										</div>
+									{/each}
+								</div>
+							</div>
+						{/if}
+					</div>
+				{/if}
+
+				<!-- Citizen's Charter Spotlight Callout (Direct Service Access) -->
+				{#if department === 'Market' || department === 'Municipal Market Office'}
+					<div class="mt-8 rounded-3xl border-2 border-amber-400 bg-gradient-to-r from-blue-950 via-blue-900 to-slate-950 p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
+						<div class="pointer-events-none absolute -right-10 -bottom-10 h-48 w-48 rounded-full bg-amber-400/10 blur-2xl"></div>
+
+						<div class="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+							<div class="space-y-2.5 max-w-2xl">
+								<div class="inline-flex items-center gap-2 rounded-full border border-amber-400/40 bg-amber-400/15 px-3.5 py-1 text-xs font-black uppercase tracking-wider text-amber-300">
+									<span class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+									Official Citizen's Charter Service
+								</div>
+								<h3 class="text-xl sm:text-2xl font-black text-white">
+									Stall / Space Verification (For Business Permit Issuance)
+								</h3>
+								<p class="text-xs sm:text-sm text-blue-200 leading-relaxed">
+									Official G2B municipal service for market stallholders and commercial lessees verifying stall occupancy, rental receipts, and space compliance.
+								</p>
+								<div class="flex flex-wrap items-center gap-3 pt-1 text-xs">
+									<span class="rounded-lg bg-white/10 px-2.5 py-1 text-white border border-white/15">
+										Classification: <strong class="text-amber-300">Simple</strong>
+									</span>
+									<span class="rounded-lg bg-white/10 px-2.5 py-1 text-white border border-white/15">
+										Processing: <strong class="text-emerald-400">31 minutes</strong>
+									</span>
+									<span class="rounded-lg bg-white/10 px-2.5 py-1 text-white border border-white/15">
+										Fee: <strong class="text-amber-300">None (Free)</strong>
+									</span>
+								</div>
+							</div>
+
+							<div class="flex flex-col sm:flex-row gap-3 shrink-0">
+								<a
+									href="/citizens-charter/market"
+									class="inline-flex items-center justify-center gap-2 rounded-xl bg-amber-400 px-6 py-3 text-xs font-black uppercase tracking-wider text-blue-950 shadow-md hover:bg-amber-300 hover:scale-102 transition-all active:scale-98"
+								>
+									<span>View Citizen's Charter ↗</span>
+								</a>
+							</div>
+						</div>
+					</div>
+				{/if}
 			</div>
 		</section>
 
@@ -864,7 +961,7 @@
 
 				<!-- Interactive Blueprint Canvas Frame -->
 				<div class="rounded-3xl border-2 border-slate-300 bg-white p-6 shadow-sm sm:p-8">
-					<OrgChartSection {department} cleanLayout={true} />
+					<OrgChartSection {department} defaultImage={orgChartImage} cleanLayout={true} />
 				</div>
 			</div>
 		</section>

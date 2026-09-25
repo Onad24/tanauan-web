@@ -472,7 +472,7 @@ export const DEPT_DEFAULTS = {
     officeName: 'Municipal Market Office',
     officeCode: 'MMO',
     category: 'Market Administration & Services',
-    citizensCharterUrl: '/citizens-charter',
+    citizensCharterUrl: '/citizens-charter/market',
     tagline: 'Managing the municipal public market to provide a clean, safe, and orderly trading environment for vendors and consumers in Tanauan.',
     typewriterWords: [
       'Clean & Orderly Public Market',
@@ -480,17 +480,74 @@ export const DEPT_DEFAULTS = {
       'Fair Market Administration',
       'Vibrant Commerce in Tanauan'
     ],
-    head: { name: '', title: 'Market Supervisor', term: 'Department Head', quote: 'A well-managed public market is the heart of our community\'s commerce — bringing together farmers, vendors, and consumers.', credentials: ['Market Administration Specialist', 'Revenue Collection Officer'], room: 'Municipal Public Market, Tanauan, Leyte', schedule: 'Monday – Saturday: 6:00 AM – 6:00 PM' },
+    head: { name: 'Engr. Lue M. Maderazo', title: 'Market Supervisor', term: 'Department Head', quote: 'A well-managed public market is the heart of our community\'s commerce — bringing together farmers, vendors, and consumers.', credentials: ['Market Administration Specialist', 'Revenue Collection Officer'], room: 'Municipal Public Market, Tanauan, Leyte', schedule: 'Monday – Saturday: 6:00 AM – 6:00 PM' },
+    orgChartImage: '/Market-OrgChart.jpg',
     stats: [
       { value: '500', suffix: '+', label: 'Registered Vendors', description: 'Active market stall holders in the municipal public market' },
       { value: '6', suffix: ' days', label: 'Market Operation', description: 'Market open Monday to Saturday for trading activities' },
       { value: '100', suffix: '%', label: 'Sanitary Compliance', description: 'Regular sanitary inspections ensuring food safety' },
       { value: '54', suffix: '', label: 'Barangays Served', description: 'Market serving buyers and sellers from all barangays' }
     ],
+    dutiesAndResponsibilities: {
+      preamble:
+        'The Municipal Market Office shall be responsible for the proper administration, supervision, regulation, and maintenance of the public market and its facilities, subject to existing national laws, municipal ordinances, rules, and regulations.',
+      list: [
+        'Administer and supervise the daily operations of the Municipal Public Market and ensure that its facilities and services are properly managed.',
+        'Implement and enforce applicable municipal ordinances, rules, and regulations governing the use and operation of the public market.',
+        'Regulate the use and occupancy of market stalls, booths, spaces, and other market facilities and maintain updated records of authorized occupants.',
+        'Monitor and regulate market vendors, stallholders, lessees, and other persons conducting business within the public market to ensure compliance with applicable regulations.',
+        'Conduct regular inspection of market stalls, spaces, facilities, and common areas and report violations, unsafe conditions, and other concerns requiring appropriate action.',
+        'Coordinate with the Municipal Treasurer\'s Office regarding market rentals, fees, charges, arrears, and other lawful collections related to market operations.',
+        'Ensure the proper implementation of policies concerning the assignment, renewal, transfer, cancellation, or termination of market stall occupancy, subject to applicable laws and ordinances.',
+        'Maintain cleanliness, sanitation, orderliness, and proper waste management within the public market, in coordination with the appropriate municipal offices.',
+        'Coordinate with the Municipal Health Office, Municipal Engineering Office, General Services Office, Bureau of Fire Protection, Philippine National Police, and other concerned agencies on matters affecting market sanitation, safety, security, infrastructure, and public welfare.',
+        'Receive and act upon complaints, concerns, and requests from vendors, stallholders, consumers, and the general public concerning market operations, within the authority of the office.',
+        'Monitor unauthorized vending, illegal occupation of market spaces, obstruction of passageways, and other prohibited activities and coordinate with the proper authorities for appropriate action.',
+        'Monitor the condition of market buildings, stalls, drainage, water supply, electrical facilities, comfort rooms, waste disposal areas, and other market infrastructure, and recommend necessary repairs or improvements.',
+        'Maintain complete and updated records and documents pertaining to market operations, including stall occupancy, vendor information, inspections, violations, complaints, and other official transactions.',
+        'Prepare periodic reports and recommendations concerning the operation, administration, maintenance, and improvement of the public market for submission to the Municipal Mayor and other concerned offices.',
+        'Assist in the preparation and implementation of programs, policies, and projects intended to improve the efficiency, safety, sanitation, and overall operation of the Municipal Public Market.',
+        'Ensure that the public market is operated in an orderly, safe, sanitary, and equitable manner for the benefit of vendors, consumers, and the general public.',
+        'Perform such other functions and responsibilities as may be provided by law, municipal ordinances, rules and regulations, and as may be lawfully assigned by the Municipal Mayor.'
+      ]
+    },
     mandates: [
-      { index: '01', code: 'MKT-ADM', title: 'Market Administration & Operations', description: 'Manages the day-to-day operations, regulations, and administration of the municipal public market.', tag: 'Core Function', details: ['Stall Allocation & Management', 'Market Fee Collection', 'Vendor Registration & Accreditation'] },
-      { index: '02', code: 'SANIT', title: 'Sanitation & Market Hygiene', description: 'Ensures cleanliness, sanitation, and food safety standards throughout the public market.', tag: 'Health & Safety', details: ['Daily Market Cleaning', 'Sanitary Inspection Coordination', 'Food Safety Standards Enforcement'] },
-      { index: '03', code: 'ORDER', title: 'Order Maintenance & Security', description: 'Maintains peace, order, and security within the market premises for vendors and consumers.', tag: 'Security & Order', details: ['Market Security Personnel Management', 'Vendor Compliance Monitoring', 'Dispute Resolution'] }
+      {
+        index: '01',
+        code: 'MKT-ADM',
+        title: 'Market Administration & Operations',
+        description: 'Manages the day-to-day operations, regulations, and administration of the municipal public market.',
+        tag: 'Core Function',
+        details: [
+          'Stall Allocation & Management',
+          'Market Fee Collection',
+          'Vendor Registration & Accreditation'
+        ]
+      },
+      {
+        index: '02',
+        code: 'SANIT',
+        title: 'Sanitation & Market Hygiene',
+        description: 'Ensures cleanliness, sanitation, and food safety standards throughout the public market.',
+        tag: 'Health & Safety',
+        details: [
+          'Daily Market Cleaning',
+          'Sanitary Inspection Coordination',
+          'Food Safety Standards Enforcement'
+        ]
+      },
+      {
+        index: '03',
+        code: 'ORDER',
+        title: 'Order Maintenance & Security',
+        description: 'Maintains peace, order, and security within the market premises for vendors and consumers.',
+        tag: 'Security & Order',
+        details: [
+          'Market Security Personnel Management',
+          'Vendor Compliance Monitoring',
+          'Dispute Resolution'
+        ]
+      }
     ],
     schedule: { hours: 'Monday – Saturday | 6:00 AM – 6:00 PM', location: 'Municipal Public Market, Tanauan, Leyte', contactNumber: '', email: '', helpline: 'Market Administration Office, Public Market Building' }
   },
