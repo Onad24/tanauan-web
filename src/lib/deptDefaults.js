@@ -264,27 +264,113 @@ export const DEPT_DEFAULTS = {
     officeName: 'General Services Office',
     officeCode: 'GSO',
     category: 'General Services & Property Management',
-    citizensCharterUrl: '/citizens-charter',
-    tagline: 'Managing government property, procurement, and general services to support the efficient delivery of public services in Tanauan.',
+    citizensCharterUrl: '/citizens-charter/gso',
+    tagline: 'Managing government property, venue reservations, equipment support, and general services to support the efficient delivery of public services in Tanauan.',
     typewriterWords: [
-      'Efficient Property & Procurement Management',
-      'Supporting All Departments with General Services',
-      'Accountable Government Asset Stewardship',
-      'Reliable Infrastructure Support for Tanauan'
+      'Borrowing of Tents, Chairs & Sound Systems',
+      'Venue Scheduling & Public Civic Facilities',
+      'Supply, Property & Asset Accountability',
+      'Reliable Municipal Infrastructure Support'
     ],
-    head: { name: '', title: 'General Services Officer', term: 'Department Head', quote: 'Efficient property and procurement management ensures that every department can deliver excellent public service.', credentials: ['Government Property Management Specialist', 'Procurement Officer'], room: 'Municipal Hall, Tanauan, Leyte', schedule: 'Monday – Friday: 8:00 AM – 5:00 PM' },
+    head: {
+      name: 'Eugenio C. Ramos, Jr.',
+      title: 'GSO Operation Manager',
+      term: 'Department Head',
+      quote: 'Effective, efficient and sustainable operation of programs, projects and activities, with competent manpower and responsive to the needs of the clients with the right quality of service.',
+      credentials: ['GSO Operation Manager', 'Government Property & Facilities Management', 'Logistics & Venue Operations Specialist'],
+      room: 'General Services Office, Ground Floor, Tanauan Municipal Hall, Real St., Tanauan, Leyte',
+      schedule: 'Monday – Friday: 8:00 AM – 5:00 PM'
+    },
+    vision:
+      'Effective, efficient and sustainable operation of programs, projects and activities, with competent manpower and responsive to the needs of the clients with the right quality of service to support the vision of the Municipality.',
+    mission:
+      'To establish a reliable office, empowered by efficient and committed employees driven by transparency, accountability and good governance in the pursuit of its goals and objectives as provided for by the law in line with the supply and property management, maintenance of bldg. and grounds, electrical, plumbing. IT and electronic equipment, light vehicles and heavy equipment and other services.',
+    preparedBy: {
+      name: 'Honeyline Soyosa',
+      title: 'Focal Person / GSO Staff',
+      role: 'Focal Person / GSO Staff'
+    },
+    reviewedBy: {
+      name: 'Eugenio C. Ramos, Jr.',
+      title: 'GSO Operation Manager',
+      role: 'GSO Operation Manager'
+    },
     stats: [
-      { value: '100', suffix: '%', label: 'Asset Accountability', description: 'All government property accounted for and properly documented' },
-      { value: '54', suffix: '', label: 'Departments Supported', description: 'General services available to all municipal offices' },
-      { value: '100', suffix: '%', label: 'Procurement Compliance', description: 'Full compliance with RA 9184 Government Procurement Law' },
-      { value: '12', suffix: '+', label: 'Monthly Services', description: 'Regular maintenance, janitorial, and security services managed' }
+      { value: '100', suffix: '%', label: 'Asset Accountability', description: 'All government property and equipment accounted for' },
+      { value: '54', suffix: '', label: 'Barangays Supported', description: 'Logistical, tent, and equipment assistance to all communities' },
+      { value: '3', suffix: '+', label: 'Civic Venues Managed', description: 'Tanauan Amphitheater, Municipal Lobby, and Civic Center' },
+      { value: '100', suffix: '%', label: 'Service Reliability', description: 'Committed to responsive and quality public service' }
+    ],
+    servicesOffered: [
+      {
+        id: 'borrowing-equipment',
+        serviceNumber: 1,
+        title: 'Borrowing of Equipment (Tents, Chairs, Sound System)',
+        badge: 'Service Offered 1',
+        description: 'Standard procedure for requesting and borrowing municipal tents, tables, chairs, and sound system units for civic, community, and official events.',
+        equipmentList: ['Tents', 'Chairs & Tables', 'Sound System'],
+        steps: [
+          'Submits Letter of Request detailing equipment, date, time and venue.',
+          'Bring the approved letter request to the GSO Office for verification of availability of Tents.',
+          'If the equipment is available, fill out the Borrower’s Slip.',
+          'Upon returning the equipment, fill out the Return Slip.'
+        ],
+        note: 'In case of a lost or damaged Sound System, Tables and Chairs, the borrower/requesting party must replace or pay for the lost/damaged item/ s upon return.'
+      },
+      {
+        id: 'venue-request',
+        serviceNumber: 2,
+        title: 'Venue Request (Tanauan Amphitheater, Municipal and Presedencia Lobby, Tanauan Civic Center)',
+        badge: 'Service 2',
+        description: 'Official procedure for venue scheduling and booking of major municipal event venues and facilities.',
+        venueList: ['Tanauan Amphitheater', 'Municipal and Presedencia Lobby', 'Tanauan Civic Center'],
+        steps: [
+          'Submits Letter of Request detailing date, time and venue.',
+          'Personally furnish a copy to the Office of the Mayor for approval of LCE.',
+          'Present approved request letter to GSO for facility/equipment scheduling.',
+          'Pay rental/facility fees (if required for private/commercial use)'
+        ]
+      }
     ],
     mandates: [
-      { index: '01', code: 'PROP-MGT', title: 'Government Property Management', description: 'Manages, inventories, and accounts for all government properties, equipment, and supplies.', tag: 'Core Function', details: ['Property Inventory Management', 'Equipment Issuance & Control', 'Annual Physical Inventory'] },
-      { index: '02', code: 'PROC-SUPP', title: 'Procurement Support', description: 'Facilitates the procurement of goods, supplies, and services for all municipal departments.', tag: 'Procurement', details: ['Supply Requisition Processing', 'Canvassing & Purchase Orders', 'Supplier Accreditation Support'] },
-      { index: '03', code: 'GEN-SVC', title: 'General Building & Maintenance Services', description: 'Manages janitorial, security, and maintenance services for all municipal government facilities.', tag: 'Facilities Management', details: ['Janitorial Services Management', 'Security Personnel Supervision', 'Building Maintenance & Repair'] }
+      {
+        index: '01',
+        code: 'PROP-MGT',
+        title: 'Supply & Property Management',
+        description: 'Manages, inventories, and accounts for all government properties, equipment, and supplies, including front-line equipment loaning services.',
+        tag: 'Core Function',
+        details: [
+          'Property Inventory Management',
+          'Equipment Issuance, Borrowing & Control',
+          'Annual Physical Inventory & Asset Protection'
+        ]
+      },
+      {
+        index: '02',
+        code: 'FAC-VENUE',
+        title: 'Facility Maintenance & Venue Scheduling',
+        description: 'Maintains municipal buildings and grounds, and oversees public scheduling for Tanauan civic venues.',
+        tag: 'Public Facilities',
+        details: [
+          'Tanauan Amphitheater & Civic Center Scheduling',
+          'Municipal and Presedencia Lobby Upkeep',
+          'Grounds Landscaping & Facilities Maintenance'
+        ]
+      },
+      {
+        index: '03',
+        code: 'TECH-LOG',
+        title: 'Technical, Fleet & Operational Support',
+        description: 'Handles electrical, plumbing, IT, and electronic equipment upkeep, along with light and heavy vehicle operations.',
+        tag: 'Operations & Fleet',
+        details: [
+          'Electrical & Plumbing Maintenance',
+          'IT & Electronic Equipment Support',
+          'Light Vehicles & Heavy Equipment Dispatch'
+        ]
+      }
     ],
-    schedule: { hours: 'Monday – Friday | 8:00 AM – 5:00 PM', location: 'Tanauan Municipal Hall, Real St., Tanauan, Leyte', contactNumber: '', email: 'gso@tanauanleyte.gov.ph', helpline: 'General Services Office, Municipal Hall' }
+    schedule: { hours: 'Monday – Friday | 8:00 AM – 5:00 PM', location: 'Ground Floor, Tanauan Municipal Hall, Real St., Tanauan, Leyte', contactNumber: '', email: 'gso@tanauanleyte.gov.ph', helpline: 'General Services Office, Ground Floor' }
   },
   'Health Office': {
     officeName: 'Municipal Health Office',
@@ -1115,12 +1201,27 @@ export function mergeOfficeData(defaults = {}, dynamic = {}) {
 		'municipality',
 		'citizensCharterUrl',
 		'tagline',
-		'department'
+		'department',
+		'vision',
+		'mission'
 	];
 	for (const key of stringKeys) {
 		if (typeof dynamic[key] === 'string' && dynamic[key].trim() !== '') {
 			result[key] = dynamic[key].trim();
 		}
+	}
+
+	// Services Offered array: overwrite only if non-empty array
+	if (Array.isArray(dynamic.servicesOffered) && dynamic.servicesOffered.length > 0) {
+		result.servicesOffered = dynamic.servicesOffered;
+	}
+
+	// Signatories: merge if provided
+	if (dynamic.preparedBy && typeof dynamic.preparedBy === 'object') {
+		result.preparedBy = dynamic.preparedBy;
+	}
+	if (dynamic.reviewedBy && typeof dynamic.reviewedBy === 'object') {
+		result.reviewedBy = dynamic.reviewedBy;
 	}
 
 	// Typewriter words: only overwrite if non-empty array with actual items
