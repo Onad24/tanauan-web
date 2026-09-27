@@ -433,6 +433,29 @@ export const DEPT_DEFAULTS = {
       { index: '02', code: 'HR-RECORDS', title: 'Personnel Records Management', description: 'Maintains accurate and updated personnel records for all municipal government employees.', tag: 'Records Management', details: ['201 File Maintenance', 'Service Record Updates', 'Leave Card Management'] },
       { index: '03', code: 'CAP-BUILD', title: 'Capacity Building & Training', description: 'Plans and implements training and development programs to enhance employee competencies and performance.', tag: 'Learning & Development', details: ['Training Needs Analysis', 'In-House Training Programs', 'CSC-Required Trainings Coordination'] }
     ],
+    downloadableForms: [
+      {
+        title: 'Application for Leave',
+        description: 'Official Civil Service Commission application for leave form. Required for all types of leave applications by municipal government employees.',
+        icon: '📄',
+        type: 'PDF / Printable Form',
+        url: 'https://drive.google.com/file/d/1s9is-44IMmxI3fQ3IaHBjEM73xbVj3n6/view?usp=drive_link'
+      },
+      {
+        title: 'Personal Data Sheet (PDS)',
+        description: 'CSC Form 212 — the official Personal Data Sheet required for all government employment, promotion, and scholarship applications.',
+        icon: '📋',
+        type: 'Excel / Spreadsheet Form',
+        url: 'https://docs.google.com/spreadsheets/d/1iaQLFjJevB5TbitukPX-f96usNzsLXD-/edit?usp=drive_link&ouid=107774628653199424551&rtpof=true&sd=true'
+      },
+      {
+        title: 'Work Experience Sheet',
+        description: 'Official supplemental form for the Personal Data Sheet. Used to record detailed work experience of applicants and existing government employees.',
+        icon: '📝',
+        type: 'PDF / Printable Form',
+        url: 'https://drive.google.com/file/d/14NaXVLTr2ibjZudpFlwC2raAHLH_zvvS/view?usp=drive_link'
+      }
+    ],
     schedule: { hours: 'Monday – Friday | 8:00 AM – 5:00 PM', location: 'Tanauan Municipal Hall, Real St., Tanauan, Leyte', contactNumber: '', email: 'hrmo@tanauanleyte.gov.ph', helpline: 'HRMO Office, Municipal Hall 2nd Floor' }
   },
   IT: {

@@ -8,6 +8,7 @@
 	import AccomplishmentSection from '$lib/AccomplishmentSection.svelte';
 	import OrgChartSection from '$lib/OrgChartSection.svelte';
 	import GSOOrgChart from '$lib/Components/Offices/GSOOrgChart.svelte';
+	import HRMOOrgChart from '$lib/Components/Offices/HRMOOrgChart.svelte';
 
 	let {
 		officeName = "Municipal Treasurer's Office",
@@ -176,14 +177,15 @@
 	}
 
 	function handleKeydown(e) {
-		if (e.key === 'Escape' && activeFloatingModal) {
-			closeModal();
+		if (e.key === 'Escape') {
+			if (activeFormModal) closeFormModal();
+			else if (activeFloatingModal) closeModal();
 		}
 	}
 
 	$effect(() => {
 		if (typeof document !== 'undefined') {
-			if (activeFloatingModal) {
+			if (activeFloatingModal || activeFormModal) {
 				document.body.style.overflow = 'hidden';
 			} else {
 				document.body.style.overflow = '';
@@ -227,6 +229,7 @@
 		{ id: 'overview', label: 'Overview' },
 		...(vision || mission ? [{ id: 'vision-mission', label: 'Vision & Mission' }] : []),
 		...(servicesOffered && servicesOffered.length > 0 ? [{ id: 'services', label: 'Services' }] : []),
+		...(downloadableForms && downloadableForms.length > 0 ? [{ id: 'forms', label: 'Forms' }] : []),
 		{ id: 'mandates', label: 'Mandates' },
 		{ id: 'leadership', label: 'Leadership' },
 		{ id: 'structure', label: 'Structure' },
@@ -234,6 +237,17 @@
 		{ id: 'awards', label: 'Recognition' },
 		{ id: 'personnel', label: 'Personnel' }
 	]);
+
+	// Downloadable Forms Modal State
+	let activeFormModal = $state(null);
+
+	function openFormModal(form) {
+		activeFormModal = form;
+	}
+
+	function closeFormModal() {
+		activeFormModal = null;
+	}
 
 	const navSections = $derived(
 		baseNav.map((s, idx) => ({
@@ -1032,6 +1046,216 @@
 			</section>
 		{/if}
 
+		<!-- Section: Downloadable Forms (When Provided) -->
+		{#if downloadableForms && downloadableForms.length > 0}
+			<section id="forms" class="relative bg-gradient-to-b from-slate-50 via-white to-slate-50 py-20 overflow-hidden">
+				<!-- Decorative background elements -->
+				<div class="pointer-events-none absolute inset-0">
+					<div class="absolute -top-20 -right-20 h-80 w-80 rounded-full bg-blue-100/40 blur-3xl"></div>
+					<div class="absolute -bottom-20 -left-20 h-80 w-80 rounded-full bg-amber-100/40 blur-3xl"></div>
+				</div>
+
+				<div class="relative container mx-auto max-w-7xl px-6">
+					<!-- Section Header -->
+					<div class="mb-10 max-w-3xl">
+						<div class="mb-3 inline-flex items-center gap-2 rounded-md border border-blue-300 bg-blue-100 px-3.5 py-1 text-xs font-black tracking-wider text-blue-950 uppercase">
+							<span class="h-2 w-2 rounded-full bg-blue-700 animate-pulse"></span>
+							OFFICIAL DOWNLOADABLE FORMS
+						</div>
+						<h2 class="text-3xl leading-tight font-black tracking-tight text-blue-950 sm:text-4xl lg:text-5xl">
+							Downloadable Office Forms
+						</h2>
+						<p class="mt-4 text-base leading-relaxed font-normal text-slate-800 sm:text-lg">
+							Official forms available for download. Click any form card to view its details and access the download link from Google Drive.
+						</p>
+					</div>
+
+					<!-- Forms Cards Grid -->
+					<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+						{#each downloadableForms as form, fIdx}
+							<div
+								role="button"
+								tabindex="0"
+								onclick={() => openFormModal(form)}
+								onkeydown={(e) => e.key === 'Enter' && openFormModal(form)}
+								id="form-card-{fIdx}"
+								class="group relative flex flex-col overflow-hidden rounded-3xl border-2 border-slate-200 bg-white shadow-sm cursor-pointer text-left transition-all duration-300 hover:border-blue-700 hover:shadow-2xl hover:-translate-y-2"
+								title="Click to view {form.title}"
+							>
+								<!-- Top accent bar -->
+								<div class="h-1.5 w-full bg-gradient-to-r from-blue-900 via-blue-700 to-blue-500 transition-all duration-300 group-hover:h-2"></div>
+
+								<!-- Shine overlay on hover -->
+								<div class="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" style="background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%);"></div>
+
+								<div class="flex flex-col flex-1 p-6 sm:p-7">
+									<!-- Icon & Number -->
+									<div class="mb-5 flex items-center justify-between">
+										<div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-200 text-3xl shadow-sm transition-transform duration-300 group-hover:scale-110 group-hover:shadow-md">
+											{form.icon || '📄'}
+										</div>
+										<div class="flex flex-col items-end gap-1">
+											<span class="font-mono text-[10px] font-black text-slate-400 uppercase">FORM {String(fIdx + 1).padStart(2, '0')}</span>
+											<span class="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-slate-50 px-2.5 py-0.5 text-[10px] font-black text-slate-600 uppercase group-hover:border-blue-300 group-hover:bg-blue-50 group-hover:text-blue-800 transition-colors">
+												🗗 Open ↗
+											</span>
+										</div>
+									</div>
+
+									<!-- Form type badge -->
+									{#if form.type}
+										<span class="mb-2 inline-block rounded-full border border-blue-200 bg-blue-50 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-blue-900">
+											{form.type}
+										</span>
+									{/if}
+
+									<!-- Title -->
+									<h3 class="mb-2 text-lg font-black leading-snug text-blue-950 group-hover:text-blue-700 transition-colors">
+										{form.title}
+									</h3>
+
+									<!-- Description -->
+									{#if form.description}
+										<p class="mb-5 text-sm leading-relaxed font-medium text-slate-600 line-clamp-2">
+											{form.description}
+										</p>
+									{/if}
+
+									<!-- CTA Row -->
+									<div class="mt-auto flex items-center justify-between pt-4 border-t border-slate-100">
+										<span class="text-xs font-semibold text-slate-500">Official HRMO Form</span>
+										<button
+											type="button"
+											onclick={(e) => { e.stopPropagation(); openFormModal(form); }}
+											class="inline-flex items-center gap-1.5 rounded-xl bg-blue-800 hover:bg-blue-700 text-white font-black text-xs px-3.5 py-2 shadow-sm transition-all hover:scale-105 active:scale-95"
+										>
+											<svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+											<span>View & Download</span>
+										</button>
+									</div>
+								</div>
+							</div>
+						{/each}
+					</div>
+
+					<!-- Disclaimer note -->
+					<div class="mt-8 flex items-start gap-3 rounded-2xl border border-amber-200 bg-amber-50/70 p-4">
+						<span class="text-xl shrink-0">ℹ️</span>
+						<p class="text-xs font-semibold text-amber-900 leading-relaxed">
+							All forms are official documents hosted on Google Drive. Ensure you are downloading the latest version. For assistance, visit the HRMO Office at the Municipal Hall during office hours.
+						</p>
+					</div>
+				</div>
+			</section>
+
+			<!-- Downloadable Form Detail Modal -->
+			{#if activeFormModal}
+				<div
+					class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
+					role="dialog"
+					aria-modal="true"
+					aria-labelledby="form-modal-title"
+				>
+					<!-- Backdrop -->
+					<div
+						class="absolute inset-0 bg-blue-950/70 backdrop-blur-sm"
+						onclick={closeFormModal}
+						transition:fade={{ duration: 200 }}
+					></div>
+
+					<!-- Modal Panel -->
+					<div
+						class="relative z-10 w-full max-w-lg overflow-hidden rounded-3xl border-2 border-slate-200 bg-white shadow-2xl"
+						transition:scale={{ duration: 250, start: 0.92 }}
+					>
+						<!-- Coloured top bar -->
+						<div class="h-2 w-full bg-gradient-to-r from-blue-900 via-blue-700 to-blue-500"></div>
+
+						<!-- Modal Header -->
+						<div class="flex items-start justify-between gap-4 border-b border-slate-100 px-6 py-5">
+							<div class="flex items-center gap-3">
+								<div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-200 text-2xl">
+									{activeFormModal.icon || '📄'}
+								</div>
+								<div>
+									<div class="text-[10px] font-black uppercase tracking-wider text-blue-700">Official HRMO Form</div>
+									<h2 id="form-modal-title" class="text-xl font-black text-blue-950">{activeFormModal.title}</h2>
+								</div>
+							</div>
+							<button
+								type="button"
+								onclick={closeFormModal}
+								class="shrink-0 flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-100 hover:text-blue-950 transition-colors text-lg font-bold"
+								aria-label="Close"
+							>✕</button>
+						</div>
+
+						<!-- Modal Body -->
+						<div class="space-y-5 px-6 py-6">
+							<!-- Type badge -->
+							{#if activeFormModal.type}
+								<span class="inline-flex items-center gap-1.5 rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-black uppercase tracking-wider text-blue-900">
+									<span class="h-1.5 w-1.5 rounded-full bg-blue-500"></span>
+									{activeFormModal.type}
+								</span>
+							{/if}
+
+							<!-- Description -->
+							{#if activeFormModal.description}
+								<div class="rounded-2xl border-l-4 border-blue-700 bg-blue-50/60 p-4">
+									<p class="text-sm font-semibold leading-relaxed text-slate-800">{activeFormModal.description}</p>
+								</div>
+							{/if}
+
+							<!-- Info row -->
+							<div class="grid grid-cols-2 gap-3">
+								<div class="rounded-xl border border-slate-200 bg-slate-50 p-3">
+									<div class="text-[10px] font-black uppercase tracking-wider text-slate-500">Issuing Office</div>
+									<div class="text-sm font-black text-blue-950">HRMO</div>
+								</div>
+								<div class="rounded-xl border border-slate-200 bg-slate-50 p-3">
+									<div class="text-[10px] font-black uppercase tracking-wider text-slate-500">Source</div>
+									<div class="text-sm font-black text-blue-950">Google Drive</div>
+								</div>
+							</div>
+
+							<!-- Note -->
+							<div class="flex items-start gap-2.5 rounded-xl border border-amber-200 bg-amber-50 p-3.5">
+								<span class="shrink-0 text-base">⚠️</span>
+								<p class="text-xs font-semibold text-amber-900 leading-relaxed">
+									Ensure the downloaded form is the most current version. Submit completed forms to the HRMO Office at the Municipal Hall.
+								</p>
+							</div>
+						</div>
+
+						<!-- Modal Footer -->
+						<div class="flex items-center justify-between gap-3 border-t border-slate-100 bg-slate-50 px-6 py-4">
+							<div class="flex items-center gap-1.5 text-xs font-bold text-slate-500">
+								<span class="h-1.5 w-1.5 rounded-full bg-blue-700"></span>
+								<span>Official Government Form</span>
+							</div>
+							<div class="flex items-center gap-2">
+								<button
+									type="button"
+									onclick={closeFormModal}
+									class="rounded-xl border border-slate-300 bg-white px-4 py-2 text-xs font-black text-slate-700 hover:bg-slate-100 transition-colors"
+								>Close</button>
+								<a
+									href={activeFormModal.url}
+									target="_blank"
+									rel="noopener noreferrer"
+									class="inline-flex items-center gap-2 rounded-xl bg-blue-800 px-5 py-2 text-xs font-black text-white shadow-md transition-all hover:bg-blue-700 hover:scale-105 active:scale-95"
+								>
+									<svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+									<span>Download Form ↗</span>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			{/if}
+		{/if}
+
 		<!-- Section 2: Core Mandates & Functions -->
 		<section id="mandates" class="bg-slate-50 py-20">
 			<div class="container mx-auto max-w-7xl px-6">
@@ -1502,6 +1726,8 @@
 				<div class="rounded-3xl border-2 border-slate-300 bg-white p-6 shadow-sm sm:p-8">
 					{#if officeCode === 'GSO' || department === 'GSO' || department === 'General Services Office'}
 						<GSOOrgChart />
+					{:else if officeCode === 'HRMO' || department === 'HRMO' || department === 'Human Resource Management Office'}
+						<HRMOOrgChart />
 					{:else}
 						<OrgChartSection {department} defaultImage={orgChartImage} cleanLayout={true} />
 					{/if}
