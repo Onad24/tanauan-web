@@ -157,7 +157,7 @@ export const DEPT_DEFAULTS = {
     officeName: 'Municipal Civil Registrar Office',
     officeCode: 'MCRO',
     category: 'Civil Registration & Vital Statistics',
-    citizensCharterUrl: '/citizens-charter',
+    citizensCharterUrl: '/citizens-charter/civil-registrar',
     tagline: 'Registering vital events, safeguarding civil records, and providing essential civil registration services to all residents of Tanauan.',
     typewriterWords: [
       'Accurate & Timely Civil Registration',
@@ -165,7 +165,16 @@ export const DEPT_DEFAULTS = {
       'Birth, Marriage & Death Certificates',
       'Efficient Civil Registry Services'
     ],
-    head: { name: '', title: 'Municipal Civil Registrar', term: 'Department Head', quote: 'Accurate civil registration is the foundation of every citizen\'s legal identity and rights.', credentials: ['Licensed Civil Registrar', 'PSA-Accredited Civil Registry Officer'], room: 'Municipal Hall, Tanauan, Leyte', schedule: 'Monday – Friday: 8:00 AM – 5:00 PM' },
+    head: {
+      name: 'Vincent Francis A. Salvaña',
+      title: 'Municipal Civil Registrar',
+      term: 'Department Head',
+      image: '/MCR/head-salvana.png',
+      quote: 'Accurate civil registration is the foundation of every citizen\'s legal identity and rights. We are committed to safeguarding vital records and providing compassionate, prompt frontline service to every Tanauananon.',
+      credentials: ['Licensed Civil Registrar', 'PSA-Accredited Civil Registry Officer', 'Local Civil Registry Head'],
+      room: 'Office of the Municipal Civil Registrar, Ground Floor, Tanauan Town Hall',
+      schedule: 'Monday – Friday: 8:00 AM – 5:00 PM'
+    },
     stats: [
       { value: '100', suffix: '%', label: 'Registration Accuracy', description: 'Error-free civil registration compliant with PSA standards' },
       { value: '54', suffix: '', label: 'Barangays Covered', description: 'Civil registration services for all 54 barangays' },
@@ -436,7 +445,7 @@ export const DEPT_DEFAULTS = {
     officeName: 'Human Resource Management Office',
     officeCode: 'HRMO',
     category: 'Human Resource Management',
-    citizensCharterUrl: '/citizens-charter',
+    citizensCharterUrl: '/citizens-charter/hr',
     tagline: 'Building a competent, motivated, and ethical workforce to drive excellent public service delivery for the residents of Tanauan.',
     typewriterWords: [
       'Building a Competent Workforce',
@@ -444,7 +453,16 @@ export const DEPT_DEFAULTS = {
       'Fair & Merit-Based Employment',
       'Career Development for Public Servants'
     ],
-    head: { name: '', title: 'Human Resource Management Officer', term: 'Department Head', quote: 'Our greatest asset is our people — investing in our workforce means investing in better service for every Tanauananon.', credentials: ['HRMO III', 'Civil Service Commission-Accredited HR Practitioner'], room: 'Municipal Hall, Tanauan, Leyte', schedule: 'Monday – Friday: 8:00 AM – 5:00 PM' },
+    head: {
+      name: 'Atty. Federico C. Tizon',
+      title: 'HRMO Head',
+      term: 'Department Head',
+      quote: 'Our greatest asset is our people — investing in our workforce means investing in better service for every Tanauananon.',
+      credentials: ['HRMO Head', 'HRMO III', 'EnP', 'Civil Service Commission-Accredited HR Practitioner', 'Legal & Human Resource Management Specialist'],
+      room: 'HRMO Office, 2nd Floor, Tanauan Municipal Hall',
+      schedule: 'Monday – Friday: 8:00 AM – 5:00 PM',
+      image: '/HRMO/hrmo-head-tizon.png'
+    },
     stats: [
       { value: '200', suffix: '+', label: 'Municipal Employees', description: 'Regular, casual, and job-order employees in the LGU roster' },
       { value: '100', suffix: '%', label: 'CSC Compliance', description: 'Full compliance with Civil Service Commission rules and regulations' },
@@ -690,6 +708,18 @@ export const DEPT_DEFAULTS = {
           'Vendor Compliance Monitoring',
           'Dispute Resolution'
         ]
+      }
+    ],
+    downloadableForms: [
+      {
+        title: 'Stall / Space Verification (For Business Permit Issuance)',
+        description: 'Official Municipal Market Office verification form for market stallholders, vendors, and space lessees certifying compliance with tenancy, rental accounts, and utility payments for business permit issuance.',
+        icon: '📋',
+        type: 'Printable Verification Slip / Form',
+        url: '/forms/market/Stall-Space-Verification-Form.png',
+        htmlUrl: '/forms/market/stall-space-verification-form.html',
+        preview: '/forms/market/Stall-Space-Verification-Form.png',
+        format: 'Official Form / Printable'
       }
     ],
     schedule: { hours: 'Monday – Saturday | 6:00 AM – 6:00 PM', location: 'Municipal Public Market, Tanauan, Leyte', contactNumber: '', email: '', helpline: 'Market Administration Office, Public Market Building' }
@@ -1306,6 +1336,7 @@ export function mergeOfficeData(defaults = {}, dynamic = {}) {
 			quote: (typeof dh.quote === 'string' && dh.quote.trim()) ? dh.quote.trim() : (defH.quote || ''),
 			room: (typeof dh.room === 'string' && dh.room.trim()) ? dh.room.trim() : (defH.room || ''),
 			schedule: (typeof dh.schedule === 'string' && dh.schedule.trim()) ? dh.schedule.trim() : (defH.schedule || 'Monday – Friday: 8:00 AM – 5:00 PM'),
+			image: (typeof dh.image === 'string' && dh.image.trim()) ? dh.image.trim() : (defH.image || ''),
 			credentials:
 				Array.isArray(dh.credentials) && dh.credentials.filter((c) => typeof c === 'string' && c.trim()).length > 0
 					? dh.credentials.filter((c) => typeof c === 'string' && c.trim())

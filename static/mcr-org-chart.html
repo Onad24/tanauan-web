@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Municipal Civil Registrar's Office — Organizational Structure | Tanauan, Leyte</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    /* ========================================================
+       CSS RESET & BASE STYLES
+       ======================================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background: radial-gradient(circle at 50% 10%, #0d1e38 0%, #081426 50%, #020710 100%);
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem;
+      overflow-x: hidden;
+    }
+
+    /* Outer Container with Soft Glassmorphic Glow */
+    .org-container {
+      width: 100%;
+      max-width: 1240px;
+      background: rgba(8, 22, 43, 0.88);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 28px;
+      padding: 2.5rem 2rem;
+      box-shadow: 0 30px 70px -15px rgba(0, 0, 0, 0.8), 0 0 50px rgba(56, 189, 248, 0.08);
+      backdrop-filter: blur(14px);
+      position: relative;
+    }
+
+    /* Ambient Anti-Gravity Glow Lights */
+    .glow-light {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .glow-1 { top: -100px; left: -100px; width: 350px; height: 350px; background: rgba(56, 189, 248, 0.15); }
+    .glow-2 { top: 40%; right: -120px; width: 350px; height: 350px; background: rgba(245, 158, 11, 0.12); }
+    .glow-3 { bottom: -100px; left: 30%; width: 400px; height: 400px; background: rgba(16, 185, 129, 0.1); }
+
+    /* ========================================================
+       HEADER: SEALS, TITLE & STATS
+       ======================================================== */
+    .header {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      padding-bottom: 1.75rem;
+      margin-bottom: 2rem;
+    }
+
+    .seal-wrap {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+    }
+
+    .seal-pair {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .seal-img {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      border: 2px solid #e6b764;
+      background: rgba(255, 255, 255, 0.06);
+      object-fit: contain;
+      padding: 2px;
+      box-shadow: 0 0 20px rgba(230, 183, 100, 0.35);
+    }
+    .seal-img.mcr-seal {
+      border-color: #38bdf8;
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.35);
+    }
+
+    .seal-text .lgu {
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: #e6b764;
+    }
+    .seal-text .office {
+      font-size: 1.45rem;
+      font-weight: 900;
+      color: #ffffff;
+      line-height: 1.2;
+    }
+    .seal-text .sub {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #94a3b8;
+    }
+
+    .badge-pills {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .badge-pill {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 14px;
+      padding: 0.5rem 1rem;
+      text-align: center;
+    }
+    .badge-pill .pill-label {
+      font-size: 0.65rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #94a3b8;
+      display: block;
+    }
+    .badge-pill .pill-value {
+      font-size: 0.85rem;
+      font-weight: 900;
+      color: #38bdf8;
+    }
+
+    /* ========================================================
+       TOOLBAR: SEARCH, EXPAND/COLLAPSE, ZOOM
+       ======================================================== */
+    .toolbar {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 18px;
+      padding: 0.85rem 1.25rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .search-box {
+      position: relative;
+      flex: 1;
+      max-width: 420px;
+    }
+    .search-box input {
+      width: 100%;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 12px;
+      padding: 0.6rem 1rem 0.6rem 2.4rem;
+      color: #ffffff;
+      font-size: 0.85rem;
+      font-weight: 600;
+      outline: none;
+      transition: all 0.2s;
+    }
+    .search-box input:focus {
+      border-color: #f59e0b;
+      box-shadow: 0 0 15px rgba(245, 158, 11, 0.3);
+    }
+    .search-box .search-icon {
+      position: absolute;
+      left: 0.8rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.9rem;
+      opacity: 0.6;
+    }
+
+    .controls-group {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .tool-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: #e2e8f0;
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 0.55rem 0.9rem;
+      border-radius: 10px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.2s;
+    }
+    .tool-btn:hover {
+      background: rgba(255, 255, 255, 0.18);
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    /* ========================================================
+       CANVAS & NODE HIERARCHY
+       ======================================================== */
+    .viewport {
+      position: relative;
+      z-index: 2;
+      overflow: hidden;
+      border-radius: 20px;
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      min-height: 680px;
+      padding: 2.5rem 1rem;
+      cursor: grab;
+      user-select: none;
+    }
+    .viewport:active {
+      cursor: grabbing;
+    }
+
+    .canvas {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: transform 0.1s ease-out;
+      transform-origin: top center;
+    }
+
+    /* Node Cards with Floating Physics */
+    .node-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      animation: floatIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    @keyframes floatIn {
+      0% { opacity: 0; transform: translateY(30px) scale(0.95); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .node-card {
+      width: 270px;
+      background: linear-gradient(180deg, rgba(17, 36, 68, 0.95) 0%, rgba(10, 22, 43, 0.95) 100%);
+      border: 2px solid rgba(255, 255, 255, 0.18);
+      border-radius: 22px;
+      padding: 1.25rem 1.15rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.2s, box-shadow 0.3s;
+      box-shadow: 0 12px 25px -5px rgba(0, 0, 0, 0.5);
+    }
+    .node-card:hover {
+      transform: translateY(-8px) scale(1.03);
+      border-color: #f59e0b;
+      box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.7), 0 0 30px rgba(245, 158, 11, 0.4);
+    }
+    .node-card.highlight {
+      border-color: #38bdf8;
+      box-shadow: 0 0 35px rgba(56, 189, 248, 0.6);
+      transform: scale(1.06);
+    }
+    .node-card.dimmed {
+      opacity: 0.3;
+      filter: grayscale(40%);
+    }
+
+    /* Portrait Image Frame */
+    .avatar-wrap {
+      width: 104px;
+      height: 104px;
+      border-radius: 18px;
+      border: 3px solid #ffffff;
+      overflow: hidden;
+      margin-bottom: 0.85rem;
+      background: #0f172a;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.5);
+      position: relative;
+      flex-shrink: 0;
+    }
+    .avatar-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    .node-card:hover .avatar-wrap img {
+      transform: scale(1.08);
+    }
+
+    .badge-role {
+      font-size: 0.65rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.2rem 0.65rem;
+      border-radius: 9999px;
+      margin-bottom: 0.45rem;
+      display: inline-block;
+    }
+
+    .person-name {
+      font-size: 0.95rem;
+      font-weight: 900;
+      color: #ffffff;
+      line-height: 1.25;
+      margin-bottom: 0.2rem;
+      transition: color 0.2s;
+    }
+    .node-card:hover .person-name {
+      color: #fde047;
+    }
+
+    .person-pos {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #93c5fd;
+      margin-bottom: 0.45rem;
+    }
+
+    .desk-pill {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #cbd5e1;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 0.25rem 0.6rem;
+      border-radius: 8px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 230px;
+    }
+
+    /* Expand / Collapse Button */
+    .toggle-btn {
+      position: absolute;
+      bottom: -13px;
+      background: #0f172a;
+      border: 2px solid #ffffff;
+      color: #f59e0b;
+      font-size: 0.68rem;
+      font-weight: 900;
+      padding: 0.15rem 0.65rem;
+      border-radius: 9999px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+      transition: transform 0.2s;
+    }
+    .toggle-btn:hover {
+      transform: scale(1.15);
+    }
+
+    /* Tree Branch Connectors (SVG Line Drawing) */
+    .stem-line {
+      width: 3px;
+      height: 40px;
+      background: linear-gradient(180deg, #f59e0b 0%, #38bdf8 100%);
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+    }
+    .stem-line.line-mcr {
+      background: linear-gradient(180deg, #38bdf8 0%, #a855f7 100%);
+      box-shadow: 0 0 10px rgba(168, 85, 247, 0.4);
+    }
+    .stem-line.line-clerks {
+      background: #a855f7;
+    }
+
+    .clerks-row-wrap {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      padding-top: 1.5rem;
+      width: 100%;
+    }
+    .clerks-crossbar {
+      position: absolute;
+      top: 0;
+      left: 140px;
+      right: 140px;
+      height: 3px;
+      background: linear-gradient(90deg, #10b981 0%, #06b6d4 50%, #f97316 100%);
+      box-shadow: 0 0 12px rgba(6, 182, 212, 0.4);
+    }
+    .clerk-dropline {
+      width: 3px;
+      height: 24px;
+      margin-bottom: -1px;
+    }
+
+    /* ========================================================
+       MODAL PROFILE POPUP
+       ======================================================== */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 9, 20, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+    .modal-backdrop.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .modal-panel {
+      width: 100%;
+      max-width: 620px;
+      background: linear-gradient(180deg, #0d1e38 0%, #07101e 100%);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9);
+      transform: scale(0.92);
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .modal-backdrop.active .modal-panel {
+      transform: scale(1);
+    }
+
+    .modal-topbar {
+      height: 6px;
+      background: linear-gradient(90deg, #f59e0b, #38bdf8, #a855f7);
+    }
+
+    .modal-header {
+      padding: 1.75rem 2rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1.25rem;
+    }
+    .modal-profile {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+    }
+    .modal-avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 20px;
+      border: 3px solid #ffffff;
+      overflow: hidden;
+      flex-shrink: 0;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+    }
+    .modal-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .modal-close {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #e2e8f0;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 0.25);
+      color: #ffffff;
+    }
+
+    .modal-body {
+      padding: 1rem 2rem 1.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      max-height: 55vh;
+      overflow-y: auto;
+    }
+
+    .modal-box {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 1rem 1.25rem;
+    }
+    .modal-box .box-title {
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #f59e0b;
+      margin-bottom: 0.4rem;
+    }
+    .modal-box p {
+      font-size: 0.85rem;
+      line-height: 1.5;
+      color: #e2e8f0;
+    }
+
+    .duty-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .duty-list li {
+      font-size: 0.82rem;
+      color: #cbd5e1;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+    .duty-list li::before {
+      content: "✓";
+      color: #38bdf8;
+      font-weight: 900;
+      margin-top: 1px;
+    }
+
+    .services-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.4rem;
+    }
+    .service-tag {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      color: #6ee7b7;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 0.35rem 0.7rem;
+      border-radius: 10px;
+    }
+
+    .modal-footer {
+      background: rgba(0, 0, 0, 0.35);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .modal-footer span {
+      font-size: 0.75rem;
+      color: #94a3b8;
+      font-weight: 600;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .clerks-row-wrap {
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+      }
+      .clerks-crossbar, .clerk-dropline {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="org-container">
+    <!-- Atmospheric Lights -->
+    <div class="glow-light glow-1"></div>
+    <div class="glow-light glow-2"></div>
+    <div class="glow-light glow-3"></div>
+
+    <!-- Header Block -->
+    <header class="header">
+      <div class="seal-wrap">
+        <div class="seal-pair">
+          <img src="/HRMO/official-seal.png" alt="Tanauan Official Seal" class="seal-img">
+          <img src="/MCR/mcr-seal.png" alt="MCR Office Seal" class="seal-img mcr-seal">
+        </div>
+        <div class="seal-text">
+          <div class="lgu">Municipality of Tanauan, Leyte</div>
+          <h1 class="office">Municipal Civil Registrar's Office</h1>
+          <div class="sub">Official Organizational Structure & Vital Registry Hierarchy</div>
+        </div>
+      </div>
+
+      <div class="badge-pills">
+        <div class="badge-pill">
+          <span class="pill-label">Total Roster</span>
+          <span class="pill-value">6 Key Personnel</span>
+        </div>
+        <div class="badge-pill">
+          <span class="pill-label">Governing Statute</span>
+          <span class="pill-value">Act No. 3753</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Interactive Control Toolbar -->
+    <div class="toolbar">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="Search person, position, division (e.g., Birth, Marriage, Death, Salvaña)...">
+      </div>
+
+      <div class="controls-group">
+        <button class="tool-btn" id="expandAllBtn">⊞ Expand All</button>
+        <button class="tool-btn" id="collapseAllBtn">⊟ Collapse All</button>
+        <button class="tool-btn" id="zoomOutBtn">−</button>
+        <span style="font-size: 0.8rem; font-weight: 800; font-family: monospace; color: #f59e0b;" id="zoomLabel">100%</span>
+        <button class="tool-btn" id="zoomInBtn">+</button>
+        <button class="tool-btn" id="resetZoomBtn">Reset</button>
+      </div>
+    </div>
+
+    <!-- Interactive Pan / Zoom Viewport -->
+    <div class="viewport" id="viewport">
+      <div class="canvas" id="canvas">
+
+        <!-- LEVEL 1: LOCAL CHIEF EXECUTIVE -->
+        <div class="node-wrap" id="wrap-mayor">
+          <div class="node-card" data-id="mayor" style="border-color: #f59e0b;">
+            <div class="avatar-wrap" style="border-color: #f59e0b; box-shadow: 0 0 20px rgba(245, 158, 11, 0.4);">
+              <img src="/MCR/mayor-merilo.png" alt="Hon. Ma. Gina E. Merilo">
+            </div>
+            <span class="badge-role" style="background: rgba(245,158,11,0.2); color: #f59e0b; border: 1px solid rgba(245,158,11,0.5);">Municipal Mayor</span>
+            <div class="person-name">Hon. Ma. Gina E. Merilo</div>
+            <div class="person-pos">Local Chief Executive</div>
+            <div class="desk-pill">🏛 Office of the Mayor, 2nd Floor</div>
+            <button class="toggle-btn" data-toggle="mayor">− 1 branch</button>
+          </div>
+
+          <!-- STEM LINE 1 -->
+          <div class="stem-line" id="stem-1"></div>
+
+          <!-- LEVEL 2: MUNICIPAL CIVIL REGISTRAR -->
+          <div class="node-wrap" id="wrap-mcr">
+            <div class="node-card" data-id="mcr" style="border-color: #38bdf8;">
+              <div class="avatar-wrap" style="border-color: #38bdf8; box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);">
+                <img src="/MCR/head-salvana.png" alt="Vincent Francis A. Salvaña">
+              </div>
+              <span class="badge-role" style="background: rgba(56,189,248,0.2); color: #38bdf8; border: 1px solid rgba(56,189,248,0.5);">Department Head</span>
+              <div class="person-name">Vincent Francis A. Salvaña</div>
+              <div class="person-pos">Municipal Civil Registrar</div>
+              <div class="desk-pill">🏛 MCR Executive Desk, Ground Floor</div>
+              <button class="toggle-btn" data-toggle="mcr">− 1 branch</button>
+            </div>
+
+            <!-- STEM LINE 2 -->
+            <div class="stem-line line-mcr" id="stem-2"></div>
+
+            <!-- LEVEL 3: CLERK II (SUPERVISOR) -->
+            <div class="node-wrap" id="wrap-clerk2">
+              <div class="node-card" data-id="clerk2" style="border-color: #a855f7;">
+                <div class="avatar-wrap" style="border-color: #a855f7; box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);">
+                  <img src="/MCR/clerk-parmo.png" alt="Virginia T. Parmo">
+                </div>
+                <span class="badge-role" style="background: rgba(168,85,247,0.2); color: #a855f7; border: 1px solid rgba(168,85,247,0.5);">Senior Staff / Supervisor</span>
+                <div class="person-name">Virginia T. Parmo</div>
+                <div class="person-pos">Clerk II</div>
+                <div class="desk-pill">🏛 Window 1 — Senior Review Desk</div>
+                <button class="toggle-btn" data-toggle="clerk2">− 3 branches</button>
+              </div>
+
+              <!-- STEM LINE 3 -->
+              <div class="stem-line line-clerks" id="stem-3"></div>
+
+              <!-- LEVEL 4: 3 FRONTLINE REGISTRY CLERKS -->
+              <div class="clerks-row-wrap" id="clerks-row">
+                <div class="clerks-crossbar"></div>
+
+                <!-- Clerk 1: Ma. Cyril C. Bibar -->
+                <div class="node-wrap">
+                  <div class="clerk-dropline" style="background: #10b981;"></div>
+                  <div class="node-card" data-id="bibar" style="border-color: #10b981;">
+                    <div class="avatar-wrap" style="border-color: #10b981; box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);">
+                      <img src="/MCR/clerk-bibar.png" alt="Ma. Cyril C. Bibar">
+                    </div>
+                    <span class="badge-role" style="background: rgba(16,185,129,0.2); color: #10b981; border: 1px solid rgba(16,185,129,0.5);">Birth Registry Unit</span>
+                    <div class="person-name">Ma. Cyril C. Bibar</div>
+                    <div class="person-pos">Clerk</div>
+                    <div class="desk-pill">🏛 Window 2 — Birth Records</div>
+                  </div>
+                </div>
+
+                <!-- Clerk 2: Philip P. Cordero -->
+                <div class="node-wrap">
+                  <div class="clerk-dropline" style="background: #06b6d4;"></div>
+                  <div class="node-card" data-id="cordero" style="border-color: #06b6d4;">
+                    <div class="avatar-wrap" style="border-color: #06b6d4; box-shadow: 0 0 20px rgba(6, 182, 212, 0.4);">
+                      <img src="/MCR/clerk-cordero.png" alt="Philip P. Cordero">
+                    </div>
+                    <span class="badge-role" style="background: rgba(6,182,212,0.2); color: #06b6d4; border: 1px solid rgba(6,182,212,0.5);">Marriage & Legal Desk</span>
+                    <div class="person-name">Philip P. Cordero</div>
+                    <div class="person-pos">Clerk</div>
+                    <div class="desk-pill">🏛 Window 3 — Marriage Registry</div>
+                  </div>
+                </div>
+
+                <!-- Clerk 3: Jovey Ann B. Buendia -->
+                <div class="node-wrap">
+                  <div class="clerk-dropline" style="background: #f97316;"></div>
+                  <div class="node-card" data-id="buendia" style="border-color: #f97316;">
+                    <div class="avatar-wrap" style="border-color: #f97316; box-shadow: 0 0 20px rgba(249, 115, 22, 0.4);">
+                      <img src="/MCR/clerk-buendia.png" alt="Jovey Ann B. Buendia">
+                    </div>
+                    <span class="badge-role" style="background: rgba(249,115,22,0.2); color: #f97316; border: 1px solid rgba(249,115,22,0.5);">Death & Archive Unit</span>
+                    <div class="person-name">Jovey Ann B. Buendia</div>
+                    <div class="person-pos">Clerk</div>
+                    <div class="desk-pill">🏛 Window 4 — Death Registry & Archive</div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- POPUP DETAIL MODAL -->
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal-panel">
+      <div class="modal-topbar" id="modalTopBar"></div>
+      <div class="modal-header">
+        <div class="modal-profile">
+          <div class="modal-avatar" id="modalAvatar">
+            <img src="" alt="" id="modalImg">
+          </div>
+          <div>
+            <span class="badge-role" id="modalRoleBadge"></span>
+            <h2 id="modalName" style="font-size: 1.35rem; font-weight: 900; margin-top: 0.2rem;"></h2>
+            <div id="modalPosition" style="font-size: 0.85rem; font-weight: 700; color: #93c5fd;"></div>
+          </div>
+        </div>
+        <button class="modal-close" id="modalCloseBtn">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="modal-box">
+          <div class="box-title">Profile Overview</div>
+          <p id="modalOverview"></p>
+        </div>
+
+        <div class="modal-box">
+          <div class="box-title">Official Duties & Statutory Responsibilities</div>
+          <ul class="duty-list" id="modalDuties"></ul>
+        </div>
+
+        <div class="modal-box">
+          <div class="box-title">Civil Registry Services Handled</div>
+          <div class="services-tags" id="modalServices"></div>
+        </div>
+
+        <div class="modal-box">
+          <div class="box-title">Office & Public Service Schedule</div>
+          <p id="modalOffice"></p>
+          <p id="modalHours" style="color: #fde047; font-weight: 700; margin-top: 0.3rem;"></p>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <span>Tanauan Municipal Government • Municipal Civil Registrar</span>
+        <button class="tool-btn" id="modalDismissBtn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       JAVASCRIPT LOGIC: INTERACTIVITY, PAN/ZOOM, MODAL
+       ======================================================== -->
+  <script>
+    const personnelDB = {
+      mayor: {
+        name: "Hon. Ma. Gina E. Merilo",
+        position: "Local Chief Executive",
+        role: "Municipal Mayor",
+        color: "#f59e0b",
+        img: "/MCR/mayor-merilo.png",
+        overview: "Chief Executive of the Municipality of Tanauan, Leyte, exercising general supervision, executive administration, and appointing authority over municipal personnel pursuant to the Local Government Code.",
+        duties: [
+          "Supervises and directs the implementation of municipal civil registration programs and policies",
+          "Appoints municipal civil registrar staff in accordance with Civil Service laws and local ordinances",
+          "Enforces all national laws, Civil Registry Law (Act No. 3753), and local executive issuances",
+          "Conducts solemnization of civil marriages pursuant to the Family Code of the Philippines"
+        ],
+        services: ["Executive Approvals", "Civil Marriage Solemnization", "Local Policy Directives"],
+        office: "Office of the Municipal Mayor, 2nd Floor, Tanauan Municipal Hall, Real St., Tanauan, Leyte",
+        hours: "Monday – Friday: 8:00 AM – 5:00 PM"
+      },
+      mcr: {
+        name: "Vincent Francis A. Salvaña",
+        position: "Municipal Civil Registrar",
+        role: "Department Head",
+        color: "#38bdf8",
+        img: "/MCR/head-salvana.png",
+        overview: "Heads the Office of the Municipal Civil Registrar of Tanauan, Leyte, overseeing vital statistics administration, civil status corrections, and institutional liaison with the Philippine Statistics Authority (PSA).",
+        duties: [
+          "Directs, oversees, and regulates the registration of all vital events within municipal jurisdiction",
+          "Acts as quasi-judicial officer for administrative petitions under RA 9048 and RA 10172 (Clerical Errors & Gender/DOB Corrections)",
+          "Supervises the preservation, archiving, and mandatory transmission of civil registry documents to PSA",
+          "Authenticates, verifies, and signs official civil certificates, endorsements, and certified true copies"
+        ],
+        services: ["RA 9048 / RA 10172 Petitions", "Court Decrees & Annotations", "PSA Transmittal & Endorsement"],
+        office: "MCR Executive Office, Ground Floor, Tanauan Town Hall, Real St., Tanauan, Leyte",
+        hours: "Monday – Friday: 8:00 AM – 5:00 PM (No Noon Break)"
+      },
+      clerk2: {
+        name: "Virginia T. Parmo",
+        position: "Clerk II",
+        role: "Senior Staff / Supervisory Clerk",
+        color: "#a855f7",
+        img: "/MCR/clerk-parmo.png",
+        overview: "Senior Civil Registry Clerk responsible for document auditing, queue supervision, PSA transmittal consolidations, and operational guidance for frontline registry clerks.",
+        duties: [
+          "Conducts senior review and auditing of incoming registration documents for accuracy and completeness",
+          "Consolidates and prepares vital event certificates for scheduled transmittals to PSA provincial office",
+          "Assists the Municipal Civil Registrar in managing caseloads for administrative corrections and legal affidavits",
+          "Supervises records retrieval, physical file indexing, and certified true copy issuance"
+        ],
+        services: ["Senior Document Audit", "PSA Transmittal Compilation", "Certified True Copy Supervision"],
+        office: "Window 1 — Senior Review Desk, Civil Registrar Office, Ground Floor",
+        hours: "Monday – Friday: 8:00 AM – 5:00 PM"
+      },
+      bibar: {
+        name: "Ma. Cyril C. Bibar",
+        position: "Clerk",
+        role: "Birth Registration Unit",
+        color: "#10b981",
+        img: "/MCR/clerk-bibar.png",
+        overview: "Dedicated registration clerk for Certificate of Live Birth (COLB) evaluation, delayed registration processing, and supplemental affidavits.",
+        duties: [
+          "Receives, logs, and processes Certificates of Live Birth (COLB) from clinics, hospitals, and parents",
+          "Facilitates delayed birth registration requirements including negative PSA verification and affidavits",
+          "Assists unmarried parents with Legitimation and Affidavits to Use the Surname of the Father (AUSF)",
+          "Encodes and digitizes official birth registry records into the municipal electronic database"
+        ],
+        services: ["Timely & Delayed Birth Registration", "AUSF & Legitimation", "Certified Birth Transcripts"],
+        office: "Window 2 — Birth Records Unit, Civil Registrar Office, Ground Floor",
+        hours: "Monday – Friday: 8:00 AM – 5:00 PM"
+      },
+      cordero: {
+        name: "Philip P. Cordero",
+        position: "Clerk",
+        role: "Marriage & Legal Desk",
+        color: "#06b6d4",
+        img: "/MCR/clerk-cordero.png",
+        overview: "Manages Marriage License intake, required 10-day notice postings, registration of solemnized marriage contracts, and court decree annotations.",
+        duties: [
+          "Evaluates Marriage License applications and confirms pre-marriage counseling and CENOMAR compliance",
+          "Manages the 10-day legal publication posting period on the official municipal civil bulletin",
+          "Registers certificates of marriage solemnized by the Mayor, judges, and religious solemnizers",
+          "Processes annotations for legal instruments and court judgments affecting marital and civil status"
+        ],
+        services: ["Marriage License Application", "Certificate of Marriage Registration", "Legal Instrument Annotations"],
+        office: "Window 3 — Marriage Registry Desk, Civil Registrar Office, Ground Floor",
+        hours: "Monday – Friday: 8:00 AM – 5:00 PM"
+      },
+      buendia: {
+        name: "Jovey Ann B. Buendia",
+        position: "Clerk",
+        role: "Death & Archive Unit",
+        color: "#f97316",
+        img: "/MCR/clerk-buendia.png",
+        overview: "Handles registration of Certificates of Death (COD), burial/transit permits, cemetery clearances, and archival scanning of historical registry books.",
+        duties: [
+          "Receives, audits, and registers Certificates of Death (COD) ensuring physician and sanitation sign-offs",
+          "Issues municipal permits for burial, cremation, transfer, and exhumation of human remains",
+          "Manages the physical archive stacks and scans historical registry ledgers for preservation",
+          "Assists researchers, genealogists, and citizens requesting ancestral civil records searches"
+        ],
+        services: ["Death & Fetal Death Registration", "Burial & Transit Permit Issuance", "Historical Archive Search"],
+        office: "Window 4 — Death Registry & Archive, Civil Registrar Office, Ground Floor",
+        hours: "Monday – Friday: 8:00 AM – 5:00 PM"
+      }
+    };
+
+    // Zoom & Pan State
+    let zoom = 1;
+    let panX = 0, panY = 0;
+    let isDragging = false;
+    let startX = 0, startY = 0;
+
+    const viewport = document.getElementById('viewport');
+    const canvas = document.getElementById('canvas');
+    const zoomLabel = document.getElementById('zoomLabel');
+
+    function updateTransform() {
+      canvas.style.transform = `translate(${panX}px, ${panY}px) scale(${zoom})`;
+      zoomLabel.textContent = `${Math.round(zoom * 100)}%`;
+    }
+
+    document.getElementById('zoomInBtn').addEventListener('click', () => {
+      zoom = Math.min(zoom + 0.15, 1.8);
+      updateTransform();
+    });
+    document.getElementById('zoomOutBtn').addEventListener('click', () => {
+      zoom = Math.max(zoom - 0.15, 0.6);
+      updateTransform();
+    });
+    document.getElementById('resetZoomBtn').addEventListener('click', () => {
+      zoom = 1; panX = 0; panY = 0;
+      updateTransform();
+    });
+
+    // Mouse drag panning
+    viewport.addEventListener('mousedown', (e) => {
+      if (e.target.closest('button') || e.target.closest('.node-card')) return;
+      isDragging = true;
+      startX = e.clientX - panX;
+      startY = e.clientY - panY;
+    });
+    window.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      panX = e.clientX - startX;
+      panY = e.clientY - startY;
+      updateTransform();
+    });
+    window.addEventListener('mouseup', () => { isDragging = false; });
+
+    // Branch Expand/Collapse Toggling
+    const expandMap = {
+      mayor: { wrap: document.getElementById('wrap-mcr'), stem: document.getElementById('stem-1'), open: true },
+      mcr: { wrap: document.getElementById('wrap-clerk2'), stem: document.getElementById('stem-2'), open: true },
+      clerk2: { wrap: document.getElementById('clerks-row'), stem: document.getElementById('stem-3'), open: true }
+    };
+
+    document.querySelectorAll('.toggle-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const id = btn.getAttribute('data-toggle');
+        const item = expandMap[id];
+        if (!item) return;
+        item.open = !item.open;
+        item.wrap.style.display = item.open ? 'flex' : 'none';
+        item.stem.style.display = item.open ? 'block' : 'none';
+        btn.textContent = item.open ? `− ${id === 'clerk2' ? '3 branches' : '1 branch'}` : `+ ${id === 'clerk2' ? '3 branches' : '1 branch'}`;
+      });
+    });
+
+    document.getElementById('expandAllBtn').addEventListener('click', () => {
+      Object.keys(expandMap).forEach(k => {
+        expandMap[k].open = true;
+        expandMap[k].wrap.style.display = 'flex';
+        expandMap[k].stem.style.display = 'block';
+        const b = document.querySelector(`[data-toggle="${k}"]`);
+        if (b) b.textContent = `− ${k === 'clerk2' ? '3 branches' : '1 branch'}`;
+      });
+    });
+
+    document.getElementById('collapseAllBtn').addEventListener('click', () => {
+      Object.keys(expandMap).forEach(k => {
+        if (k !== 'mayor') {
+          expandMap[k].open = false;
+          expandMap[k].wrap.style.display = 'none';
+          expandMap[k].stem.style.display = 'none';
+          const b = document.querySelector(`[data-toggle="${k}"]`);
+          if (b) b.textContent = `+ ${k === 'clerk2' ? '3 branches' : '1 branch'}`;
+        }
+      });
+    });
+
+    // Search and Highlight
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('input', () => {
+      const q = searchInput.value.toLowerCase().trim();
+      document.querySelectorAll('.node-card').forEach(card => {
+        const id = card.getAttribute('data-id');
+        const p = personnelDB[id];
+        if (!p) return;
+        const matches = !q || p.name.toLowerCase().includes(q) || p.position.toLowerCase().includes(q) || p.role.toLowerCase().includes(q) || p.services.some(s => s.toLowerCase().includes(q));
+        if (q && matches) {
+          card.classList.add('highlight');
+          card.classList.remove('dimmed');
+        } else if (q && !matches) {
+          card.classList.remove('highlight');
+          card.classList.add('dimmed');
+        } else {
+          card.classList.remove('highlight');
+          card.classList.remove('dimmed');
+        }
+      });
+    });
+
+    // Modal Interaction
+    const modalBackdrop = document.getElementById('modalBackdrop');
+    const modalImg = document.getElementById('modalImg');
+    const modalRoleBadge = document.getElementById('modalRoleBadge');
+    const modalName = document.getElementById('modalName');
+    const modalPosition = document.getElementById('modalPosition');
+    const modalOverview = document.getElementById('modalOverview');
+    const modalDuties = document.getElementById('modalDuties');
+    const modalServices = document.getElementById('modalServices');
+    const modalOffice = document.getElementById('modalOffice');
+    const modalHours = document.getElementById('modalHours');
+    const modalTopBar = document.getElementById('modalTopBar');
+
+    function openModal(id) {
+      const p = personnelDB[id];
+      if (!p) return;
+      modalImg.src = p.img;
+      modalRoleBadge.textContent = p.role;
+      modalRoleBadge.style.color = p.color;
+      modalRoleBadge.style.background = `${p.color}25`;
+      modalRoleBadge.style.border = `1px solid ${p.color}60`;
+      modalName.textContent = p.name;
+      modalPosition.textContent = p.position;
+      modalOverview.textContent = p.overview;
+      modalDuties.innerHTML = p.duties.map(d => `<li>${d}</li>`).join('');
+      modalServices.innerHTML = p.services.map(s => `<span class="service-tag">📜 ${s}</span>`).join('');
+      modalOffice.textContent = p.office;
+      modalHours.textContent = `Schedule: ${p.hours}`;
+      modalTopBar.style.background = `linear-gradient(90deg, ${p.color}, #38bdf8, #a855f7)`;
+
+      modalBackdrop.classList.add('active');
+    }
+
+    function closeModal() {
+      modalBackdrop.classList.remove('active');
+    }
+
+    document.querySelectorAll('.node-card').forEach(c => {
+      c.addEventListener('click', () => {
+        openModal(c.getAttribute('data-id'));
+      });
+    });
+
+    document.getElementById('modalCloseBtn').addEventListener('click', closeModal);
+    document.getElementById('modalDismissBtn').addEventListener('click', closeModal);
+    modalBackdrop.addEventListener('click', (e) => {
+      if (e.target === modalBackdrop) closeModal();
+    });
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+  </script>
+</body>
+</html>

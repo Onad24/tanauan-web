@@ -234,14 +234,23 @@
 			</p>
 			<p class="mt-1 text-sm italic">{charter.vision}</p>
 		</div>
-		<div class="flex gap-2">
+		<div class="flex flex-wrap gap-2">
+			<a
+				href="/Departments/Civil Registrar#orgchart"
+				class="inline-flex items-center gap-1.5 rounded-lg border border-teal-200 bg-teal-50 px-3 py-2 text-sm font-semibold text-teal-800 shadow-sm transition hover:bg-teal-100"
+			>
+				<svg class="h-4 w-4 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+				</svg>
+				Org Structure
+			</a>
 			<button
-				class="rounded border bg-white px-3 py-2 text-sm shadow-sm"
-				on:click={() => window.print()}>Print</button
+				class="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-50"
+				on:click={() => scrollTo('services')}>Jump to Services</button
 			>
 			<button
-				class="rounded border bg-white px-3 py-2 text-sm shadow-sm"
-				on:click={() => scrollTo('services')}>Jump to Services</button
+				class="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-50"
+				on:click={() => window.print()}>Print</button
 			>
 		</div>
 	</header>

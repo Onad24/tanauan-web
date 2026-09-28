@@ -12,8 +12,8 @@
 	import DepartmentSectionsFeed from '$lib/DepartmentSectionsFeed.svelte';
 	import HealthOfficeOrgChart from '$lib/Components/Offices/HealthOfficeOrgChart.svelte';
 	import MAOServicesPortal from '$lib/Components/Offices/MAOServicesPortal.svelte';
-	import MAOAccomplishmentsGallery from '$lib/Components/Offices/MAOAccomplishmentsGallery.svelte';
 	import MAOOrgChart from '$lib/Components/Offices/MAOOrgChart.svelte';
+	import CivilRegistrarOrgChart from '$lib/Components/Offices/CivilRegistrarOrgChart.svelte';
 
 	let {
 		officeName = "Municipal Treasurer's Office",
@@ -1326,6 +1326,29 @@
 								</div>
 							{/if}
 
+							<!-- Form Preview Image if Available -->
+							{#if activeFormModal.preview || activeFormModal.image || (activeFormModal.url && activeFormModal.url.match(/\.(png|jpg|jpeg|webp)$/i))}
+								<div class="relative overflow-hidden rounded-2xl border-2 border-slate-200 bg-slate-50 p-2.5 text-center">
+									<img
+										src={activeFormModal.preview || activeFormModal.image || activeFormModal.url}
+										alt={activeFormModal.title}
+										class="max-h-52 mx-auto rounded-xl object-contain shadow-sm border border-slate-200 bg-white"
+									/>
+									{#if activeFormModal.htmlUrl}
+										<div class="mt-2 text-center">
+											<a
+												href={activeFormModal.htmlUrl}
+												target="_blank"
+												rel="noopener noreferrer"
+												class="inline-flex items-center gap-1.5 text-xs font-bold text-blue-700 hover:text-blue-900 hover:underline"
+											>
+												<span>🔍 View Full Interactive Printable Document ↗</span>
+											</a>
+										</div>
+									{/if}
+								</div>
+							{/if}
+
 							<!-- Info row -->
 							<div class="grid grid-cols-2 gap-3">
 								<div class="rounded-xl border border-slate-200 bg-slate-50 p-3">
@@ -1362,8 +1385,17 @@
 									type="button"
 									onclick={closeFormModal}
 									class="rounded-xl border border-slate-300 bg-white px-4 py-2 text-xs font-black text-slate-700 transition-colors hover:bg-slate-100"
-									>Close</button
-								>
+								>Close</button>
+								{#if activeFormModal.htmlUrl}
+									<a
+										href={activeFormModal.htmlUrl}
+										target="_blank"
+										rel="noopener noreferrer"
+										class="inline-flex items-center gap-1.5 rounded-xl border border-blue-700 bg-white px-3.5 py-2 text-xs font-black text-blue-950 shadow-xs transition-all hover:bg-blue-50 hover:scale-105 active:scale-95"
+									>
+										<span>🖨 Printable View ↗</span>
+									</a>
+								{/if}
 								<a
 									href={activeFormModal.url || activeFormModal.downloadUrl}
 									target="_blank"
@@ -1672,18 +1704,27 @@
 							<div
 								class="mb-6 flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 pb-6"
 							>
-								<div>
-									<span
-										class="mb-2 inline-block rounded border border-blue-300 bg-blue-100 px-3 py-1 text-xs font-black tracking-wide text-blue-950 uppercase"
-									>
-										{head.term}
-									</span>
-									<h3 class="text-2xl font-black tracking-tight text-slate-950 sm:text-3xl">
-										{head.name}
-									</h3>
-									<p class="mt-0.5 text-lg font-black text-blue-900">
-										{head.title}
-									</p>
+								<div class="flex items-center gap-4 sm:gap-5">
+									{#if head.image}
+										<img
+											src={head.image}
+											alt={head.name}
+											class="h-20 w-20 shrink-0 rounded-2xl border-2 border-amber-400 bg-slate-900 object-cover shadow-md sm:h-24 sm:w-24"
+										/>
+									{/if}
+									<div>
+										<span
+											class="mb-2 inline-block rounded border border-blue-300 bg-blue-100 px-3 py-1 text-xs font-black tracking-wide text-blue-950 uppercase"
+										>
+											{head.term}
+										</span>
+										<h3 class="text-2xl font-black tracking-tight text-slate-950 sm:text-3xl">
+											{head.name}
+										</h3>
+										<p class="mt-0.5 text-lg font-black text-blue-900">
+											{head.title}
+										</p>
+									</div>
 								</div>
 								<div class="text-right text-xs">
 									<div class="font-bold text-slate-500 uppercase">CIVIL SERVICE STATUS</div>
@@ -1913,6 +1954,8 @@
 						<HealthOfficeOrgChart />
 					{:else if isMAO}
 						<MAOOrgChart />
+					{:else if department === 'Civil Registrar' || officeCode === 'MCRO' || officeCode === 'MCR' || department === 'Municipal Civil Registrar'}
+						<CivilRegistrarOrgChart />
 					{:else}
 						<OrgChartSection {department} defaultImage={orgChartImage} cleanLayout={true} />
 					{/if}
