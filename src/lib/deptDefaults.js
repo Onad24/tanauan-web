@@ -27,6 +27,7 @@ export const DEPT_DEFAULTS = {
     schedule: { hours: 'Monday – Friday | 8:00 AM – 5:00 PM', location: 'Tanauan Municipal Hall, Real St., Tanauan, Leyte', contactNumber: '', email: 'accounting@tanauanleyte.gov.ph', helpline: 'Accounting Window, Municipal Hall Main Building' }
   },
   Agriculture: {
+    department: 'Agriculture',
     officeName: 'Municipal Agriculture Office',
     officeCode: 'MAO',
     category: 'Agricultural & Rural Development',
@@ -38,19 +39,41 @@ export const DEPT_DEFAULTS = {
       'Food Security & Livelihood Development',
       'Modern Farming for Rural Progress'
     ],
-    head: { name: '', title: 'Municipal Agriculturist', term: 'Department Head', quote: 'Thriving agriculture is the foundation of food security and rural prosperity.', credentials: ['Registered Agriculturist', 'Extension Services Specialist'], room: 'Municipal Hall, Tanauan, Leyte', schedule: 'Monday – Friday: 8:00 AM – 5:00 PM' },
+    head: {
+      name: 'Susana O. Miranda',
+      title: 'Municipal Agriculturist',
+      term: 'Department Head',
+      quote: 'True public service in agriculture empowers our farming and fishing communities through innovative extension, resilient crop systems, and sustainable livelihood support for every Tanauananon.',
+      credentials: [
+        'Municipal Agriculturist',
+        'Department Head',
+        'Licensed Agriculturist',
+        'Agricultural Extension Specialist',
+        'Rural Development Practitioner'
+      ],
+      room: 'Ground Floor, Agricultural Extension Office, Tanauan Municipal Hall, Real St., Tanauan, Leyte',
+      schedule: 'Monday to Friday | 8:00 AM – 5:00 PM (No Noon Break)'
+    },
+    preparedBy: {
+      name: 'Susana O. Miranda',
+      title: 'Municipal Agriculturist'
+    },
+    reviewedBy: {
+      name: 'Hon. Ma. Gina E. Merilo',
+      title: 'Municipal Mayor'
+    },
     stats: [
-      { value: '54', suffix: '', label: 'Barangays Served', description: 'Agricultural extension services across all barangays' },
-      { value: '500', suffix: '+', label: 'Farmers Assisted', description: 'Registered farmers and fisherfolk receiving technical support' },
-      { value: '12', suffix: '+', label: 'Programs', description: 'Annual agricultural programs and livelihood initiatives' },
-      { value: '100', suffix: '%', label: 'Service Coverage', description: 'Full municipal-wide agricultural assistance and extension' }
+      { value: '17', suffix: '', label: 'Frontline Services', description: 'Comprehensive Citizen\'s Charter services across 5 sections' },
+      { value: '54', suffix: '', label: 'Barangays Served', description: 'Agricultural & fisheries extension across all barangays' },
+      { value: '100', suffix: '%', label: 'Free Intake', description: 'All frontline intake and inquiries 100% free of charge' },
+      { value: '5', suffix: '', label: 'Specialized Units', description: 'Crops, Livestock, Fisheries, Institutional Dev, PCA' }
     ],
     mandates: [
       { index: '01', code: 'EXT-SVC', title: 'Agricultural Extension Services', description: 'Provides technical assistance, training, and guidance to farmers and fisherfolk in the municipality.', tag: 'Core Function', details: ['Farm Visits & Technical Guidance', 'Farmer Training & Seminars', 'Demonstration Farm Operations'] },
       { index: '02', code: 'PROG-IMPL', title: 'Program Implementation', description: 'Implements national and local agricultural programs for crop production, livestock, and fisheries.', tag: 'Program Implementation', details: ['Seed & Fertilizer Distribution', 'Livestock Dispersal Programs', 'Fisheries Development Assistance'] },
       { index: '03', code: 'DATA-MGT', title: 'Agricultural Data Management', description: 'Maintains updated records of agricultural production, farmer registry, and land use data.', tag: 'Data & Records', details: ['Farmer Registry Maintenance', 'Crop Production Monitoring', 'Agricultural Statistics Reporting'] }
     ],
-    schedule: { hours: 'Monday – Friday | 8:00 AM – 5:00 PM', location: 'Tanauan Municipal Hall, Real St., Tanauan, Leyte', contactNumber: '', email: 'agriculture@tanauanleyte.gov.ph', helpline: 'Agricultural Extension Office, Ground Floor' }
+    schedule: { hours: 'Monday – Friday | 8:00 AM – 5:00 PM (No Noon Break)', location: 'Ground Floor, Agricultural Extension Office, Tanauan Municipal Hall, Real St., Tanauan, Leyte', contactNumber: '(053) 321-2045 / +63 917 842 6110', email: 'agriculture@tanauanleyte.gov.ph', helpline: 'Agriculture Helpdesk Windows 1 & 2' }
   },
   Assessors: {
     officeName: "Municipal Assessor's Office",

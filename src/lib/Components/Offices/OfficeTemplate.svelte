@@ -10,6 +10,10 @@
 	import GSOOrgChart from '$lib/Components/Offices/GSOOrgChart.svelte';
 	import HRMOOrgChart from '$lib/Components/Offices/HRMOOrgChart.svelte';
 	import DepartmentSectionsFeed from '$lib/DepartmentSectionsFeed.svelte';
+	import HealthOfficeOrgChart from '$lib/Components/Offices/HealthOfficeOrgChart.svelte';
+	import MAOServicesPortal from '$lib/Components/Offices/MAOServicesPortal.svelte';
+	import MAOAccomplishmentsGallery from '$lib/Components/Offices/MAOAccomplishmentsGallery.svelte';
+	import MAOOrgChart from '$lib/Components/Offices/MAOOrgChart.svelte';
 
 	let {
 		officeName = "Municipal Treasurer's Office",
@@ -226,14 +230,19 @@
 		plaqueGlowY = 50;
 	}
 
+	const isMAO = $derived(
+		officeCode === 'MAO' ||
+		department === 'Agriculture' ||
+		department === 'MAO' ||
+		(officeName && officeName.toLowerCase().includes('agriculture'))
+	);
+
 	const baseNav = $derived([
 		{ id: 'overview', label: 'Overview' },
 		...(vision || mission ? [{ id: 'vision-mission', label: 'Vision & Mission' }] : []),
-		...(servicesOffered && servicesOffered.length > 0
-			? [{ id: 'services', label: 'Services' }]
-			: []),
-		...(downloadableForms && downloadableForms.length > 0 ? [{ id: 'forms', label: 'Forms' }] : []),
-		{ id: 'mandates', label: 'Mandates' },
+		...(isMAO || (servicesOffered && servicesOffered.length > 0) ? [{ id: 'services', label: 'Services' }] : []),
+		...(!isMAO && downloadableForms && downloadableForms.length > 0 ? [{ id: 'forms', label: 'Forms' }] : []),
+		...(!isMAO && mandates && mandates.length > 0 ? [{ id: 'mandates', label: 'Mandates' }] : []),
 		{ id: 'leadership', label: 'Leadership' },
 		{ id: 'structure', label: 'Structure' },
 		{ id: 'accomplishments', label: 'Reports' },
@@ -807,8 +816,16 @@
 			</section>
 		{/if}
 
-		<!-- Section: Services Offered & Procedures (When Provided) -->
-		{#if servicesOffered && servicesOffered.length > 0}
+		<!-- Section: Services Offered & Procedures (When Provided or MAO) -->
+		{#if isMAO}
+			<MAOServicesPortal
+				officeLocation={schedule?.location}
+				officeHours={schedule?.hours}
+				contactNumber={schedule?.contactNumber}
+				email={schedule?.email}
+				charterUrl={citizensCharterUrl}
+			/>
+		{:else if servicesOffered && servicesOffered.length > 0}
 			<section id="services" class="bg-white py-20">
 				<div class="container mx-auto max-w-7xl px-6">
 					<!-- Section Header -->
@@ -1108,12 +1125,9 @@
 			</section>
 		{/if}
 
-		<!-- Section: Downloadable Forms (When Provided) -->
-		{#if downloadableForms && downloadableForms.length > 0}
-			<section
-				id="forms"
-				class="relative overflow-hidden bg-gradient-to-b from-slate-50 via-white to-slate-50 py-20"
-			>
+		<!-- Section: Downloadable Forms (When Provided and not MAO) -->
+		{#if !isMAO && downloadableForms && downloadableForms.length > 0}
+			<section id="forms" class="relative bg-gradient-to-b from-slate-50 via-white to-slate-50 py-20 overflow-hidden">
 				<!-- Decorative background elements -->
 				<div class="pointer-events-none absolute inset-0">
 					<div
@@ -1211,10 +1225,8 @@
 									{/if}
 
 									<!-- CTA Row -->
-									<div
-										class="mt-auto flex items-center justify-between border-t border-slate-100 pt-4"
-									>
-										<span class="text-xs font-semibold text-slate-500">Official HRMO Form</span>
+									<div class="mt-auto flex items-center justify-between pt-4 border-t border-slate-100">
+										<span class="text-xs font-semibold text-slate-500">Official {officeCode || 'Municipal'} Form</span>
 										<button
 											type="button"
 											onclick={(e) => {
@@ -1240,14 +1252,10 @@
 					</div>
 
 					<!-- Disclaimer note -->
-					<div
-						class="mt-8 flex items-start gap-3 rounded-2xl border border-amber-200 bg-amber-50/70 p-4"
-					>
-						<span class="shrink-0 text-xl">ℹ️</span>
-						<p class="text-xs leading-relaxed font-semibold text-amber-900">
-							All forms are official documents hosted on Google Drive. Ensure you are downloading
-							the latest version. For assistance, visit the HRMO Office at the Municipal Hall during
-							office hours.
+					<div class="mt-8 flex items-start gap-3 rounded-2xl border border-amber-200 bg-amber-50/70 p-4">
+						<span class="text-xl shrink-0">ℹ️</span>
+						<p class="text-xs font-semibold text-amber-900 leading-relaxed">
+							All forms are official local government documents. Ensure you are downloading the latest version. For assistance, visit the {officeName} at the Municipal Hall during office hours.
 						</p>
 					</div>
 				</div>
@@ -1285,12 +1293,8 @@
 									{activeFormModal.icon || '📄'}
 								</div>
 								<div>
-									<div class="text-[10px] font-black tracking-wider text-blue-700 uppercase">
-										Official HRMO Form
-									</div>
-									<h2 id="form-modal-title" class="text-xl font-black text-blue-950">
-										{activeFormModal.title}
-									</h2>
+									<div class="text-[10px] font-black uppercase tracking-wider text-blue-700">Official {officeCode || 'Government'} Form</div>
+									<h2 id="form-modal-title" class="text-xl font-black text-blue-950">{activeFormModal.title}</h2>
 								</div>
 							</div>
 							<button
@@ -1325,16 +1329,12 @@
 							<!-- Info row -->
 							<div class="grid grid-cols-2 gap-3">
 								<div class="rounded-xl border border-slate-200 bg-slate-50 p-3">
-									<div class="text-[10px] font-black tracking-wider text-slate-500 uppercase">
-										Issuing Office
-									</div>
-									<div class="text-sm font-black text-blue-950">HRMO</div>
+									<div class="text-[10px] font-black uppercase tracking-wider text-slate-500">Issuing Office</div>
+									<div class="text-sm font-black text-blue-950">{officeCode || department}</div>
 								</div>
 								<div class="rounded-xl border border-slate-200 bg-slate-50 p-3">
-									<div class="text-[10px] font-black tracking-wider text-slate-500 uppercase">
-										Source
-									</div>
-									<div class="text-sm font-black text-blue-950">Google Drive</div>
+									<div class="text-[10px] font-black uppercase tracking-wider text-slate-500">Format</div>
+									<div class="text-sm font-black text-blue-950">{activeFormModal.format || 'Official PDF'}</div>
 								</div>
 							</div>
 
@@ -1343,9 +1343,8 @@
 								class="flex items-start gap-2.5 rounded-xl border border-amber-200 bg-amber-50 p-3.5"
 							>
 								<span class="shrink-0 text-base">⚠️</span>
-								<p class="text-xs leading-relaxed font-semibold text-amber-900">
-									Ensure the downloaded form is the most current version. Submit completed forms to
-									the HRMO Office at the Municipal Hall.
+								<p class="text-xs font-semibold text-amber-900 leading-relaxed">
+									Ensure the downloaded form is the most current version. Submit completed forms to the {officeName} at the Municipal Hall.
 								</p>
 							</div>
 						</div>
@@ -1356,7 +1355,7 @@
 						>
 							<div class="flex items-center gap-1.5 text-xs font-bold text-slate-500">
 								<span class="h-1.5 w-1.5 rounded-full bg-blue-700"></span>
-								<span>Official Government Form</span>
+								<span>Official Government Document</span>
 							</div>
 							<div class="flex items-center gap-2">
 								<button
@@ -1366,8 +1365,9 @@
 									>Close</button
 								>
 								<a
-									href={activeFormModal.url}
+									href={activeFormModal.url || activeFormModal.downloadUrl}
 									target="_blank"
+									download
 									rel="noopener noreferrer"
 									class="inline-flex items-center gap-2 rounded-xl bg-blue-800 px-5 py-2 text-xs font-black text-white shadow-md transition-all hover:scale-105 hover:bg-blue-700 active:scale-95"
 								>
@@ -1389,7 +1389,8 @@
 		{/if}
 
 		<!-- Section 2: Core Mandates & Functions -->
-		<section id="mandates" class="bg-slate-50 py-20">
+		{#if !isMAO && mandates && mandates.length > 0}
+			<section id="mandates" class="bg-slate-50 py-20">
 			<div class="container mx-auto max-w-7xl px-6">
 				<!-- Section Header -->
 				<div class="mb-14 max-w-3xl">
@@ -1644,6 +1645,7 @@
 				{/if}
 			</div>
 		</section>
+		{/if}
 
 		<!-- Section 3: Leadership & Executive Profile -->
 		<section id="leadership" class="bg-white py-20">
@@ -1907,6 +1909,10 @@
 						<GSOOrgChart />
 					{:else if officeCode === 'HRMO' || department === 'HRMO' || department === 'Human Resource Management Office'}
 						<HRMOOrgChart />
+					{:else if department === 'Health Office' || officeCode === 'MHO'}
+						<HealthOfficeOrgChart />
+					{:else if isMAO}
+						<MAOOrgChart />
 					{:else}
 						<OrgChartSection {department} defaultImage={orgChartImage} cleanLayout={true} />
 					{/if}
@@ -1933,9 +1939,20 @@
 					</p>
 				</div>
 
-				<div class="rounded-3xl border-2 border-slate-200 bg-slate-50 p-6 shadow-sm sm:p-8">
-					<AccomplishmentSection {department} limit={3} collapsible={true} cleanLayout={true} />
-				</div>
+				{#if isMAO}
+					<MAOAccomplishmentsGallery />
+					<div class="mt-12 rounded-3xl border-2 border-slate-200 bg-slate-50 p-6 shadow-sm sm:p-8">
+						<div class="mb-4 flex items-center justify-between border-b border-slate-200 pb-3">
+							<h3 class="text-base font-black text-blue-950">Published Legislative & Quarterly Reports</h3>
+							<span class="rounded-full bg-slate-200 px-2.5 py-0.5 text-[11px] font-bold text-slate-700">Official Depository</span>
+						</div>
+						<AccomplishmentSection {department} limit={3} collapsible={true} cleanLayout={true} />
+					</div>
+				{:else}
+					<div class="rounded-3xl border-2 border-slate-200 bg-slate-50 p-6 shadow-sm sm:p-8">
+						<AccomplishmentSection {department} limit={3} collapsible={true} cleanLayout={true} />
+					</div>
+				{/if}
 			</div>
 		</section>
 

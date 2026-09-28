@@ -10,4 +10,4 @@
 	const pageData = $derived(mergeOfficeData(defaults, data?.officePageData));
 </script>
 
-<OfficeTemplate {...pageData} />
+<OfficeTemplate {...pageData} department="Agriculture" />
