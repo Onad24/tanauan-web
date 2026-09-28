@@ -6,6 +6,8 @@
 	import { page, navigating } from '$app/stores';
 	import ToastHost from '$lib/admin/ToastHost.svelte';
 	import ConfirmHost from '$lib/admin/ConfirmHost.svelte';
+	import { toast } from '$lib/admin/toast';
+	import { confirmAction } from '$lib/admin/confirm';
 	import {
 		LayoutDashboard,
 		Users,
@@ -28,6 +30,7 @@
 	let { data, children } = $props();
 	let firebaseUser = $state(null);
 	let isSidebarOpen = $state(false);
+	let loggingOut = $state(false);
 
 	// Collapse the mobile drawer whenever the route changes
 	$effect(() => {
@@ -120,11 +123,30 @@
 	});
 
 	async function logout() {
+		if (loggingOut) return;
+		const ok = await confirmAction({
+			title: 'Sign out of the admin console?',
+			message: 'You will need to sign in again to manage content.',
+			confirmText: 'Sign Out'
+		});
+		if (!ok) return;
+
+		loggingOut = true;
 		try {
-			await fetch('/admin/session', { method: 'DELETE' });
-		} finally {
-			signOut(auth).then(() => goto('/admin/login'));
+			const res = await fetch('/admin/session', { method: 'DELETE' });
+			if (!res.ok) throw new Error(`session delete failed (${res.status})`);
+		} catch (err) {
+			console.error('Logout session error:', err);
+			toast.warning('Could not clear the session cookie — sign-out may be incomplete.');
 		}
+		try {
+			await signOut(auth);
+		} catch (err) {
+			console.error('Firebase sign-out error:', err);
+		} finally {
+			loggingOut = false;
+		}
+		await goto('/admin/login');
 	}
 </script>
 
@@ -298,10 +320,11 @@
 			<!-- Logout Button -->
 			<button
 				onclick={logout}
-				class="flex w-full items-center justify-center gap-2 rounded-xl border border-slate-800 bg-slate-900/60 px-3 py-2 text-xs font-semibold text-slate-300 transition-all hover:border-rose-500/40 hover:bg-rose-950/30 hover:text-rose-300"
+				disabled={loggingOut}
+				class="flex w-full items-center justify-center gap-2 rounded-xl border border-slate-800 bg-slate-900/60 px-3 py-2 text-xs font-semibold text-slate-300 transition-all hover:border-rose-500/40 hover:bg-rose-950/30 hover:text-rose-300 disabled:cursor-not-allowed disabled:opacity-60"
 			>
 				<LogOut class="h-3.5 w-3.5" />
-				<span>Sign Out</span>
+				<span>{loggingOut ? 'Signing out…' : 'Sign Out'}</span>
 			</button>
 		</div>
 	</aside>

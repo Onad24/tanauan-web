@@ -1,4 +1,5 @@
 <script>
+	import { invalidateAll } from '$app/navigation';
 	import { uploadMultipleFiles } from '$lib/firebaseStorage';
 	import { departments, postTypes, sectionLayouts, cardStyles } from '$lib/config';
 	import Modal from '$lib/Modal.svelte';
@@ -121,6 +122,13 @@
 	// Pagination & search
 	let searchTerm = $state('');
 	let currentPage = $state(1);
+
+	// Typing a new search always starts at page 1 — otherwise matches can sit
+	// on an earlier page while this one looks empty ("no results" false alarm).
+	$effect(() => {
+		void searchTerm;
+		currentPage = 1;
+	});
 	const pageSize = 10;
 	let selectedFiles = $state([]);
 	let mediaPreview = $state([]);
@@ -261,6 +269,40 @@
 		}));
 		uploadError = '';
 		showModal = true;
+	}
+
+	// The server recalculates status on every save (approver → approved, else →
+	// pending), so the edit modal shows both the current state and what saving
+	// will actually do — no more silent publish/unpublish surprises.
+	function editStatusInfo(post, dept) {
+		const status = post?.status || 'approved'; // legacy posts without status are public
+		const willPublish =
+			isSuperAdmin ||
+			(isDeptHead && !!userDept && (dept || '').toLowerCase() === userDept.toLowerCase());
+
+		const badge =
+			status === 'pending'
+				? { label: 'Pending review', cls: 'border-amber-200 bg-amber-50 text-amber-800' }
+				: status === 'rejected'
+					? { label: 'Rejected', cls: 'border-rose-200 bg-rose-50 text-rose-800' }
+					: {
+							label: 'Live on the public site',
+							cls: 'border-emerald-200 bg-emerald-50 text-emerald-800'
+						};
+
+		let note;
+		if (willPublish) {
+			note =
+				status === 'approved'
+					? 'Saving keeps it visible to the public.'
+					: 'Saving will publish it to the public site.';
+		} else if (status === 'approved') {
+			note =
+				'Saving will send it back for review — it will be hidden from the public site until re-approved.';
+		} else {
+			note = 'Saving keeps it in review — hidden from the public site until approved.';
+		}
+		return { ...badge, note };
 	}
 
 	// Sections available for the department currently selected in the post form
@@ -420,6 +462,7 @@
 
 		uploadError = '';
 		uploading = true;
+		let resultingStatus = null; // what the server actually saved (it recalculates status)
 		try {
 			let uploadedURLs = [];
 			if (selectedFiles.length > 0) {
@@ -449,17 +492,20 @@
 					body: JSON.stringify({ id: editing.id, ...payload })
 				});
 				if (!res.ok) throw new Error('Failed to update post');
+				const result = await res.json();
+				resultingStatus = result.status ?? null;
 				const idx = rows.findIndex((r) => r.id === editing.id);
 				if (idx >= 0) {
 					// If edited post was set as featured, unset others
 					if (payload.isFeatured) {
 						rows = rows.map((r) => {
-							if (r.id === editing.id) return { id: editing.id, ...payload };
+							if (r.id === editing.id) return { ...r, ...payload, status: result.status };
 							if (r.sectionSlug === payload.sectionSlug) return { ...r, isFeatured: false };
 							return r;
 						});
 					} else {
-						rows[idx] = { id: editing.id, ...payload };
+						// Merge into the existing row so status/approval metadata isn't dropped
+						rows[idx] = { ...rows[idx], ...payload, status: result.status };
 						rows = [...rows];
 					}
 				}
@@ -471,6 +517,7 @@
 				});
 				if (!res.ok) throw new Error('Failed to create post');
 				const newPost = await res.json();
+				resultingStatus = newPost.status ?? null;
 				if (payload.isFeatured) {
 					rows = rows.map((r) =>
 						r.sectionSlug === payload.sectionSlug ? { ...r, isFeatured: false } : r
@@ -481,7 +528,20 @@
 				currentPage = 1;
 			}
 			showModal = false;
-			toast.success(editing ? 'Post updated' : 'Post created');
+			// The server recalculates status on every save — report the real outcome
+			if (!editing && resultingStatus === 'pending') {
+				toast.success('Post submitted for review', {
+					description: 'It will appear on the public site once your department head approves it.'
+				});
+			} else if (!editing) {
+				toast.success('Post created — live on the public site');
+			} else if (resultingStatus === 'pending') {
+				toast.success('Post updated', {
+					description: 'Saved for review — hidden from the public site until re-approved.'
+				});
+			} else {
+				toast.success('Post updated — live on the public site');
+			}
 		} catch (error) {
 			uploadError = 'Error saving post: ' + error.message;
 			toast.error('Could not save the post');
@@ -624,6 +684,32 @@
 			</button>
 		</div>
 	</div>
+
+	{#if data.error}
+		<div
+			role="alert"
+			class="flex flex-wrap items-center gap-3 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3.5"
+		>
+			<div
+				class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-rose-100 text-rose-600"
+			>
+				<AlertCircle class="h-5 w-5" />
+			</div>
+			<div class="min-w-0 flex-1">
+				<p class="text-sm font-bold text-rose-800">Couldn't refresh this page's data</p>
+				<p class="mt-0.5 text-xs leading-relaxed text-rose-700/80">
+					{data.error} — what you see may be incomplete or out of date. Retry to reload it.
+				</p>
+			</div>
+			<button
+				type="button"
+				onclick={() => invalidateAll()}
+				class="rounded-xl bg-rose-600 px-4 py-2 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-rose-700 focus:ring-2 focus:ring-rose-500/40 focus:outline-none"
+			>
+				Retry
+			</button>
+		</div>
+	{/if}
 
 	<!-- Executive KPI Metric Cards -->
 	<div class="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
@@ -1343,7 +1429,13 @@
 <!-- ========================================================================= -->
 {#if showModal}
 	<!-- svelte-ignore a11y_click_events_have_key_events -->
-	<div class="vcb-backdrop" onclick={() => (showModal = false)} role="presentation">
+	<div
+		class="vcb-backdrop"
+		onclick={() => {
+			if (!uploading) showModal = false;
+		}}
+		role="presentation"
+	>
 		<!-- svelte-ignore a11y_click_events_have_key_events -->
 		<div class="vcb-panel" onclick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
 			<!-- Header / Controls Bar -->
@@ -1359,12 +1451,27 @@
 				<button
 					type="button"
 					class="vcb-close"
-					onclick={() => (showModal = false)}
+					onclick={() => {
+						if (!uploading) showModal = false;
+					}}
+					disabled={uploading}
 					aria-label="Close"
 				>
 					&times;
 				</button>
 			</div>
+
+			<!-- Current approval status + what saving will do (edit only) -->
+			{#if editing}
+				{@const info = editStatusInfo(editing, form.department)}
+				<div
+					role="status"
+					class="mb-3 flex flex-wrap items-center gap-x-2 gap-y-1 rounded-xl border px-3.5 py-2.5 text-xs {info.cls}"
+				>
+					<span class="font-bold">{info.label}</span>
+					<span class="opacity-80">{info.note}</span>
+				</div>
+			{/if}
 
 			<!-- Department & Section Selector Row -->
 			<div class="vcb-config-bar">

@@ -129,7 +129,15 @@
 		}
 	});
 
+	// Closes are blocked while a save/delete request is in flight so the drawer
+	// can't vanish mid-write (that used to leave `saving` stuck on the next open).
+	function requestClose() {
+		if (saving || !onclose) return;
+		onclose();
+	}
+
 	async function save() {
+		if (saving) return;
 		if (!selectedDept) {
 			error = 'Please select a Department.';
 			return;
@@ -211,7 +219,7 @@
 	}
 
 	async function deleteSection() {
-		if (!section?.id) return;
+		if (saving || !section?.id) return;
 		const ok = await confirmAction({
 			title: `Delete section "${section.label}"?`,
 			message:
@@ -250,7 +258,7 @@
 {#if open}
 	<!-- Backdrop -->
 	<!-- svelte-ignore a11y_click_events_have_key_events -->
-	<div class="sdp-backdrop" onclick={onclose} role="presentation"></div>
+	<div class="sdp-backdrop" onclick={requestClose} role="presentation"></div>
 
 	<!-- Drawer -->
 	<aside class="sdp-drawer" role="dialog" aria-modal="true" aria-label="Section Design Picker">
@@ -282,7 +290,13 @@
 					</svg>
 					<span>See Preview</span>
 				</button>
-				<button class="sdp-close" onclick={onclose} aria-label="Close" type="button">
+				<button
+					class="sdp-close"
+					onclick={requestClose}
+					aria-label="Close"
+					type="button"
+					disabled={saving}
+				>
 					<svg
 						viewBox="0 0 24 24"
 						width="20"
@@ -721,7 +735,7 @@
 					See Preview
 				</button>
 
-				<button class="sdp-btn-cancel" onclick={onclose} type="button" disabled={saving}>
+				<button class="sdp-btn-cancel" onclick={requestClose} type="button" disabled={saving}>
 					Cancel
 				</button>
 				<button class="sdp-btn-save" onclick={save} type="button" disabled={saving}>
@@ -843,12 +857,17 @@
 				<button
 					type="button"
 					class="sdp-btn-save"
+					disabled={saving}
 					onclick={() => {
 						showFullPreviewModal = false;
 						save();
 					}}
 				>
-					💾 Save &amp; Apply Section Design
+					{#if saving}
+						💾 Saving…
+					{:else}
+						💾 Save &amp; Apply Section Design
+					{/if}
 				</button>
 			</div>
 		</div>

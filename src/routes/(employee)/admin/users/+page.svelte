@@ -1,4 +1,5 @@
 <script>
+	import { invalidateAll } from '$app/navigation';
 	import Modal from '$lib/Modal.svelte';
 	import { uploadUserPortrait, deleteSupabaseFile } from '$lib/firebaseStorage';
 	import { roles, departments, officesByDepartment, portalRoles } from '$lib/config';
@@ -67,6 +68,13 @@
 	let filterRole = $state('');
 	let currentPage = $state(1);
 	const pageSize = 10;
+
+	// Typing a new search always starts at page 1 — otherwise matches can sit
+	// on an earlier page while this one looks empty ("no results" false alarm).
+	$effect(() => {
+		void searchTerm;
+		currentPage = 1;
+	});
 
 	// Telemetry stats
 	let totalCount = $derived(rows.length);
@@ -364,6 +372,32 @@
 			</button>
 		</div>
 	</div>
+
+	{#if data.error}
+		<div
+			role="alert"
+			class="mb-6 flex flex-wrap items-center gap-3 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3.5"
+		>
+			<div
+				class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-rose-100 text-rose-600"
+			>
+				<AlertCircle class="h-5 w-5" />
+			</div>
+			<div class="min-w-0 flex-1">
+				<p class="text-sm font-bold text-rose-800">Couldn't refresh this page's data</p>
+				<p class="mt-0.5 text-xs leading-relaxed text-rose-700/80">
+					{data.error} — what you see may be incomplete or out of date. Retry to reload it.
+				</p>
+			</div>
+			<button
+				type="button"
+				onclick={() => invalidateAll()}
+				class="rounded-xl bg-rose-600 px-4 py-2 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-rose-700 focus:ring-2 focus:ring-rose-500/40 focus:outline-none"
+			>
+				Retry
+			</button>
+		</div>
+	{/if}
 
 	<!-- Executive KPI Metric Cards -->
 	<div class="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
