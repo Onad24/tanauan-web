@@ -7,8 +7,6 @@ node_modules
 .wrangler
 /.svelte-kit
 /build
-.gitattributes
-
 
 # OS
 .DS_Store

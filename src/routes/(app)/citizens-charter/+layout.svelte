@@ -105,6 +105,16 @@
 			href: '/citizens-charter/ABATTOIR',
 			title: 'Slaughterhouse',
 			icon: 'M17 14v6m-3-3h6M6 10h2m-2 4h2m-2 4h2m10-14L10 6.5 4 10v10a1 1 0 001 1h14a1 1 0 001-1V5a1 1 0 00-1-1z'
+		},
+		{
+			href: '/citizens-charter/market',
+			title: 'Market Office',
+			icon: 'M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z'
+		},
+		{
+			href: '/citizens-charter/gso',
+			title: 'General Services (GSO)',
+			icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4'
 		}
 	];
 
