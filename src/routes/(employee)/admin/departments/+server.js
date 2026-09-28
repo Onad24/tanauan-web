@@ -1,10 +1,13 @@
 import { json } from '@sveltejs/kit';
 import { getAdmin } from '$lib/firebaseAdmin';
 import { defaultNavDepartments } from '$lib/config';
-import { requireSuperAdmin, isAuthError } from '$lib/serverGuard';
+import { requireSuperAdmin, requireAuth, isAuthError } from '$lib/serverGuard';
 
 // GET — list all department groups
-export async function GET() {
+export async function GET(event) {
+	const authCheck = await requireAuth(event);
+	if (isAuthError(authCheck)) return authCheck;
+
 	try {
 		const { db } = await getAdmin();
 		const snapshot = await db.collection('nav_departments').orderBy('order').get();
@@ -36,13 +39,20 @@ export async function POST(event) {
 		const data = {
 			group,
 			category,
-			offices: offices.map((o) => ({ name: o.name || '', href: o.href || '', visible: o.visible !== false })),
+			offices: offices.map((o) => ({
+				name: o.name || '',
+				href: o.href || '',
+				visible: o.visible !== false
+			})),
 			order,
 			updatedAt: admin.firestore.Timestamp.now()
 		};
 
 		const ref = await db.collection('nav_departments').add(data);
-		return json({ id: ref.id, ...data, updatedAt: data.updatedAt.toDate().toISOString() }, { status: 201 });
+		return json(
+			{ id: ref.id, ...data, updatedAt: data.updatedAt.toDate().toISOString() },
+			{ status: 201 }
+		);
 	} catch (err) {
 		console.error('departments POST error:', err);
 		return json({ error: err.message }, { status: 500 });

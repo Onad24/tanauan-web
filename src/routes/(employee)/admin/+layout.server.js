@@ -1,4 +1,4 @@
-import { redirect } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 import initFirebaseAdmin, { getAdmin } from '$lib/firebaseAdmin';
 
 /** Routes accessible to any authenticated user (any role) */
@@ -51,14 +51,20 @@ export async function load({ cookies, url }) {
 			? 'super admin'
 			: firestorePortalRole || (isDeptHead ? 'department head' : 'staff');
 
-		// Guard super-admin-only departments page
+		// Guard super-admin-only departments page — explain instead of silently bouncing
 		if (url.pathname.startsWith('/admin/departments') && !isSuperAdmin) {
-			throw redirect(303, '/admin/posts');
+			throw error(
+				403,
+				'The Departments Manager is restricted to Super Administrators. Contact a Super Admin if you need to change the public navigation structure.'
+			);
 		}
 
 		// Guard users/employees page: allowed for Super Admin and Department Heads
 		if (url.pathname.startsWith('/admin/users') && !isSuperAdmin && !isDeptHead) {
-			throw redirect(303, '/admin/posts');
+			throw error(
+				403,
+				'The Employees & Roles directory is restricted to Department Heads and Super Administrators.'
+			);
 		}
 
 		return {
@@ -75,7 +81,7 @@ export async function load({ cookies, url }) {
 			}
 		};
 	} catch (e) {
-		if (e?.status === 303) throw e; // let redirects pass through
+		if (e?.status) throw e; // let redirects and HTTP errors (403/401) pass through
 		console.error('Session verification error:', e?.message || e);
 		throw redirect(303, '/admin/login');
 	}

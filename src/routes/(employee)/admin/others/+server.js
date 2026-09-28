@@ -1,12 +1,16 @@
 import { json } from '@sveltejs/kit';
 import { getAdmin } from '$lib/firebaseAdmin';
 import { deleteMultipleFiles } from '$lib/firebaseStorage';
+import { requireAuth, isAuthError } from '$lib/serverGuard';
 
 // POST: Add new post
 // PUT: Update post
 // DELETE: Delete post
 
-export async function POST({ request }) {
+export async function POST(event) {
+	const auth = await requireAuth(event);
+	if (isAuthError(auth)) return auth;
+	const { request } = event;
 	try {
 		const { db, admin } = await getAdmin();
 		const body = await request.json();
@@ -42,7 +46,10 @@ export async function POST({ request }) {
 	}
 }
 
-export async function PUT({ request }) {
+export async function PUT(event) {
+	const auth = await requireAuth(event);
+	if (isAuthError(auth)) return auth;
+	const { request } = event;
 	try {
 		const { db } = await getAdmin();
 		const body = await request.json();
@@ -73,7 +80,10 @@ export async function PUT({ request }) {
 	}
 }
 
-export async function DELETE({ request }) {
+export async function DELETE(event) {
+	const auth = await requireAuth(event);
+	if (isAuthError(auth)) return auth;
+	const { request } = event;
 	try {
 		const { db } = await getAdmin();
 		const body = await request.json();

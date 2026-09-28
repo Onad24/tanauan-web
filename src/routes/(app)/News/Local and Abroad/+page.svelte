@@ -640,7 +640,7 @@
 	{/if}
 
 	<!-- Modal -->
-	<Modal open={modalOpen} title={activeNews?.header || 'News'} size="max-w-3xl">
+	<Modal bind:open={modalOpen} title={activeNews?.header || 'News'} size="max-w-3xl">
 		{#if activeNews}
 			<div class="space-y-6 font-sans">
 				<!-- Image carousel -->

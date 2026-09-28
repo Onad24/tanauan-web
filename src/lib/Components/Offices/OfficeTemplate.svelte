@@ -9,6 +9,7 @@
 	import OrgChartSection from '$lib/OrgChartSection.svelte';
 	import GSOOrgChart from '$lib/Components/Offices/GSOOrgChart.svelte';
 	import HRMOOrgChart from '$lib/Components/Offices/HRMOOrgChart.svelte';
+	import DepartmentSectionsFeed from '$lib/DepartmentSectionsFeed.svelte';
 
 	let {
 		officeName = "Municipal Treasurer's Office",
@@ -228,7 +229,9 @@
 	const baseNav = $derived([
 		{ id: 'overview', label: 'Overview' },
 		...(vision || mission ? [{ id: 'vision-mission', label: 'Vision & Mission' }] : []),
-		...(servicesOffered && servicesOffered.length > 0 ? [{ id: 'services', label: 'Services' }] : []),
+		...(servicesOffered && servicesOffered.length > 0
+			? [{ id: 'services', label: 'Services' }]
+			: []),
 		...(downloadableForms && downloadableForms.length > 0 ? [{ id: 'forms', label: 'Forms' }] : []),
 		{ id: 'mandates', label: 'Mandates' },
 		{ id: 'leadership', label: 'Leadership' },
@@ -621,7 +624,8 @@
 							Vision & Mission Statement
 						</h2>
 						<p class="mt-4 text-base leading-relaxed font-normal text-slate-800 sm:text-lg">
-							Official institutional mandate and long-term vision. Click on either statement to inspect in an expanded floating window.
+							Official institutional mandate and long-term vision. Click on either statement to
+							inspect in an expanded floating window.
 						</p>
 					</div>
 
@@ -634,7 +638,7 @@
 								tabindex="0"
 								onclick={() => openModal('vision')}
 								onkeydown={(e) => e.key === 'Enter' && openModal('vision')}
-								class="group flex flex-col justify-between rounded-3xl border-2 border-slate-200 border-t-4 border-t-amber-500 bg-white p-7 sm:p-9 shadow-sm transition-all duration-300 hover:border-amber-400 hover:shadow-xl hover:-translate-y-1 cursor-pointer text-left"
+								class="group flex cursor-pointer flex-col justify-between rounded-3xl border-2 border-t-4 border-slate-200 border-t-amber-500 bg-white p-7 text-left shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-amber-400 hover:shadow-xl sm:p-9"
 								title="Click to view Vision in a floating window"
 							>
 								<div>
@@ -662,28 +666,32 @@
 												<span class="text-[11px] font-black tracking-wider text-amber-700 uppercase"
 													>LONG-TERM ASPIRATION</span
 												>
-												<h3 class="text-2xl font-black tracking-tight text-blue-950 group-hover:text-blue-900 transition-colors">
+												<h3
+													class="text-2xl font-black tracking-tight text-blue-950 transition-colors group-hover:text-blue-900"
+												>
 													OUR VISION
 												</h3>
 											</div>
 										</div>
 
 										<span
-											class="inline-flex items-center gap-1.5 rounded-full border border-amber-300 bg-amber-50 px-3 py-1 text-xs font-black text-amber-900 transition-all group-hover:bg-amber-400 group-hover:text-blue-950 shadow-2xs"
+											class="inline-flex items-center gap-1.5 rounded-full border border-amber-300 bg-amber-50 px-3 py-1 text-xs font-black text-amber-900 shadow-2xs transition-all group-hover:bg-amber-400 group-hover:text-blue-950"
 										>
 											<span>🗗 Floating Window</span>
 											<span>↗</span>
 										</span>
 									</div>
 
-									<div class="rounded-2xl border-l-4 border-amber-500 bg-amber-50/50 p-5 shadow-2xs group-hover:bg-amber-50/80 transition-colors">
-										<p class="text-base font-semibold leading-relaxed text-slate-900 sm:text-lg">
+									<div
+										class="rounded-2xl border-l-4 border-amber-500 bg-amber-50/50 p-5 shadow-2xs transition-colors group-hover:bg-amber-50/80"
+									>
+										<p class="text-base leading-relaxed font-semibold text-slate-900 sm:text-lg">
 											"{vision}"
 										</p>
 									</div>
 								</div>
 
-								<div class="mt-8 border-t border-slate-100 pt-6 flex items-center justify-between">
+								<div class="mt-8 flex items-center justify-between border-t border-slate-100 pt-6">
 									<div class="flex flex-wrap gap-2">
 										<span
 											class="rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-bold text-slate-800"
@@ -698,8 +706,11 @@
 									</div>
 									<button
 										type="button"
-										onclick={(e) => { e.stopPropagation(); openModal('vision'); }}
-										class="inline-flex items-center gap-1.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-blue-950 font-black text-xs px-3.5 py-2 shadow-xs transition-all hover:scale-105 active:scale-95"
+										onclick={(e) => {
+											e.stopPropagation();
+											openModal('vision');
+										}}
+										class="inline-flex items-center gap-1.5 rounded-xl bg-amber-500 px-3.5 py-2 text-xs font-black text-blue-950 shadow-xs transition-all hover:scale-105 hover:bg-amber-400 active:scale-95"
 									>
 										<span>Open Floating Window</span>
 										<span>↗</span>
@@ -715,7 +726,7 @@
 								tabindex="0"
 								onclick={() => openModal('mission')}
 								onkeydown={(e) => e.key === 'Enter' && openModal('mission')}
-								class="group flex flex-col justify-between rounded-3xl border-2 border-slate-200 border-t-4 border-t-blue-900 bg-white p-7 sm:p-9 shadow-sm transition-all duration-300 hover:border-blue-900 hover:shadow-xl hover:-translate-y-1 cursor-pointer text-left"
+								class="group flex cursor-pointer flex-col justify-between rounded-3xl border-2 border-t-4 border-slate-200 border-t-blue-900 bg-white p-7 text-left shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-blue-900 hover:shadow-xl sm:p-9"
 								title="Click to view Mission in a floating window"
 							>
 								<div>
@@ -737,28 +748,34 @@
 												<span class="text-[11px] font-black tracking-wider text-blue-900 uppercase"
 													>OFFICIAL COMMITMENT</span
 												>
-												<h3 class="text-2xl font-black tracking-tight text-blue-950 group-hover:text-blue-900 transition-colors">
+												<h3
+													class="text-2xl font-black tracking-tight text-blue-950 transition-colors group-hover:text-blue-900"
+												>
 													OUR MISSION
 												</h3>
 											</div>
 										</div>
 
 										<span
-											class="inline-flex items-center gap-1.5 rounded-full border border-blue-300 bg-blue-50 px-3 py-1 text-xs font-black text-blue-950 transition-all group-hover:bg-blue-900 group-hover:text-white shadow-2xs"
+											class="inline-flex items-center gap-1.5 rounded-full border border-blue-300 bg-blue-50 px-3 py-1 text-xs font-black text-blue-950 shadow-2xs transition-all group-hover:bg-blue-900 group-hover:text-white"
 										>
 											<span>🗗 Floating Window</span>
 											<span>↗</span>
 										</span>
 									</div>
 
-									<div class="rounded-2xl border-l-4 border-blue-900 bg-slate-50 p-5 shadow-2xs group-hover:bg-blue-50/40 transition-colors">
-										<p class="text-sm font-medium leading-relaxed text-slate-800 sm:text-base line-clamp-4">
+									<div
+										class="rounded-2xl border-l-4 border-blue-900 bg-slate-50 p-5 shadow-2xs transition-colors group-hover:bg-blue-50/40"
+									>
+										<p
+											class="line-clamp-4 text-sm leading-relaxed font-medium text-slate-800 sm:text-base"
+										>
 											{mission}
 										</p>
 									</div>
 								</div>
 
-								<div class="mt-8 border-t border-slate-100 pt-6 flex items-center justify-between">
+								<div class="mt-8 flex items-center justify-between border-t border-slate-100 pt-6">
 									<div class="flex flex-wrap gap-2">
 										<span
 											class="rounded-lg border border-blue-200 bg-blue-50 px-2.5 py-1 text-xs font-bold text-blue-950"
@@ -773,8 +790,11 @@
 									</div>
 									<button
 										type="button"
-										onclick={(e) => { e.stopPropagation(); openModal('mission'); }}
-										class="inline-flex items-center gap-1.5 rounded-xl bg-blue-900 hover:bg-blue-800 text-white font-black text-xs px-3.5 py-2 shadow-xs transition-all hover:scale-105 active:scale-95"
+										onclick={(e) => {
+											e.stopPropagation();
+											openModal('mission');
+										}}
+										class="inline-flex items-center gap-1.5 rounded-xl bg-blue-900 px-3.5 py-2 text-xs font-black text-white shadow-xs transition-all hover:scale-105 hover:bg-blue-800 active:scale-95"
 									>
 										<span>Open Floating Window</span>
 										<span>↗</span>
@@ -804,7 +824,8 @@
 							Services Offered & Procedures
 						</h2>
 						<p class="mt-4 text-base leading-relaxed font-normal text-slate-800 sm:text-lg">
-							Direct citizen public services. Click on any service card below to view its full step-by-step procedures and guidelines in a dedicated floating window.
+							Direct citizen public services. Click on any service card below to view its full
+							step-by-step procedures and guidelines in a dedicated floating window.
 						</p>
 					</div>
 
@@ -816,7 +837,7 @@
 								tabindex="0"
 								onclick={() => openModal(svc)}
 								onkeydown={(e) => e.key === 'Enter' && openModal(svc)}
-								class="group flex flex-col justify-between rounded-3xl border-2 border-slate-200 bg-slate-50 p-6 sm:p-8 shadow-sm transition-all duration-300 hover:border-blue-900 hover:shadow-xl hover:-translate-y-1 cursor-pointer text-left"
+								class="group flex cursor-pointer flex-col justify-between rounded-3xl border-2 border-slate-200 bg-slate-50 p-6 text-left shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-blue-900 hover:shadow-xl sm:p-8"
 								title="Click to view {svc.title} in a floating window"
 							>
 								<div>
@@ -830,14 +851,16 @@
 										</span>
 
 										<span
-											class="inline-flex items-center gap-1 rounded-full border border-slate-300 bg-white px-3 py-1 text-xs font-black text-blue-950 shadow-2xs group-hover:bg-amber-400 group-hover:border-amber-400 transition-colors"
+											class="inline-flex items-center gap-1 rounded-full border border-slate-300 bg-white px-3 py-1 text-xs font-black text-blue-950 shadow-2xs transition-colors group-hover:border-amber-400 group-hover:bg-amber-400"
 										>
 											<span>🗗 Floating Window</span>
 											<span>↗</span>
 										</span>
 									</div>
 
-									<h3 class="mb-3 text-xl font-black text-blue-950 sm:text-2xl group-hover:text-blue-900 transition-colors">
+									<h3
+										class="mb-3 text-xl font-black text-blue-950 transition-colors group-hover:text-blue-900 sm:text-2xl"
+									>
 										{svc.title}
 									</h3>
 
@@ -850,7 +873,9 @@
 									<!-- Available items or venues tags -->
 									{#if svc.equipmentList}
 										<div class="mb-6 flex flex-wrap items-center gap-2">
-											<span class="mr-1 text-xs font-bold text-slate-500 uppercase">Available Items:</span>
+											<span class="mr-1 text-xs font-bold text-slate-500 uppercase"
+												>Available Items:</span
+											>
 											{#each svc.equipmentList as item}
 												<span
 													class="rounded-lg border border-slate-300 bg-white px-2.5 py-1 text-xs font-black text-blue-950 shadow-2xs"
@@ -861,7 +886,9 @@
 										</div>
 									{:else if svc.venueList}
 										<div class="mb-6 flex flex-wrap items-center gap-2">
-											<span class="mr-1 text-xs font-bold text-slate-500 uppercase">Covered Venues:</span>
+											<span class="mr-1 text-xs font-bold text-slate-500 uppercase"
+												>Covered Venues:</span
+											>
 											{#each svc.venueList as venue}
 												<span
 													class="rounded-lg border border-slate-300 bg-white px-2.5 py-1 text-xs font-black text-blue-950 shadow-2xs"
@@ -873,9 +900,15 @@
 									{/if}
 
 									<!-- Steps Header -->
-									<div class="mb-4 flex items-center justify-between border-t border-slate-200 pt-5">
-										<span class="text-xs font-black tracking-wider text-blue-950 uppercase">Step / s (Summary):</span>
-										<span class="text-xs font-bold text-blue-900 group-hover:underline">Click to Expand Full Flow →</span>
+									<div
+										class="mb-4 flex items-center justify-between border-t border-slate-200 pt-5"
+									>
+										<span class="text-xs font-black tracking-wider text-blue-950 uppercase"
+											>Step / s (Summary):</span
+										>
+										<span class="text-xs font-bold text-blue-900 group-hover:underline"
+											>Click to Expand Full Flow →</span
+										>
 									</div>
 
 									<!-- Step Sequence Preview -->
@@ -889,7 +922,7 @@
 												>
 													{sIdx + 1}
 												</span>
-												<div class="pt-0.5 text-sm font-semibold leading-snug text-slate-800">
+												<div class="pt-0.5 text-sm leading-snug font-semibold text-slate-800">
 													{step}
 												</div>
 											</li>
@@ -902,7 +935,11 @@
 											class="rounded-2xl border-2 border-amber-300 bg-amber-50/80 p-4 text-xs leading-relaxed text-amber-950 shadow-2xs"
 										>
 											<div class="mb-1 flex items-center gap-2 font-black text-amber-900 uppercase">
-												<svg class="h-4 w-4 shrink-0 text-amber-700" fill="currentColor" viewBox="0 0 20 20">
+												<svg
+													class="h-4 w-4 shrink-0 text-amber-700"
+													fill="currentColor"
+													viewBox="0 0 20 20"
+												>
 													<path
 														fill-rule="evenodd"
 														d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
@@ -911,7 +948,7 @@
 												</svg>
 												<span>Accountability & Damage Policy</span>
 											</div>
-											<p class="font-medium italic text-slate-800">
+											<p class="font-medium text-slate-800 italic">
 												{svc.note}
 											</p>
 										</div>
@@ -920,13 +957,18 @@
 									<!-- Downloadable Form Banner on Card -->
 									{#if svc.downloadableFormUrl}
 										<div
-											class="mt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-2xl border border-emerald-300 bg-emerald-50/80 p-3.5 shadow-2xs"
+											class="mt-4 flex flex-col justify-between gap-3 rounded-2xl border border-emerald-300 bg-emerald-50/80 p-3.5 shadow-2xs sm:flex-row sm:items-center"
 										>
 											<div class="flex items-center gap-2.5">
 												<div
 													class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-emerald-600 text-white"
 												>
-													<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+													<svg
+														class="h-4 w-4"
+														fill="none"
+														stroke="currentColor"
+														viewBox="0 0 24 24"
+													>
 														<path
 															stroke-linecap="round"
 															stroke-linejoin="round"
@@ -936,11 +978,13 @@
 													</svg>
 												</div>
 												<div>
-													<div class="text-[10px] font-black uppercase tracking-wider text-emerald-800">
+													<div
+														class="text-[10px] font-black tracking-wider text-emerald-800 uppercase"
+													>
 														Downloadable Form Available
 													</div>
 													<div class="text-xs font-black text-slate-900">
-														{svc.downloadableFormTitle || "Borrower & Return Form"}
+														{svc.downloadableFormTitle || 'Borrower & Return Form'}
 													</div>
 												</div>
 											</div>
@@ -951,7 +995,12 @@
 												onclick={(e) => e.stopPropagation()}
 												class="inline-flex shrink-0 items-center justify-center gap-1.5 rounded-xl bg-emerald-600 px-3.5 py-1.5 text-xs font-black text-white shadow-2xs transition-all hover:bg-emerald-700 active:scale-95"
 											>
-												<svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+												<svg
+													class="h-3.5 w-3.5"
+													fill="none"
+													stroke="currentColor"
+													viewBox="0 0 24 24"
+												>
 													<path
 														stroke-linecap="round"
 														stroke-linejoin="round"
@@ -965,12 +1014,19 @@
 									{/if}
 								</div>
 
-								<div class="mt-6 pt-4 border-t border-slate-200 flex items-center justify-between text-xs">
-									<span class="text-slate-500 font-semibold">Step-by-step procedures & guidelines</span>
+								<div
+									class="mt-6 flex items-center justify-between border-t border-slate-200 pt-4 text-xs"
+								>
+									<span class="font-semibold text-slate-500"
+										>Step-by-step procedures & guidelines</span
+									>
 									<button
 										type="button"
-										onclick={(e) => { e.stopPropagation(); openModal(svc); }}
-										class="inline-flex items-center gap-1.5 rounded-xl bg-blue-950 hover:bg-blue-900 text-amber-300 font-black px-4 py-2 shadow-xs transition-all hover:scale-105 active:scale-95"
+										onclick={(e) => {
+											e.stopPropagation();
+											openModal(svc);
+										}}
+										class="inline-flex items-center gap-1.5 rounded-xl bg-blue-950 px-4 py-2 font-black text-amber-300 shadow-xs transition-all hover:scale-105 hover:bg-blue-900 active:scale-95"
 									>
 										<span>Open Floating Window</span>
 										<span>↗</span>
@@ -982,7 +1038,9 @@
 
 					<!-- Official Signatories Section -->
 					{#if preparedBy || reviewedBy}
-						<div class="mt-12 rounded-3xl border-2 border-slate-200 bg-slate-50 p-6 sm:p-8 shadow-sm">
+						<div
+							class="mt-12 rounded-3xl border-2 border-slate-200 bg-slate-50 p-6 shadow-sm sm:p-8"
+						>
 							<div class="mb-6 flex items-center justify-between border-b border-slate-200 pb-4">
 								<div class="flex items-center gap-2">
 									<span class="h-2.5 w-2.5 rounded-full bg-blue-900"></span>
@@ -1000,7 +1058,9 @@
 							<div class="grid gap-6 sm:grid-cols-2">
 								{#if preparedBy}
 									<div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-2xs">
-										<span class="mb-2 block text-[11px] font-black tracking-wider text-slate-500 uppercase">
+										<span
+											class="mb-2 block text-[11px] font-black tracking-wider text-slate-500 uppercase"
+										>
 											PREPARED BY:
 										</span>
 										<div
@@ -1021,7 +1081,9 @@
 
 								{#if reviewedBy}
 									<div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-2xs">
-										<span class="mb-2 block text-[11px] font-black tracking-wider text-slate-500 uppercase">
+										<span
+											class="mb-2 block text-[11px] font-black tracking-wider text-slate-500 uppercase"
+										>
 											REVIEWED BY:
 										</span>
 										<div
@@ -1048,25 +1110,37 @@
 
 		<!-- Section: Downloadable Forms (When Provided) -->
 		{#if downloadableForms && downloadableForms.length > 0}
-			<section id="forms" class="relative bg-gradient-to-b from-slate-50 via-white to-slate-50 py-20 overflow-hidden">
+			<section
+				id="forms"
+				class="relative overflow-hidden bg-gradient-to-b from-slate-50 via-white to-slate-50 py-20"
+			>
 				<!-- Decorative background elements -->
 				<div class="pointer-events-none absolute inset-0">
-					<div class="absolute -top-20 -right-20 h-80 w-80 rounded-full bg-blue-100/40 blur-3xl"></div>
-					<div class="absolute -bottom-20 -left-20 h-80 w-80 rounded-full bg-amber-100/40 blur-3xl"></div>
+					<div
+						class="absolute -top-20 -right-20 h-80 w-80 rounded-full bg-blue-100/40 blur-3xl"
+					></div>
+					<div
+						class="absolute -bottom-20 -left-20 h-80 w-80 rounded-full bg-amber-100/40 blur-3xl"
+					></div>
 				</div>
 
 				<div class="relative container mx-auto max-w-7xl px-6">
 					<!-- Section Header -->
 					<div class="mb-10 max-w-3xl">
-						<div class="mb-3 inline-flex items-center gap-2 rounded-md border border-blue-300 bg-blue-100 px-3.5 py-1 text-xs font-black tracking-wider text-blue-950 uppercase">
-							<span class="h-2 w-2 rounded-full bg-blue-700 animate-pulse"></span>
+						<div
+							class="mb-3 inline-flex items-center gap-2 rounded-md border border-blue-300 bg-blue-100 px-3.5 py-1 text-xs font-black tracking-wider text-blue-950 uppercase"
+						>
+							<span class="h-2 w-2 animate-pulse rounded-full bg-blue-700"></span>
 							OFFICIAL DOWNLOADABLE FORMS
 						</div>
-						<h2 class="text-3xl leading-tight font-black tracking-tight text-blue-950 sm:text-4xl lg:text-5xl">
+						<h2
+							class="text-3xl leading-tight font-black tracking-tight text-blue-950 sm:text-4xl lg:text-5xl"
+						>
 							Downloadable Office Forms
 						</h2>
 						<p class="mt-4 text-base leading-relaxed font-normal text-slate-800 sm:text-lg">
-							Official forms available for download. Click any form card to view its details and access the download link from Google Drive.
+							Official forms available for download. Click any form card to view its details and
+							access the download link from Google Drive.
 						</p>
 					</div>
 
@@ -1079,24 +1153,35 @@
 								onclick={() => openFormModal(form)}
 								onkeydown={(e) => e.key === 'Enter' && openFormModal(form)}
 								id="form-card-{fIdx}"
-								class="group relative flex flex-col overflow-hidden rounded-3xl border-2 border-slate-200 bg-white shadow-sm cursor-pointer text-left transition-all duration-300 hover:border-blue-700 hover:shadow-2xl hover:-translate-y-2"
+								class="group relative flex cursor-pointer flex-col overflow-hidden rounded-3xl border-2 border-slate-200 bg-white text-left shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-blue-700 hover:shadow-2xl"
 								title="Click to view {form.title}"
 							>
 								<!-- Top accent bar -->
-								<div class="h-1.5 w-full bg-gradient-to-r from-blue-900 via-blue-700 to-blue-500 transition-all duration-300 group-hover:h-2"></div>
+								<div
+									class="h-1.5 w-full bg-gradient-to-r from-blue-900 via-blue-700 to-blue-500 transition-all duration-300 group-hover:h-2"
+								></div>
 
 								<!-- Shine overlay on hover -->
-								<div class="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" style="background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%);"></div>
+								<div
+									class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+									style="background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%);"
+								></div>
 
-								<div class="flex flex-col flex-1 p-6 sm:p-7">
+								<div class="flex flex-1 flex-col p-6 sm:p-7">
 									<!-- Icon & Number -->
 									<div class="mb-5 flex items-center justify-between">
-										<div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-200 text-3xl shadow-sm transition-transform duration-300 group-hover:scale-110 group-hover:shadow-md">
+										<div
+											class="flex h-14 w-14 items-center justify-center rounded-2xl border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-blue-100 text-3xl shadow-sm transition-transform duration-300 group-hover:scale-110 group-hover:shadow-md"
+										>
 											{form.icon || '📄'}
 										</div>
 										<div class="flex flex-col items-end gap-1">
-											<span class="font-mono text-[10px] font-black text-slate-400 uppercase">FORM {String(fIdx + 1).padStart(2, '0')}</span>
-											<span class="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-slate-50 px-2.5 py-0.5 text-[10px] font-black text-slate-600 uppercase group-hover:border-blue-300 group-hover:bg-blue-50 group-hover:text-blue-800 transition-colors">
+											<span class="font-mono text-[10px] font-black text-slate-400 uppercase"
+												>FORM {String(fIdx + 1).padStart(2, '0')}</span
+											>
+											<span
+												class="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-slate-50 px-2.5 py-0.5 text-[10px] font-black text-slate-600 uppercase transition-colors group-hover:border-blue-300 group-hover:bg-blue-50 group-hover:text-blue-800"
+											>
 												🗗 Open ↗
 											</span>
 										</div>
@@ -1104,32 +1189,48 @@
 
 									<!-- Form type badge -->
 									{#if form.type}
-										<span class="mb-2 inline-block rounded-full border border-blue-200 bg-blue-50 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-blue-900">
+										<span
+											class="mb-2 inline-block rounded-full border border-blue-200 bg-blue-50 px-2.5 py-0.5 text-[10px] font-black tracking-wider text-blue-900 uppercase"
+										>
 											{form.type}
 										</span>
 									{/if}
 
 									<!-- Title -->
-									<h3 class="mb-2 text-lg font-black leading-snug text-blue-950 group-hover:text-blue-700 transition-colors">
+									<h3
+										class="mb-2 text-lg leading-snug font-black text-blue-950 transition-colors group-hover:text-blue-700"
+									>
 										{form.title}
 									</h3>
 
 									<!-- Description -->
 									{#if form.description}
-										<p class="mb-5 text-sm leading-relaxed font-medium text-slate-600 line-clamp-2">
+										<p class="mb-5 line-clamp-2 text-sm leading-relaxed font-medium text-slate-600">
 											{form.description}
 										</p>
 									{/if}
 
 									<!-- CTA Row -->
-									<div class="mt-auto flex items-center justify-between pt-4 border-t border-slate-100">
+									<div
+										class="mt-auto flex items-center justify-between border-t border-slate-100 pt-4"
+									>
 										<span class="text-xs font-semibold text-slate-500">Official HRMO Form</span>
 										<button
 											type="button"
-											onclick={(e) => { e.stopPropagation(); openFormModal(form); }}
-											class="inline-flex items-center gap-1.5 rounded-xl bg-blue-800 hover:bg-blue-700 text-white font-black text-xs px-3.5 py-2 shadow-sm transition-all hover:scale-105 active:scale-95"
+											onclick={(e) => {
+												e.stopPropagation();
+												openFormModal(form);
+											}}
+											class="inline-flex items-center gap-1.5 rounded-xl bg-blue-800 px-3.5 py-2 text-xs font-black text-white shadow-sm transition-all hover:scale-105 hover:bg-blue-700 active:scale-95"
 										>
-											<svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+											<svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+												><path
+													stroke-linecap="round"
+													stroke-linejoin="round"
+													stroke-width="2"
+													d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+												/></svg
+											>
 											<span>View & Download</span>
 										</button>
 									</div>
@@ -1139,10 +1240,14 @@
 					</div>
 
 					<!-- Disclaimer note -->
-					<div class="mt-8 flex items-start gap-3 rounded-2xl border border-amber-200 bg-amber-50/70 p-4">
-						<span class="text-xl shrink-0">ℹ️</span>
-						<p class="text-xs font-semibold text-amber-900 leading-relaxed">
-							All forms are official documents hosted on Google Drive. Ensure you are downloading the latest version. For assistance, visit the HRMO Office at the Municipal Hall during office hours.
+					<div
+						class="mt-8 flex items-start gap-3 rounded-2xl border border-amber-200 bg-amber-50/70 p-4"
+					>
+						<span class="shrink-0 text-xl">ℹ️</span>
+						<p class="text-xs leading-relaxed font-semibold text-amber-900">
+							All forms are official documents hosted on Google Drive. Ensure you are downloading
+							the latest version. For assistance, visit the HRMO Office at the Municipal Hall during
+							office hours.
 						</p>
 					</div>
 				</div>
@@ -1174,27 +1279,35 @@
 						<!-- Modal Header -->
 						<div class="flex items-start justify-between gap-4 border-b border-slate-100 px-6 py-5">
 							<div class="flex items-center gap-3">
-								<div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-200 text-2xl">
+								<div
+									class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-blue-100 text-2xl"
+								>
 									{activeFormModal.icon || '📄'}
 								</div>
 								<div>
-									<div class="text-[10px] font-black uppercase tracking-wider text-blue-700">Official HRMO Form</div>
-									<h2 id="form-modal-title" class="text-xl font-black text-blue-950">{activeFormModal.title}</h2>
+									<div class="text-[10px] font-black tracking-wider text-blue-700 uppercase">
+										Official HRMO Form
+									</div>
+									<h2 id="form-modal-title" class="text-xl font-black text-blue-950">
+										{activeFormModal.title}
+									</h2>
 								</div>
 							</div>
 							<button
 								type="button"
 								onclick={closeFormModal}
-								class="shrink-0 flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-100 hover:text-blue-950 transition-colors text-lg font-bold"
-								aria-label="Close"
-							>✕</button>
+								class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-lg font-bold text-slate-600 transition-colors hover:bg-slate-100 hover:text-blue-950"
+								aria-label="Close">✕</button
+							>
 						</div>
 
 						<!-- Modal Body -->
 						<div class="space-y-5 px-6 py-6">
 							<!-- Type badge -->
 							{#if activeFormModal.type}
-								<span class="inline-flex items-center gap-1.5 rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-black uppercase tracking-wider text-blue-900">
+								<span
+									class="inline-flex items-center gap-1.5 rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-black tracking-wider text-blue-900 uppercase"
+								>
 									<span class="h-1.5 w-1.5 rounded-full bg-blue-500"></span>
 									{activeFormModal.type}
 								</span>
@@ -1203,33 +1316,44 @@
 							<!-- Description -->
 							{#if activeFormModal.description}
 								<div class="rounded-2xl border-l-4 border-blue-700 bg-blue-50/60 p-4">
-									<p class="text-sm font-semibold leading-relaxed text-slate-800">{activeFormModal.description}</p>
+									<p class="text-sm leading-relaxed font-semibold text-slate-800">
+										{activeFormModal.description}
+									</p>
 								</div>
 							{/if}
 
 							<!-- Info row -->
 							<div class="grid grid-cols-2 gap-3">
 								<div class="rounded-xl border border-slate-200 bg-slate-50 p-3">
-									<div class="text-[10px] font-black uppercase tracking-wider text-slate-500">Issuing Office</div>
+									<div class="text-[10px] font-black tracking-wider text-slate-500 uppercase">
+										Issuing Office
+									</div>
 									<div class="text-sm font-black text-blue-950">HRMO</div>
 								</div>
 								<div class="rounded-xl border border-slate-200 bg-slate-50 p-3">
-									<div class="text-[10px] font-black uppercase tracking-wider text-slate-500">Source</div>
+									<div class="text-[10px] font-black tracking-wider text-slate-500 uppercase">
+										Source
+									</div>
 									<div class="text-sm font-black text-blue-950">Google Drive</div>
 								</div>
 							</div>
 
 							<!-- Note -->
-							<div class="flex items-start gap-2.5 rounded-xl border border-amber-200 bg-amber-50 p-3.5">
+							<div
+								class="flex items-start gap-2.5 rounded-xl border border-amber-200 bg-amber-50 p-3.5"
+							>
 								<span class="shrink-0 text-base">⚠️</span>
-								<p class="text-xs font-semibold text-amber-900 leading-relaxed">
-									Ensure the downloaded form is the most current version. Submit completed forms to the HRMO Office at the Municipal Hall.
+								<p class="text-xs leading-relaxed font-semibold text-amber-900">
+									Ensure the downloaded form is the most current version. Submit completed forms to
+									the HRMO Office at the Municipal Hall.
 								</p>
 							</div>
 						</div>
 
 						<!-- Modal Footer -->
-						<div class="flex items-center justify-between gap-3 border-t border-slate-100 bg-slate-50 px-6 py-4">
+						<div
+							class="flex items-center justify-between gap-3 border-t border-slate-100 bg-slate-50 px-6 py-4"
+						>
 							<div class="flex items-center gap-1.5 text-xs font-bold text-slate-500">
 								<span class="h-1.5 w-1.5 rounded-full bg-blue-700"></span>
 								<span>Official Government Form</span>
@@ -1238,15 +1362,23 @@
 								<button
 									type="button"
 									onclick={closeFormModal}
-									class="rounded-xl border border-slate-300 bg-white px-4 py-2 text-xs font-black text-slate-700 hover:bg-slate-100 transition-colors"
-								>Close</button>
+									class="rounded-xl border border-slate-300 bg-white px-4 py-2 text-xs font-black text-slate-700 transition-colors hover:bg-slate-100"
+									>Close</button
+								>
 								<a
 									href={activeFormModal.url}
 									target="_blank"
 									rel="noopener noreferrer"
-									class="inline-flex items-center gap-2 rounded-xl bg-blue-800 px-5 py-2 text-xs font-black text-white shadow-md transition-all hover:bg-blue-700 hover:scale-105 active:scale-95"
+									class="inline-flex items-center gap-2 rounded-xl bg-blue-800 px-5 py-2 text-xs font-black text-white shadow-md transition-all hover:scale-105 hover:bg-blue-700 active:scale-95"
 								>
-									<svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+									<svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+										><path
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											stroke-width="2"
+											d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+										/></svg
+									>
 									<span>Download Form ↗</span>
 								</a>
 							</div>
@@ -1281,25 +1413,23 @@
 				<div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
 					{#each mandates as mandate}
 						<div
-							class="flex flex-col justify-between rounded-2xl border border-slate-200/80 border-t-4 border-t-amber-500 bg-white p-7 sm:p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+							class="flex flex-col justify-between rounded-2xl border border-t-4 border-slate-200/80 border-t-amber-500 bg-white p-7 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg sm:p-8"
 						>
 							<div>
 								<!-- Header: Index Number & Code Badge -->
 								<div class="mb-6 flex items-center justify-between">
-									<span class="text-3xl font-black text-amber-500 tracking-tight">
+									<span class="text-3xl font-black tracking-tight text-amber-500">
 										{mandate.index}
 									</span>
 									<span
-										class="rounded border border-blue-200 bg-blue-50/70 px-2 py-0.5 text-[10px] font-bold text-blue-900 tracking-wider uppercase font-mono"
+										class="rounded border border-blue-200 bg-blue-50/70 px-2 py-0.5 font-mono text-[10px] font-bold tracking-wider text-blue-900 uppercase"
 									>
 										{mandate.code}
 									</span>
 								</div>
 
 								<!-- Category Tag -->
-								<span
-									class="mb-2 block text-xs font-black tracking-wider text-blue-900 uppercase"
-								>
+								<span class="mb-2 block text-xs font-black tracking-wider text-blue-900 uppercase">
 									{mandate.tag}
 								</span>
 
@@ -1317,8 +1447,10 @@
 							<!-- Bullet Points with Orange Dash -->
 							<div class="space-y-3.5 border-t border-slate-100 pt-6">
 								{#each mandate.details as detail}
-									<div class="flex items-start text-xs sm:text-sm font-medium text-slate-800 leading-snug">
-										<span class="text-amber-500 font-bold select-none mr-2.5">—</span>
+									<div
+										class="flex items-start text-xs leading-snug font-medium text-slate-800 sm:text-sm"
+									>
+										<span class="mr-2.5 font-bold text-amber-500 select-none">—</span>
 										<span>{detail}</span>
 									</div>
 								{/each}
@@ -1333,37 +1465,59 @@
 						<button
 							type="button"
 							onclick={() => (showFullDuties = !showFullDuties)}
-							class="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-5 py-2.5 text-xs font-black uppercase tracking-wider text-blue-950 shadow-2xs hover:bg-slate-50 hover:border-blue-900 transition-all"
+							class="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-5 py-2.5 text-xs font-black tracking-wider text-blue-950 uppercase shadow-2xs transition-all hover:border-blue-900 hover:bg-slate-50"
 						>
-							<svg class="h-4 w-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+							<svg
+								class="h-4 w-4 text-amber-600"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+								/>
 							</svg>
-							<span>{showFullDuties ? 'Hide' : 'View'} Full 17 Statutory Duties & Responsibilities</span>
+							<span
+								>{showFullDuties ? 'Hide' : 'View'} Full 17 Statutory Duties & Responsibilities</span
+							>
 							<span class="text-xs text-slate-400">{showFullDuties ? '▲' : '▼'}</span>
 						</button>
 
 						{#if showFullDuties}
-							<div class="mt-6 w-full rounded-3xl border-2 border-slate-300 bg-white p-6 sm:p-8 shadow-sm transition-all">
-								<div class="border-b-2 border-slate-100 pb-5 mb-6">
-									<div class="inline-flex items-center gap-2 rounded-md border border-blue-300 bg-blue-100 px-3 py-1 text-xs font-black tracking-wider text-blue-950 uppercase">
+							<div
+								class="mt-6 w-full rounded-3xl border-2 border-slate-300 bg-white p-6 shadow-sm transition-all sm:p-8"
+							>
+								<div class="mb-6 border-b-2 border-slate-100 pb-5">
+									<div
+										class="inline-flex items-center gap-2 rounded-md border border-blue-300 bg-blue-100 px-3 py-1 text-xs font-black tracking-wider text-blue-950 uppercase"
+									>
 										<span class="h-2 w-2 rounded-full bg-blue-900"></span>
 										STATUTORY ENUMERATION // {officeName}
 									</div>
 									<h3 class="mt-2 text-2xl font-black text-blue-950">
 										Complete 17 Duties and Responsibilities
 									</h3>
-									<p class="mt-2 text-sm text-slate-700 font-medium leading-relaxed max-w-4xl border-l-4 border-amber-500 pl-4 py-1 bg-amber-50/50 rounded-r-xl">
+									<p
+										class="mt-2 max-w-4xl rounded-r-xl border-l-4 border-amber-500 bg-amber-50/50 py-1 pl-4 text-sm leading-relaxed font-medium text-slate-700"
+									>
 										{dutiesAndResponsibilities.preamble}
 									</p>
 								</div>
 
 								<div class="grid gap-3 sm:grid-cols-2">
 									{#each dutiesAndResponsibilities.list as duty, idx}
-										<div class="flex items-start gap-3 rounded-2xl border border-slate-200 bg-slate-50/60 p-3.5 hover:border-blue-900 hover:bg-white hover:shadow-xs transition-all">
-											<span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-blue-950 text-xs font-black text-amber-300 shadow-2xs">
+										<div
+											class="flex items-start gap-3 rounded-2xl border border-slate-200 bg-slate-50/60 p-3.5 transition-all hover:border-blue-900 hover:bg-white hover:shadow-xs"
+										>
+											<span
+												class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-blue-950 text-xs font-black text-amber-300 shadow-2xs"
+											>
 												{idx + 1}
 											</span>
-											<p class="text-xs font-medium text-slate-800 leading-snug">
+											<p class="text-xs leading-snug font-medium text-slate-800">
 												{duty}
 											</p>
 										</div>
@@ -1376,38 +1530,53 @@
 
 				<!-- Citizen's Charter Spotlight Callout (Direct Service Access) -->
 				{#if department === 'Market' || department === 'Municipal Market Office'}
-					<div class="mt-8 rounded-3xl border-2 border-amber-400 bg-gradient-to-r from-blue-950 via-blue-900 to-slate-950 p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
-						<div class="pointer-events-none absolute -right-10 -bottom-10 h-48 w-48 rounded-full bg-amber-400/10 blur-2xl"></div>
+					<div
+						class="relative mt-8 overflow-hidden rounded-3xl border-2 border-amber-400 bg-gradient-to-r from-blue-950 via-blue-900 to-slate-950 p-6 text-white shadow-xl sm:p-8"
+					>
+						<div
+							class="pointer-events-none absolute -right-10 -bottom-10 h-48 w-48 rounded-full bg-amber-400/10 blur-2xl"
+						></div>
 
-						<div class="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-							<div class="space-y-2.5 max-w-2xl">
-								<div class="inline-flex items-center gap-2 rounded-full border border-amber-400/40 bg-amber-400/15 px-3.5 py-1 text-xs font-black uppercase tracking-wider text-amber-300">
-									<span class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+						<div
+							class="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between"
+						>
+							<div class="max-w-2xl space-y-2.5">
+								<div
+									class="inline-flex items-center gap-2 rounded-full border border-amber-400/40 bg-amber-400/15 px-3.5 py-1 text-xs font-black tracking-wider text-amber-300 uppercase"
+								>
+									<span class="h-2 w-2 animate-pulse rounded-full bg-emerald-400"></span>
 									Official Citizen's Charter Service
 								</div>
-								<h3 class="text-xl sm:text-2xl font-black text-white">
+								<h3 class="text-xl font-black text-white sm:text-2xl">
 									Stall / Space Verification (For Business Permit Issuance)
 								</h3>
-								<p class="text-xs sm:text-sm text-blue-200 leading-relaxed">
-									Official G2B municipal service for market stallholders and commercial lessees verifying stall occupancy, rental receipts, and space compliance.
+								<p class="text-xs leading-relaxed text-blue-200 sm:text-sm">
+									Official G2B municipal service for market stallholders and commercial lessees
+									verifying stall occupancy, rental receipts, and space compliance.
 								</p>
 								<div class="flex flex-wrap items-center gap-3 pt-1 text-xs">
-									<span class="rounded-lg bg-white/10 px-2.5 py-1 text-white border border-white/15">
+									<span
+										class="rounded-lg border border-white/15 bg-white/10 px-2.5 py-1 text-white"
+									>
 										Classification: <strong class="text-amber-300">Simple</strong>
 									</span>
-									<span class="rounded-lg bg-white/10 px-2.5 py-1 text-white border border-white/15">
+									<span
+										class="rounded-lg border border-white/15 bg-white/10 px-2.5 py-1 text-white"
+									>
 										Processing: <strong class="text-emerald-400">31 minutes</strong>
 									</span>
-									<span class="rounded-lg bg-white/10 px-2.5 py-1 text-white border border-white/15">
+									<span
+										class="rounded-lg border border-white/15 bg-white/10 px-2.5 py-1 text-white"
+									>
 										Fee: <strong class="text-amber-300">None (Free)</strong>
 									</span>
 								</div>
 							</div>
 
-							<div class="flex flex-col sm:flex-row gap-3 shrink-0">
+							<div class="flex shrink-0 flex-col gap-3 sm:flex-row">
 								<a
 									href="/citizens-charter/market"
-									class="inline-flex items-center justify-center gap-2 rounded-xl bg-amber-400 px-6 py-3 text-xs font-black uppercase tracking-wider text-blue-950 shadow-md hover:bg-amber-300 hover:scale-102 transition-all active:scale-98"
+									class="inline-flex items-center justify-center gap-2 rounded-xl bg-amber-400 px-6 py-3 text-xs font-black tracking-wider text-blue-950 uppercase shadow-md transition-all hover:scale-102 hover:bg-amber-300 active:scale-98"
 								>
 									<span>View Citizen's Charter ↗</span>
 								</a>
@@ -1419,43 +1588,53 @@
 				<!-- Citizen's Charter Spotlight Callout (GSO) -->
 				{#if department === 'GSO' || department === 'General Services Office'}
 					<div
-						class="mt-8 rounded-3xl border-2 border-amber-400 bg-gradient-to-r from-blue-950 via-blue-900 to-slate-950 p-6 sm:p-8 text-white shadow-xl relative overflow-hidden"
+						class="relative mt-8 overflow-hidden rounded-3xl border-2 border-amber-400 bg-gradient-to-r from-blue-950 via-blue-900 to-slate-950 p-6 text-white shadow-xl sm:p-8"
 					>
 						<div
 							class="pointer-events-none absolute -right-10 -bottom-10 h-48 w-48 rounded-full bg-amber-400/10 blur-2xl"
 						></div>
 
-						<div class="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-							<div class="space-y-2.5 max-w-2xl">
+						<div
+							class="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between"
+						>
+							<div class="max-w-2xl space-y-2.5">
 								<div
-									class="inline-flex items-center gap-2 rounded-full border border-amber-400/40 bg-amber-400/15 px-3.5 py-1 text-xs font-black uppercase tracking-wider text-amber-300"
+									class="inline-flex items-center gap-2 rounded-full border border-amber-400/40 bg-amber-400/15 px-3.5 py-1 text-xs font-black tracking-wider text-amber-300 uppercase"
 								>
-									<span class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+									<span class="h-2 w-2 animate-pulse rounded-full bg-emerald-400"></span>
 									Official Citizen's Charter Frontline Services
 								</div>
-								<h3 class="text-xl sm:text-2xl font-black text-white">
+								<h3 class="text-xl font-black text-white sm:text-2xl">
 									Borrowing of Equipment & Venue Scheduling Requests
 								</h3>
-								<p class="text-xs sm:text-sm text-blue-200 leading-relaxed">
-									Official citizen frontline guidelines for borrowing tents, chairs, sound systems, and scheduling municipal venues (Tanauan Amphitheater, Municipal Lobby, Tanauan Civic Center).
+								<p class="text-xs leading-relaxed text-blue-200 sm:text-sm">
+									Official citizen frontline guidelines for borrowing tents, chairs, sound systems,
+									and scheduling municipal venues (Tanauan Amphitheater, Municipal Lobby, Tanauan
+									Civic Center).
 								</p>
 								<div class="flex flex-wrap items-center gap-3 pt-1 text-xs">
-									<span class="rounded-lg bg-white/10 px-2.5 py-1 text-white border border-white/15">
+									<span
+										class="rounded-lg border border-white/15 bg-white/10 px-2.5 py-1 text-white"
+									>
 										Service 1: <strong class="text-amber-300">Borrowing Equipment</strong>
 									</span>
-									<span class="rounded-lg bg-white/10 px-2.5 py-1 text-white border border-white/15">
+									<span
+										class="rounded-lg border border-white/15 bg-white/10 px-2.5 py-1 text-white"
+									>
 										Service 2: <strong class="text-emerald-400">Venue Reservation</strong>
 									</span>
-									<span class="rounded-lg bg-white/10 px-2.5 py-1 text-white border border-white/15">
+									<span
+										class="rounded-lg border border-white/15 bg-white/10 px-2.5 py-1 text-white"
+									>
 										Availability: <strong class="text-amber-300">Mon - Fri (8AM - 5PM)</strong>
 									</span>
 								</div>
 							</div>
 
-							<div class="flex flex-col sm:flex-row gap-3 shrink-0">
+							<div class="flex shrink-0 flex-col gap-3 sm:flex-row">
 								<a
 									href="/citizens-charter/gso"
-									class="inline-flex items-center justify-center gap-2 rounded-xl bg-amber-400 px-6 py-3 text-xs font-black uppercase tracking-wider text-blue-950 shadow-md hover:bg-amber-300 hover:scale-102 transition-all active:scale-98"
+									class="inline-flex items-center justify-center gap-2 rounded-xl bg-amber-400 px-6 py-3 text-xs font-black tracking-wider text-blue-950 uppercase shadow-md transition-all hover:scale-102 hover:bg-amber-300 active:scale-98"
 								>
 									<span>View Citizen's Charter ↗</span>
 								</a>
@@ -1760,6 +1939,10 @@
 			</div>
 		</section>
 
+		<!-- Designed Section Updates: renders <section id="updates"> only when the
+		     admin-designed sections exist AND have approved posts (renders nothing otherwise) -->
+		<DepartmentSectionsFeed {department} />
+
 		<!-- Section 6: Awards & Citations (Provincial & Regional Honors) -->
 		<section id="awards" class="relative border-b-2 border-slate-200 bg-slate-50 py-20">
 			<div class="container mx-auto max-w-7xl px-6">
@@ -1918,7 +2101,7 @@
 	<!-- ========================================================================= -->
 	{#if activeFloatingModal}
 		<div
-			class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-950/75 backdrop-blur-md"
+			class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/75 p-3 backdrop-blur-md sm:p-6"
 			transition:fade={{ duration: 200 }}
 			role="dialog"
 			aria-modal="true"
@@ -1928,13 +2111,13 @@
 			}}
 		>
 			<div
-				class="relative flex flex-col w-full max-w-3xl max-h-[90vh] bg-white rounded-3xl shadow-2xl border-2 border-slate-200 overflow-hidden ring-1 ring-black/10"
+				class="relative flex max-h-[90vh] w-full max-w-3xl flex-col overflow-hidden rounded-3xl border-2 border-slate-200 bg-white shadow-2xl ring-1 ring-black/10"
 				in:scale={{ start: 0.93, duration: 250 }}
 				out:scale={{ start: 0.95, duration: 160 }}
 			>
 				<!-- Window Title Bar / Chrome -->
 				<div
-					class="flex items-center justify-between px-5 sm:px-6 py-4 bg-slate-900 text-white border-b border-slate-800 shrink-0 select-none"
+					class="flex shrink-0 items-center justify-between border-b border-slate-800 bg-slate-900 px-5 py-4 text-white select-none sm:px-6"
 				>
 					<div class="flex items-center gap-3">
 						<!-- Window action dots (macOS style) -->
@@ -1942,7 +2125,7 @@
 							<button
 								type="button"
 								onclick={closeModal}
-								class="h-3 w-3 rounded-full bg-rose-500 hover:bg-rose-600 transition-colors focus:outline-none"
+								class="h-3 w-3 rounded-full bg-rose-500 transition-colors hover:bg-rose-600 focus:outline-none"
 								title="Close Window"
 								aria-label="Close Window"
 							></button>
@@ -1951,10 +2134,10 @@
 						</div>
 						<div class="h-4 w-px bg-slate-700"></div>
 						<div class="flex items-center gap-2">
-							<span class="text-xs font-black text-amber-400 uppercase tracking-wider">
+							<span class="text-xs font-black tracking-wider text-amber-400 uppercase">
 								{officeCode || 'LGU'}
 							</span>
-							<span class="text-xs text-slate-300 font-medium truncate max-w-[200px] sm:max-w-xs">
+							<span class="max-w-[200px] truncate text-xs font-medium text-slate-300 sm:max-w-xs">
 								{officeName}
 							</span>
 						</div>
@@ -1962,25 +2145,30 @@
 
 					<div class="flex items-center gap-2">
 						<span
-							class="hidden sm:inline-block text-[11px] font-semibold text-slate-400 bg-slate-800/90 px-2 py-0.5 rounded border border-slate-700"
+							class="hidden rounded border border-slate-700 bg-slate-800/90 px-2 py-0.5 text-[11px] font-semibold text-slate-400 sm:inline-block"
 						>
 							ESC to close
 						</span>
 						<button
 							type="button"
 							onclick={closeModal}
-							class="flex h-8 w-8 items-center justify-center rounded-full bg-slate-800 text-slate-300 hover:bg-rose-600 hover:text-white transition-colors focus:outline-none"
+							class="flex h-8 w-8 items-center justify-center rounded-full bg-slate-800 text-slate-300 transition-colors hover:bg-rose-600 hover:text-white focus:outline-none"
 							aria-label="Close floating window"
 						>
 							<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2.5"
+									d="M6 18L18 6M6 6l12 12"
+								/>
 							</svg>
 						</button>
 					</div>
 				</div>
 
 				<!-- Window Scrollable Body -->
-				<div class="p-6 sm:p-8 overflow-y-auto space-y-6">
+				<div class="space-y-6 overflow-y-auto p-6 sm:p-8">
 					{#if activeFloatingModal === 'vision'}
 						<!-- ONLY VISION CONTENT -->
 						<div class="space-y-6">
@@ -1988,7 +2176,7 @@
 								<span
 									class="inline-flex items-center gap-2 rounded-full border border-amber-300 bg-amber-50 px-3.5 py-1 text-xs font-black tracking-wide text-amber-900 uppercase"
 								>
-									<span class="h-2 w-2 rounded-full bg-amber-500 animate-pulse"></span>
+									<span class="h-2 w-2 animate-pulse rounded-full bg-amber-500"></span>
 									Long-Term Institutional Aspiration
 								</span>
 								<span class="text-xs font-bold text-slate-500">{municipality}</span>
@@ -1998,21 +2186,26 @@
 								<span class="text-xs font-black tracking-wider text-amber-700 uppercase">
 									Official Mandate
 								</span>
-								<h2 id="floating-window-title" class="text-3xl font-black text-blue-950 tracking-tight sm:text-4xl">
+								<h2
+									id="floating-window-title"
+									class="text-3xl font-black tracking-tight text-blue-950 sm:text-4xl"
+								>
 									OUR VISION
 								</h2>
 							</div>
 
 							<!-- Highlighted Vision Statement -->
 							<div
-								class="relative overflow-hidden rounded-3xl border-2 border-amber-200 bg-gradient-to-br from-amber-50/90 via-white to-amber-50/50 p-6 sm:p-8 shadow-sm"
+								class="relative overflow-hidden rounded-3xl border-2 border-amber-200 bg-gradient-to-br from-amber-50/90 via-white to-amber-50/50 p-6 shadow-sm sm:p-8"
 							>
 								<div
-									class="absolute -right-3 -bottom-5 text-8xl font-serif text-amber-200/50 select-none pointer-events-none"
+									class="pointer-events-none absolute -right-3 -bottom-5 font-serif text-8xl text-amber-200/50 select-none"
 								>
 									”
 								</div>
-								<p class="relative z-10 text-lg sm:text-xl font-bold leading-relaxed text-slate-900">
+								<p
+									class="relative z-10 text-lg leading-relaxed font-bold text-slate-900 sm:text-xl"
+								>
 									"{vision}"
 								</p>
 							</div>
@@ -2022,21 +2215,27 @@
 								<div class="mb-3 text-xs font-black tracking-wider text-slate-600 uppercase">
 									Core Operational Focus
 								</div>
-								<div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+								<div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
 									<div class="rounded-xl border border-slate-200 bg-white p-3.5 shadow-2xs">
-										<div class="mb-1 text-xs font-black text-amber-600 uppercase">01 • Efficiency</div>
+										<div class="mb-1 text-xs font-black text-amber-600 uppercase">
+											01 • Efficiency
+										</div>
 										<p class="text-xs font-semibold text-slate-700">
 											Effective, efficient & sustainable program delivery
 										</p>
 									</div>
 									<div class="rounded-xl border border-slate-200 bg-white p-3.5 shadow-2xs">
-										<div class="mb-1 text-xs font-black text-blue-900 uppercase">02 • Responsiveness</div>
+										<div class="mb-1 text-xs font-black text-blue-900 uppercase">
+											02 • Responsiveness
+										</div>
 										<p class="text-xs font-semibold text-slate-700">
 											Competent manpower responsive to public needs
 										</p>
 									</div>
 									<div class="rounded-xl border border-slate-200 bg-white p-3.5 shadow-2xs">
-										<div class="mb-1 text-xs font-black text-emerald-600 uppercase">03 • Alignment</div>
+										<div class="mb-1 text-xs font-black text-emerald-600 uppercase">
+											03 • Alignment
+										</div>
 										<p class="text-xs font-semibold text-slate-700">
 											Fully aligned with Tanauan Municipal vision
 										</p>
@@ -2045,19 +2244,20 @@
 							</div>
 
 							{#if mission}
-								<div class="flex items-center justify-between pt-2 border-t border-slate-100">
-									<span class="text-xs font-medium text-slate-500">Need to check our mission statement?</span>
+								<div class="flex items-center justify-between border-t border-slate-100 pt-2">
+									<span class="text-xs font-medium text-slate-500"
+										>Need to check our mission statement?</span
+									>
 									<button
 										type="button"
 										onclick={() => openModal('mission')}
-										class="inline-flex items-center gap-1.5 text-xs font-bold text-blue-900 hover:text-blue-700 underline"
+										class="inline-flex items-center gap-1.5 text-xs font-bold text-blue-900 underline hover:text-blue-700"
 									>
 										<span>Switch to Mission Window →</span>
 									</button>
 								</div>
 							{/if}
 						</div>
-
 					{:else if activeFloatingModal === 'mission'}
 						<!-- ONLY MISSION CONTENT -->
 						<div class="space-y-6">
@@ -2065,7 +2265,7 @@
 								<span
 									class="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-3.5 py-1 text-xs font-black tracking-wide text-blue-900 uppercase"
 								>
-									<span class="h-2 w-2 rounded-full bg-blue-700 animate-pulse"></span>
+									<span class="h-2 w-2 animate-pulse rounded-full bg-blue-700"></span>
 									Official Commitment & Scope
 								</span>
 								<span class="text-xs font-bold text-slate-500">{municipality}</span>
@@ -2075,21 +2275,26 @@
 								<span class="text-xs font-black tracking-wider text-blue-900 uppercase">
 									Public Service Mandate
 								</span>
-								<h2 id="floating-window-title" class="text-3xl font-black text-blue-950 tracking-tight sm:text-4xl">
+								<h2
+									id="floating-window-title"
+									class="text-3xl font-black tracking-tight text-blue-950 sm:text-4xl"
+								>
 									OUR MISSION
 								</h2>
 							</div>
 
 							<!-- Highlighted Mission Statement -->
 							<div
-								class="relative overflow-hidden rounded-3xl border-2 border-blue-200 bg-gradient-to-br from-blue-50/90 via-white to-blue-50/50 p-6 sm:p-8 shadow-sm"
+								class="relative overflow-hidden rounded-3xl border-2 border-blue-200 bg-gradient-to-br from-blue-50/90 via-white to-blue-50/50 p-6 shadow-sm sm:p-8"
 							>
 								<div
-									class="absolute -right-3 -bottom-5 text-8xl font-serif text-blue-200/50 select-none pointer-events-none"
+									class="pointer-events-none absolute -right-3 -bottom-5 font-serif text-8xl text-blue-200/50 select-none"
 								>
 									”
 								</div>
-								<p class="relative z-10 text-base sm:text-lg font-semibold leading-relaxed text-slate-900">
+								<p
+									class="relative z-10 text-base leading-relaxed font-semibold text-slate-900 sm:text-lg"
+								>
 									"{mission}"
 								</p>
 							</div>
@@ -2099,40 +2304,49 @@
 								<div class="mb-3 text-xs font-black tracking-wider text-slate-600 uppercase">
 									Key Departmental Responsibilities
 								</div>
-								<div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-									<div class="flex items-center gap-2.5 rounded-xl border border-slate-200 bg-white p-3 text-xs font-bold text-slate-800">
-										<span class="h-2 w-2 rounded-full bg-blue-600 shrink-0"></span>
+								<div class="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+									<div
+										class="flex items-center gap-2.5 rounded-xl border border-slate-200 bg-white p-3 text-xs font-bold text-slate-800"
+									>
+										<span class="h-2 w-2 shrink-0 rounded-full bg-blue-600"></span>
 										<span>Supply and Property Management</span>
 									</div>
-									<div class="flex items-center gap-2.5 rounded-xl border border-slate-200 bg-white p-3 text-xs font-bold text-slate-800">
-										<span class="h-2 w-2 rounded-full bg-blue-600 shrink-0"></span>
+									<div
+										class="flex items-center gap-2.5 rounded-xl border border-slate-200 bg-white p-3 text-xs font-bold text-slate-800"
+									>
+										<span class="h-2 w-2 shrink-0 rounded-full bg-blue-600"></span>
 										<span>Maintenance of Buildings & Grounds</span>
 									</div>
-									<div class="flex items-center gap-2.5 rounded-xl border border-slate-200 bg-white p-3 text-xs font-bold text-slate-800">
-										<span class="h-2 w-2 rounded-full bg-blue-600 shrink-0"></span>
+									<div
+										class="flex items-center gap-2.5 rounded-xl border border-slate-200 bg-white p-3 text-xs font-bold text-slate-800"
+									>
+										<span class="h-2 w-2 shrink-0 rounded-full bg-blue-600"></span>
 										<span>Electrical, Plumbing & IT Electronics</span>
 									</div>
-									<div class="flex items-center gap-2.5 rounded-xl border border-slate-200 bg-white p-3 text-xs font-bold text-slate-800">
-										<span class="h-2 w-2 rounded-full bg-blue-600 shrink-0"></span>
+									<div
+										class="flex items-center gap-2.5 rounded-xl border border-slate-200 bg-white p-3 text-xs font-bold text-slate-800"
+									>
+										<span class="h-2 w-2 shrink-0 rounded-full bg-blue-600"></span>
 										<span>Light Vehicles & Heavy Equipment Support</span>
 									</div>
 								</div>
 							</div>
 
 							{#if vision}
-								<div class="flex items-center justify-between pt-2 border-t border-slate-100">
-									<span class="text-xs font-medium text-slate-500">Need to check our vision statement?</span>
+								<div class="flex items-center justify-between border-t border-slate-100 pt-2">
+									<span class="text-xs font-medium text-slate-500"
+										>Need to check our vision statement?</span
+									>
 									<button
 										type="button"
 										onclick={() => openModal('vision')}
-										class="inline-flex items-center gap-1.5 text-xs font-bold text-amber-700 hover:text-amber-900 underline"
+										class="inline-flex items-center gap-1.5 text-xs font-bold text-amber-700 underline hover:text-amber-900"
 									>
 										<span>Switch to Vision Window →</span>
 									</button>
 								</div>
 							{/if}
 						</div>
-
 					{:else if typeof activeFloatingModal === 'object' && activeFloatingModal !== null}
 						<!-- ONLY CLICKED SERVICE OFFERED & PROCEDURE -->
 						<div class="space-y-6">
@@ -2142,9 +2356,12 @@
 									class="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-100/80 px-3.5 py-1 text-xs font-black tracking-wide text-blue-950 uppercase"
 								>
 									<span class="h-2 w-2 rounded-full bg-amber-500"></span>
-									{activeFloatingModal.badge || `Service Offered ${activeFloatingModal.serviceNumber}`}
+									{activeFloatingModal.badge ||
+										`Service Offered ${activeFloatingModal.serviceNumber}`}
 								</span>
-								<span class="text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full">
+								<span
+									class="rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700"
+								>
 									✓ Frontline Public Service
 								</span>
 							</div>
@@ -2154,11 +2371,14 @@
 								<span class="text-xs font-black tracking-wider text-blue-900 uppercase">
 									Public Citizen Service
 								</span>
-								<h2 id="floating-window-title" class="text-2xl font-black text-blue-950 tracking-tight sm:text-3xl">
+								<h2
+									id="floating-window-title"
+									class="text-2xl font-black tracking-tight text-blue-950 sm:text-3xl"
+								>
 									{activeFloatingModal.title}
 								</h2>
 								{#if activeFloatingModal.description}
-									<p class="mt-2 text-sm sm:text-base text-slate-700 font-medium leading-relaxed">
+									<p class="mt-2 text-sm leading-relaxed font-medium text-slate-700 sm:text-base">
 										{activeFloatingModal.description}
 									</p>
 								{/if}
@@ -2167,7 +2387,7 @@
 							<!-- Available Equipment or Venues -->
 							{#if activeFloatingModal.equipmentList}
 								<div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-									<div class="mb-2 text-xs font-black uppercase tracking-wider text-slate-600">
+									<div class="mb-2 text-xs font-black tracking-wider text-slate-600 uppercase">
 										Available Items for Borrowing:
 									</div>
 									<div class="flex flex-wrap gap-2">
@@ -2183,7 +2403,7 @@
 								</div>
 							{:else if activeFloatingModal.venueList}
 								<div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-									<div class="mb-2 text-xs font-black uppercase tracking-wider text-slate-600">
+									<div class="mb-2 text-xs font-black tracking-wider text-slate-600 uppercase">
 										Covered Municipal Venues:
 									</div>
 									<div class="flex flex-wrap gap-2">
@@ -2204,7 +2424,7 @@
 								<div
 									class="rounded-3xl border-2 border-emerald-300 bg-gradient-to-r from-emerald-50 via-white to-emerald-50/70 p-5 shadow-sm"
 								>
-									<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+									<div class="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
 										<div class="flex items-start gap-3.5">
 											<div
 												class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-emerald-600 text-white shadow-sm"
@@ -2221,17 +2441,19 @@
 											<div>
 												<div class="mb-1 flex items-center gap-2">
 													<span
-														class="inline-block rounded-full bg-emerald-100 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-emerald-900 border border-emerald-200"
+														class="inline-block rounded-full border border-emerald-200 bg-emerald-100 px-2.5 py-0.5 text-[10px] font-black tracking-wider text-emerald-900 uppercase"
 													>
 														Official Downloadable Form
 													</span>
-													<span class="text-xs font-bold text-slate-500">Google Drive Document</span>
+													<span class="text-xs font-bold text-slate-500">Google Drive Document</span
+													>
 												</div>
 												<h4 class="text-base font-black text-slate-900">
-													{activeFloatingModal.downloadableFormTitle || "Borrower & Return Form"}
+													{activeFloatingModal.downloadableFormTitle || 'Borrower & Return Form'}
 												</h4>
 												<p class="mt-0.5 text-xs font-medium text-slate-600">
-													{activeFloatingModal.downloadableFormDescription || "Official printable slip for equipment borrowing and return clearance."}
+													{activeFloatingModal.downloadableFormDescription ||
+														'Official printable slip for equipment borrowing and return clearance.'}
 												</p>
 											</div>
 										</div>
@@ -2240,7 +2462,7 @@
 											href={activeFloatingModal.downloadableFormUrl}
 											target="_blank"
 											rel="noopener noreferrer"
-											class="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-3 text-xs font-black text-white shadow-md transition-all hover:bg-emerald-700 hover:scale-105 active:scale-95"
+											class="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-3 text-xs font-black text-white shadow-md transition-all hover:scale-105 hover:bg-emerald-700 active:scale-95"
 										>
 											<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 												<path
@@ -2260,7 +2482,7 @@
 							{#if activeFloatingModal.steps && activeFloatingModal.steps.length > 0}
 								<div class="space-y-3">
 									<div class="flex items-center justify-between">
-										<h3 class="text-xs font-black uppercase tracking-wider text-blue-950">
+										<h3 class="text-xs font-black tracking-wider text-blue-950 uppercase">
 											Step-by-Step Procedure:
 										</h3>
 										<span class="text-xs font-bold text-slate-500">
@@ -2278,7 +2500,7 @@
 												>
 													{idx + 1}
 												</span>
-												<div class="pt-1 text-sm font-semibold text-slate-900 leading-snug">
+												<div class="pt-1 text-sm leading-snug font-semibold text-slate-900">
 													{step}
 												</div>
 											</li>
@@ -2290,11 +2512,11 @@
 							<!-- Damage Liability Note -->
 							{#if activeFloatingModal.note}
 								<div
-									class="rounded-2xl border-2 border-amber-300 bg-amber-50/80 p-4 text-xs font-bold text-amber-950 flex items-start gap-3"
+									class="flex items-start gap-3 rounded-2xl border-2 border-amber-300 bg-amber-50/80 p-4 text-xs font-bold text-amber-950"
 								>
-									<span class="text-xl shrink-0">⚠️</span>
+									<span class="shrink-0 text-xl">⚠️</span>
 									<div>
-										<div class="font-black uppercase tracking-wider text-amber-900 mb-0.5">
+										<div class="mb-0.5 font-black tracking-wider text-amber-900 uppercase">
 											Borrower Liability & Damage Policy
 										</div>
 										<p class="leading-relaxed">{activeFloatingModal.note}</p>
@@ -2305,20 +2527,24 @@
 							<!-- Signatories & Reviewers Info -->
 							{#if preparedBy || reviewedBy}
 								<div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-									<div class="mb-3 text-[11px] font-black uppercase tracking-wider text-slate-500">
+									<div class="mb-3 text-[11px] font-black tracking-wider text-slate-500 uppercase">
 										Responsible Office Personnel & Focal Staff
 									</div>
-									<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+									<div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
 										{#if preparedBy}
 											<div class="rounded-xl border border-slate-200 bg-white p-3 shadow-2xs">
-												<div class="text-[10px] font-bold text-slate-400 uppercase">Prepared by:</div>
+												<div class="text-[10px] font-bold text-slate-400 uppercase">
+													Prepared by:
+												</div>
 												<div class="text-sm font-black text-blue-950">{preparedBy.name}</div>
 												<div class="text-xs font-semibold text-amber-600">{preparedBy.title}</div>
 											</div>
 										{/if}
 										{#if reviewedBy}
 											<div class="rounded-xl border border-slate-200 bg-white p-3 shadow-2xs">
-												<div class="text-[10px] font-bold text-slate-400 uppercase">Reviewed by:</div>
+												<div class="text-[10px] font-bold text-slate-400 uppercase">
+													Reviewed by:
+												</div>
 												<div class="text-sm font-black text-blue-950">{reviewedBy.name}</div>
 												<div class="text-xs font-semibold text-amber-600">{reviewedBy.title}</div>
 											</div>
@@ -2332,14 +2558,14 @@
 
 				<!-- Window Bottom Footer -->
 				<div
-					class="flex flex-col sm:flex-row items-center justify-between gap-3 px-6 py-4 bg-slate-50 border-t border-slate-200 shrink-0"
+					class="flex shrink-0 flex-col items-center justify-between gap-3 border-t border-slate-200 bg-slate-50 px-6 py-4 sm:flex-row"
 				>
 					<div class="flex items-center gap-2 text-xs font-bold text-slate-600">
 						<span class="h-2 w-2 rounded-full bg-emerald-500"></span>
 						<span>ARTA Republic Act No. 11032 Compliant</span>
 					</div>
 
-					<div class="flex items-center gap-2.5 w-full sm:w-auto justify-end">
+					<div class="flex w-full items-center justify-end gap-2.5 sm:w-auto">
 						{#if typeof activeFloatingModal === 'object' && activeFloatingModal !== null && activeFloatingModal.downloadableFormUrl}
 							<a
 								href={activeFloatingModal.downloadableFormUrl}
@@ -2361,7 +2587,7 @@
 						<button
 							type="button"
 							onclick={closeModal}
-							class="inline-flex items-center justify-center gap-1.5 rounded-xl bg-blue-950 px-5 py-2 text-xs font-black text-white transition-all hover:bg-blue-900 active:scale-95 shadow-sm"
+							class="inline-flex items-center justify-center gap-1.5 rounded-xl bg-blue-950 px-5 py-2 text-xs font-black text-white shadow-sm transition-all hover:bg-blue-900 active:scale-95"
 						>
 							<span>Close Window ✕</span>
 						</button>

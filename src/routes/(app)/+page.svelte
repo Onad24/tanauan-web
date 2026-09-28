@@ -52,39 +52,42 @@
 		{
 			id: 'pagasa-weather',
 			department: 'DOST-PAGASA',
-			header: 'DOST-PAGASA Weather Advisory: Eastern Visayas partly cloudy with localized rainshowers. No active tropical cyclone in PAR.',
-			content: 'Official DOST-PAGASA Weather Bulletin for Tanauan, Leyte and Eastern Visayas:\n\n• Synoptic Condition: Easterlies affecting the eastern section of Visayas.\n• Forecast: Partly cloudy to cloudy skies with isolated rainshowers or thunderstorms.\n• Coastal Waters: Slight to moderate sea conditions.\n• Cyclone Advisory: Tropical Cyclone Wind Signal (TCWS) #0. No active tropical disturbance or storm threat within the Philippine Area of Responsibility (PAR).\n\nResidents along coastal barangays (San Roque, Sto. Niño, Bislig, Mohon) and low-lying agricultural areas are advised to stay updated via official MDRRMO broadcasts.',
+			header:
+				'DOST-PAGASA Weather Advisory: Eastern Visayas partly cloudy with localized rainshowers. No active tropical cyclone in PAR.',
+			content:
+				'Official DOST-PAGASA Weather Bulletin for Tanauan, Leyte and Eastern Visayas:\n\n• Synoptic Condition: Easterlies affecting the eastern section of Visayas.\n• Forecast: Partly cloudy to cloudy skies with isolated rainshowers or thunderstorms.\n• Coastal Waters: Slight to moderate sea conditions.\n• Cyclone Advisory: Tropical Cyclone Wind Signal (TCWS) #0. No active tropical disturbance or storm threat within the Philippine Area of Responsibility (PAR).\n\nResidents along coastal barangays (San Roque, Sto. Niño, Bislig, Mohon) and low-lying agricultural areas are advised to stay updated via official MDRRMO broadcasts.',
 			date_added: new Date().toISOString()
 		},
 		{
 			id: 'hotline-bulletin',
 			department: 'MDRRMO',
-			header: 'Tanauan 24/7 Emergency Hotlines Active: Rescue 0912-936-6706 | PNP 0951-163-3878 | BFP 0916-197-4504',
-			content: 'The Tanauan Municipal Disaster Risk Reduction and Management Office (MDRRMO) reminds all residents that 24/7 Emergency Dispatch is on full operational standby.\n\n• Tanauan Rescue / Ambulance: 0912-936-6706 / 0916-197-7360\n• Philippine National Police (Tanauan MPS): 0951-163-3878 / 0917-120-5207\n• Bureau of Fire Protection (Tanauan Fire Station): 0916-197-4504 / 0922-344-8887\n• Municipal Hall Switchboard: +63 53 123 4567\n\nSave these emergency contacts on your mobile phones.',
+			header:
+				'Tanauan 24/7 Emergency Hotlines Active: Rescue 0912-936-6706 | PNP 0951-163-3878 | BFP 0916-197-4504',
+			content:
+				'The Tanauan Municipal Disaster Risk Reduction and Management Office (MDRRMO) reminds all residents that 24/7 Emergency Dispatch is on full operational standby.\n\n• Tanauan Rescue / Ambulance: 0912-936-6706 / 0916-197-7360\n• Philippine National Police (Tanauan MPS): 0951-163-3878 / 0917-120-5207\n• Bureau of Fire Protection (Tanauan Fire Station): 0916-197-4504 / 0922-344-8887\n• Municipal Hall Switchboard: +63 53 123 4567\n\nSave these emergency contacts on your mobile phones.',
 			date_added: new Date().toISOString()
 		},
 		{
 			id: 'bplo-permits',
 			department: 'BPLO',
 			header: 'Business Permits & Real Property Tax 20% Prompt-Payment Discount Notice',
-			content: 'The Office of the Municipal Mayor and the Municipal Treasurer’s Office (MTO) inform commercial establishment owners and landholders in Tanauan, Leyte:\n\n• Business Permit Renewal and Business One-Stop Shop (BOSS) is accessible at the Ground Floor, Municipal Hall.\n• Real Property Tax (Amilyar) payments settled before March 31 qualify for prompt-payment discounts of up to 20%.\n\nPayments can be transacted at MTO Counter 1 to 4, Monday through Friday, 8:00 AM – 5:00 PM without noon break.',
+			content:
+				'The Office of the Municipal Mayor and the Municipal Treasurer’s Office (MTO) inform commercial establishment owners and landholders in Tanauan, Leyte:\n\n• Business Permit Renewal and Business One-Stop Shop (BOSS) is accessible at the Ground Floor, Municipal Hall.\n• Real Property Tax (Amilyar) payments settled before March 31 qualify for prompt-payment discounts of up to 20%.\n\nPayments can be transacted at MTO Counter 1 to 4, Monday through Friday, 8:00 AM – 5:00 PM without noon break.',
 			date_added: new Date().toISOString()
 		},
 		{
 			id: 'mswdo-payout',
 			department: 'MSWDO',
 			header: 'Social Welfare Assistance (AICS) & Senior Citizens OSCA ID Validation Ongoing',
-			content: 'The Municipal Social Welfare and Development Office (MSWDO) conducts regular validation for the Social Pension Program, Assistance to Individuals in Crisis Situations (AICS), Solo Parent registrations, and Persons with Disability (PDAO) assistance.\n\nRequirements may be submitted at the MSWDO Help Desk, Tanauan Municipal Compound.',
+			content:
+				'The Municipal Social Welfare and Development Office (MSWDO) conducts regular validation for the Social Pension Program, Assistance to Individuals in Crisis Situations (AICS), Solo Parent registrations, and Persons with Disability (PDAO) assistance.\n\nRequirements may be submitted at the MSWDO Help Desk, Tanauan Municipal Compound.',
 			date_added: new Date().toISOString()
 		}
 	];
 
 	let activeAnnouncements = $derived(
-		data.announcements && data.announcements.length > 0
-			? data.announcements
-			: defaultAnnouncements
+		data.announcements && data.announcements.length > 0 ? data.announcements : defaultAnnouncements
 	);
-
 
 	let copiedHotline = $state('');
 	async function copyHotlineNumber(num) {
@@ -103,7 +106,11 @@
 	function startHeroTimer() {
 		if (heroTimer) clearInterval(heroTimer);
 		heroTimer = setInterval(() => {
-			if (isAutoPlaying && typeof document !== 'undefined' && document.visibilityState === 'visible') {
+			if (
+				isAutoPlaying &&
+				typeof document !== 'undefined' &&
+				document.visibilityState === 'visible'
+			) {
 				nextSlide();
 			}
 		}, 6000);
@@ -236,7 +243,14 @@
 		}
 
 		function handleTouchMove(e) {
-			if (!heroSection || !nextSection || isSlideTransitioning || !e.touches || e.touches.length === 0) return;
+			if (
+				!heroSection ||
+				!nextSection ||
+				isSlideTransitioning ||
+				!e.touches ||
+				e.touches.length === 0
+			)
+				return;
 
 			const currentY = e.touches[0].clientY;
 			const currentX = e.touches[0].clientX;
@@ -296,7 +310,8 @@
 
 	function prevAnnouncement() {
 		if (activeAnnouncements.length > 0) {
-			currentAnnouncementIdx = (currentAnnouncementIdx - 1 + activeAnnouncements.length) % activeAnnouncements.length;
+			currentAnnouncementIdx =
+				(currentAnnouncementIdx - 1 + activeAnnouncements.length) % activeAnnouncements.length;
 		}
 	}
 </script>
@@ -308,34 +323,55 @@
 <!-- Hero Section -->
 <section
 	bind:this={heroSection}
-	class="relative h-screen min-h-[700px] w-full overflow-hidden transition-all duration-700 ease-out {isSlideTransitioning ? 'opacity-95' : ''}"
+	class="relative h-screen min-h-[700px] w-full overflow-hidden transition-all duration-700 ease-out {isSlideTransitioning
+		? 'opacity-95'
+		: ''}"
 >
 	<!-- Slides -->
 	{#each heroContent as content, index}
 		<div
-			class="hero-slide absolute inset-0 h-full w-full overflow-hidden transition-opacity duration-1000 ease-in-out {currentSlide === index ? 'opacity-100 z-[1]' : 'opacity-0 z-0 pointer-events-none'}"
+			class="hero-slide absolute inset-0 h-full w-full overflow-hidden transition-opacity duration-1000 ease-in-out {currentSlide ===
+			index
+				? 'z-[1] opacity-100'
+				: 'pointer-events-none z-0 opacity-0'}"
 		>
 			<img
 				src={content.image}
 				alt={content.headline}
 				loading={index === 0 ? 'eager' : 'lazy'}
 				decoding={index === 0 ? 'sync' : 'async'}
-				class="h-full w-full object-cover transition-transform duration-[7000ms] ease-out {currentSlide === index ? 'scale-105' : 'scale-100'}"
+				class="h-full w-full object-cover transition-transform duration-[7000ms] ease-out {currentSlide ===
+				index
+					? 'scale-105'
+					: 'scale-100'}"
 			/>
 		</div>
 	{/each}
 
 	<!-- Multi-layer cinematic gradient overlay -->
-	<div class="pointer-events-none absolute inset-0 z-[2] bg-gradient-to-t from-black/85 via-black/40 to-black/20"></div>
-	<div class="pointer-events-none absolute inset-0 z-[2] bg-gradient-to-r from-blue-950/70 via-blue-900/20 to-transparent"></div>
-	<div class="pointer-events-none absolute top-0 right-0 left-0 z-[2] h-40 bg-gradient-to-b from-black/60 to-transparent"></div>
+	<div
+		class="pointer-events-none absolute inset-0 z-[2] bg-gradient-to-t from-black/85 via-black/40 to-black/20"
+	></div>
+	<div
+		class="pointer-events-none absolute inset-0 z-[2] bg-gradient-to-r from-blue-950/70 via-blue-900/20 to-transparent"
+	></div>
+	<div
+		class="pointer-events-none absolute top-0 right-0 left-0 z-[2] h-40 bg-gradient-to-b from-black/60 to-transparent"
+	></div>
 
 	<!-- Floating decorative orbs for depth -->
-	<div class="hero-orb pointer-events-none absolute top-1/4 right-1/4 z-[2] h-64 w-64 rounded-full bg-yellow-400/5 blur-3xl"></div>
-	<div class="hero-orb pointer-events-none absolute bottom-1/3 left-1/3 z-[2] h-96 w-96 rounded-full bg-blue-500/8 blur-3xl"></div>
+	<div
+		class="hero-orb pointer-events-none absolute top-1/4 right-1/4 z-[2] h-64 w-64 rounded-full bg-yellow-400/5 blur-3xl"
+	></div>
+	<div
+		class="hero-orb pointer-events-none absolute bottom-1/3 left-1/3 z-[2] h-96 w-96 rounded-full bg-blue-500/8 blur-3xl"
+	></div>
 
 	<!-- Decorative grid lines -->
-	<div class="pointer-events-none absolute inset-0 z-[2] opacity-[0.04]" style="background-image: linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px); background-size: 60px 60px;"></div>
+	<div
+		class="pointer-events-none absolute inset-0 z-[2] opacity-[0.04]"
+		style="background-image: linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px); background-size: 60px 60px;"
+	></div>
 
 	<!-- Interactive Fluid Water Ripple Effect on Mouse Move & Click -->
 	<HeroRippleCanvas />
@@ -344,18 +380,25 @@
 	<div class="pointer-events-none absolute inset-0 z-20 flex flex-col justify-end pb-20 md:pb-24">
 		<div class="container mx-auto px-8 md:px-16 lg:px-24">
 			<div class="hero-text pointer-events-auto max-w-3xl">
-
 				<!-- MAIN HEADING — permanent large headline -->
 				<div class="hero-badge mb-3">
-					<h1 class="welcome-main-headline text-4xl font-black leading-tight sm:text-5xl md:text-6xl">
+					<h1
+						class="welcome-main-headline text-4xl leading-tight font-black sm:text-5xl md:text-6xl"
+					>
 						Welcome to Tanauan, Leyte
 					</h1>
 				</div>
 
 				<!-- Dynamic synchronized slide text -->
-				<div class="hero-slide-text transition-all duration-300 ease-out {isChangingText ? 'opacity-0 translate-y-2' : 'opacity-100 translate-y-0'}">
+				<div
+					class="hero-slide-text transition-all duration-300 ease-out {isChangingText
+						? 'translate-y-2 opacity-0'
+						: 'translate-y-0 opacity-100'}"
+				>
 					<!-- Rotating slide headline — secondary -->
-					<p class="hero-headline mb-2 text-sm font-semibold leading-snug text-yellow-200/90 sm:text-base md:text-lg">
+					<p
+						class="hero-headline mb-2 text-sm leading-snug font-semibold text-yellow-200/90 sm:text-base md:text-lg"
+					>
 						{heroContent[currentSlide].headline}
 					</p>
 
@@ -369,16 +412,26 @@
 				<div class="hero-ctas flex flex-wrap items-center gap-3">
 					<a
 						href="/Tourism/Cultural Heritage"
-						class="group inline-flex items-center gap-2 rounded-lg bg-yellow-400 px-6 py-3 text-sm font-bold text-blue-900 shadow-lg shadow-yellow-400/25 transition-all duration-300 hover:bg-yellow-300 hover:-translate-y-0.5 cursor-pointer"
+						class="group inline-flex cursor-pointer items-center gap-2 rounded-lg bg-yellow-400 px-6 py-3 text-sm font-bold text-blue-900 shadow-lg shadow-yellow-400/25 transition-all duration-300 hover:-translate-y-0.5 hover:bg-yellow-300"
 					>
 						<span>Explore Tanauan</span>
-						<svg class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+						<svg
+							class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
+							fill="none"
+							stroke="currentColor"
+							viewBox="0 0 24 24"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2.5"
+								d="M17 8l4 4m0 0l-4 4m4-4H3"
+							/>
 						</svg>
 					</a>
 					<a
 						href="/Officials"
-						class="inline-flex items-center gap-2 rounded-lg border border-white/30 bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/20 hover:-translate-y-0.5 cursor-pointer"
+						class="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-white/30 bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/20"
 					>
 						Our Officials
 					</a>
@@ -390,19 +443,29 @@
 	<!-- Navigation Arrows -->
 	<button
 		onclick={prevSlide}
-		class="group absolute top-1/2 left-4 z-30 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white backdrop-blur-md transition-all duration-300 hover:bg-white/25 md:left-8 md:h-14 md:w-14 cursor-pointer"
+		class="group absolute top-1/2 left-4 z-30 flex h-12 w-12 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-white/20 bg-white/10 text-white backdrop-blur-md transition-all duration-300 hover:bg-white/25 md:left-8 md:h-14 md:w-14"
 		aria-label="Previous slide"
 	>
-		<svg class="h-6 w-6 transition-transform group-hover:-translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+		<svg
+			class="h-6 w-6 transition-transform group-hover:-translate-x-0.5"
+			fill="none"
+			stroke="currentColor"
+			viewBox="0 0 24 24"
+		>
 			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
 		</svg>
 	</button>
 	<button
 		onclick={nextSlide}
-		class="group absolute top-1/2 right-4 z-30 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white backdrop-blur-md transition-all duration-300 hover:bg-white/25 md:right-8 md:h-14 md:w-14 cursor-pointer"
+		class="group absolute top-1/2 right-4 z-30 flex h-12 w-12 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-white/20 bg-white/10 text-white backdrop-blur-md transition-all duration-300 hover:bg-white/25 md:right-8 md:h-14 md:w-14"
 		aria-label="Next slide"
 	>
-		<svg class="h-6 w-6 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+		<svg
+			class="h-6 w-6 transition-transform group-hover:translate-x-0.5"
+			fill="none"
+			stroke="currentColor"
+			viewBox="0 0 24 24"
+		>
 			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
 		</svg>
 	</button>
@@ -413,7 +476,7 @@
 			{#each heroContent as _, index}
 				<button
 					onclick={() => goToSlide(index)}
-					class={`relative h-2.5 rounded-full transition-all duration-500 overflow-hidden cursor-pointer ${
+					class={`relative h-2.5 cursor-pointer overflow-hidden rounded-full transition-all duration-500 ${
 						currentSlide === index ? 'w-12 bg-white/25' : 'w-2.5 bg-white/40 hover:bg-white/70'
 					}`}
 					aria-label={`Go to slide ${index + 1}`}
@@ -421,7 +484,7 @@
 					{#if currentSlide === index}
 						{#key currentSlide}
 							<span
-								class="absolute inset-0 rounded-full bg-yellow-400 shadow-md shadow-yellow-400/50 slide-progress-fill"
+								class="slide-progress-fill absolute inset-0 rounded-full bg-yellow-400 shadow-md shadow-yellow-400/50"
 							></span>
 						{/key}
 					{/if}
@@ -432,11 +495,16 @@
 		<button
 			type="button"
 			onclick={transitionToNextSection}
-			class="flex flex-col items-center gap-1.5 text-white/60 hover:text-yellow-400 transition-colors cursor-pointer group"
+			class="group flex cursor-pointer flex-col items-center gap-1.5 text-white/60 transition-colors hover:text-yellow-400"
 			aria-label="Transition to next section"
 		>
-			<span class="text-[9px] font-bold tracking-[0.3em] uppercase group-hover:tracking-[0.35em] transition-all">Scroll</span>
-			<div class="scroll-cue flex h-8 w-5 items-start justify-center rounded-full border border-white/30 group-hover:border-yellow-400/80 p-1 transition-colors">
+			<span
+				class="text-[9px] font-bold tracking-[0.3em] uppercase transition-all group-hover:tracking-[0.35em]"
+				>Scroll</span
+			>
+			<div
+				class="scroll-cue flex h-8 w-5 items-start justify-center rounded-full border border-white/30 p-1 transition-colors group-hover:border-yellow-400/80"
+			>
 				<div class="scroll-dot h-1.5 w-1 rounded-full bg-white/70 group-hover:bg-yellow-400"></div>
 			</div>
 		</button>
@@ -451,27 +519,47 @@
 	<div class="container mx-auto max-w-7xl px-4 sm:px-6 md:px-12">
 		<div class="flex flex-col justify-between gap-2.5 lg:flex-row lg:items-center">
 			<!-- Left: Live Beacon & Emergency Rescue Badge -->
-			<div class="flex flex-wrap items-center gap-2 sm:gap-2.5 shrink-0">
+			<div class="flex shrink-0 flex-wrap items-center gap-2 sm:gap-2.5">
 				<!-- Live Bulletins Capsule -->
-				<span class="inline-flex items-center gap-2 rounded-full bg-slate-900 px-3 py-1 text-[11px] font-bold tracking-wider text-white shadow-xs">
+				<span
+					class="inline-flex items-center gap-2 rounded-full bg-slate-900 px-3 py-1 text-[11px] font-bold tracking-wider text-white shadow-xs"
+				>
 					<span class="relative flex h-2 w-2">
-						<span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
+						<span
+							class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"
+						></span>
 						<span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
 					</span>
-					<span class="uppercase tracking-widest text-[10px]">Bulletins</span>
-					<span class="rounded bg-emerald-500/25 px-1.5 py-0.2 text-[8.5px] font-black text-emerald-300">LIVE</span>
+					<span class="text-[10px] tracking-widest uppercase">Bulletins</span>
+					<span
+						class="py-0.2 rounded bg-emerald-500/25 px-1.5 text-[8.5px] font-black text-emerald-300"
+						>LIVE</span
+					>
 				</span>
 
 				<!-- Emergency Rescue 24/7 Hotline Pill -->
 				<a
 					href="tel:09129366706"
-					class="group inline-flex items-center gap-1.5 rounded-full border border-red-200 bg-red-50/90 px-3 py-1 text-xs font-bold text-red-700 shadow-2xs transition-all hover:bg-red-100 hover:border-red-300"
+					class="group inline-flex items-center gap-1.5 rounded-full border border-red-200 bg-red-50/90 px-3 py-1 text-xs font-bold text-red-700 shadow-2xs transition-all hover:border-red-300 hover:bg-red-100"
 					title="Direct Dial: Tanauan Rescue 24/7 (0912-936-6706)"
 				>
-					<svg class="h-3.5 w-3.5 text-red-600 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+					<svg
+						class="h-3.5 w-3.5 text-red-600 transition-transform group-hover:scale-110"
+						fill="none"
+						stroke="currentColor"
+						viewBox="0 0 24 24"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2.2"
+							d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+						/>
 					</svg>
-					<span>Rescue 24/7: <span class="font-mono font-extrabold text-red-800">0912-936-6706</span></span>
+					<span
+						>Rescue 24/7: <span class="font-mono font-extrabold text-red-800">0912-936-6706</span
+						></span
+					>
 				</a>
 			</div>
 
@@ -487,7 +575,7 @@
 				>
 					<button
 						onclick={() => openNewsModal(cur)}
-						class="group flex min-w-0 flex-1 items-center gap-2.5 text-left cursor-pointer"
+						class="group flex min-w-0 flex-1 cursor-pointer items-center gap-2.5 text-left"
 						title="Click to view full official bulletin"
 					>
 						<span
@@ -503,30 +591,46 @@
 						>
 							{cur.department || 'LGU'}
 						</span>
-						<p class="truncate text-xs font-semibold text-slate-700 transition-colors group-hover:text-blue-900">
+						<p
+							class="truncate text-xs font-semibold text-slate-700 transition-colors group-hover:text-blue-900"
+						>
 							{cur.header.replace(/[🚫🔴⚠️📢]/g, '').trim()}
 						</p>
 					</button>
 
 					<!-- Micro Stepper & Carousel Controls -->
 					{#if activeAnnouncements.length > 1}
-						<div class="flex items-center gap-1 shrink-0 text-slate-400">
-							<span class="font-mono text-[10px] font-semibold text-slate-400 mr-0.5">
+						<div class="flex shrink-0 items-center gap-1 text-slate-400">
+							<span class="mr-0.5 font-mono text-[10px] font-semibold text-slate-400">
 								{currentAnnouncementIdx + 1}/{activeAnnouncements.length}
 							</span>
 							<button
 								onclick={prevAnnouncement}
 								aria-label="Previous announcement"
-								class="flex h-5 w-5 items-center justify-center rounded-md hover:bg-white hover:text-slate-700 transition cursor-pointer"
+								class="flex h-5 w-5 cursor-pointer items-center justify-center rounded-md transition hover:bg-white hover:text-slate-700"
 							>
-								<svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7" /></svg>
+								<svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+									><path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										stroke-width="2.5"
+										d="M15 19l-7-7 7-7"
+									/></svg
+								>
 							</button>
 							<button
 								onclick={nextAnnouncement}
 								aria-label="Next announcement"
-								class="flex h-5 w-5 items-center justify-center rounded-md hover:bg-white hover:text-slate-700 transition cursor-pointer"
+								class="flex h-5 w-5 cursor-pointer items-center justify-center rounded-md transition hover:bg-white hover:text-slate-700"
 							>
-								<svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" /></svg>
+								<svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+									><path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										stroke-width="2.5"
+										d="M9 5l7 7-7 7"
+									/></svg
+								>
 							</button>
 						</div>
 					{/if}
@@ -534,13 +638,23 @@
 			{/if}
 
 			<!-- Right: Quick Actions -->
-			<div class="flex items-center gap-2 shrink-0">
+			<div class="flex shrink-0 items-center gap-2">
 				<a
 					href="/Contact"
 					class="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-semibold text-slate-700 transition hover:border-red-200 hover:bg-red-50 hover:text-red-700"
 				>
-					<svg class="h-3.5 w-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+					<svg
+						class="h-3.5 w-3.5 text-slate-500"
+						fill="none"
+						stroke="currentColor"
+						viewBox="0 0 24 24"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+						/>
 					</svg>
 					<span>Hotlines</span>
 				</a>
@@ -549,7 +663,13 @@
 					class="inline-flex items-center gap-1 rounded-xl bg-blue-900 px-3 py-1 text-xs font-bold text-white shadow-2xs transition hover:bg-blue-950"
 				>
 					<span>View All</span>
-					<svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+					<svg
+						class="h-3.5 w-3.5"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2.5"
+						viewBox="0 0 24 24"
+					>
 						<path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
 					</svg>
 				</a>
@@ -784,38 +904,62 @@
 					<div class="bg-gradient-to-r from-red-600 to-rose-700 p-4 text-white">
 						<div class="flex items-center justify-between">
 							<div class="flex items-center gap-2">
-								<span class="flex h-3 w-3 rounded-full bg-white animate-ping"></span>
-								<h3 class="text-sm font-black uppercase tracking-wider">24/7 Emergency Hotlines</h3>
+								<span class="flex h-3 w-3 animate-ping rounded-full bg-white"></span>
+								<h3 class="text-sm font-black tracking-wider uppercase">24/7 Emergency Hotlines</h3>
 							</div>
-							<span class="rounded bg-white/20 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider">
+							<span
+								class="rounded bg-white/20 px-2 py-0.5 text-[9px] font-bold tracking-wider uppercase"
+							>
 								Immediate Dispatch
 							</span>
 						</div>
 						<p class="mt-1 text-xs text-red-100">Municipal Operations & Disaster Response Center</p>
 					</div>
 
-					<div class="p-4 space-y-3">
+					<div class="space-y-3 p-4">
 						<!-- Rescue Hotline -->
-						<div class="flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50 p-3">
+						<div
+							class="flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50 p-3"
+						>
 							<div>
-								<span class="text-[10px] font-extrabold uppercase tracking-wider text-red-700 block">Tanauan Rescue / MDRRMO</span>
+								<span class="block text-[10px] font-extrabold tracking-wider text-red-700 uppercase"
+									>Tanauan Rescue / MDRRMO</span
+								>
 								<span class="text-sm font-black text-slate-900">0912-936-6706</span>
 							</div>
 							<div class="flex items-center gap-1.5">
 								<button
 									onclick={() => copyHotlineNumber('0912-936-6706')}
-									class="rounded-lg border border-slate-200 bg-white p-2 text-slate-600 hover:text-blue-900 transition"
+									class="rounded-lg border border-slate-200 bg-white p-2 text-slate-600 transition hover:text-blue-900"
 									title="Copy Number"
 								>
 									{#if copiedHotline === '0912-936-6706'}
-										<svg class="h-4 w-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" /></svg>
+										<svg
+											class="h-4 w-4 text-emerald-600"
+											fill="none"
+											stroke="currentColor"
+											viewBox="0 0 24 24"
+											><path
+												stroke-linecap="round"
+												stroke-linejoin="round"
+												stroke-width="2.5"
+												d="M5 13l4 4L19 7"
+											/></svg
+										>
 									{:else}
-										<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
+										<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+											><path
+												stroke-linecap="round"
+												stroke-linejoin="round"
+												stroke-width="2"
+												d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+											/></svg
+										>
 									{/if}
 								</button>
 								<a
 									href="tel:09129366706"
-									class="rounded-lg bg-red-600 px-3 py-2 text-xs font-bold text-white hover:bg-red-700 transition"
+									class="rounded-lg bg-red-600 px-3 py-2 text-xs font-bold text-white transition hover:bg-red-700"
 								>
 									Call
 								</a>
@@ -823,26 +967,49 @@
 						</div>
 
 						<!-- Police Hotline -->
-						<div class="flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50 p-3">
+						<div
+							class="flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50 p-3"
+						>
 							<div>
-								<span class="text-[10px] font-extrabold uppercase tracking-wider text-blue-800 block">Municipal Police (PNP)</span>
+								<span
+									class="block text-[10px] font-extrabold tracking-wider text-blue-800 uppercase"
+									>Municipal Police (PNP)</span
+								>
 								<span class="text-sm font-black text-slate-900">0951-163-3878</span>
 							</div>
 							<div class="flex items-center gap-1.5">
 								<button
 									onclick={() => copyHotlineNumber('0951-163-3878')}
-									class="rounded-lg border border-slate-200 bg-white p-2 text-slate-600 hover:text-blue-900 transition"
+									class="rounded-lg border border-slate-200 bg-white p-2 text-slate-600 transition hover:text-blue-900"
 									title="Copy Number"
 								>
 									{#if copiedHotline === '0951-163-3878'}
-										<svg class="h-4 w-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" /></svg>
+										<svg
+											class="h-4 w-4 text-emerald-600"
+											fill="none"
+											stroke="currentColor"
+											viewBox="0 0 24 24"
+											><path
+												stroke-linecap="round"
+												stroke-linejoin="round"
+												stroke-width="2.5"
+												d="M5 13l4 4L19 7"
+											/></svg
+										>
 									{:else}
-										<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
+										<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+											><path
+												stroke-linecap="round"
+												stroke-linejoin="round"
+												stroke-width="2"
+												d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+											/></svg
+										>
 									{/if}
 								</button>
 								<a
 									href="tel:09511633878"
-									class="rounded-lg bg-blue-900 px-3 py-2 text-xs font-bold text-white hover:bg-blue-800 transition"
+									class="rounded-lg bg-blue-900 px-3 py-2 text-xs font-bold text-white transition hover:bg-blue-800"
 								>
 									Call
 								</a>
@@ -850,26 +1017,49 @@
 						</div>
 
 						<!-- Fire Station Hotline -->
-						<div class="flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50 p-3">
+						<div
+							class="flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50 p-3"
+						>
 							<div>
-								<span class="text-[10px] font-extrabold uppercase tracking-wider text-amber-700 block">Bureau of Fire (BFP)</span>
+								<span
+									class="block text-[10px] font-extrabold tracking-wider text-amber-700 uppercase"
+									>Bureau of Fire (BFP)</span
+								>
 								<span class="text-sm font-black text-slate-900">0916-197-4504</span>
 							</div>
 							<div class="flex items-center gap-1.5">
 								<button
 									onclick={() => copyHotlineNumber('0916-197-4504')}
-									class="rounded-lg border border-slate-200 bg-white p-2 text-slate-600 hover:text-blue-900 transition"
+									class="rounded-lg border border-slate-200 bg-white p-2 text-slate-600 transition hover:text-blue-900"
 									title="Copy Number"
 								>
 									{#if copiedHotline === '0916-197-4504'}
-										<svg class="h-4 w-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" /></svg>
+										<svg
+											class="h-4 w-4 text-emerald-600"
+											fill="none"
+											stroke="currentColor"
+											viewBox="0 0 24 24"
+											><path
+												stroke-linecap="round"
+												stroke-linejoin="round"
+												stroke-width="2.5"
+												d="M5 13l4 4L19 7"
+											/></svg
+										>
 									{:else}
-										<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
+										<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+											><path
+												stroke-linecap="round"
+												stroke-linejoin="round"
+												stroke-width="2"
+												d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+											/></svg
+										>
 									{/if}
 								</button>
 								<a
 									href="tel:09161974504"
-									class="rounded-lg bg-amber-600 px-3 py-2 text-xs font-bold text-white hover:bg-amber-700 transition"
+									class="rounded-lg bg-amber-600 px-3 py-2 text-xs font-bold text-white transition hover:bg-amber-700"
 								>
 									Call
 								</a>
@@ -877,26 +1067,49 @@
 						</div>
 
 						<!-- Municipal Hall Switchboard -->
-						<div class="flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50 p-3">
+						<div
+							class="flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50 p-3"
+						>
 							<div>
-								<span class="text-[10px] font-extrabold uppercase tracking-wider text-slate-600 block">Municipal Hall Switchboard</span>
+								<span
+									class="block text-[10px] font-extrabold tracking-wider text-slate-600 uppercase"
+									>Municipal Hall Switchboard</span
+								>
 								<span class="text-sm font-black text-slate-900">+63 53 123 4567</span>
 							</div>
 							<div class="flex items-center gap-1.5">
 								<button
 									onclick={() => copyHotlineNumber('+63531234567')}
-									class="rounded-lg border border-slate-200 bg-white p-2 text-slate-600 hover:text-blue-900 transition"
+									class="rounded-lg border border-slate-200 bg-white p-2 text-slate-600 transition hover:text-blue-900"
 									title="Copy Number"
 								>
 									{#if copiedHotline === '+63531234567'}
-										<svg class="h-4 w-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" /></svg>
+										<svg
+											class="h-4 w-4 text-emerald-600"
+											fill="none"
+											stroke="currentColor"
+											viewBox="0 0 24 24"
+											><path
+												stroke-linecap="round"
+												stroke-linejoin="round"
+												stroke-width="2.5"
+												d="M5 13l4 4L19 7"
+											/></svg
+										>
 									{:else}
-										<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
+										<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+											><path
+												stroke-linecap="round"
+												stroke-linejoin="round"
+												stroke-width="2"
+												d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+											/></svg
+										>
 									{/if}
 								</button>
 								<a
 									href="tel:+63531234567"
-									class="rounded-lg bg-slate-800 px-3 py-2 text-xs font-bold text-white hover:bg-slate-900 transition"
+									class="rounded-lg bg-slate-800 px-3 py-2 text-xs font-bold text-white transition hover:bg-slate-900"
 								>
 									Call
 								</a>
@@ -905,7 +1118,7 @@
 
 						<a
 							href="/Contact"
-							class="block rounded-xl border border-slate-200 bg-slate-100 py-2.5 text-center text-xs font-bold uppercase tracking-wider text-slate-700 transition hover:bg-blue-50 hover:text-blue-900"
+							class="block rounded-xl border border-slate-200 bg-slate-100 py-2.5 text-center text-xs font-bold tracking-wider text-slate-700 uppercase transition hover:bg-blue-50 hover:text-blue-900"
 						>
 							View Full Directory & 54 Barangays →
 						</a>
@@ -1065,7 +1278,7 @@
 </section>
 
 <!-- News Modal -->
-<Modal open={isModalOpen} title={selectedNews?.header || ''} size="max-w-2xl">
+<Modal bind:open={isModalOpen} title={selectedNews?.header || ''} size="max-w-2xl">
 	{#if selectedNews}
 		<div class="space-y-4">
 			{#if selectedNews.media}
@@ -1156,8 +1369,15 @@
 		animation: scroll-bounce 1.6s ease-in-out infinite;
 	}
 	@keyframes scroll-bounce {
-		0%, 100% { transform: translateY(0); opacity: 0.8; }
-		50%       { transform: translateY(14px); opacity: 0.3; }
+		0%,
+		100% {
+			transform: translateY(0);
+			opacity: 0.8;
+		}
+		50% {
+			transform: translateY(14px);
+			opacity: 0.3;
+		}
 	}
 
 	/* ── Welcome Badge Ambient Breathing Pulse ── */
@@ -1165,7 +1385,8 @@
 		animation: badge-ambient 2.8s ease-in-out infinite;
 	}
 	@keyframes badge-ambient {
-		0%, 100% {
+		0%,
+		100% {
 			transform: scale(1);
 			opacity: 0.6;
 		}
@@ -1196,18 +1417,32 @@
 
 	/* ── Welcome Main Headline — Large Animated Gold ── */
 	.welcome-main-headline {
-		background: linear-gradient(110deg, #facc15 0%, #fef9c3 30%, #fde047 55%, #ca8a04 80%, #facc15 100%);
+		background: linear-gradient(
+			110deg,
+			#facc15 0%,
+			#fef9c3 30%,
+			#fde047 55%,
+			#ca8a04 80%,
+			#facc15 100%
+		);
 		background-size: 250% auto;
 		-webkit-background-clip: text;
 		-webkit-text-fill-color: transparent;
 		background-clip: text;
 		animation: welcome-gold-sweep 5s ease-in-out infinite;
-		filter: drop-shadow(0 4px 24px rgba(250, 204, 21, 0.35)) drop-shadow(0 2px 4px rgba(0,0,0,0.8));
+		filter: drop-shadow(0 4px 24px rgba(250, 204, 21, 0.35))
+			drop-shadow(0 2px 4px rgba(0, 0, 0, 0.8));
 		letter-spacing: -0.02em;
 	}
 	@keyframes welcome-gold-sweep {
-		0%   { background-position: 0%   50%; }
-		50%  { background-position: 100% 50%; }
-		100% { background-position: 0%   50%; }
+		0% {
+			background-position: 0% 50%;
+		}
+		50% {
+			background-position: 100% 50%;
+		}
+		100% {
+			background-position: 0% 50%;
+		}
 	}
 </style>

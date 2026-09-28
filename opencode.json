@@ -1,0 +1,31 @@
+{
+  "mcp": {
+    "servers": {
+      "context7": {
+        "type": "remote",
+        "url": "https://mcp.context7.com/mcp"
+      },
+      "github": {
+        "type": "remote",
+        "url": "https://api.githubcopilot.com/mcp/"
+      },
+      "vercel": {
+        "type": "remote",
+        "url": "https://mcp.vercel.com"
+      },
+      "supabase": {
+        "type": "remote",
+        "url": "https://mcp.supabase.com/mcp"
+      },
+      "firebase": {
+        "type": "local",
+        "command": [
+          "npx",
+          "-y",
+          "firebase-tools@latest",
+          "mcp"
+        ]
+      }
+    }
+  }
+}

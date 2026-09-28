@@ -3,6 +3,7 @@
 // Firebase Storage helper for uploading and managing media files
 import { getStorage, ref, deleteObject } from 'firebase/storage';
 import app from './firebase';
+import { supabase } from './supabaseClient';
 
 // Initialize storage - Firebase will automatically use the default bucket from your config
 const storage = getStorage(app);
@@ -13,23 +14,6 @@ if (!storage.app._options.storageBucket) {
 		'⚠️ Storage bucket not configured. Make sure VITE_FIREBASE_STORAGE_BUCKET is set in .env'
 	);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 // import app from './firebase';
@@ -135,6 +119,7 @@ export async function uploadUserPortrait(file) {
  */
 export async function uploadMultipleFiles(files, path = 'posts/media/') {
 	const urls = [];
+	const failed = [];
 
 	for (let file of files) {
 		try {
@@ -142,8 +127,18 @@ export async function uploadMultipleFiles(files, path = 'posts/media/') {
 			urls.push(url);
 		} catch (error) {
 			console.error(`Failed to upload ${file.name}:`, error);
+			failed.push(file.name);
 		}
 	}
+
+	if (failed.length > 0) {
+		const error = new Error(
+			`Could not upload ${failed.length} of ${files.length} file(s): ${failed.join(', ')}. Nothing was saved — please try again.`
+		);
+		error.uploaded = urls;
+		throw error;
+	}
+
 	return urls;
 }
 
@@ -153,6 +148,12 @@ export async function uploadMultipleFiles(files, path = 'posts/media/') {
  */
 export async function deleteSupabaseFile(url) {
 	if (!url) return;
+
+	if (!supabase) {
+		// Running on the server — storage helpers are client-only. Skip quietly.
+		console.warn('deleteSupabaseFile skipped (no Supabase client on server):', url);
+		return;
+	}
 
 	try {
 		// Extract file name from URL
@@ -203,8 +204,13 @@ export async function deleteFileByURL(downloadURL) {
  */
 export async function deleteMultipleFiles(urls) {
 	for (let url of urls) {
+		if (!url || typeof url !== 'string') continue;
 		try {
-			await deleteFileByURL(url);
+			if (url.includes('/storage/v1/object/')) {
+				await deleteSupabaseFile(url);
+			} else {
+				await deleteFileByURL(url);
+			}
 		} catch (error) {
 			console.error('Failed to delete file:', error);
 		}

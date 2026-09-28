@@ -462,7 +462,11 @@
 	{/if}
 
 	<!-- Modal -->
-	<Modal open={modalOpen} title={activeActivity?.header || 'Activity Details'} size="max-w-3xl">
+	<Modal
+		bind:open={modalOpen}
+		title={activeActivity?.header || 'Activity Details'}
+		size="max-w-3xl"
+	>
 		{#if activeActivity}
 			<div class="space-y-6">
 				<!-- Image carousel -->

@@ -1,11 +1,13 @@
 <script>
 	import { sectionLayouts, cardStyles, departments } from '$lib/config';
 	import SectionLayout from '$lib/SectionLayout.svelte';
+	import { toast } from '$lib/admin/toast';
+	import { confirmAction } from '$lib/admin/confirm';
 
 	let {
 		open = false,
-		section = null,   // existing section data if editing (null if creating)
-		department = '',  // default selected department
+		section = null, // existing section data if editing (null if creating)
+		department = '', // default selected department
 		onclose = null,
 		onsaved = null,
 		ondeleted = null
@@ -51,8 +53,11 @@
 		{
 			id: 'demo-post-1',
 			header: 'Emergency Aid & Social Welfare Relief Distribution',
-			content: 'Over 5,000 families and marginalized beneficiaries received targeted financial assistance, relief goods, and medical care through the comprehensive LGU community initiative.',
-			media: ['https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&w=800&q=80'],
+			content:
+				'Over 5,000 families and marginalized beneficiaries received targeted financial assistance, relief goods, and medical care through the comprehensive LGU community initiative.',
+			media: [
+				'https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&w=800&q=80'
+			],
 			sectionLabel: 'Accomplishments',
 			department: 'MSWDO',
 			date_added: 'May 15, 2025',
@@ -62,8 +67,11 @@
 		{
 			id: 'demo-post-2',
 			header: 'Senior Citizens Pension & Wellness Program',
-			content: 'Quarterly social pension stipends and free medical check-ups successfully distributed across 25 barangays in coordination with OSCA and local health units.',
-			media: ['https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?auto=format&fit=crop&w=800&q=80'],
+			content:
+				'Quarterly social pension stipends and free medical check-ups successfully distributed across 25 barangays in coordination with OSCA and local health units.',
+			media: [
+				'https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?auto=format&fit=crop&w=800&q=80'
+			],
 			sectionLabel: 'Accomplishments',
 			department: 'MSWDO',
 			date_added: 'May 10, 2025',
@@ -72,8 +80,11 @@
 		{
 			id: 'demo-post-3',
 			header: 'Livelihood & Skills Training for Solo Parents',
-			content: 'Hands-on organic farming, culinary baking, and small business financial literacy workshops organized to empower local breadwinners.',
-			media: ['https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?auto=format&fit=crop&w=800&q=80'],
+			content:
+				'Hands-on organic farming, culinary baking, and small business financial literacy workshops organized to empower local breadwinners.',
+			media: [
+				'https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?auto=format&fit=crop&w=800&q=80'
+			],
 			sectionLabel: 'Accomplishments',
 			department: 'MSWDO',
 			date_added: 'May 04, 2025',
@@ -188,10 +199,12 @@
 				if (onsaved) onsaved(created);
 			}
 
+			toast.success(section ? 'Section updated' : 'Section created');
 			if (onclose) onclose();
 		} catch (e) {
 			console.error('Save section error:', e);
 			error = e.message || 'Error saving section';
+			toast.error(e.message || 'Could not save the section');
 		} finally {
 			saving = false;
 		}
@@ -199,7 +212,14 @@
 
 	async function deleteSection() {
 		if (!section?.id) return;
-		if (!confirm(`Delete section "${section.label}"? Posts inside this section will remain but lose their section tag.`)) return;
+		const ok = await confirmAction({
+			title: `Delete section "${section.label}"?`,
+			message:
+				'Posts inside this section will remain, but they will lose their section tag. This cannot be undone.',
+			confirmText: 'Delete Section',
+			danger: true
+		});
+		if (!ok) return;
 
 		saving = true;
 		error = '';
@@ -214,11 +234,13 @@
 				const errText = await res.text();
 				throw new Error(errText || 'Failed to delete section');
 			}
+			toast.success(`Section "${section.label}" deleted`);
 			if (ondeleted) ondeleted(section.id);
 			if (onclose) onclose();
 		} catch (e) {
 			console.error('Delete section error:', e);
 			error = e.message || 'Error deleting section';
+			toast.error(e.message || 'Could not delete the section');
 		} finally {
 			saving = false;
 		}
@@ -239,15 +261,37 @@
 				<p class="sdp-subtitle">Customize section title, layout pattern, card design, and colors</p>
 			</div>
 			<div class="sdp-header-actions">
-				<button type="button" class="sdp-top-preview-btn" onclick={() => (showFullPreviewModal = true)}>
-					<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
-						<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+				<button
+					type="button"
+					class="sdp-top-preview-btn"
+					onclick={() => (showFullPreviewModal = true)}
+				>
+					<svg
+						viewBox="0 0 24 24"
+						width="16"
+						height="16"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+					>
+						<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" /><circle
+							cx="12"
+							cy="12"
+							r="3"
+						/>
 					</svg>
 					<span>See Preview</span>
 				</button>
 				<button class="sdp-close" onclick={onclose} aria-label="Close" type="button">
-					<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5">
-						<path stroke-linecap="round" stroke-linejoin="round" d="M18 6L6 18M6 6l12 12"/>
+					<svg
+						viewBox="0 0 24 24"
+						width="20"
+						height="20"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2.5"
+					>
+						<path stroke-linecap="round" stroke-linejoin="round" d="M18 6L6 18M6 6l12 12" />
 					</svg>
 				</button>
 			</div>
@@ -257,8 +301,20 @@
 		<div class="sdp-body">
 			{#if error}
 				<div class="sdp-error">
-					<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-						<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+					<svg
+						viewBox="0 0 24 24"
+						width="18"
+						height="18"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+					>
+						<circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line
+							x1="12"
+							y1="16"
+							x2="12.01"
+							y2="16"
+						/>
 					</svg>
 					<span>{error}</span>
 				</div>
@@ -303,7 +359,9 @@
 			<div class="sdp-field">
 				<label class="sdp-label" for="sdp-desc">
 					Section Description / Subtitle
-					<span class="text-xs font-normal text-slate-400 ml-1">(Optional summary shown below section title)</span>
+					<span class="ml-1 text-xs font-normal text-slate-400"
+						>(Optional summary shown below section title)</span
+					>
 				</label>
 				<textarea
 					id="sdp-desc"
@@ -341,11 +399,17 @@
 					style={`background-color: ${bgColor}; color: ${bgColor === '#0f172a' ? '#f8fafc' : '#0f172a'}; ${hasBorder ? `border: 2px solid ${borderColor}; border-radius: 14px;` : 'border: 1px dashed #cbd5e1;'}`}
 				>
 					<div class="sdp-sim-header">
-						<h3 class="sdp-sim-title" style={bgColor === '#0f172a' ? 'color: #ffffff;' : 'color: #0f172a;'}>
+						<h3
+							class="sdp-sim-title"
+							style={bgColor === '#0f172a' ? 'color: #ffffff;' : 'color: #0f172a;'}
+						>
 							{label || 'Sample Section Name'}
 						</h3>
 						{#if description}
-							<p class="sdp-sim-desc" style={bgColor === '#0f172a' ? 'color: #94a3b8;' : 'color: #64748b;'}>
+							<p
+								class="sdp-sim-desc"
+								style={bgColor === '#0f172a' ? 'color: #94a3b8;' : 'color: #64748b;'}
+							>
 								{description}
 							</p>
 						{/if}
@@ -370,7 +434,9 @@
 					<span class="sdp-step-badge">1</span>
 					<label class="sdp-label">
 						Section Layout Architecture
-						<span class="text-xs font-normal text-slate-400 ml-1">(How posts are arranged on the department page)</span>
+						<span class="ml-1 text-xs font-normal text-slate-400"
+							>(How posts are arranged on the department page)</span
+						>
 					</label>
 				</div>
 				<div class="sdp-swatches sdp-layout-grid">
@@ -397,11 +463,12 @@
 					<span class="sdp-step-badge">2</span>
 					<label class="sdp-label">
 						Card Design Structure
-						<span class="text-xs font-normal text-slate-400 ml-1">(Click to choose the physical card template)</span>
+						<span class="ml-1 text-xs font-normal text-slate-400"
+							>(Click to choose the physical card template)</span
+						>
 					</label>
 				</div>
 				<div class="sdp-card-designs-grid">
-
 					<!-- 1. Newspaper Editorial -->
 					<button
 						type="button"
@@ -416,7 +483,8 @@
 						</div>
 						<div class="sdp-card-design-info">
 							<span class="sdp-card-title">Newspaper Editorial</span>
-							<span class="sdp-card-caption">Headline on top, center photo, article text below</span>
+							<span class="sdp-card-caption">Headline on top, center photo, article text below</span
+							>
 						</div>
 					</button>
 
@@ -435,7 +503,8 @@
 						</div>
 						<div class="sdp-card-design-info">
 							<span class="sdp-card-title">Bold Magazine Cover</span>
-							<span class="sdp-card-caption">Full-bleed photo cover with gradient text overlay</span>
+							<span class="sdp-card-caption">Full-bleed photo cover with gradient text overlay</span
+							>
 						</div>
 					</button>
 
@@ -452,7 +521,8 @@
 						</div>
 						<div class="sdp-card-design-info">
 							<span class="sdp-card-title">Polaroid Memory Frame</span>
-							<span class="sdp-card-caption">Classic photo mount with handwritten caption note</span>
+							<span class="sdp-card-caption">Classic photo mount with handwritten caption note</span
+							>
 						</div>
 					</button>
 
@@ -470,7 +540,9 @@
 						</div>
 						<div class="sdp-card-design-info">
 							<span class="sdp-card-title">Frosted Glassmorphism</span>
-							<span class="sdp-card-caption">Translucent frosted glass with luminous border glow</span>
+							<span class="sdp-card-caption"
+								>Translucent frosted glass with luminous border glow</span
+							>
 						</div>
 					</button>
 
@@ -490,7 +562,8 @@
 						</div>
 						<div class="sdp-card-design-info">
 							<span class="sdp-card-title">Minimal Borderless</span>
-							<span class="sdp-card-caption">Clean typography with prominent indigo accent bar</span>
+							<span class="sdp-card-caption">Clean typography with prominent indigo accent bar</span
+							>
 						</div>
 					</button>
 
@@ -513,7 +586,6 @@
 							<span class="sdp-card-caption">Modern card with photo on top and clean body</span>
 						</div>
 					</button>
-
 				</div>
 			</div>
 
@@ -523,9 +595,7 @@
 			<div class="sdp-field">
 				<div class="sdp-step-header">
 					<span class="sdp-step-badge">3</span>
-					<label class="sdp-label">
-						Section Background &amp; Border Styling
-					</label>
+					<label class="sdp-label"> Section Background &amp; Border Styling </label>
 				</div>
 
 				<div class="sdp-styling-box">
@@ -544,7 +614,10 @@
 										title={p.name}
 									>
 										{#if bgColor.toLowerCase() === p.hex.toLowerCase()}
-											<span class="sdp-check" style={p.hex === '#0f172a' ? 'color: #fff;' : 'color: #1e293b;'}>✓</span>
+											<span
+												class="sdp-check"
+												style={p.hex === '#0f172a' ? 'color: #fff;' : 'color: #1e293b;'}>✓</span
+											>
 										{/if}
 									</button>
 								{/each}
@@ -586,7 +659,12 @@
 												title={bp.name}
 											>
 												{#if borderColor.toLowerCase() === bp.hex.toLowerCase()}
-													<span class="sdp-check" style={bp.hex === '#334155' || bp.hex === '#3b82f6' ? 'color: #fff;' : 'color: #1e293b;'}>✓</span>
+													<span
+														class="sdp-check"
+														style={bp.hex === '#334155' || bp.hex === '#3b82f6'
+															? 'color: #fff;'
+															: 'color: #1e293b;'}>✓</span
+													>
 												{/if}
 											</button>
 										{/each}
@@ -599,7 +677,9 @@
 											bind:value={borderColor}
 											id="sdp-border-color"
 										/>
-										<label for="sdp-border-color" class="sdp-color-hex">{borderColor.toUpperCase()}</label>
+										<label for="sdp-border-color" class="sdp-color-hex"
+											>{borderColor.toUpperCase()}</label
+										>
 									</div>
 								</div>
 							</div>
@@ -607,7 +687,6 @@
 					</div>
 				</div>
 			</div>
-
 		</div>
 
 		<!-- Footer -->
@@ -625,8 +704,19 @@
 					onclick={() => (showFullPreviewModal = true)}
 					disabled={saving}
 				>
-					<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
-						<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+					<svg
+						viewBox="0 0 24 24"
+						width="16"
+						height="16"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+					>
+						<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" /><circle
+							cx="12"
+							cy="12"
+							r="3"
+						/>
 					</svg>
 					See Preview
 				</button>
@@ -651,9 +741,18 @@
 <!-- ═══════════════════════════════════════════════════════════════════════════ -->
 {#if showFullPreviewModal}
 	<!-- svelte-ignore a11y_click_events_have_key_events -->
-	<div class="sdp-modal-preview-backdrop" onclick={() => (showFullPreviewModal = false)} role="presentation">
+	<div
+		class="sdp-modal-preview-backdrop"
+		onclick={() => (showFullPreviewModal = false)}
+		role="presentation"
+	>
 		<!-- svelte-ignore a11y_click_events_have_key_events -->
-		<div class="sdp-modal-preview-panel" onclick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
+		<div
+			class="sdp-modal-preview-panel"
+			onclick={(e) => e.stopPropagation()}
+			role="dialog"
+			aria-modal="true"
+		>
 			<!-- Preview Modal Header -->
 			<div class="sdp-modal-preview-header">
 				<div class="sdp-modal-preview-title-box">
@@ -710,11 +809,17 @@
 					style={`background-color: ${bgColor}; color: ${bgColor === '#0f172a' ? '#f8fafc' : '#0f172a'}; ${hasBorder ? `border: 2px solid ${borderColor}; border-radius: 18px;` : ''}`}
 				>
 					<div class="sdp-public-section-head">
-						<h2 class="sdp-public-title" style={bgColor === '#0f172a' ? 'color: #ffffff;' : 'color: #0f172a;'}>
+						<h2
+							class="sdp-public-title"
+							style={bgColor === '#0f172a' ? 'color: #ffffff;' : 'color: #0f172a;'}
+						>
 							{label || 'Sample Section Title'}
 						</h2>
 						{#if description}
-							<p class="sdp-public-desc" style={bgColor === '#0f172a' ? 'color: #94a3b8;' : 'color: #64748b;'}>
+							<p
+								class="sdp-public-desc"
+								style={bgColor === '#0f172a' ? 'color: #94a3b8;' : 'color: #64748b;'}
+							>
 								{description}
 							</p>
 						{/if}
@@ -735,7 +840,14 @@
 				<button type="button" class="sdp-btn-cancel" onclick={() => (showFullPreviewModal = false)}>
 					← Back to Customizer
 				</button>
-				<button type="button" class="sdp-btn-save" onclick={() => { showFullPreviewModal = false; save(); }}>
+				<button
+					type="button"
+					class="sdp-btn-save"
+					onclick={() => {
+						showFullPreviewModal = false;
+						save();
+					}}
+				>
 					💾 Save &amp; Apply Section Design
 				</button>
 			</div>
@@ -744,875 +856,914 @@
 {/if}
 
 <style>
-/* Backdrop */
-.sdp-backdrop {
-	position: fixed;
-	inset: 0;
-	background: rgba(15, 23, 42, 0.65);
-	backdrop-filter: blur(5px);
-	z-index: 1050;
-	animation: sdpFadeIn .2s ease-out;
-}
-@keyframes sdpFadeIn { from { opacity: 0; } to { opacity: 1; } }
+	/* Backdrop */
+	.sdp-backdrop {
+		position: fixed;
+		inset: 0;
+		background: rgba(15, 23, 42, 0.65);
+		backdrop-filter: blur(5px);
+		z-index: 1050;
+		animation: sdpFadeIn 0.2s ease-out;
+	}
+	@keyframes sdpFadeIn {
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
+	}
 
-/* Drawer */
-.sdp-drawer {
-	position: fixed;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	width: 100%;
-	max-width: 680px;
-	background: #ffffff;
-	z-index: 1060;
-	display: flex;
-	flex-direction: column;
-	box-shadow: -12px 0 50px rgba(0, 0, 0, 0.3);
-	animation: sdpSlideIn .25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-@keyframes sdpSlideIn {
-	from { transform: translateX(100%); }
-	to { transform: translateX(0); }
-}
+	/* Drawer */
+	.sdp-drawer {
+		position: fixed;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		width: 100%;
+		max-width: 680px;
+		background: #ffffff;
+		z-index: 1060;
+		display: flex;
+		flex-direction: column;
+		box-shadow: -12px 0 50px rgba(0, 0, 0, 0.3);
+		animation: sdpSlideIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+	}
+	@keyframes sdpSlideIn {
+		from {
+			transform: translateX(100%);
+		}
+		to {
+			transform: translateX(0);
+		}
+	}
 
-/* Header */
-.sdp-header {
-	display: flex;
-	align-items: flex-start;
-	justify-content: space-between;
-	padding: 1.25rem 1.75rem;
-	border-bottom: 1px solid #f1f5f9;
-	background: #f8fafc;
-}
-.sdp-header-actions {
-	display: flex;
-	align-items: center;
-	gap: 10px;
-}
-.sdp-top-preview-btn {
-	display: inline-flex;
-	align-items: center;
-	gap: 6px;
-	background: #eff6ff;
-	color: #1d4ed8;
-	border: 1.5px solid #bfdbfe;
-	padding: 0.4rem 0.8rem;
-	border-radius: 8px;
-	font-size: 0.82rem;
-	font-weight: 700;
-	cursor: pointer;
-	transition: all .15s;
-}
-.sdp-top-preview-btn:hover {
-	background: #dbeafe;
-	border-color: #2563eb;
-}
-.sdp-title {
-	font-size: 1.25rem;
-	font-weight: 800;
-	color: #0f172a;
-	margin: 0;
-}
-.sdp-subtitle {
-	font-size: 0.84rem;
-	color: #64748b;
-	margin: 2px 0 0;
-}
-.sdp-close {
-	background: #fff;
-	border: 1px solid #e2e8f0;
-	width: 34px;
-	height: 34px;
-	border-radius: 8px;
-	color: #64748b;
-	cursor: pointer;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	transition: all .15s;
-}
-.sdp-close:hover { background: #fee2e2; color: #ef4444; }
+	/* Header */
+	.sdp-header {
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+		padding: 1.25rem 1.75rem;
+		border-bottom: 1px solid #f1f5f9;
+		background: #f8fafc;
+	}
+	.sdp-header-actions {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+	}
+	.sdp-top-preview-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		background: #eff6ff;
+		color: #1d4ed8;
+		border: 1.5px solid #bfdbfe;
+		padding: 0.4rem 0.8rem;
+		border-radius: 8px;
+		font-size: 0.82rem;
+		font-weight: 700;
+		cursor: pointer;
+		transition: all 0.15s;
+	}
+	.sdp-top-preview-btn:hover {
+		background: #dbeafe;
+		border-color: #2563eb;
+	}
+	.sdp-title {
+		font-size: 1.25rem;
+		font-weight: 800;
+		color: #0f172a;
+		margin: 0;
+	}
+	.sdp-subtitle {
+		font-size: 0.84rem;
+		color: #64748b;
+		margin: 2px 0 0;
+	}
+	.sdp-close {
+		background: #fff;
+		border: 1px solid #e2e8f0;
+		width: 34px;
+		height: 34px;
+		border-radius: 8px;
+		color: #64748b;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: all 0.15s;
+	}
+	.sdp-close:hover {
+		background: #fee2e2;
+		color: #ef4444;
+	}
 
-/* Body */
-.sdp-body {
-	flex: 1;
-	overflow-y: auto;
-	padding: 1.25rem 1.75rem;
-	display: flex;
-	flex-direction: column;
-	gap: 1.35rem;
-}
-.sdp-error {
-	background: #fef2f2;
-	color: #dc2626;
-	padding: 0.65rem 0.9rem;
-	border-radius: 8px;
-	font-size: 0.85rem;
-	display: flex;
-	align-items: center;
-	gap: 6px;
-}
-.sdp-row-2col {
-	display: grid;
-	grid-template-columns: 1fr 1.3fr;
-	gap: 14px;
-}
-.sdp-field {
-	display: flex;
-	flex-direction: column;
-	gap: 0.45rem;
-}
-.sdp-label {
-	font-size: 0.86rem;
-	font-weight: 800;
-	color: #1e293b;
-}
-.sdp-sub-label {
-	font-size: 0.78rem;
-	font-weight: 700;
-	color: #475569;
-}
-.sdp-input {
-	padding: 0.55rem 0.85rem;
-	border-radius: 8px;
-	border: 1.5px solid #cbd5e1;
-	font-size: 0.88rem;
-	background: #f8fafc;
-	outline: none;
-	width: 100%;
-	box-sizing: border-box;
-}
-.sdp-input:focus { border-color: #2563eb; background: #fff; }
-.sdp-textarea {
-	padding: 0.55rem 0.85rem;
-	border-radius: 8px;
-	border: 1.5px solid #cbd5e1;
-	font-size: 0.85rem;
-	background: #f8fafc;
-	outline: none;
-	resize: vertical;
-	font-family: inherit;
-	width: 100%;
-	box-sizing: border-box;
-}
-.sdp-textarea:focus { border-color: #2563eb; background: #fff; }
+	/* Body */
+	.sdp-body {
+		flex: 1;
+		overflow-y: auto;
+		padding: 1.25rem 1.75rem;
+		display: flex;
+		flex-direction: column;
+		gap: 1.35rem;
+	}
+	.sdp-error {
+		background: #fef2f2;
+		color: #dc2626;
+		padding: 0.65rem 0.9rem;
+		border-radius: 8px;
+		font-size: 0.85rem;
+		display: flex;
+		align-items: center;
+		gap: 6px;
+	}
+	.sdp-row-2col {
+		display: grid;
+		grid-template-columns: 1fr 1.3fr;
+		gap: 14px;
+	}
+	.sdp-field {
+		display: flex;
+		flex-direction: column;
+		gap: 0.45rem;
+	}
+	.sdp-label {
+		font-size: 0.86rem;
+		font-weight: 800;
+		color: #1e293b;
+	}
+	.sdp-sub-label {
+		font-size: 0.78rem;
+		font-weight: 700;
+		color: #475569;
+	}
+	.sdp-input {
+		padding: 0.55rem 0.85rem;
+		border-radius: 8px;
+		border: 1.5px solid #cbd5e1;
+		font-size: 0.88rem;
+		background: #f8fafc;
+		outline: none;
+		width: 100%;
+		box-sizing: border-box;
+	}
+	.sdp-input:focus {
+		border-color: #2563eb;
+		background: #fff;
+	}
+	.sdp-textarea {
+		padding: 0.55rem 0.85rem;
+		border-radius: 8px;
+		border: 1.5px solid #cbd5e1;
+		font-size: 0.85rem;
+		background: #f8fafc;
+		outline: none;
+		resize: vertical;
+		font-family: inherit;
+		width: 100%;
+		box-sizing: border-box;
+	}
+	.sdp-textarea:focus {
+		border-color: #2563eb;
+		background: #fff;
+	}
 
-.sdp-readonly-box {
-	background: #f1f5f9;
-	padding: 0.55rem 0.85rem;
-	border-radius: 8px;
-	font-size: 0.88rem;
-	border: 1px solid #e2e8f0;
-}
+	.sdp-readonly-box {
+		background: #f1f5f9;
+		padding: 0.55rem 0.85rem;
+		border-radius: 8px;
+		font-size: 0.88rem;
+		border: 1px solid #e2e8f0;
+	}
 
-.sdp-step-header {
-	display: flex;
-	align-items: center;
-	gap: 8px;
-	margin-bottom: 2px;
-}
-.sdp-step-badge {
-	background: #2563eb;
-	color: #fff;
-	width: 22px;
-	height: 22px;
-	border-radius: 50%;
-	font-size: 11px;
-	font-weight: 800;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
+	.sdp-step-header {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		margin-bottom: 2px;
+	}
+	.sdp-step-badge {
+		background: #2563eb;
+		color: #fff;
+		width: 22px;
+		height: 22px;
+		border-radius: 50%;
+		font-size: 11px;
+		font-weight: 800;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
 
-/* ═══════════════════════════════════════════════════════════════════════════ */
-/* 🎨 LIVE CLIENT-FACING SIMULATOR STYLES                                      */
-/* ═══════════════════════════════════════════════════════════════════════════ */
-.sdp-live-preview-container {
-	background: #f8fafc;
-	border: 1.5px solid #cbd5e1;
-	border-radius: 14px;
-	overflow: hidden;
-	box-shadow: 0 6px 20px rgba(0,0,0,0.06);
-}
-.sdp-preview-top-bar {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding: 0.65rem 1.1rem;
-	background: #0f172a;
-	color: #ffffff;
-}
-.sdp-preview-tag-box {
-	display: flex;
-	align-items: center;
-	gap: 6px;
-}
-.sdp-preview-dot {
-	width: 8px;
-	height: 8px;
-	border-radius: 50%;
-	background: #10b981;
-	box-shadow: 0 0 8px #10b981;
-}
-.sdp-preview-tag {
-	font-size: 11px;
-	font-weight: 900;
-	letter-spacing: 0.08em;
-	color: #38bdf8;
-}
-.sdp-preview-right-controls {
-	display: flex;
-	align-items: center;
-	gap: 8px;
-}
-.sdp-open-modal-preview-btn {
-	background: #1e293b;
-	border: 1px solid #475569;
-	color: #ffffff;
-	font-size: 0.75rem;
-	font-weight: 700;
-	padding: 0.25rem 0.65rem;
-	border-radius: 6px;
-	cursor: pointer;
-	transition: background .15s;
-}
-.sdp-open-modal-preview-btn:hover {
-	background: #2563eb;
-	border-color: #2563eb;
-}
-.sdp-preview-canvas {
-	padding: 1.25rem;
-	min-height: 220px;
-	transition: all .25s ease;
-}
-.sdp-sim-header {
-	margin-bottom: 1.25rem;
-}
-.sdp-sim-title {
-	font-size: 1.35rem;
-	font-weight: 800;
-	margin: 0;
-	line-height: 1.25;
-}
-.sdp-sim-desc {
-	font-size: 0.85rem;
-	margin: 4px 0 0;
-	line-height: 1.45;
-}
-.sdp-sim-layout-scaler {
-	width: 100%;
-}
+	/* ═══════════════════════════════════════════════════════════════════════════ */
+	/* 🎨 LIVE CLIENT-FACING SIMULATOR STYLES                                      */
+	/* ═══════════════════════════════════════════════════════════════════════════ */
+	.sdp-live-preview-container {
+		background: #f8fafc;
+		border: 1.5px solid #cbd5e1;
+		border-radius: 14px;
+		overflow: hidden;
+		box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+	}
+	.sdp-preview-top-bar {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 0.65rem 1.1rem;
+		background: #0f172a;
+		color: #ffffff;
+	}
+	.sdp-preview-tag-box {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+	}
+	.sdp-preview-dot {
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: #10b981;
+		box-shadow: 0 0 8px #10b981;
+	}
+	.sdp-preview-tag {
+		font-size: 11px;
+		font-weight: 900;
+		letter-spacing: 0.08em;
+		color: #38bdf8;
+	}
+	.sdp-preview-right-controls {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+	}
+	.sdp-open-modal-preview-btn {
+		background: #1e293b;
+		border: 1px solid #475569;
+		color: #ffffff;
+		font-size: 0.75rem;
+		font-weight: 700;
+		padding: 0.25rem 0.65rem;
+		border-radius: 6px;
+		cursor: pointer;
+		transition: background 0.15s;
+	}
+	.sdp-open-modal-preview-btn:hover {
+		background: #2563eb;
+		border-color: #2563eb;
+	}
+	.sdp-preview-canvas {
+		padding: 1.25rem;
+		min-height: 220px;
+		transition: all 0.25s ease;
+	}
+	.sdp-sim-header {
+		margin-bottom: 1.25rem;
+	}
+	.sdp-sim-title {
+		font-size: 1.35rem;
+		font-weight: 800;
+		margin: 0;
+		line-height: 1.25;
+	}
+	.sdp-sim-desc {
+		font-size: 0.85rem;
+		margin: 4px 0 0;
+		line-height: 1.45;
+	}
+	.sdp-sim-layout-scaler {
+		width: 100%;
+	}
 
-/* ═══════════════════════════════════════════════════════════════════════════ */
-/* 🖼️ CARD DESIGN SELECTOR BUTTONS (WITH RICH VISUAL MOCKUPS)                  */
-/* ═══════════════════════════════════════════════════════════════════════════ */
-.sdp-card-designs-grid {
-	display: grid;
-	grid-template-columns: repeat(2, 1fr);
-	gap: 10px;
-}
-.sdp-card-design-btn {
-	display: flex;
-	gap: 10px;
-	align-items: center;
-	padding: 0.65rem 0.75rem;
-	background: #ffffff;
-	border: 1.5px solid #e2e8f0;
-	border-radius: 12px;
-	cursor: pointer;
-	text-align: left;
-	transition: all .2s ease;
-}
-.sdp-card-design-btn:hover {
-	border-color: #93c5fd;
-	background: #f8fafc;
-	transform: translateY(-1px);
-}
-.sdp-card-design-btn.active {
-	border-color: #2563eb;
-	background: #eff6ff;
-	box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.25);
-}
+	/* ═══════════════════════════════════════════════════════════════════════════ */
+	/* 🖼️ CARD DESIGN SELECTOR BUTTONS (WITH RICH VISUAL MOCKUPS)                  */
+	/* ═══════════════════════════════════════════════════════════════════════════ */
+	.sdp-card-designs-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 10px;
+	}
+	.sdp-card-design-btn {
+		display: flex;
+		gap: 10px;
+		align-items: center;
+		padding: 0.65rem 0.75rem;
+		background: #ffffff;
+		border: 1.5px solid #e2e8f0;
+		border-radius: 12px;
+		cursor: pointer;
+		text-align: left;
+		transition: all 0.2s ease;
+	}
+	.sdp-card-design-btn:hover {
+		border-color: #93c5fd;
+		background: #f8fafc;
+		transform: translateY(-1px);
+	}
+	.sdp-card-design-btn.active {
+		border-color: #2563eb;
+		background: #eff6ff;
+		box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.25);
+	}
 
-.mini-card-mockup {
-	width: 80px;
-	height: 65px;
-	border-radius: 6px;
-	border: 1px solid #cbd5e1;
-	overflow: hidden;
-	flex-shrink: 0;
-	display: flex;
-	flex-direction: column;
-	box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-}
-.sdp-card-design-info {
-	display: flex;
-	flex-direction: column;
-	gap: 2px;
-}
-.sdp-card-title {
-	font-size: 0.84rem;
-	font-weight: 800;
-	color: #0f172a;
-}
-.sdp-card-caption {
-	font-size: 0.72rem;
-	color: #64748b;
-	line-height: 1.35;
-}
+	.mini-card-mockup {
+		width: 80px;
+		height: 65px;
+		border-radius: 6px;
+		border: 1px solid #cbd5e1;
+		overflow: hidden;
+		flex-shrink: 0;
+		display: flex;
+		flex-direction: column;
+		box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+	}
+	.sdp-card-design-info {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+	}
+	.sdp-card-title {
+		font-size: 0.84rem;
+		font-weight: 800;
+		color: #0f172a;
+	}
+	.sdp-card-caption {
+		font-size: 0.72rem;
+		color: #64748b;
+		line-height: 1.35;
+	}
 
-/* 1. Mockup: Newspaper */
-.mock-newspaper {
-	background: #fdfbf7;
-	border-top: 3px solid #1c1917;
-	padding: 3px;
-	gap: 2px;
-}
-.mock-np-head {
-	font-family: serif;
-	font-size: 7px;
-	font-weight: 900;
-	color: #1c1917;
-	line-height: 1.1;
-}
-.mock-np-img {
-	height: 24px;
-	background: #78716c;
-	color: #fff;
-	font-size: 6px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	border-radius: 2px;
-}
+	/* 1. Mockup: Newspaper */
+	.mock-newspaper {
+		background: #fdfbf7;
+		border-top: 3px solid #1c1917;
+		padding: 3px;
+		gap: 2px;
+	}
+	.mock-np-head {
+		font-family: serif;
+		font-size: 7px;
+		font-weight: 900;
+		color: #1c1917;
+		line-height: 1.1;
+	}
+	.mock-np-img {
+		height: 24px;
+		background: #78716c;
+		color: #fff;
+		font-size: 6px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 2px;
+	}
 
-/* 2. Mockup: Bold */
-.mock-bold {
-	background: #0f172a;
-	position: relative;
-}
-.mock-bold-bg {
-	background: linear-gradient(135deg, #1e293b, #0f172a);
-	height: 100%;
-	padding: 4px;
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-end;
-}
-.mock-bold-badge {
-	font-size: 6px;
-	color: #f59e0b;
-	font-weight: 900;
-}
-.mock-bold-title {
-	font-size: 6px;
-	color: #ffffff;
-	font-weight: 700;
-	line-height: 1.1;
-}
+	/* 2. Mockup: Bold */
+	.mock-bold {
+		background: #0f172a;
+		position: relative;
+	}
+	.mock-bold-bg {
+		background: linear-gradient(135deg, #1e293b, #0f172a);
+		height: 100%;
+		padding: 4px;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-end;
+	}
+	.mock-bold-badge {
+		font-size: 6px;
+		color: #f59e0b;
+		font-weight: 900;
+	}
+	.mock-bold-title {
+		font-size: 6px;
+		color: #ffffff;
+		font-weight: 700;
+		line-height: 1.1;
+	}
 
-/* 3. Mockup: Polaroid */
-.mock-polaroid {
-	background: #ffffff;
-	padding: 3px 3px 6px 3px;
-	border: 1px solid #cbd5e1;
-	transform: rotate(-1deg);
-}
-.mock-pol-mount {
-	height: 38px;
-	background: #475569;
-	color: #fff;
-	font-size: 6px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-.mock-pol-note {
-	font-size: 6px;
-	font-family: cursive;
-	color: #1e293b;
-	text-align: center;
-	margin-top: 2px;
-}
+	/* 3. Mockup: Polaroid */
+	.mock-polaroid {
+		background: #ffffff;
+		padding: 3px 3px 6px 3px;
+		border: 1px solid #cbd5e1;
+		transform: rotate(-1deg);
+	}
+	.mock-pol-mount {
+		height: 38px;
+		background: #475569;
+		color: #fff;
+		font-size: 6px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.mock-pol-note {
+		font-size: 6px;
+		font-family: cursive;
+		color: #1e293b;
+		text-align: center;
+		margin-top: 2px;
+	}
 
-/* 4. Mockup: Glass */
-.mock-glass {
-	background: linear-gradient(135deg, rgba(239, 246, 255, 0.9), rgba(219, 234, 254, 0.7));
-	border: 1px solid #60a5fa;
-	padding: 4px;
-	gap: 3px;
-}
-.mock-glass-top {
-	font-size: 6px;
-	font-weight: 800;
-	color: #1d4ed8;
-}
+	/* 4. Mockup: Glass */
+	.mock-glass {
+		background: linear-gradient(135deg, rgba(239, 246, 255, 0.9), rgba(219, 234, 254, 0.7));
+		border: 1px solid #60a5fa;
+		padding: 4px;
+		gap: 3px;
+	}
+	.mock-glass-top {
+		font-size: 6px;
+		font-weight: 800;
+		color: #1d4ed8;
+	}
 
-/* 5. Mockup: Minimal */
-.mock-minimal {
-	background: #ffffff;
-	display: flex;
-	flex-direction: row;
-	gap: 4px;
-	padding: 4px;
-}
-.mock-min-accent {
-	width: 3px;
-	background: #6366f1;
-	border-radius: 2px;
-	height: 100%;
-}
-.mock-min-content {
-	flex: 1;
-	display: flex;
-	flex-direction: column;
-	gap: 4px;
-	justify-content: center;
-}
+	/* 5. Mockup: Minimal */
+	.mock-minimal {
+		background: #ffffff;
+		display: flex;
+		flex-direction: row;
+		gap: 4px;
+		padding: 4px;
+	}
+	.mock-min-accent {
+		width: 3px;
+		background: #6366f1;
+		border-radius: 2px;
+		height: 100%;
+	}
+	.mock-min-content {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+		justify-content: center;
+	}
 
-/* 6. Mockup: Standard */
-.mock-standard {
-	background: #ffffff;
-}
-.mock-std-img {
-	height: 30px;
-	background: #94a3b8;
-	color: #fff;
-	font-size: 6px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-.mock-std-body {
-	padding: 3px;
-	display: flex;
-	flex-direction: column;
-	gap: 3px;
-}
+	/* 6. Mockup: Standard */
+	.mock-standard {
+		background: #ffffff;
+	}
+	.mock-std-img {
+		height: 30px;
+		background: #94a3b8;
+		color: #fff;
+		font-size: 6px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.mock-std-body {
+		padding: 3px;
+		display: flex;
+		flex-direction: column;
+		gap: 3px;
+	}
 
-/* Line Placeholders */
-.mock-line-title {
-	height: 4px;
-	background: #64748b;
-	border-radius: 2px;
-	width: 80%;
-}
-.mock-line-p {
-	height: 3px;
-	background: #cbd5e1;
-	border-radius: 2px;
-	width: 60%;
-}
+	/* Line Placeholders */
+	.mock-line-title {
+		height: 4px;
+		background: #64748b;
+		border-radius: 2px;
+		width: 80%;
+	}
+	.mock-line-p {
+		height: 3px;
+		background: #cbd5e1;
+		border-radius: 2px;
+		width: 60%;
+	}
 
-/* Layout Grid */
-.sdp-layout-grid {
-	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-	gap: 8px;
-}
-.sdp-swatch {
-	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
-	padding: 0.65rem 0.75rem;
-	border-radius: 10px;
-	border: 1.5px solid #e2e8f0;
-	background: #ffffff;
-	cursor: pointer;
-	text-align: left;
-	transition: all .15s;
-}
-.sdp-swatch:hover {
-	border-color: #93c5fd;
-	background: #f8fafc;
-}
-.sdp-swatch-active {
-	border-color: #2563eb !important;
-	background: #eff6ff !important;
-	box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
-}
-.sdp-swatch-icon {
-	width: 22px;
-	height: 22px;
-	margin-bottom: 4px;
-	color: #2563eb;
-}
-.sdp-swatch-label {
-	font-size: 0.82rem;
-	font-weight: 800;
-	color: #0f172a;
-}
-.sdp-swatch-desc {
-	font-size: 0.7rem;
-	color: #64748b;
-	margin-top: 2px;
-}
+	/* Layout Grid */
+	.sdp-layout-grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 8px;
+	}
+	.sdp-swatch {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		padding: 0.65rem 0.75rem;
+		border-radius: 10px;
+		border: 1.5px solid #e2e8f0;
+		background: #ffffff;
+		cursor: pointer;
+		text-align: left;
+		transition: all 0.15s;
+	}
+	.sdp-swatch:hover {
+		border-color: #93c5fd;
+		background: #f8fafc;
+	}
+	.sdp-swatch-active {
+		border-color: #2563eb !important;
+		background: #eff6ff !important;
+		box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+	}
+	.sdp-swatch-icon {
+		width: 22px;
+		height: 22px;
+		margin-bottom: 4px;
+		color: #2563eb;
+	}
+	.sdp-swatch-label {
+		font-size: 0.82rem;
+		font-weight: 800;
+		color: #0f172a;
+	}
+	.sdp-swatch-desc {
+		font-size: 0.7rem;
+		color: #64748b;
+		margin-top: 2px;
+	}
 
-/* Step 3 Styling Box */
-.sdp-styling-box {
-	background: #f8fafc;
-	border: 1.5px solid #e2e8f0;
-	border-radius: 12px;
-	padding: 0.85rem 1.1rem;
-	display: flex;
-	flex-direction: column;
-	gap: 0.85rem;
-}
-.sdp-style-subgroup {
-	display: flex;
-	flex-direction: column;
-	gap: 6px;
-}
-.border-subgroup {
-	border-top: 1px dashed #e2e8f0;
-	padding-top: 0.75rem;
-}
+	/* Step 3 Styling Box */
+	.sdp-styling-box {
+		background: #f8fafc;
+		border: 1.5px solid #e2e8f0;
+		border-radius: 12px;
+		padding: 0.85rem 1.1rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.85rem;
+	}
+	.sdp-style-subgroup {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+	}
+	.border-subgroup {
+		border-top: 1px dashed #e2e8f0;
+		padding-top: 0.75rem;
+	}
 
-/* Color Picker & Swatches Row */
-.sdp-color-picker-row {
-	display: flex;
-	align-items: center;
-	gap: 10px;
-	flex-wrap: wrap;
-}
-.sdp-swatches-strip {
-	display: flex;
-	gap: 8px;
-	align-items: center;
-	flex-wrap: wrap;
-}
-.sdp-swatch-circle {
-	width: 26px;
-	height: 26px;
-	border-radius: 50%;
-	border: 1.5px solid #cbd5e1;
-	cursor: pointer;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	transition: all .15s;
-}
-.sdp-swatch-circle:hover { transform: scale(1.15); }
-.sdp-swatch-circle.active {
-	box-shadow: 0 0 0 2px #2563eb;
-	transform: scale(1.1);
-}
-.sdp-check {
-	font-size: 11px;
-	font-weight: 900;
-}
-.sdp-custom-color-pill {
-	display: flex;
-	align-items: center;
-	gap: 6px;
-	background: #ffffff;
-	border: 1.5px solid #cbd5e1;
-	padding: 2px 7px;
-	border-radius: 8px;
-}
-.sdp-color-input {
-	-webkit-appearance: none;
-	appearance: none;
-	border: none;
-	width: 20px;
-	height: 20px;
-	border-radius: 50%;
-	cursor: pointer;
-	background: transparent;
-	padding: 0;
-}
-.sdp-color-input::-webkit-color-swatch-wrapper { padding: 0; }
-.sdp-color-input::-webkit-color-swatch { border: 1px solid #cbd5e1; border-radius: 50%; }
-.sdp-color-hex {
-	font-size: 0.75rem;
-	font-weight: 800;
-	color: #475569;
-	font-family: monospace;
-	cursor: pointer;
-}
+	/* Color Picker & Swatches Row */
+	.sdp-color-picker-row {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		flex-wrap: wrap;
+	}
+	.sdp-swatches-strip {
+		display: flex;
+		gap: 8px;
+		align-items: center;
+		flex-wrap: wrap;
+	}
+	.sdp-swatch-circle {
+		width: 26px;
+		height: 26px;
+		border-radius: 50%;
+		border: 1.5px solid #cbd5e1;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: all 0.15s;
+	}
+	.sdp-swatch-circle:hover {
+		transform: scale(1.15);
+	}
+	.sdp-swatch-circle.active {
+		box-shadow: 0 0 0 2px #2563eb;
+		transform: scale(1.1);
+	}
+	.sdp-check {
+		font-size: 11px;
+		font-weight: 900;
+	}
+	.sdp-custom-color-pill {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		background: #ffffff;
+		border: 1.5px solid #cbd5e1;
+		padding: 2px 7px;
+		border-radius: 8px;
+	}
+	.sdp-color-input {
+		-webkit-appearance: none;
+		appearance: none;
+		border: none;
+		width: 20px;
+		height: 20px;
+		border-radius: 50%;
+		cursor: pointer;
+		background: transparent;
+		padding: 0;
+	}
+	.sdp-color-input::-webkit-color-swatch-wrapper {
+		padding: 0;
+	}
+	.sdp-color-input::-webkit-color-swatch {
+		border: 1px solid #cbd5e1;
+		border-radius: 50%;
+	}
+	.sdp-color-hex {
+		font-size: 0.75rem;
+		font-weight: 800;
+		color: #475569;
+		font-family: monospace;
+		cursor: pointer;
+	}
 
-/* Border Control Field Box */
-.sdp-border-toggle-row {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-}
-.sdp-checkbox-label {
-	display: inline-flex;
-	align-items: center;
-	gap: 8px;
-	cursor: pointer;
-	user-select: none;
-}
-.sdp-checkbox-label input {
-	width: 16px;
-	height: 16px;
-	accent-color: #2563eb;
-	cursor: pointer;
-}
-.sdp-label-text {
-	font-size: 0.84rem;
-	font-weight: 800;
-	color: #1e293b;
-}
-.sdp-border-color-options {
-	display: flex;
-	flex-direction: column;
-	gap: 6px;
-	padding-top: 0.5rem;
-}
+	/* Border Control Field Box */
+	.sdp-border-toggle-row {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+	.sdp-checkbox-label {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		cursor: pointer;
+		user-select: none;
+	}
+	.sdp-checkbox-label input {
+		width: 16px;
+		height: 16px;
+		accent-color: #2563eb;
+		cursor: pointer;
+	}
+	.sdp-label-text {
+		font-size: 0.84rem;
+		font-weight: 800;
+		color: #1e293b;
+	}
+	.sdp-border-color-options {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+		padding-top: 0.5rem;
+	}
 
-/* Footer */
-.sdp-footer {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	padding: 1.1rem 1.75rem;
-	border-top: 1px solid #f1f5f9;
-	background: #f8fafc;
-}
-.sdp-footer-right {
-	display: flex;
-	gap: 8px;
-	margin-left: auto;
-}
-.sdp-btn-preview-bottom {
-	display: inline-flex;
-	align-items: center;
-	gap: 6px;
-	background: #eff6ff;
-	color: #1d4ed8;
-	border: 1.5px solid #bfdbfe;
-	padding: 0.55rem 1rem;
-	border-radius: 8px;
-	font-size: 0.88rem;
-	font-weight: 700;
-	cursor: pointer;
-	transition: all .15s;
-}
-.sdp-btn-preview-bottom:hover {
-	background: #dbeafe;
-	border-color: #2563eb;
-}
-.sdp-btn-cancel {
-	padding: 0.55rem 1rem;
-	background: #fff;
-	border: 1.5px solid #cbd5e1;
-	border-radius: 8px;
-	font-size: 0.88rem;
-	font-weight: 700;
-	color: #475569;
-	cursor: pointer;
-}
-.sdp-btn-save {
-	padding: 0.55rem 1.4rem;
-	background: #2563eb;
-	color: #fff;
-	border: none;
-	border-radius: 8px;
-	font-size: 0.88rem;
-	font-weight: 800;
-	cursor: pointer;
-	display: inline-flex;
-	align-items: center;
-	gap: 6px;
-}
-.sdp-btn-save:hover { background: #1d4ed8; }
-.sdp-btn-danger {
-	background: #fee2e2;
-	color: #dc2626;
-	border: none;
-	padding: 0.55rem 0.95rem;
-	border-radius: 8px;
-	font-size: 0.84rem;
-	font-weight: 700;
-	cursor: pointer;
-}
-.sdp-spinner {
-	width: 12px;
-	height: 12px;
-	border: 2px solid #fff;
-	border-top-color: transparent;
-	border-radius: 50%;
-	display: inline-block;
-	animation: sdpSpin .6s linear infinite;
-}
-@keyframes sdpSpin { to { transform: rotate(360deg); } }
+	/* Footer */
+	.sdp-footer {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 1.1rem 1.75rem;
+		border-top: 1px solid #f1f5f9;
+		background: #f8fafc;
+	}
+	.sdp-footer-right {
+		display: flex;
+		gap: 8px;
+		margin-left: auto;
+	}
+	.sdp-btn-preview-bottom {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		background: #eff6ff;
+		color: #1d4ed8;
+		border: 1.5px solid #bfdbfe;
+		padding: 0.55rem 1rem;
+		border-radius: 8px;
+		font-size: 0.88rem;
+		font-weight: 700;
+		cursor: pointer;
+		transition: all 0.15s;
+	}
+	.sdp-btn-preview-bottom:hover {
+		background: #dbeafe;
+		border-color: #2563eb;
+	}
+	.sdp-btn-cancel {
+		padding: 0.55rem 1rem;
+		background: #fff;
+		border: 1.5px solid #cbd5e1;
+		border-radius: 8px;
+		font-size: 0.88rem;
+		font-weight: 700;
+		color: #475569;
+		cursor: pointer;
+	}
+	.sdp-btn-save {
+		padding: 0.55rem 1.4rem;
+		background: #2563eb;
+		color: #fff;
+		border: none;
+		border-radius: 8px;
+		font-size: 0.88rem;
+		font-weight: 800;
+		cursor: pointer;
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+	}
+	.sdp-btn-save:hover {
+		background: #1d4ed8;
+	}
+	.sdp-btn-danger {
+		background: #fee2e2;
+		color: #dc2626;
+		border: none;
+		padding: 0.55rem 0.95rem;
+		border-radius: 8px;
+		font-size: 0.84rem;
+		font-weight: 700;
+		cursor: pointer;
+	}
+	.sdp-spinner {
+		width: 12px;
+		height: 12px;
+		border: 2px solid #fff;
+		border-top-color: transparent;
+		border-radius: 50%;
+		display: inline-block;
+		animation: sdpSpin 0.6s linear infinite;
+	}
+	@keyframes sdpSpin {
+		to {
+			transform: rotate(360deg);
+		}
+	}
 
-/* ═══════════════════════════════════════════════════════════════════════════ */
-/* 🌟 FULL SCREEN PREVIEW MODAL STYLES                                         */
-/* ═══════════════════════════════════════════════════════════════════════════ */
-.sdp-modal-preview-backdrop {
-	position: fixed;
-	inset: 0;
-	background: rgba(15, 23, 42, 0.85);
-	backdrop-filter: blur(8px);
-	z-index: 2000;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	padding: 1.5rem;
-	animation: sdpFadeIn .2s ease-out;
-}
-.sdp-modal-preview-panel {
-	background: #f1f5f9;
-	border-radius: 18px;
-	width: 100%;
-	max-width: 1200px;
-	max-height: 94vh;
-	display: flex;
-	flex-direction: column;
-	overflow: hidden;
-	box-shadow: 0 25px 60px rgba(0,0,0,0.4);
-	border: 1px solid #334155;
-	animation: sdpSlideUp .25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-@keyframes sdpSlideUp {
-	from { transform: scale(0.96) translateY(16px); opacity: 0; }
-	to { transform: scale(1) translateY(0); opacity: 1; }
-}
-.sdp-modal-preview-header {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	padding: 1rem 1.5rem;
-	background: #0f172a;
-	color: #ffffff;
-	border-bottom: 1px solid #1e293b;
-	flex-wrap: wrap;
-	gap: 1rem;
-}
-.sdp-modal-preview-title-box {
-	display: flex;
-	align-items: center;
-	gap: 10px;
-}
-.sdp-modal-live-tag {
-	background: #10b981;
-	color: #000000;
-	font-size: 10px;
-	font-weight: 900;
-	padding: 2px 7px;
-	border-radius: 4px;
-	letter-spacing: 0.05em;
-}
-.sdp-modal-h3 {
-	font-size: 1.15rem;
-	font-weight: 800;
-	margin: 0;
-	color: #f8fafc;
-}
-.sdp-modal-meta-tag {
-	font-size: 0.8rem;
-	color: #94a3b8;
-	background: #1e293b;
-	padding: 2px 8px;
-	border-radius: 6px;
-}
-.sdp-device-switcher {
-	display: flex;
-	background: #1e293b;
-	border-radius: 8px;
-	padding: 3px;
-	gap: 4px;
-}
-.sdp-device-btn {
-	background: transparent;
-	border: none;
-	color: #94a3b8;
-	padding: 0.35rem 0.75rem;
-	border-radius: 6px;
-	font-size: 0.78rem;
-	font-weight: 700;
-	cursor: pointer;
-	transition: all .15s;
-}
-.sdp-device-btn.active {
-	background: #2563eb;
-	color: #ffffff;
-}
-.sdp-modal-close {
-	background: #1e293b;
-	border: 1px solid #334155;
-	color: #94a3b8;
-	width: 32px;
-	height: 32px;
-	border-radius: 8px;
-	font-size: 1.5rem;
-	line-height: 1;
-	cursor: pointer;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-.sdp-modal-close:hover {
-	background: #fee2e2;
-	color: #ef4444;
-}
-.sdp-modal-viewport-canvas {
-	flex: 1;
-	overflow-y: auto;
-	padding: 2rem 0;
-	display: flex;
-	justify-content: center;
-	background: #cbd5e1;
-}
-.sdp-modal-viewport-canvas.device-desktop {
-	padding: 0;
-	display: block;
-}
-.sdp-modal-viewport-canvas.device-desktop .sdp-public-section-mockup {
-	width: 100%;
-	max-width: 100%;
-	border-radius: 0;
-	box-shadow: none;
-	padding: 3.5rem 1.5rem;
-}
-.sdp-modal-viewport-canvas.device-tablet .sdp-public-section-mockup {
-	width: 768px;
-	border-radius: 20px;
-	box-shadow: 0 16px 40px rgba(0,0,0,0.2);
-	padding: 2.5rem 1.5rem;
-	margin: 0 auto;
-}
-.sdp-modal-viewport-canvas.device-mobile .sdp-public-section-mockup {
-	width: 400px;
-	border-radius: 24px;
-	box-shadow: 0 16px 40px rgba(0,0,0,0.25);
-	padding: 2rem 1rem;
-	margin: 0 auto;
-}
-.sdp-public-section-mockup {
-	background: #ffffff;
-	box-sizing: border-box;
-	transition: all .25s ease;
-}
-.sdp-public-section-head {
-	max-width: 1100px;
-	margin: 0 auto 2.5rem;
-}
-.sdp-public-layout-area {
-	max-width: 1100px;
-	margin: 0 auto;
-}
-.sdp-public-title {
-	font-size: 2rem;
-	font-weight: 900;
-	letter-spacing: -0.02em;
-	margin: 0;
-	line-height: 1.2;
-}
-.sdp-public-desc {
-	font-size: 1rem;
-	margin: 0.5rem 0 0;
-	line-height: 1.5;
-}
-.sdp-modal-preview-footer {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	padding: 1rem 1.5rem;
-	background: #ffffff;
-	border-top: 1px solid #cbd5e1;
-}
+	/* ═══════════════════════════════════════════════════════════════════════════ */
+	/* 🌟 FULL SCREEN PREVIEW MODAL STYLES                                         */
+	/* ═══════════════════════════════════════════════════════════════════════════ */
+	.sdp-modal-preview-backdrop {
+		position: fixed;
+		inset: 0;
+		background: rgba(15, 23, 42, 0.85);
+		backdrop-filter: blur(8px);
+		z-index: 2000;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 1.5rem;
+		animation: sdpFadeIn 0.2s ease-out;
+	}
+	.sdp-modal-preview-panel {
+		background: #f1f5f9;
+		border-radius: 18px;
+		width: 100%;
+		max-width: 1200px;
+		max-height: 94vh;
+		display: flex;
+		flex-direction: column;
+		overflow: hidden;
+		box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+		border: 1px solid #334155;
+		animation: sdpSlideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+	}
+	@keyframes sdpSlideUp {
+		from {
+			transform: scale(0.96) translateY(16px);
+			opacity: 0;
+		}
+		to {
+			transform: scale(1) translateY(0);
+			opacity: 1;
+		}
+	}
+	.sdp-modal-preview-header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 1rem 1.5rem;
+		background: #0f172a;
+		color: #ffffff;
+		border-bottom: 1px solid #1e293b;
+		flex-wrap: wrap;
+		gap: 1rem;
+	}
+	.sdp-modal-preview-title-box {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+	}
+	.sdp-modal-live-tag {
+		background: #10b981;
+		color: #000000;
+		font-size: 10px;
+		font-weight: 900;
+		padding: 2px 7px;
+		border-radius: 4px;
+		letter-spacing: 0.05em;
+	}
+	.sdp-modal-h3 {
+		font-size: 1.15rem;
+		font-weight: 800;
+		margin: 0;
+		color: #f8fafc;
+	}
+	.sdp-modal-meta-tag {
+		font-size: 0.8rem;
+		color: #94a3b8;
+		background: #1e293b;
+		padding: 2px 8px;
+		border-radius: 6px;
+	}
+	.sdp-device-switcher {
+		display: flex;
+		background: #1e293b;
+		border-radius: 8px;
+		padding: 3px;
+		gap: 4px;
+	}
+	.sdp-device-btn {
+		background: transparent;
+		border: none;
+		color: #94a3b8;
+		padding: 0.35rem 0.75rem;
+		border-radius: 6px;
+		font-size: 0.78rem;
+		font-weight: 700;
+		cursor: pointer;
+		transition: all 0.15s;
+	}
+	.sdp-device-btn.active {
+		background: #2563eb;
+		color: #ffffff;
+	}
+	.sdp-modal-close {
+		background: #1e293b;
+		border: 1px solid #334155;
+		color: #94a3b8;
+		width: 32px;
+		height: 32px;
+		border-radius: 8px;
+		font-size: 1.5rem;
+		line-height: 1;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.sdp-modal-close:hover {
+		background: #fee2e2;
+		color: #ef4444;
+	}
+	.sdp-modal-viewport-canvas {
+		flex: 1;
+		overflow-y: auto;
+		padding: 2rem 0;
+		display: flex;
+		justify-content: center;
+		background: #cbd5e1;
+	}
+	.sdp-modal-viewport-canvas.device-desktop {
+		padding: 0;
+		display: block;
+	}
+	.sdp-modal-viewport-canvas.device-desktop .sdp-public-section-mockup {
+		width: 100%;
+		max-width: 100%;
+		border-radius: 0;
+		box-shadow: none;
+		padding: 3.5rem 1.5rem;
+	}
+	.sdp-modal-viewport-canvas.device-tablet .sdp-public-section-mockup {
+		width: 768px;
+		border-radius: 20px;
+		box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+		padding: 2.5rem 1.5rem;
+		margin: 0 auto;
+	}
+	.sdp-modal-viewport-canvas.device-mobile .sdp-public-section-mockup {
+		width: 400px;
+		border-radius: 24px;
+		box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+		padding: 2rem 1rem;
+		margin: 0 auto;
+	}
+	.sdp-public-section-mockup {
+		background: #ffffff;
+		box-sizing: border-box;
+		transition: all 0.25s ease;
+	}
+	.sdp-public-section-head {
+		max-width: 1100px;
+		margin: 0 auto 2.5rem;
+	}
+	.sdp-public-layout-area {
+		max-width: 1100px;
+		margin: 0 auto;
+	}
+	.sdp-public-title {
+		font-size: 2rem;
+		font-weight: 900;
+		letter-spacing: -0.02em;
+		margin: 0;
+		line-height: 1.2;
+	}
+	.sdp-public-desc {
+		font-size: 1rem;
+		margin: 0.5rem 0 0;
+		line-height: 1.5;
+	}
+	.sdp-modal-preview-footer {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 1rem 1.5rem;
+		background: #ffffff;
+		border-top: 1px solid #cbd5e1;
+	}
 </style>

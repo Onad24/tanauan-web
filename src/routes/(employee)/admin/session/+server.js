@@ -7,11 +7,16 @@ export async function POST({ request, cookies }) {
 		admin = initFirebaseAdmin();
 	} catch (e) {
 		console.error('Firebase Admin init error:', e);
-		return new Response('Server not configured: ' + e.message, { status: 500 });
+		return new Response('Session service is unavailable. Please contact IT.', { status: 500 });
 	}
 
-	const { idToken } = await request.json();
-	if (!idToken) return new Response('Missing idToken', { status: 400 });
+	let idToken;
+	try {
+		({ idToken } = await request.json());
+	} catch {
+		return new Response('Invalid request.', { status: 400 });
+	}
+	if (!idToken) return new Response('Missing sign-in token. Please try again.', { status: 400 });
 
 	try {
 		// recommended session length: 5 days (in ms)
@@ -22,7 +27,7 @@ export async function POST({ request, cookies }) {
 		cookies.set('session', sessionCookie, {
 			path: '/',
 			httpOnly: true,
-			sameSite: 'strict',
+			sameSite: 'lax',
 			maxAge,
 			secure: process.env.NODE_ENV === 'production'
 		});
@@ -33,7 +38,9 @@ export async function POST({ request, cookies }) {
 		});
 	} catch (e) {
 		console.error('Failed to create session cookie:', e?.message || e);
-		return new Response('Invalid token: ' + (e?.message || e), { status: 401 });
+		return new Response('Your session could not be established. Please sign in again.', {
+			status: 401
+		});
 	}
 }
 

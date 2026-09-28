@@ -1,53 +1,105 @@
 <script>
-	import { uploadMultipleFiles } from '$lib/firebaseStorage';
-	import { departments, othersTypes } from '$lib/config';
 	import Modal from '$lib/Modal.svelte';
+	import { uploadMultipleFiles, isImageURL, isVideoURL } from '$lib/firebaseStorage';
+	import { departments, othersTypes } from '$lib/config';
+	import { toast } from '$lib/admin/toast';
+	import { confirmAction } from '$lib/admin/confirm';
+	import {
+		Search,
+		X,
+		Upload,
+		Pencil,
+		Trash2,
+		ChevronLeft,
+		ChevronRight,
+		AlertCircle,
+		Files,
+		FileText,
+		FileImage,
+		FileVideo,
+		Building2,
+		CalendarDays
+	} from 'lucide-svelte';
 
 	let { data } = $props();
-	let rows = $state(data.posts);
+
+	let rows = $state([]);
+	$effect(() => {
+		rows = data.posts || [];
+	});
+
 	let loading = $state(false);
 	let showModal = $state(false);
 	let editing = $state(null);
 	let uploading = $state(false);
-	let uploadError = $state('');
+	let error = $state('');
 
 	let form = $state({ department: '', type: '', media: [] });
+	let selectedFiles = $state([]);
 	let mediaPreview = $state([]);
 
 	/* ============================================
 	   SEARCH + PAGINATION STATES
 	============================================ */
-	let searchQuery = $state('');
+	let searchTerm = $state('');
 	let currentPage = $state(1);
 	const pageSize = 10;
-	let selectedFiles = $state([]);
-	let filteredRows = $state([]);
 
-	$effect(() => {
-		if (searchQuery.trim() === '') {
-			filteredRows = rows;
-		} else {
-			const lowerSearch = searchQuery.toLowerCase();
-			filteredRows = rows.filter((r) => {
-				const q = searchQuery.toLowerCase();
-				return r.department?.toLowerCase().includes(q) || r.type?.toLowerCase().includes(q);
-			});
-		}
+	/* ============================================
+	   STATS DERIVED STRAIGHT FROM THE DATA
+	============================================ */
+	let totalCount = $derived(rows.length);
+	let departmentCount = $derived(new Set(rows.map((r) => r.department).filter(Boolean)).size);
+	let mediaCount = $derived(rows.reduce((total, r) => total + (r.media?.length || 0), 0));
 
-		if (searchQuery || searchQuery == '') currentPage = 1;
+	let filteredRows = $derived.by(() => {
+		const lower = searchTerm.trim().toLowerCase();
+		if (!lower) return rows;
+		return rows.filter(
+			(r) => r.department?.toLowerCase()?.includes(lower) || r.type?.toLowerCase()?.includes(lower)
+		);
 	});
 
-	let totalPages = $state(0);
+	let totalPages = $derived(Math.max(1, Math.ceil(filteredRows.length / pageSize)));
+	let paginatedRows = $derived(
+		filteredRows.slice((currentPage - 1) * pageSize, currentPage * pageSize)
+	);
+	let startEntry = $derived(filteredRows.length === 0 ? 0 : (currentPage - 1) * pageSize + 1);
+	let endEntry = $derived(Math.min(currentPage * pageSize, filteredRows.length));
+
+	// Reset to the first page whenever the search term changes
 	$effect(() => {
-		totalPages = filteredRows.length > 0 ? Math.ceil(filteredRows.length / pageSize) : 0;
-	});
-	let paginatedRows = $state([]);
-	$effect(() => {
-		paginatedRows = filteredRows.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+		if (searchTerm !== undefined) currentPage = 1;
 	});
 
-	function changePage(p) {
-		if (p >= 1 && p <= totalPages) currentPage = p;
+	// Clamp the current page so it can never exceed the last page
+	$effect(() => {
+		if (currentPage > totalPages) currentPage = totalPages;
+	});
+
+	function goToPage(page) {
+		if (page < 1 || page > totalPages) return;
+		currentPage = page;
+	}
+
+	function clearFilters() {
+		searchTerm = '';
+	}
+
+	function mediaTotal(row) {
+		return Array.isArray(row?.media) ? row.media.length : 0;
+	}
+
+	function formatDate(value) {
+		if (!value) return '—';
+		const parsed = new Date(value);
+		if (Number.isNaN(parsed.getTime())) return '—';
+		return parsed.toLocaleDateString('en-PH', { year: 'numeric', month: 'short', day: 'numeric' });
+	}
+
+	function mediaName(item) {
+		if (typeof item !== 'string') return item?.name || 'file';
+		return item.split('/').pop()?.split('?')[0] || 'file';
 	}
 
 	/* ======================================
@@ -59,7 +111,7 @@
 		form = { department: '', type: '', media: [] };
 		selectedFiles = [];
 		mediaPreview = [];
-		uploadError = '';
+		error = '';
 		showModal = true;
 	}
 
@@ -72,12 +124,12 @@
 		};
 		selectedFiles = [];
 		mediaPreview = r.media || [];
-		uploadError = '';
+		error = '';
 		showModal = true;
 	}
 
 	function handleMediaInput(e) {
-		selectedFiles = Array.from(e.target.files);
+		selectedFiles = Array.from(e.target.files || []);
 		mediaPreview = [
 			...form.media,
 			...selectedFiles.map((f) => ({ name: f.name, type: f.type, isNew: true }))
@@ -96,35 +148,48 @@
 	}
 
 	async function removeRow(id) {
-		if (!confirm('Delete this post?')) return;
+		const doc = rows.find((r) => r.id === id);
+		const ok = await confirmAction({
+			title: 'Delete this document set?',
+			message:
+				'This permanently removes the record and every attached file. This cannot be undone.',
+			details: [doc?.department, doc?.type].filter(Boolean).join(' — '),
+			confirmText: 'Delete',
+			danger: true
+		});
+		if (!ok) return;
+
 		loading = true;
 		try {
-			const post = rows.find((r) => r.id === id);
 			const response = await fetch('/admin/others', {
 				method: 'DELETE',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ id, media: post?.media || [] })
+				body: JSON.stringify({ id, media: doc?.media || [] })
 			});
-			if (!response.ok) throw new Error('Failed to delete post');
+			if (!response.ok) {
+				await toast.apiError(response, 'Could not delete the document set');
+				return;
+			}
 			rows = rows.filter((r) => r.id !== id);
+			toast.success('Document set deleted');
 		} catch (err) {
-			uploadError = err.message;
+			toast.error(err?.message || 'Could not delete the document set');
 		} finally {
 			loading = false;
 		}
 	}
 
 	async function save() {
-		uploadError = '';
+		error = '';
 		uploading = true;
 		try {
 			let uploadedURLs = [];
 			if (selectedFiles.length > 0) {
 				try {
 					uploadedURLs = await uploadMultipleFiles(selectedFiles);
-				} catch (error) {
-					uploadError = `Upload failed: ${error.message}. Check Storage rules in Firebase Console.`;
-					uploading = false;
+				} catch (uploadErr) {
+					error = `Upload failed: ${uploadErr.message}`;
+					toast.error(`Upload failed: ${uploadErr.message}`);
 					return;
 				}
 			}
@@ -142,7 +207,11 @@
 						media: allMedia
 					})
 				});
-				if (!response.ok) throw new Error('Failed to update post');
+				if (!response.ok) {
+					error = 'Could not save the document set. Please try again.';
+					await toast.apiError(response, 'Could not save the document set');
+					return;
+				}
 
 				const idx = rows.findIndex((r) => r.id === editing.id);
 				if (idx >= 0) {
@@ -153,6 +222,7 @@
 						media: allMedia
 					};
 				}
+				toast.success('Document set saved');
 			} else {
 				const response = await fetch('/admin/others', {
 					method: 'POST',
@@ -163,347 +233,506 @@
 						media: allMedia
 					})
 				});
-				if (!response.ok) throw new Error('Failed to create post');
+				if (!response.ok) {
+					error = 'Could not save the document set. Please try again.';
+					await toast.apiError(response, 'Could not save the document set');
+					return;
+				}
 				const newPost = await response.json();
 				rows = [...rows, newPost];
+				toast.success('Document set saved');
 			}
 			showModal = false;
-		} catch (error) {
-			uploadError = 'Error saving post: ' + error.message;
+		} catch (err) {
+			error = err?.message || 'Unexpected error while saving the document set.';
+			toast.error(error);
 		} finally {
 			uploading = false;
 		}
 	}
 </script>
 
-<div class="panel">
-	<div class="panel-head">
-		<h3>Other Posts</h3>
-		<button class="btn" onclick={openAdd}>Add Upload</button>
-	</div>
+<svelte:head>
+	<title>Documents &amp; Files | LGU Tanauan, Leyte</title>
+</svelte:head>
 
-	<!-- SEARCH BAR -->
-	<div style="margin-bottom:1rem;">
-		<input
-			type="text"
-			placeholder="Search department or type..."
-			bind:value={searchQuery}
-			oninput={() => (currentPage = 1)}
-			class="search-input"
-		/>
-	</div>
-
-	{#if loading}
-		<div>Loading...</div>
-	{:else}
-		<table class="table">
-			<thead><tr><th>Department</th><th>Type</th><th></th></tr></thead>
-			<tbody>
-				{#each paginatedRows as r}
-					<tr>
-						<td>{r.department}</td>
-						<td>{r.type}</td>
-						<td class="actions">
-							<button class="btn-small" onclick={() => openEdit(r)}>Edit</button>
-							<button class="btn-danger" onclick={() => removeRow(r.id)}>Delete</button>
-						</td>
-					</tr>
-				{/each}
-			</tbody>
-		</table>
-
-		<!-- PAGINATION -->
-		{#if totalPages > 1}
-			<div class="pagination">
-				<button
-					class="page-btn"
-					disabled={currentPage === 1}
-					onclick={() => changePage(currentPage - 1)}
+<div class="mx-auto max-w-7xl space-y-6 p-6 lg:p-10">
+	<!-- Page Header Banner -->
+	<div class="flex flex-col justify-between gap-4 md:flex-row md:items-center">
+		<div>
+			<div class="mb-1 flex items-center gap-2">
+				<span
+					class="inline-flex items-center gap-1.5 rounded-full border border-indigo-100 bg-indigo-50 px-2.5 py-0.5 text-xs font-semibold text-indigo-700"
 				>
-					Prev
-				</button>
+					<Files class="h-3.5 w-3.5 text-indigo-600" />
+					Documents &amp; Files
+				</span>
+				<span class="font-mono text-xs text-slate-400">• {totalCount} Document Sets</span>
+			</div>
+			<h1 class="text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
+				Citizen's Charter &amp; Organizational Documents
+			</h1>
+			<p class="mt-1 max-w-2xl text-xs leading-relaxed text-slate-500 sm:text-sm">
+				Upload and maintain shared reference files — the Citizen's Charter, organizational charts,
+				and other downloadable documents used across municipal department pages.
+			</p>
+		</div>
 
-				{#each Array(totalPages) as _, i}
+		<!-- Action: Upload Documents -->
+		<div class="flex items-center gap-3">
+			<button
+				type="button"
+				onclick={openAdd}
+				class="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-4 py-2.5 text-xs font-semibold text-white shadow-sm shadow-indigo-600/25 transition-all hover:scale-[1.01] hover:bg-indigo-700 active:scale-[0.99] sm:text-sm"
+			>
+				<Upload class="h-4 w-4" />
+				<span>Upload Documents</span>
+			</button>
+		</div>
+	</div>
+
+	<!-- KPI Metric Chips -->
+	<div class="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
+		<div
+			class="rounded-2xl border border-slate-200/80 bg-white p-4 shadow-sm transition-all hover:border-indigo-200 sm:p-5"
+		>
+			<div class="flex items-center justify-between">
+				<span class="text-[11px] font-bold tracking-wider text-slate-500 uppercase"
+					>Document Sets</span
+				>
+				<div
+					class="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600"
+				>
+					<Files class="h-4 w-4" />
+				</div>
+			</div>
+			<div class="mt-2 flex items-baseline gap-2">
+				<span class="text-2xl font-black text-slate-900">{totalCount}</span>
+				<span class="text-[11px] font-medium text-slate-400">on record</span>
+			</div>
+		</div>
+
+		<div
+			class="rounded-2xl border border-slate-200/80 bg-white p-4 shadow-sm transition-all hover:border-emerald-200 sm:p-5"
+		>
+			<div class="flex items-center justify-between">
+				<span class="text-[11px] font-bold tracking-wider text-slate-500 uppercase"
+					>Departments Covered</span
+				>
+				<div
+					class="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600"
+				>
+					<Building2 class="h-4 w-4" />
+				</div>
+			</div>
+			<div class="mt-2 flex items-baseline gap-2">
+				<span class="text-2xl font-black text-emerald-600">{departmentCount}</span>
+				<span class="text-[11px] font-medium text-emerald-700">offices</span>
+			</div>
+		</div>
+
+		<div
+			class="rounded-2xl border border-slate-200/80 bg-white p-4 shadow-sm transition-all hover:border-purple-200 sm:p-5"
+		>
+			<div class="flex items-center justify-between">
+				<span class="text-[11px] font-bold tracking-wider text-slate-500 uppercase"
+					>Attached Files</span
+				>
+				<div
+					class="flex h-8 w-8 items-center justify-center rounded-lg bg-purple-50 text-purple-600"
+				>
+					<FileText class="h-4 w-4" />
+				</div>
+			</div>
+			<div class="mt-2 flex items-baseline gap-2">
+				<span class="text-2xl font-black text-slate-900">{mediaCount}</span>
+				<span class="text-[11px] font-medium text-slate-400">media items</span>
+			</div>
+		</div>
+	</div>
+
+	<!-- Search Controls Card -->
+	<div class="rounded-2xl border border-slate-200/80 bg-white p-4 shadow-sm">
+		<div class="flex flex-col items-center gap-3 sm:flex-row">
+			<div class="relative w-full flex-1">
+				<div
+					class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400"
+				>
+					<Search class="h-4 w-4" />
+				</div>
+				<input
+					type="text"
+					placeholder="Search by department or document type…"
+					bind:value={searchTerm}
+					class="w-full rounded-xl border border-slate-200 bg-slate-50/50 py-2.5 pr-9 pl-10 text-xs text-slate-900 placeholder-slate-400 transition-all focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-500/20 focus:outline-none sm:text-sm"
+				/>
+				{#if searchTerm}
 					<button
-						class="page-num {currentPage === i + 1 ? 'active' : ''}"
-						onclick={() => changePage(i + 1)}
+						type="button"
+						onclick={clearFilters}
+						class="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-slate-600"
+						aria-label="Clear search"
 					>
-						{i + 1}
+						<X class="h-3.5 w-3.5" />
 					</button>
-				{/each}
+				{/if}
+			</div>
+		</div>
+	</div>
 
-				<button
-					class="page-btn"
-					disabled={currentPage === totalPages}
-					onclick={() => changePage(currentPage + 1)}
+	<!-- Main Documents Table Container -->
+	<div class="overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-sm">
+		{#if loading}
+			<div class="flex flex-col items-center justify-center p-16 text-center">
+				<svg class="mb-3 h-8 w-8 animate-spin text-indigo-600" fill="none" viewBox="0 0 24 24">
+					<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"
+					></circle>
+					<path
+						class="opacity-75"
+						fill="currentColor"
+						d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+					></path>
+				</svg>
+				<span class="text-xs font-medium text-slate-400">Loading document records…</span>
+			</div>
+		{:else if filteredRows.length === 0}
+			<div class="flex flex-col items-center justify-center p-16 text-center">
+				<div
+					class="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-100 text-slate-400"
 				>
-					Next
-				</button>
+					<FileText class="h-6 w-6" />
+				</div>
+				<h3 class="text-sm font-bold text-slate-900">No documents found</h3>
+				<p class="mt-1 max-w-sm text-xs text-slate-500">
+					{#if searchTerm}
+						Try adjusting your search query or clearing the filter to find what you're looking for.
+					{:else}
+						No shared files yet. Click "Upload Documents" to add your first document set.
+					{/if}
+				</p>
+				{#if searchTerm}
+					<button
+						type="button"
+						onclick={clearFilters}
+						class="mt-4 inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-700 transition-colors hover:bg-slate-100"
+					>
+						Clear Filters
+					</button>
+				{/if}
+			</div>
+		{:else}
+			<div class="overflow-x-auto">
+				<table class="w-full text-left text-xs">
+					<thead
+						class="border-b border-slate-200/80 bg-slate-50/90 text-[11px] font-bold tracking-wider text-slate-500 uppercase select-none"
+					>
+						<tr>
+							<th class="px-6 py-3.5">Department</th>
+							<th class="px-6 py-3.5">Type</th>
+							<th class="px-6 py-3.5">Media</th>
+							<th class="px-6 py-3.5">Date Added</th>
+							<th class="px-6 py-3.5 text-right">Actions</th>
+						</tr>
+					</thead>
+					<tbody class="divide-y divide-slate-100 font-medium text-slate-700">
+						{#each paginatedRows as r (r.id)}
+							<tr class="group transition-colors hover:bg-slate-50/70">
+								<!-- Department -->
+								<td class="px-6 py-4">
+									<span
+										class="inline-flex items-center gap-1 rounded-lg border border-indigo-100/60 bg-indigo-50 px-2.5 py-1 text-xs font-semibold text-indigo-700"
+									>
+										<Building2 class="h-3 w-3 text-indigo-500" />
+										{r.department || 'General LGU'}
+									</span>
+								</td>
+
+								<!-- Type -->
+								<td class="px-6 py-4">
+									<span
+										class="inline-flex items-center gap-1 rounded-lg bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-800"
+									>
+										<FileText class="h-3 w-3 text-slate-400" />
+										{r.type || '—'}
+									</span>
+								</td>
+
+								<!-- Media count -->
+								<td class="px-6 py-4">
+									<span
+										class="inline-flex items-center gap-1 rounded-lg bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-800"
+									>
+										<Files class="h-3 w-3 text-slate-400" />
+										{mediaTotal(r)}
+										{mediaTotal(r) === 1 ? 'file' : 'files'}
+									</span>
+								</td>
+
+								<!-- Date Added -->
+								<td class="px-6 py-4">
+									<span
+										class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-700"
+									>
+										<CalendarDays class="h-3.5 w-3.5 text-slate-400" />
+										{formatDate(r?.date_added)}
+									</span>
+								</td>
+
+								<!-- Actions -->
+								<td class="px-6 py-4 text-right">
+									<div class="inline-flex items-center justify-end gap-1.5">
+										<button
+											type="button"
+											onclick={() => openEdit(r)}
+											class="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-700 transition-colors hover:border-indigo-300 hover:bg-indigo-50/70 hover:text-indigo-700"
+											title="Edit document set"
+										>
+											<Pencil class="h-3.5 w-3.5" />
+											<span>Edit</span>
+										</button>
+										<button
+											type="button"
+											onclick={() => removeRow(r.id)}
+											class="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-700 transition-colors hover:border-rose-300 hover:bg-rose-50 hover:text-rose-700"
+											title="Delete document set"
+										>
+											<Trash2 class="h-3.5 w-3.5" />
+											<span>Delete</span>
+										</button>
+									</div>
+								</td>
+							</tr>
+						{/each}
+					</tbody>
+				</table>
+			</div>
+
+			<!-- Table Pagination Footer -->
+			<div
+				class="flex flex-col items-center justify-between gap-4 border-t border-slate-200/80 bg-slate-50/60 px-6 py-4 text-xs text-slate-500 sm:flex-row"
+			>
+				<div>
+					Showing <span class="font-bold text-slate-900">{startEntry}</span> to
+					<span class="font-bold text-slate-900">{endEntry}</span> of
+					<span class="font-bold text-slate-900">{filteredRows.length}</span> document sets
+				</div>
+
+				{#if totalPages > 1}
+					<div class="flex items-center gap-1">
+						<button
+							type="button"
+							onclick={() => goToPage(currentPage - 1)}
+							disabled={currentPage === 1}
+							class="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-white px-3 py-1.5 font-semibold text-slate-700 transition-colors hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-40"
+						>
+							<ChevronLeft class="h-3.5 w-3.5" />
+							<span>Prev</span>
+						</button>
+
+						<div class="px-2 font-mono font-medium text-slate-700">
+							{currentPage} / {totalPages}
+						</div>
+
+						<button
+							type="button"
+							onclick={() => goToPage(currentPage + 1)}
+							disabled={currentPage === totalPages}
+							class="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-white px-3 py-1.5 font-semibold text-slate-700 transition-colors hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-40"
+						>
+							<span>Next</span>
+							<ChevronRight class="h-3.5 w-3.5" />
+						</button>
+					</div>
+				{/if}
 			</div>
 		{/if}
-	{/if}
+	</div>
 </div>
 
-<!-- (MODAL SECTION UNCHANGED — YOUR ORIGINAL CODE) -->
-<Modal bind:open={showModal} title={editing ? 'Edit Upload' : 'Add Upload'}>
-	<div class="form-row">
-		{#if uploadError}
-			<div class="error-message">{uploadError}</div>
+<!-- Add / Edit Document Set Modal -->
+<Modal
+	bind:open={showModal}
+	title={editing ? 'Edit Document Set' : 'Upload Documents'}
+	size="max-w-2xl"
+>
+	<div class="space-y-4 p-1">
+		{#if error}
+			<div
+				class="flex items-start gap-2 rounded-xl border border-rose-200 bg-rose-50 p-3 text-xs text-rose-700"
+			>
+				<AlertCircle class="mt-0.5 h-4 w-4 shrink-0" />
+				<span>{error}</span>
+			</div>
 		{/if}
 
-		<label
-			>Department
-			<select bind:value={form.department} required disabled={uploading}>
-				<option value="">-- Select Department --</option>
-				{#each departments as dept}
-					<option value={dept.name}>{dept.name}</option>
-				{/each}
-			</select>
-		</label>
+		<!-- Department & Type -->
+		<div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+			<div class="space-y-1">
+				<label
+					for="doc-department"
+					class="block text-xs font-bold tracking-wider text-slate-700 uppercase"
+				>
+					Department <span class="text-rose-500">*</span>
+				</label>
+				<select
+					id="doc-department"
+					bind:value={form.department}
+					required
+					disabled={uploading}
+					class="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-xs text-slate-900 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-500/20 focus:outline-none disabled:cursor-not-allowed disabled:opacity-60 sm:text-sm"
+				>
+					<option value="">-- Select Department --</option>
+					{#each departments as dept}
+						<option value={dept.name}>{dept.name}</option>
+					{/each}
+				</select>
+			</div>
 
-		<label
-			>Type
-			<select bind:value={form.type} required disabled={uploading}>
-				<option value="">-- Select Type --</option>
-				{#each othersTypes as t}
-					<option value={t}>{t}</option>
-				{/each}
-			</select>
-		</label>
-		<label
-			>Media (Images/Videos)
+			<div class="space-y-1">
+				<label
+					for="doc-type"
+					class="block text-xs font-bold tracking-wider text-slate-700 uppercase"
+				>
+					Type <span class="text-rose-500">*</span>
+				</label>
+				<select
+					id="doc-type"
+					bind:value={form.type}
+					required
+					disabled={uploading}
+					class="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-xs text-slate-900 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-500/20 focus:outline-none disabled:cursor-not-allowed disabled:opacity-60 sm:text-sm"
+				>
+					<option value="">-- Select Type --</option>
+					{#each othersTypes as t}
+						<option value={t}>{t}</option>
+					{/each}
+				</select>
+			</div>
+		</div>
+
+		<!-- Media Upload -->
+		<div class="space-y-1.5">
+			<label
+				for="doc-media"
+				class="block text-xs font-bold tracking-wider text-slate-700 uppercase"
+			>
+				Media (Images / Videos)
+			</label>
 			<input
+				id="doc-media"
 				type="file"
 				multiple
 				accept="image/*,video/*"
 				onchange={handleMediaInput}
 				disabled={uploading}
+				class="block w-full cursor-pointer text-xs text-slate-500 file:mr-3 file:rounded-xl file:border-0 file:bg-indigo-50 file:px-3 file:py-2 file:text-xs file:font-semibold file:text-indigo-700 hover:file:bg-indigo-100 disabled:cursor-not-allowed"
 			/>
+			<p class="text-[11px] text-slate-400">
+				Attach scans, charts, or PDFs exported as images/videos. Multiple files are allowed.
+			</p>
+
 			{#if mediaPreview.length > 0}
-				<div class="media-list">
-					<p>Media files ({mediaPreview.length}):</p>
-					<div class="media-grid">
+				<div class="rounded-xl border border-slate-200 bg-slate-50 p-3">
+					<p class="text-[11px] font-bold tracking-wider text-slate-500 uppercase">
+						Media files ({mediaPreview.length})
+					</p>
+					<div class="mt-3 grid grid-cols-3 gap-3 sm:grid-cols-4">
 						{#each mediaPreview as media, idx}
-							<div class="media-item">
+							<div class="relative">
 								{#if typeof media === 'string'}
-									<!-- Existing media URL -->
-									{#if media.includes('firebasestorage')}
-										{#if /\.(jpg|jpeg|png|gif|webp|svg)$/i.test(media)}
-											<img src={media} alt="preview" class="media-thumb" />
-										{:else if /\.(mp4|webm|ogg)$/i.test(media)}
-											<video class="media-thumb" controls>
-												<track kind="captions" />
-												<source src={media} />
-											</video>
-										{:else}
-											<div class="media-placeholder">📎</div>
-										{/if}
+									{#if isImageURL(media)}
+										<img
+											src={media}
+											alt={mediaName(media)}
+											class="h-20 w-20 rounded-lg object-cover ring-1 ring-slate-200"
+										/>
+									{:else if isVideoURL(media)}
+										<video class="h-20 w-20 rounded-lg object-cover ring-1 ring-slate-200" controls>
+											<track kind="captions" />
+											<source src={media} />
+										</video>
+									{:else}
+										<div
+											class="flex h-20 w-20 items-center justify-center rounded-lg bg-slate-200 text-slate-400"
+										>
+											<FileText class="h-6 w-6" />
+										</div>
 									{/if}
-									<div class="media-name">{media.split('/').pop().split('?')[0]}</div>
+									<div
+										class="mt-1 w-20 truncate text-center text-[10px] text-slate-500"
+										title={mediaName(media)}
+									>
+										{mediaName(media)}
+									</div>
 								{:else}
-									<!-- New file -->
-									<div class="media-placeholder">📁</div>
-									<div class="media-name">{media.name}</div>
+									{#if media.type?.startsWith('video/')}
+										<div
+											class="flex h-20 w-20 items-center justify-center rounded-lg bg-slate-200 text-slate-400"
+										>
+											<FileVideo class="h-6 w-6" />
+										</div>
+									{:else}
+										<div
+											class="flex h-20 w-20 items-center justify-center rounded-lg bg-slate-200 text-slate-400"
+										>
+											<FileImage class="h-6 w-6" />
+										</div>
+									{/if}
+									<div
+										class="mt-1 w-20 truncate text-center text-[10px] text-slate-500"
+										title={media.name}
+									>
+										{media.name}
+									</div>
 								{/if}
+
 								<button
 									type="button"
-									class="media-remove"
+									class="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-rose-600 text-white shadow hover:bg-rose-700 disabled:opacity-50"
 									onclick={() => removeMediaItem(idx)}
-									disabled={uploading}>✕</button
+									disabled={uploading}
+									aria-label="Remove media file"
 								>
+									<X class="h-3 w-3" />
+								</button>
 							</div>
 						{/each}
 					</div>
 				</div>
 			{/if}
-		</label>
+		</div>
 
-		<div style="display:flex;gap:8px;margin-top:0.6rem;">
-			<button class="btn" onclick={save} disabled={uploading}>
-				{uploading ? 'Uploading...' : editing ? 'Save' : 'Add'}
-			</button>
-			<button class="btn-muted" onclick={() => (showModal = false)} disabled={uploading}
-				>Cancel</button
+		<!-- Modal Action Buttons -->
+		<div class="flex items-center justify-end gap-2.5 border-t border-slate-100 pt-4">
+			<button
+				type="button"
+				onclick={() => (showModal = false)}
+				disabled={uploading}
+				class="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-xs font-semibold text-slate-700 transition-colors hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60 sm:text-sm"
 			>
+				Cancel
+			</button>
+			<button
+				type="button"
+				onclick={save}
+				disabled={uploading}
+				class="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-4 py-2.5 text-xs font-semibold text-white shadow-sm shadow-indigo-600/25 transition-all hover:scale-[1.01] hover:bg-indigo-700 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60 sm:text-sm"
+			>
+				{#if uploading}
+					<svg class="h-4 w-4 animate-spin text-white" fill="none" viewBox="0 0 24 24">
+						<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"
+						></circle>
+						<path
+							class="opacity-75"
+							fill="currentColor"
+							d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+						></path>
+					</svg>
+					<span>Uploading...</span>
+				{:else}
+					<span>{editing ? 'Save Changes' : 'Upload Documents'}</span>
+				{/if}
+			</button>
 		</div>
 	</div>
 </Modal>
-
-<style>
-	/* Existing styles kept */
-	.panel {
-		background: white;
-		padding: 1rem;
-		border-radius: 8px;
-		box-shadow: 0 8px 24px rgba(2, 6, 23, 0.04);
-	}
-	.panel-head {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		margin-bottom: 0.8rem;
-	}
-	.btn {
-		background: #0f172a;
-		color: white;
-		padding: 0.45rem 0.6rem;
-		border-radius: 6px;
-		border: none;
-		cursor: pointer;
-	}
-	.btn:disabled {
-		opacity: 0.6;
-		cursor: not-allowed;
-	}
-	.btn-small {
-		padding: 0.25rem 0.45rem;
-		border-radius: 6px;
-		cursor: pointer;
-	}
-	.btn-danger {
-		background: #ef4444;
-		color: white;
-		border: none;
-		padding: 0.25rem 0.5rem;
-		border-radius: 6px;
-		cursor: pointer;
-	}
-	.table {
-		width: 100%;
-		border-collapse: collapse;
-	}
-	th,
-	td {
-		padding: 0.6rem 0.5rem;
-		text-align: left;
-		border-bottom: 1px solid #eef2f7;
-	}
-	.actions {
-		display: flex;
-		gap: 6px;
-	}
-	.form-row label {
-		display: block;
-		margin-bottom: 0.6rem;
-		font-weight: 500;
-	}
-	.error-message {
-		background: #fee2e2;
-		color: #b91c1c;
-		border: 1px solid #fca5a5;
-		padding: 0.75rem;
-		border-radius: 6px;
-		margin-bottom: 1rem;
-		font-size: 0.9rem;
-	}
-	input,
-	textarea,
-	select {
-		width: 100%;
-		padding: 0.45rem;
-		border-radius: 6px;
-		border: 1px solid #e6eef8;
-		font-family: inherit;
-	}
-	input:disabled,
-	textarea:disabled,
-	select:disabled {
-		background: #f6f8fb;
-		cursor: not-allowed;
-		opacity: 0.7;
-	}
-	textarea {
-		resize: vertical;
-	}
-	.btn-muted {
-		background: #eef2f6;
-		border: none;
-		padding: 0.45rem;
-		border-radius: 6px;
-		cursor: pointer;
-	}
-	.btn-muted:disabled {
-		opacity: 0.6;
-		cursor: not-allowed;
-	}
-	.media-list {
-		margin-top: 0.6rem;
-		padding: 0.75rem;
-		background: #f6f8fb;
-		border-radius: 6px;
-	}
-	.media-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-		gap: 0.5rem;
-		margin-top: 0.5rem;
-	}
-	.media-item {
-		position: relative;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		padding: 0.5rem;
-		background: white;
-		border-radius: 4px;
-		border: 1px solid #e6eef8;
-		cursor: pointer;
-	}
-	.media-thumb {
-		width: 60px;
-		height: 60px;
-		object-fit: cover;
-		border-radius: 4px;
-	}
-	.media-placeholder {
-		width: 60px;
-		height: 60px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		background: #eef2f6;
-		border-radius: 4px;
-		font-size: 1.5rem;
-	}
-	.media-name {
-		font-size: 0.75rem;
-		text-align: center;
-		margin-top: 0.3rem;
-		word-break: break-word;
-		max-width: 80px;
-		color: #64748b;
-	}
-	.media-remove {
-		position: absolute;
-		top: -8px;
-		right: -8px;
-		width: 24px;
-		height: 24px;
-		border-radius: 50%;
-		background: #ef4444;
-		color: white;
-		border: none;
-		cursor: pointer;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		font-size: 0.8rem;
-		padding: 0;
-	}
-	.media-remove:disabled {
-		opacity: 0.5;
-		cursor: not-allowed;
-	}
-	.search-input {
-		padding: 0.45rem;
-		border-radius: 6px;
-		border: 1px solid #e6eef8;
-	}
-	.pagination {
-		margin-top: 0.8rem;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		gap: 8px;
-	}
-</style>

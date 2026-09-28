@@ -1,11 +1,15 @@
 import { json } from '@sveltejs/kit';
 import { getAdmin } from '$lib/firebaseAdmin';
+import { requireAuth, isAuthError } from '$lib/serverGuard';
 
 // POST: Add new user
 // PUT: Update user
 // DELETE: Delete user
 
-export async function POST({ request }) {
+export async function POST(event) {
+	const auth = await requireAuth(event);
+	if (isAuthError(auth)) return auth;
+	const { request } = event;
 	try {
 		const { db, admin } = await getAdmin();
 		const body = await request.json();
@@ -45,7 +49,10 @@ export async function POST({ request }) {
 		return json({ error: error.message }, { status: 500 });
 	}
 }
-export async function PUT({ request }) {
+export async function PUT(event) {
+	const auth = await requireAuth(event);
+	if (isAuthError(auth)) return auth;
+	const { request } = event;
 	try {
 		const { db } = await getAdmin();
 		const body = await request.json();
@@ -73,7 +80,10 @@ export async function PUT({ request }) {
 		return json({ error: error.message }, { status: 500 });
 	}
 }
-export async function DELETE({ request }) {
+export async function DELETE(event) {
+	const auth = await requireAuth(event);
+	if (isAuthError(auth)) return auth;
+	const { request } = event;
 	try {
 		const { db } = await getAdmin();
 		const body = await request.json();
