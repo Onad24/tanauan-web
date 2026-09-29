@@ -14,6 +14,7 @@
 	let error = '';
 	let isExpanded = false;
 	let selectedAwardPhoto = null;
+	let selectedImageIndex = 0;
 
 	$: filtered = selectedOffice ? awards.filter((u) => u.office === selectedOffice) : awards;
 
@@ -40,14 +41,26 @@
 
 	$: displayed = (isExpanded || !collapsible || filtered.length <= limit) ? filtered : filtered.slice(0, limit);
 
-	function openPhotoModal(award) {
+	function openPhotoModal(award, idx = 0) {
 		if (award.media && award.media.length > 0) {
 			selectedAwardPhoto = award;
+			selectedImageIndex = idx;
 		}
 	}
 
 	function closePhotoModal() {
 		selectedAwardPhoto = null;
+		selectedImageIndex = 0;
+	}
+
+	function nextAwardImage() {
+		if (!selectedAwardPhoto || !selectedAwardPhoto.media) return;
+		selectedImageIndex = (selectedImageIndex + 1) % selectedAwardPhoto.media.length;
+	}
+
+	function prevAwardImage() {
+		if (!selectedAwardPhoto || !selectedAwardPhoto.media) return;
+		selectedImageIndex = (selectedImageIndex - 1 + selectedAwardPhoto.media.length) % selectedAwardPhoto.media.length;
 	}
 </script>
 
@@ -120,6 +133,11 @@
 									alt={award.awards}
 									class="w-full h-52 object-cover object-top rounded-lg transition-transform duration-500 group-hover:scale-105"
 								/>
+								{#if award.media.length > 1}
+									<span class="absolute bottom-2.5 right-2.5 px-2.5 py-0.5 rounded-md bg-blue-950/90 text-amber-300 font-black text-[10px] uppercase tracking-wide border border-amber-400/50 shadow-sm backdrop-blur-xs">
+										📷 {award.media.length} Photos
+									</span>
+								{/if}
 								<div class="absolute inset-0 bg-blue-950/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
 									<span class="px-3.5 py-1.5 rounded-lg bg-white/95 text-blue-950 font-black text-xs uppercase shadow-md backdrop-blur-sm">
 										Inspect Photo ↗
@@ -211,16 +229,55 @@
 				</button>
 			</div>
 
-			<div class="p-6 overflow-auto bg-slate-100 flex items-center justify-center">
-				<img
-					src={selectedAwardPhoto.media[0]}
-					alt={selectedAwardPhoto.awards}
-					class="w-auto h-auto max-w-full max-h-[70vh] object-contain rounded-xl shadow-lg border border-slate-300 bg-white"
-				/>
+			<div class="relative p-6 overflow-auto bg-slate-100 flex flex-col items-center justify-center">
+				<div class="relative flex items-center justify-center w-full">
+					{#if selectedAwardPhoto.media && selectedAwardPhoto.media.length > 1}
+						<button
+							type="button"
+							onclick={prevAwardImage}
+							class="absolute left-2 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-blue-950/80 text-white hover:bg-amber-400 hover:text-blue-950 shadow-lg transition-all"
+							aria-label="Previous photo"
+						>
+							←
+						</button>
+					{/if}
+
+					<img
+						src={selectedAwardPhoto.media[selectedImageIndex] || selectedAwardPhoto.media[0]}
+						alt={selectedAwardPhoto.awards}
+						class="w-auto h-auto max-w-full max-h-[65vh] object-contain rounded-xl shadow-lg border border-slate-300 bg-white"
+					/>
+
+					{#if selectedAwardPhoto.media && selectedAwardPhoto.media.length > 1}
+						<button
+							type="button"
+							onclick={nextAwardImage}
+							class="absolute right-2 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-blue-950/80 text-white hover:bg-amber-400 hover:text-blue-950 shadow-lg transition-all"
+							aria-label="Next photo"
+						>
+							→
+						</button>
+					{/if}
+				</div>
+
+				<!-- Thumbnail Selector Strip -->
+				{#if selectedAwardPhoto.media && selectedAwardPhoto.media.length > 1}
+					<div class="mt-4 flex flex-wrap items-center justify-center gap-2">
+						{#each selectedAwardPhoto.media as photo, idx}
+							<button
+								type="button"
+								onclick={() => (selectedImageIndex = idx)}
+								class="h-14 w-18 overflow-hidden rounded-lg border-2 transition-all {selectedImageIndex === idx ? 'border-amber-500 scale-105 shadow-md' : 'border-slate-300 opacity-60 hover:opacity-100'}"
+							>
+								<img src={photo} alt="" class="h-full w-full object-cover" />
+							</button>
+						{/each}
+					</div>
+				{/if}
 			</div>
 
 			{#if selectedAwardPhoto.description}
-				<div class="px-6 py-4 bg-white border-t border-slate-200 text-sm font-medium text-slate-800">
+				<div class="px-6 py-4 bg-white border-t border-slate-200 text-sm font-medium text-slate-800 leading-relaxed">
 					{selectedAwardPhoto.description}
 				</div>
 			{/if}

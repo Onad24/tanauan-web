@@ -156,6 +156,9 @@ export const DEPT_DEFAULTS = {
   'Civil Registrar': {
     officeName: 'Municipal Civil Registrar Office',
     officeCode: 'MCRO',
+    showAccomplishments: true,
+    showPersonnel: false,
+    formsAtEnd: true,
     category: 'Civil Registration & Vital Statistics',
     citizensCharterUrl: '/citizens-charter/civil-registrar',
     tagline: 'Registering vital events, safeguarding civil records, and providing essential civil registration services to all residents of Tanauan.',
@@ -186,7 +189,59 @@ export const DEPT_DEFAULTS = {
       { index: '02', code: 'DOC-ISSUANCE', title: 'Document Issuance & Authentication', description: 'Issues certified true copies of civil registry documents and authenticates vital statistics records.', tag: 'Document Services', details: ['Certified True Copy Issuance', 'Document Authentication & Endorsement', 'PSA Request Facilitation'] },
       { index: '03', code: 'CORRECTION', title: 'Clerical Error Corrections & Annotations', description: 'Processes petitions for correction of clerical errors and annotations on civil registry documents under RA 9048 and RA 10172.', tag: 'Legal Services', details: ['RA 9048 Petition Processing', 'RA 10172 Petition Processing', 'Court Decree Annotations'] }
     ],
-    schedule: { hours: 'Monday – Friday | 8:00 AM – 5:00 PM', location: 'Tanauan Municipal Hall, Real St., Tanauan, Leyte', contactNumber: '', email: 'civilregistrar@tanauanleyte.gov.ph', helpline: 'Civil Registry Window, Ground Floor, Municipal Hall' }
+    schedule: { hours: 'Monday – Friday | 8:00 AM – 5:00 PM', location: 'Tanauan Municipal Hall, Real St., Tanauan, Leyte', contactNumber: '', email: 'civilregistrar@tanauanleyte.gov.ph', helpline: 'Civil Registry Window, Ground Floor, Municipal Hall' },
+    downloadableForms: [
+      {
+        index: '01',
+        title: 'Joint Affidavit of Two Disinterested Persons (Late Registration of Birth)',
+        type: 'Legal Affidavit • RA 3753 / Family Code',
+        icon: '📜',
+        description: 'Official sworn statement executed by two disinterested persons attesting to the facts of birth, date, place, parentage, and baptism for delayed birth registration with the Local Civil Registrar.',
+        format: 'Official PDF Document',
+        url: '/forms/civil-registrar/joint-affidavit-two-disinterested-persons-late-registration-birth.pdf',
+        downloadUrl: '/forms/civil-registrar/joint-affidavit-two-disinterested-persons-late-registration-birth.pdf',
+        htmlUrl: '/forms/civil-registrar/joint-affidavit-late-birth.html',
+        requirements: [
+          'Two (2) Disinterested Witnesses (not related up to 4th degree of consanguinity/affinity)',
+          'Valid Government-Issued IDs of both affiants with signatures',
+          'Baptismal Certificate of the subject person',
+          'Marriage Certificate of parents (if married)'
+        ]
+      },
+      {
+        index: '02',
+        title: 'Joint Affidavit of Two Disinterested Persons (Fact of Death)',
+        type: 'Legal Affidavit • Vital Statistics',
+        icon: '⚖️',
+        description: 'Official sworn affidavit executed by two disinterested persons with personal knowledge of the death, wake, and funeral of a deceased person for delayed or post-mortem death registration.',
+        format: 'Official PDF Document',
+        url: '/forms/civil-registrar/joint-affidavit-two-disinterested-persons-fact-of-death.pdf',
+        downloadUrl: '/forms/civil-registrar/joint-affidavit-two-disinterested-persons-fact-of-death.pdf',
+        htmlUrl: '/forms/civil-registrar/joint-affidavit-fact-of-death.html',
+        requirements: [
+          'Two (2) Disinterested Witnesses who attended the wake/funeral',
+          'Valid Government-Issued IDs of both affiants',
+          'Certificate of Death prepared by hospital/attending physician (if applicable)',
+          'Burial or Cemetery Certificate'
+        ]
+      },
+      {
+        index: '03',
+        title: 'Barangay Certification for Late Registration',
+        type: 'Barangay Registry Certification',
+        icon: '🏛️',
+        description: 'Official clearance issued by the Office of the Punong Barangay certifying that the inhabitant’s vital records (Name, Sex, DOB, Place of Birth, Parents) are duly recorded in the Barangay Registry of Inhabitants.',
+        format: 'Official PDF Document',
+        url: '/forms/civil-registrar/barangay-certification-late-registration.pdf',
+        downloadUrl: '/forms/civil-registrar/barangay-certification-late-registration.pdf',
+        htmlUrl: '/forms/civil-registrar/barangay-certification-late-registration.html',
+        requirements: [
+          'Barangay Inhabitant Record / Cedula (Community Tax Certificate)',
+          'Valid Proof of Barangay Residency',
+          'Affidavit or application for delayed civil registration'
+        ]
+      }
+    ]
   },
   'Day Care': {
     officeName: 'Municipal Day Care Services Office',

@@ -195,7 +195,7 @@
 	// ==========================================
 	let searchQuery = $state('');
 	let selectedPerson = $state(null);
-	let viewMode = $state('tree'); // 'tree' | 'grid'
+	let viewMode = $state('grid'); // 'grid' (Role Roster) | 'tree' (Tree Hierarchy)
 	let zoomScale = $state(1);
 	let panOffset = $state({ x: 0, y: 0 });
 	let isPanning = $state(false);
@@ -357,98 +357,161 @@
 	</div>
 
 	<!-- ============================================== -->
+	<!-- ============================================== -->
 	<!-- INTERACTIVE TOOLBAR: SEARCH, VIEW TOGGLE, ZOOM -->
 	<!-- ============================================== -->
 	<div class="relative z-10 mb-8 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 rounded-2xl border border-white/15 bg-white/5 p-3.5 backdrop-blur-md shadow-lg">
 		<!-- Search Input with Live Filter -->
 		<div class="relative flex-1 max-w-md">
-			<span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm">🔍</span>
 			<input
 				type="text"
 				bind:value={searchQuery}
 				placeholder="Search by name, role, division, service (e.g. Birth, Marriage, Death, Salvaña)..."
-				class="w-full rounded-xl border border-white/20 bg-slate-900/80 pl-10 pr-4 py-2.5 text-xs sm:text-sm text-white placeholder-slate-400 shadow-inner outline-none transition-all focus:border-amber-400 focus:ring-2 focus:ring-amber-400/30"
+				class="w-full rounded-xl border border-white/20 bg-slate-900/80 px-4 py-2.5 text-xs sm:text-sm text-white placeholder-slate-400 shadow-inner outline-none transition-all focus:border-amber-400 focus:ring-2 focus:ring-amber-400/30"
 			/>
 			{#if searchQuery}
 				<button
 					type="button"
 					onclick={() => (searchQuery = '')}
 					class="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400 hover:text-white"
-				>✕</button>
+				>Clear</button>
 			{/if}
 		</div>
 
 		<!-- View Modes & Canvas Controls -->
 		<div class="flex flex-wrap items-center gap-2">
-			<!-- View Mode Toggle -->
+			<!-- View Mode Toggle: Role Roster first, Tree Hierarchy second -->
 			<div class="flex rounded-xl border border-white/20 bg-slate-900/80 p-1">
-				<button
-					type="button"
-					onclick={() => (viewMode = 'tree')}
-					class="rounded-lg px-3 py-1.5 text-xs font-bold transition-all {viewMode === 'tree' ? 'bg-blue-600 text-white shadow' : 'text-slate-300 hover:text-white'}"
-				>
-					🌿 Tree Hierarchy
-				</button>
 				<button
 					type="button"
 					onclick={() => (viewMode = 'grid')}
 					class="rounded-lg px-3 py-1.5 text-xs font-bold transition-all {viewMode === 'grid' ? 'bg-blue-600 text-white shadow' : 'text-slate-300 hover:text-white'}"
 				>
-					▦ Role Roster
+					Role Roster
 				</button>
-			</div>
-
-			<!-- Expand / Collapse All -->
-			<button
-				type="button"
-				onclick={expandAll}
-				class="rounded-xl border border-white/15 bg-white/5 px-2.5 py-2 text-xs font-bold text-slate-300 hover:bg-white/15 hover:text-white transition-colors"
-				title="Expand all nodes"
-			>
-				⊞ Expand
-			</button>
-			<button
-				type="button"
-				onclick={collapseAll}
-				class="rounded-xl border border-white/15 bg-white/5 px-2.5 py-2 text-xs font-bold text-slate-300 hover:bg-white/15 hover:text-white transition-colors"
-				title="Collapse branches"
-			>
-				⊟ Collapse
-			</button>
-
-			<!-- Zoom Controls -->
-			<div class="flex items-center rounded-xl border border-white/20 bg-slate-900/80 p-1">
 				<button
 					type="button"
-					onclick={zoomOut}
-					class="h-8 w-8 rounded-lg text-sm font-black text-slate-300 hover:bg-white/10 hover:text-white transition-colors flex items-center justify-center"
-					title="Zoom Out"
-				>−</button>
-				<span class="px-2 text-xs font-mono font-bold text-amber-300">
-					{Math.round(zoomScale * 100)}%
-				</span>
-				<button
-					type="button"
-					onclick={zoomIn}
-					class="h-8 w-8 rounded-lg text-sm font-black text-slate-300 hover:bg-white/10 hover:text-white transition-colors flex items-center justify-center"
-					title="Zoom In"
-				>+</button>
-				<button
-					type="button"
-					onclick={resetZoom}
-					class="ml-1 rounded-lg px-2 py-1 text-[11px] font-bold text-slate-400 hover:bg-white/10 hover:text-white transition-colors"
-					title="Reset Zoom to 100%"
+					onclick={() => (viewMode = 'tree')}
+					class="rounded-lg px-3 py-1.5 text-xs font-bold transition-all {viewMode === 'tree' ? 'bg-blue-600 text-white shadow' : 'text-slate-300 hover:text-white'}"
 				>
-					Reset
+					Tree Hierarchy
 				</button>
 			</div>
+
+			<!-- Tree Canvas Controls (available when in tree mode) -->
+			{#if viewMode === 'tree'}
+				<!-- Expand / Collapse All -->
+				<button
+					type="button"
+					onclick={expandAll}
+					class="rounded-xl border border-white/15 bg-white/5 px-2.5 py-2 text-xs font-bold text-slate-300 hover:bg-white/15 hover:text-white transition-colors"
+					title="Expand all nodes"
+				>
+					Expand
+				</button>
+				<button
+					type="button"
+					onclick={collapseAll}
+					class="rounded-xl border border-white/15 bg-white/5 px-2.5 py-2 text-xs font-bold text-slate-300 hover:bg-white/15 hover:text-white transition-colors"
+					title="Collapse branches"
+				>
+					Collapse
+				</button>
+
+				<!-- Zoom Controls -->
+				<div class="flex items-center rounded-xl border border-white/20 bg-slate-900/80 p-1">
+					<button
+						type="button"
+						onclick={zoomOut}
+						class="h-8 w-8 rounded-lg text-sm font-black text-slate-300 hover:bg-white/10 hover:text-white transition-colors flex items-center justify-center"
+						title="Zoom Out"
+					>-</button>
+					<span class="px-2 text-xs font-mono font-bold text-amber-300">
+						{Math.round(zoomScale * 100)}%
+					</span>
+					<button
+						type="button"
+						onclick={zoomIn}
+						class="h-8 w-8 rounded-lg text-sm font-black text-slate-300 hover:bg-white/10 hover:text-white transition-colors flex items-center justify-center"
+						title="Zoom In"
+					>+</button>
+					<button
+						type="button"
+						onclick={resetZoom}
+						class="ml-1 rounded-lg px-2 py-1 text-[11px] font-bold text-slate-400 hover:bg-white/10 hover:text-white transition-colors"
+						title="Reset Zoom to 100%"
+					>
+						Reset
+					</button>
+				</div>
+			{/if}
 		</div>
 	</div>
 
 	<!-- ============================================== -->
-	<!-- MAIN CANVAS VIEWPORT (TREE HIERARCHY) -->
+	<!-- GRID VIEW: ROLE ROSTER (ALWAYS SHOWN FIRST)   -->
 	<!-- ============================================== -->
-	{#if viewMode === 'tree'}
+	{#if viewMode === 'grid'}
+		<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 py-4">
+			{#each allPersonnel as person (person.id)}
+				{#if matchesSearch(person, searchQuery)}
+					<div
+						role="button"
+						tabindex="0"
+						onclick={() => openDetail(person)}
+						onkeydown={(e) => e.key === 'Enter' && openDetail(person)}
+						class="group relative flex flex-col justify-between overflow-hidden rounded-3xl border-2 border-white/15 bg-gradient-to-b from-white/10 to-white/5 p-6 backdrop-blur-md shadow-xl transition-all duration-300 hover:scale-102 hover:border-amber-400 cursor-pointer"
+						style="box-shadow: 0 10px 30px {person.glow};"
+					>
+						<div class="flex items-start gap-4">
+							<!-- Circular Portrait -->
+							<div class="relative h-18 w-18 shrink-0 overflow-hidden rounded-2xl border-2 border-white/80 bg-slate-900 shadow-md">
+								{#if !failedImages.has(person.id)}
+									<img
+										src={person.image}
+										alt={person.name}
+										class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
+										onerror={() => onImgError(person.id)}
+									/>
+								{:else}
+									<div class="flex h-full w-full items-center justify-center font-black text-xl text-white" style="background: {person.color};">
+										{person.name.split(' ').map((n) => n[0]).filter((c) => c && c.match(/[A-Z]/)).slice(0, 2).join('')}
+									</div>
+								{/if}
+							</div>
+
+							<div>
+								<span
+									class="inline-block rounded-full px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider"
+									style="background-color: {person.color}25; color: {person.color}; border: 1px solid {person.color}66;"
+								>
+									{person.badge}
+								</span>
+								<h3 class="mt-1 text-base font-black text-white group-hover:text-amber-300 transition-colors">
+									{person.name}
+								</h3>
+								<p class="text-xs font-bold text-sky-200">
+									{person.position}
+								</p>
+								<p class="mt-1 text-[11px] font-medium text-slate-400">
+									{person.window}
+								</p>
+							</div>
+						</div>
+
+						<div class="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-xs font-bold text-slate-300">
+							<span class="text-slate-400">{person.roleCategory}</span>
+							<span class="text-amber-400 group-hover:underline transition-all">View Profile</span>
+						</div>
+					</div>
+				{/if}
+			{/each}
+		</div>
+
+	<!-- ============================================== -->
+	<!-- MAIN CANVAS VIEWPORT (TREE HIERARCHY)         -->
+	<!-- ============================================== -->
+	{:else}
 		<!-- svelte-ignore a11y_no_static_element_interactions -->
 		<div
 			class="relative min-h-[640px] w-full overflow-hidden rounded-2xl border border-white/10 bg-black/20 p-4 sm:p-8 cursor-grab active:cursor-grabbing select-none"
@@ -528,66 +591,6 @@
 					{/if}
 				</div>
 			</div>
-		</div>
-
-	<!-- ============================================== -->
-	<!-- GRID VIEW: ROLE ROSTER -->
-	<!-- ============================================== -->
-	{:else}
-		<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 py-4">
-			{#each allPersonnel as person (person.id)}
-				{#if matchesSearch(person, searchQuery)}
-					<div
-						role="button"
-						tabindex="0"
-						onclick={() => openDetail(person)}
-						onkeydown={(e) => e.key === 'Enter' && openDetail(person)}
-						class="group relative flex flex-col justify-between overflow-hidden rounded-3xl border-2 border-white/15 bg-gradient-to-b from-white/10 to-white/5 p-6 backdrop-blur-md shadow-xl transition-all duration-300 hover:scale-102 hover:border-amber-400 cursor-pointer"
-						style="box-shadow: 0 10px 30px {person.glow};"
-					>
-						<div class="flex items-start gap-4">
-							<!-- Circular Portrait -->
-							<div class="relative h-18 w-18 shrink-0 overflow-hidden rounded-2xl border-2 border-white/80 bg-slate-900 shadow-md">
-								{#if !failedImages.has(person.id)}
-									<img
-										src={person.image}
-										alt={person.name}
-										class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
-										onerror={() => onImgError(person.id)}
-									/>
-								{:else}
-									<div class="flex h-full w-full items-center justify-center font-black text-xl text-white" style="background: {person.color};">
-										{person.name.split(' ').map((n) => n[0]).filter((c) => c && c.match(/[A-Z]/)).slice(0, 2).join('')}
-									</div>
-								{/if}
-							</div>
-
-							<div>
-								<span
-									class="inline-block rounded-full px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider"
-									style="background-color: {person.color}25; color: {person.color}; border: 1px solid {person.color}66;"
-								>
-									{person.badge}
-								</span>
-								<h3 class="mt-1 text-base font-black text-white group-hover:text-amber-300 transition-colors">
-									{person.name}
-								</h3>
-								<p class="text-xs font-bold text-sky-200">
-									{person.position}
-								</p>
-								<p class="mt-1 text-[11px] font-medium text-slate-400">
-									{person.window}
-								</p>
-							</div>
-						</div>
-
-						<div class="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-xs font-bold text-slate-300">
-							<span class="text-slate-400">{person.roleCategory}</span>
-							<span class="text-amber-400 group-hover:translate-x-1 transition-transform">View Profile →</span>
-						</div>
-					</div>
-				{/if}
-			{/each}
 		</div>
 	{/if}
 
@@ -687,8 +690,7 @@
 			</p>
 
 			<!-- Assignment / Window Badge -->
-			<div class="mt-2.5 flex items-center justify-center gap-1 rounded-lg border border-white/10 bg-white/5 px-2.5 py-1 text-[10px] font-semibold text-slate-300">
-				<span>🏛</span>
+			<div class="mt-2.5 flex items-center justify-center rounded-lg border border-white/10 bg-white/5 px-2.5 py-1 text-[10px] font-semibold text-slate-300">
 				<span class="truncate max-w-[190px]">{person.window}</span>
 			</div>
 
@@ -780,10 +782,10 @@
 				<button
 					type="button"
 					onclick={closeDetail}
-					class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/20 bg-white/10 text-slate-300 transition-colors hover:bg-white/20 hover:text-white focus:outline-none cursor-pointer"
+					class="flex h-9 px-3.5 shrink-0 items-center justify-center rounded-full border border-white/20 bg-white/10 text-xs font-bold text-slate-300 transition-colors hover:bg-white/20 hover:text-white focus:outline-none cursor-pointer"
 					aria-label="Close dialog"
 				>
-					<span class="text-xl font-bold">✕</span>
+					Close
 				</button>
 			</div>
 
@@ -805,7 +807,7 @@
 					<ul class="space-y-2">
 						{#each selectedPerson.duties as duty}
 							<li class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-300">
-								<span class="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-blue-500/20 text-[10px] text-blue-400">✓</span>
+								<span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-400"></span>
 								<span>{duty}</span>
 							</li>
 						{/each}
@@ -821,7 +823,7 @@
 						<div class="flex flex-wrap gap-2">
 							{#each selectedPerson.services as svc}
 								<span class="rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-bold text-emerald-200">
-									📜 {svc}
+									{svc}
 								</span>
 							{/each}
 						</div>
@@ -853,7 +855,7 @@
 						href="/citizens-charter/civil-registrar"
 						class="rounded-xl border border-amber-400/40 bg-amber-400/10 px-4 py-2 text-xs font-black text-amber-300 hover:bg-amber-400/20 transition-colors"
 					>
-						Citizen's Charter ↗
+						Citizen's Charter
 					</a>
 					<button
 						type="button"

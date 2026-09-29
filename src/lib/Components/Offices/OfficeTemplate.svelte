@@ -14,6 +14,7 @@
 	import MAOServicesPortal from '$lib/Components/Offices/MAOServicesPortal.svelte';
 	import MAOOrgChart from '$lib/Components/Offices/MAOOrgChart.svelte';
 	import CivilRegistrarOrgChart from '$lib/Components/Offices/CivilRegistrarOrgChart.svelte';
+	import CivilRegistrarAccomplishments from '$lib/Components/Offices/CivilRegistrarAccomplishments.svelte';
 
 	let {
 		officeName = "Municipal Treasurer's Office",
@@ -156,6 +157,9 @@
 			helpline: 'Citizens Helpdesk: Windows 1 to 4, Treasury Hall'
 		},
 		department = 'Treasurer',
+		showAccomplishments = true,
+		showPersonnel = true,
+		formsAtEnd = false,
 		orgChartImage = '',
 		dutiesAndResponsibilities = null,
 		vision = '',
@@ -237,17 +241,28 @@
 		(officeName && officeName.toLowerCase().includes('agriculture'))
 	);
 
+	const isCivilRegistrar = $derived(
+		department === 'Civil Registrar' ||
+		officeCode === 'MCRO' ||
+		officeCode === 'MCR' ||
+		department === 'Municipal Civil Registrar'
+	);
+
+	const shouldShowPersonnel = $derived(showPersonnel && !isCivilRegistrar);
+	const shouldPutFormsAtEnd = $derived(formsAtEnd || isCivilRegistrar);
+
 	const baseNav = $derived([
 		{ id: 'overview', label: 'Overview' },
 		...(vision || mission ? [{ id: 'vision-mission', label: 'Vision & Mission' }] : []),
 		...(isMAO || (servicesOffered && servicesOffered.length > 0) ? [{ id: 'services', label: 'Services' }] : []),
-		...(!isMAO && downloadableForms && downloadableForms.length > 0 ? [{ id: 'forms', label: 'Forms' }] : []),
+		...(!isMAO && !shouldPutFormsAtEnd && downloadableForms && downloadableForms.length > 0 ? [{ id: 'forms', label: 'Forms' }] : []),
 		...(!isMAO && mandates && mandates.length > 0 ? [{ id: 'mandates', label: 'Mandates' }] : []),
 		{ id: 'leadership', label: 'Leadership' },
 		{ id: 'structure', label: 'Structure' },
-		{ id: 'accomplishments', label: 'Reports' },
+		...(showAccomplishments ? [{ id: 'accomplishments', label: 'Reports' }] : []),
 		{ id: 'awards', label: 'Recognition' },
-		{ id: 'personnel', label: 'Personnel' }
+		...(shouldShowPersonnel ? [{ id: 'personnel', label: 'Personnel' }] : []),
+		...(!isMAO && shouldPutFormsAtEnd && downloadableForms && downloadableForms.length > 0 ? [{ id: 'forms', label: 'Forms' }] : [])
 	]);
 
 	// Downloadable Forms Modal State
@@ -267,6 +282,13 @@
 			code: String(idx + 1).padStart(2, '0')
 		}))
 	);
+
+	const mandatesNavCode = $derived(navSections.find((s) => s.id === 'mandates')?.code);
+	const leadershipNavCode = $derived(navSections.find((s) => s.id === 'leadership')?.code || '03');
+	const structureNavCode = $derived(navSections.find((s) => s.id === 'structure')?.code || '04');
+	const accomplishmentsNavCode = $derived(navSections.find((s) => s.id === 'accomplishments')?.code || '05');
+	const awardsNavCode = $derived(navSections.find((s) => s.id === 'awards')?.code || '06');
+	const formsNavCode = $derived(navSections.find((s) => s.id === 'forms')?.code);
 
 	function scrollTo(id) {
 		const target = document.getElementById(id);
@@ -1125,300 +1147,152 @@
 			</section>
 		{/if}
 
-		<!-- Section: Downloadable Forms (When Provided and not MAO) -->
-		{#if !isMAO && downloadableForms && downloadableForms.length > 0}
-			<section id="forms" class="relative bg-gradient-to-b from-slate-50 via-white to-slate-50 py-20 overflow-hidden">
-				<!-- Decorative background elements -->
-				<div class="pointer-events-none absolute inset-0">
-					<div
-						class="absolute -top-20 -right-20 h-80 w-80 rounded-full bg-blue-100/40 blur-3xl"
-					></div>
-					<div
-						class="absolute -bottom-20 -left-20 h-80 w-80 rounded-full bg-amber-100/40 blur-3xl"
-					></div>
-				</div>
-
-				<div class="relative container mx-auto max-w-7xl px-6">
-					<!-- Section Header -->
-					<div class="mb-10 max-w-3xl">
-						<div
-							class="mb-3 inline-flex items-center gap-2 rounded-md border border-blue-300 bg-blue-100 px-3.5 py-1 text-xs font-black tracking-wider text-blue-950 uppercase"
-						>
-							<span class="h-2 w-2 animate-pulse rounded-full bg-blue-700"></span>
-							OFFICIAL DOWNLOADABLE FORMS
-						</div>
-						<h2
-							class="text-3xl leading-tight font-black tracking-tight text-blue-950 sm:text-4xl lg:text-5xl"
-						>
-							Downloadable Office Forms
-						</h2>
-						<p class="mt-4 text-base leading-relaxed font-normal text-slate-800 sm:text-lg">
-							Official forms available for download. Click any form card to view its details and
-							access the download link from Google Drive.
-						</p>
-					</div>
-
-					<!-- Forms Cards Grid -->
-					<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-						{#each downloadableForms as form, fIdx}
-							<div
-								role="button"
-								tabindex="0"
-								onclick={() => openFormModal(form)}
-								onkeydown={(e) => e.key === 'Enter' && openFormModal(form)}
-								id="form-card-{fIdx}"
-								class="group relative flex cursor-pointer flex-col overflow-hidden rounded-3xl border-2 border-slate-200 bg-white text-left shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-blue-700 hover:shadow-2xl"
-								title="Click to view {form.title}"
-							>
-								<!-- Top accent bar -->
-								<div
-									class="h-1.5 w-full bg-gradient-to-r from-blue-900 via-blue-700 to-blue-500 transition-all duration-300 group-hover:h-2"
-								></div>
-
-								<!-- Shine overlay on hover -->
-								<div
-									class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-									style="background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%);"
-								></div>
-
-								<div class="flex flex-1 flex-col p-6 sm:p-7">
-									<!-- Icon & Number -->
-									<div class="mb-5 flex items-center justify-between">
-										<div
-											class="flex h-14 w-14 items-center justify-center rounded-2xl border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-blue-100 text-3xl shadow-sm transition-transform duration-300 group-hover:scale-110 group-hover:shadow-md"
-										>
-											{form.icon || '📄'}
-										</div>
-										<div class="flex flex-col items-end gap-1">
-											<span class="font-mono text-[10px] font-black text-slate-400 uppercase"
-												>FORM {String(fIdx + 1).padStart(2, '0')}</span
-											>
-											<span
-												class="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-slate-50 px-2.5 py-0.5 text-[10px] font-black text-slate-600 uppercase transition-colors group-hover:border-blue-300 group-hover:bg-blue-50 group-hover:text-blue-800"
-											>
-												🗗 Open ↗
-											</span>
-										</div>
-									</div>
-
-									<!-- Form type badge -->
-									{#if form.type}
-										<span
-											class="mb-2 inline-block rounded-full border border-blue-200 bg-blue-50 px-2.5 py-0.5 text-[10px] font-black tracking-wider text-blue-900 uppercase"
-										>
-											{form.type}
-										</span>
-									{/if}
-
-									<!-- Title -->
-									<h3
-										class="mb-2 text-lg leading-snug font-black text-blue-950 transition-colors group-hover:text-blue-700"
-									>
-										{form.title}
-									</h3>
-
-									<!-- Description -->
-									{#if form.description}
-										<p class="mb-5 line-clamp-2 text-sm leading-relaxed font-medium text-slate-600">
-											{form.description}
-										</p>
-									{/if}
-
-									<!-- CTA Row -->
-									<div class="mt-auto flex items-center justify-between pt-4 border-t border-slate-100">
-										<span class="text-xs font-semibold text-slate-500">Official {officeCode || 'Municipal'} Form</span>
-										<button
-											type="button"
-											onclick={(e) => {
-												e.stopPropagation();
-												openFormModal(form);
-											}}
-											class="inline-flex items-center gap-1.5 rounded-xl bg-blue-800 px-3.5 py-2 text-xs font-black text-white shadow-sm transition-all hover:scale-105 hover:bg-blue-700 active:scale-95"
-										>
-											<svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-												><path
-													stroke-linecap="round"
-													stroke-linejoin="round"
-													stroke-width="2"
-													d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-												/></svg
-											>
-											<span>View & Download</span>
-										</button>
-									</div>
-								</div>
-							</div>
-						{/each}
-					</div>
-
-					<!-- Disclaimer note -->
-					<div class="mt-8 flex items-start gap-3 rounded-2xl border border-amber-200 bg-amber-50/70 p-4">
-						<span class="text-xl shrink-0">ℹ️</span>
-						<p class="text-xs font-semibold text-amber-900 leading-relaxed">
-							All forms are official local government documents. Ensure you are downloading the latest version. For assistance, visit the {officeName} at the Municipal Hall during office hours.
-						</p>
-					</div>
-				</div>
-			</section>
-
-			<!-- Downloadable Form Detail Modal -->
-			{#if activeFormModal}
+	{#snippet formsSection()}
+		<!-- Section: Downloadable Forms -->
+		<section id="forms" class="relative bg-gradient-to-b from-slate-50 via-white to-slate-50 py-20 overflow-hidden border-t-2 border-slate-200">
+			<!-- Decorative background elements -->
+			<div class="pointer-events-none absolute inset-0">
 				<div
-					class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
-					role="dialog"
-					aria-modal="true"
-					aria-labelledby="form-modal-title"
-				>
-					<!-- Backdrop -->
-					<div
-						class="absolute inset-0 bg-blue-950/70 backdrop-blur-sm"
-						onclick={closeFormModal}
-						transition:fade={{ duration: 200 }}
-					></div>
+					class="absolute -top-20 -right-20 h-80 w-80 rounded-full bg-blue-100/40 blur-3xl"
+				></div>
+				<div
+					class="absolute -bottom-20 -left-20 h-80 w-80 rounded-full bg-amber-100/40 blur-3xl"
+				></div>
+			</div>
 
-					<!-- Modal Panel -->
+			<div class="relative container mx-auto max-w-7xl px-6">
+				<!-- Section Header -->
+				<div class="mb-10 max-w-3xl">
 					<div
-						class="relative z-10 w-full max-w-lg overflow-hidden rounded-3xl border-2 border-slate-200 bg-white shadow-2xl"
-						transition:scale={{ duration: 250, start: 0.92 }}
+						class="mb-3 inline-flex items-center gap-2 rounded-md border border-blue-300 bg-blue-100 px-3.5 py-1 text-xs font-black tracking-wider text-blue-950 uppercase"
 					>
-						<!-- Coloured top bar -->
-						<div class="h-2 w-full bg-gradient-to-r from-blue-900 via-blue-700 to-blue-500"></div>
-
-						<!-- Modal Header -->
-						<div class="flex items-start justify-between gap-4 border-b border-slate-100 px-6 py-5">
-							<div class="flex items-center gap-3">
-								<div
-									class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-blue-100 text-2xl"
-								>
-									{activeFormModal.icon || '📄'}
-								</div>
-								<div>
-									<div class="text-[10px] font-black uppercase tracking-wider text-blue-700">Official {officeCode || 'Government'} Form</div>
-									<h2 id="form-modal-title" class="text-xl font-black text-blue-950">{activeFormModal.title}</h2>
-								</div>
-							</div>
-							<button
-								type="button"
-								onclick={closeFormModal}
-								class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-lg font-bold text-slate-600 transition-colors hover:bg-slate-100 hover:text-blue-950"
-								aria-label="Close">✕</button
-							>
-						</div>
-
-						<!-- Modal Body -->
-						<div class="space-y-5 px-6 py-6">
-							<!-- Type badge -->
-							{#if activeFormModal.type}
-								<span
-									class="inline-flex items-center gap-1.5 rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-black tracking-wider text-blue-900 uppercase"
-								>
-									<span class="h-1.5 w-1.5 rounded-full bg-blue-500"></span>
-									{activeFormModal.type}
-								</span>
-							{/if}
-
-							<!-- Description -->
-							{#if activeFormModal.description}
-								<div class="rounded-2xl border-l-4 border-blue-700 bg-blue-50/60 p-4">
-									<p class="text-sm leading-relaxed font-semibold text-slate-800">
-										{activeFormModal.description}
-									</p>
-								</div>
-							{/if}
-
-							<!-- Form Preview Image if Available -->
-							{#if activeFormModal.preview || activeFormModal.image || (activeFormModal.url && activeFormModal.url.match(/\.(png|jpg|jpeg|webp)$/i))}
-								<div class="relative overflow-hidden rounded-2xl border-2 border-slate-200 bg-slate-50 p-2.5 text-center">
-									<img
-										src={activeFormModal.preview || activeFormModal.image || activeFormModal.url}
-										alt={activeFormModal.title}
-										class="max-h-52 mx-auto rounded-xl object-contain shadow-sm border border-slate-200 bg-white"
-									/>
-									{#if activeFormModal.htmlUrl}
-										<div class="mt-2 text-center">
-											<a
-												href={activeFormModal.htmlUrl}
-												target="_blank"
-												rel="noopener noreferrer"
-												class="inline-flex items-center gap-1.5 text-xs font-bold text-blue-700 hover:text-blue-900 hover:underline"
-											>
-												<span>🔍 View Full Interactive Printable Document ↗</span>
-											</a>
-										</div>
-									{/if}
-								</div>
-							{/if}
-
-							<!-- Info row -->
-							<div class="grid grid-cols-2 gap-3">
-								<div class="rounded-xl border border-slate-200 bg-slate-50 p-3">
-									<div class="text-[10px] font-black uppercase tracking-wider text-slate-500">Issuing Office</div>
-									<div class="text-sm font-black text-blue-950">{officeCode || department}</div>
-								</div>
-								<div class="rounded-xl border border-slate-200 bg-slate-50 p-3">
-									<div class="text-[10px] font-black uppercase tracking-wider text-slate-500">Format</div>
-									<div class="text-sm font-black text-blue-950">{activeFormModal.format || 'Official PDF'}</div>
-								</div>
-							</div>
-
-							<!-- Note -->
-							<div
-								class="flex items-start gap-2.5 rounded-xl border border-amber-200 bg-amber-50 p-3.5"
-							>
-								<span class="shrink-0 text-base">⚠️</span>
-								<p class="text-xs font-semibold text-amber-900 leading-relaxed">
-									Ensure the downloaded form is the most current version. Submit completed forms to the {officeName} at the Municipal Hall.
-								</p>
-							</div>
-						</div>
-
-						<!-- Modal Footer -->
-						<div
-							class="flex items-center justify-between gap-3 border-t border-slate-100 bg-slate-50 px-6 py-4"
-						>
-							<div class="flex items-center gap-1.5 text-xs font-bold text-slate-500">
-								<span class="h-1.5 w-1.5 rounded-full bg-blue-700"></span>
-								<span>Official Government Document</span>
-							</div>
-							<div class="flex items-center gap-2">
-								<button
-									type="button"
-									onclick={closeFormModal}
-									class="rounded-xl border border-slate-300 bg-white px-4 py-2 text-xs font-black text-slate-700 transition-colors hover:bg-slate-100"
-								>Close</button>
-								{#if activeFormModal.htmlUrl}
-									<a
-										href={activeFormModal.htmlUrl}
-										target="_blank"
-										rel="noopener noreferrer"
-										class="inline-flex items-center gap-1.5 rounded-xl border border-blue-700 bg-white px-3.5 py-2 text-xs font-black text-blue-950 shadow-xs transition-all hover:bg-blue-50 hover:scale-105 active:scale-95"
-									>
-										<span>🖨 Printable View ↗</span>
-									</a>
-								{/if}
-								<a
-									href={activeFormModal.url || activeFormModal.downloadUrl}
-									target="_blank"
-									download
-									rel="noopener noreferrer"
-									class="inline-flex items-center gap-2 rounded-xl bg-blue-800 px-5 py-2 text-xs font-black text-white shadow-md transition-all hover:scale-105 hover:bg-blue-700 active:scale-95"
-								>
-									<svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-										><path
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											stroke-width="2"
-											d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-										/></svg
-									>
-									<span>Download Form ↗</span>
-								</a>
-							</div>
-						</div>
+						<span class="h-2 w-2 animate-pulse rounded-full bg-blue-700"></span>
+						{#if formsNavCode}
+							SECTION {formsNavCode} // OFFICIAL DOWNLOADABLE FORMS
+						{:else}
+							OFFICIAL DOWNLOADABLE FORMS
+						{/if}
 					</div>
+					<h2
+						class="text-3xl leading-tight font-black tracking-tight text-blue-950 sm:text-4xl lg:text-5xl"
+					>
+						Downloadable Office Forms
+					</h2>
+					<p class="mt-4 text-base leading-relaxed font-normal text-slate-800 sm:text-lg">
+						Official forms available for download. Click any form card to view its details, inspect the file, or download directly.
+					</p>
 				</div>
-			{/if}
-		{/if}
+
+				<!-- Forms Cards Grid -->
+				<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+					{#each downloadableForms as form, fIdx}
+						<div
+							role="button"
+							tabindex="0"
+							onclick={() => openFormModal(form)}
+							onkeydown={(e) => e.key === 'Enter' && openFormModal(form)}
+							id="form-card-{fIdx}"
+							class="group relative flex cursor-pointer flex-col overflow-hidden rounded-3xl border-2 border-slate-200 bg-white text-left shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-blue-700 hover:shadow-2xl"
+							title="Click to view {form.title}"
+						>
+							<!-- Top accent bar -->
+							<div
+								class="h-1.5 w-full bg-gradient-to-r from-blue-900 via-blue-700 to-blue-500 transition-all duration-300 group-hover:h-2"
+							></div>
+
+							<!-- Shine overlay on hover -->
+							<div
+								class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+								style="background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%);"
+							></div>
+
+							<div class="flex flex-1 flex-col p-6 sm:p-7">
+								<!-- Icon & Number -->
+								<div class="mb-5 flex items-center justify-between">
+									<div
+										class="flex h-14 w-14 items-center justify-center rounded-2xl border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-blue-100 text-3xl shadow-sm transition-transform duration-300 group-hover:scale-110 group-hover:shadow-md"
+									>
+										{form.icon || '📄'}
+									</div>
+									<div class="flex flex-col items-end gap-1">
+										<span class="font-mono text-[10px] font-black text-slate-400 uppercase"
+											>FORM {String(fIdx + 1).padStart(2, '0')}</span
+										>
+										<span
+											class="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-slate-50 px-2.5 py-0.5 text-[10px] font-black text-slate-600 uppercase transition-colors group-hover:border-blue-300 group-hover:bg-blue-50 group-hover:text-blue-800"
+										>
+											🗗 Open ↗
+										</span>
+									</div>
+								</div>
+
+								<!-- Form type badge -->
+								{#if form.type}
+									<span
+										class="mb-2 inline-block rounded-full border border-blue-200 bg-blue-50 px-2.5 py-0.5 text-[10px] font-black tracking-wider text-blue-900 uppercase"
+									>
+										{form.type}
+									</span>
+								{/if}
+
+								<!-- Title -->
+								<h3
+									class="mb-2 text-lg leading-snug font-black text-blue-950 transition-colors group-hover:text-blue-700"
+								>
+									{form.title}
+								</h3>
+
+								<!-- Description -->
+								{#if form.description}
+									<p class="mb-5 line-clamp-2 text-sm leading-relaxed font-medium text-slate-600">
+										{form.description}
+									</p>
+								{/if}
+
+								<!-- CTA Row -->
+								<div class="mt-auto flex items-center justify-between gap-2 pt-4 border-t border-slate-100">
+									<button
+										type="button"
+										onclick={(e) => {
+											e.stopPropagation();
+											openFormModal(form);
+										}}
+										class="inline-flex items-center gap-1.5 rounded-xl border border-slate-300 bg-slate-50 hover:bg-slate-100 px-3.5 py-2 text-xs font-black text-slate-800 transition-all hover:scale-105 active:scale-95 shadow-2xs"
+									>
+										<span>👁️ View File</span>
+									</button>
+
+									<a
+										href={form.url || form.downloadUrl}
+										download
+										onclick={(e) => e.stopPropagation()}
+										class="inline-flex items-center gap-1.5 rounded-xl bg-blue-800 hover:bg-blue-700 px-4 py-2 text-xs font-black text-white shadow-sm transition-all hover:scale-105 active:scale-95"
+									>
+										<svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+										</svg>
+										<span>Download</span>
+									</a>
+								</div>
+							</div>
+						</div>
+					{/each}
+				</div>
+
+				<!-- Disclaimer note -->
+				<div class="mt-8 flex items-start gap-3 rounded-2xl border border-amber-200 bg-amber-50/70 p-4">
+					<span class="text-xl shrink-0">ℹ️</span>
+					<p class="text-xs font-semibold text-amber-900 leading-relaxed">
+						All forms are official local government documents. Ensure you are downloading the latest version. For assistance, visit the {officeName} at the Municipal Hall during office hours.
+					</p>
+				</div>
+			</div>
+		</section>
+	{/snippet}
+
+	{#if !isMAO && !shouldPutFormsAtEnd && downloadableForms && downloadableForms.length > 0}
+		{@render formsSection()}
+	{/if}
 
 		<!-- Section 2: Core Mandates & Functions -->
 		{#if !isMAO && mandates && mandates.length > 0}
@@ -1429,7 +1303,7 @@
 					<div
 						class="mb-3 inline-block rounded-md border border-blue-300 bg-blue-100 px-3.5 py-1 text-xs font-black tracking-wider text-blue-950 uppercase"
 					>
-						SECTION // STATUTORY MANDATES
+						SECTION {mandatesNavCode || '02'} // STATUTORY MANDATES
 					</div>
 					<h2
 						class="text-3xl leading-tight font-black tracking-tight text-blue-950 sm:text-4xl lg:text-5xl"
@@ -1686,7 +1560,7 @@
 					<div
 						class="mb-3 inline-block rounded-md border border-amber-300 bg-amber-100 px-3.5 py-1 text-xs font-black tracking-wider text-amber-950 uppercase"
 					>
-						SECTION 03 // EXECUTIVE LEADERSHIP
+						SECTION {leadershipNavCode} // EXECUTIVE LEADERSHIP
 					</div>
 					<h2
 						class="text-3xl leading-tight font-black tracking-tight text-blue-950 sm:text-4xl lg:text-5xl"
@@ -1866,7 +1740,7 @@
 							class="mb-3 inline-flex items-center gap-2 rounded-md border border-blue-300 bg-blue-100 px-3.5 py-1 text-xs font-black tracking-wider text-blue-950 uppercase"
 						>
 							<span class="h-2 w-2 rounded-full bg-blue-900"></span>
-							SECTION 04 // EXECUTIVE GOVERNANCE & HIERARCHY
+							SECTION {structureNavCode} // EXECUTIVE GOVERNANCE & HIERARCHY
 						</div>
 						<h2 class="text-3xl leading-tight font-black tracking-tight text-blue-950 sm:text-4xl">
 							Organizational Structure
@@ -1964,40 +1838,48 @@
 		</section>
 
 		<!-- Section 5: Accomplishment Reports (Audited Fiscal Performance) -->
-		<section id="accomplishments" class="relative border-b-2 border-slate-200 bg-white py-20">
-			<div class="container mx-auto max-w-7xl px-6">
-				<div class="mb-10 max-w-3xl border-b-2 border-slate-200 pb-6">
-					<div
-						class="mb-3 inline-flex items-center gap-2 rounded-md border border-amber-300 bg-amber-100 px-3.5 py-1 text-xs font-black tracking-wider text-amber-950 uppercase"
-					>
-						<span class="h-2 w-2 rounded-full bg-amber-600"></span>
-						SECTION 05 // FISCAL PERFORMANCE & SCORECARDS
-					</div>
-					<h2 class="text-3xl leading-tight font-black tracking-tight text-blue-950 sm:text-4xl">
-						Accomplishment Reports
-					</h2>
-					<p class="mt-2.5 text-base leading-relaxed font-normal text-slate-800">
-						Official performance scorecards, program accomplishments, and transparency disclosures
-						of the {officeName} submitted to the Sangguniang Bayan of Tanauan.
-					</p>
-				</div>
-
-				{#if isMAO}
-					<MAOAccomplishmentsGallery />
-					<div class="mt-12 rounded-3xl border-2 border-slate-200 bg-slate-50 p-6 shadow-sm sm:p-8">
-						<div class="mb-4 flex items-center justify-between border-b border-slate-200 pb-3">
-							<h3 class="text-base font-black text-blue-950">Published Legislative & Quarterly Reports</h3>
-							<span class="rounded-full bg-slate-200 px-2.5 py-0.5 text-[11px] font-bold text-slate-700">Official Depository</span>
+		{#if showAccomplishments}
+			<section id="accomplishments" class="relative border-b-2 border-slate-200 bg-white py-20">
+				<div class="container mx-auto max-w-7xl px-6">
+					<div class="mb-10 max-w-3xl border-b-2 border-slate-200 pb-6">
+						<div
+							class="mb-3 inline-flex items-center gap-2 rounded-md border border-amber-300 bg-amber-100 px-3.5 py-1 text-xs font-black tracking-wider text-amber-950 uppercase"
+						>
+							<span class="h-2 w-2 rounded-full bg-amber-600"></span>
+							SECTION {accomplishmentsNavCode} // {isCivilRegistrar ? 'CIVIL REGISTRY MILESTONES & SPECIAL PROJECTS' : 'FISCAL PERFORMANCE & SCORECARDS'}
 						</div>
-						<AccomplishmentSection {department} limit={3} collapsible={true} cleanLayout={true} />
+						<h2 class="text-3xl leading-tight font-black tracking-tight text-blue-950 sm:text-4xl">
+							Accomplishment Reports
+						</h2>
+						<p class="mt-2.5 text-base leading-relaxed font-normal text-slate-800">
+							{#if isCivilRegistrar}
+								Official public service milestones, community outreach records, and flagship civil registration projects of the Municipal Civil Registrar of Tanauan.
+							{:else}
+								Official performance scorecards, program accomplishments, and transparency disclosures
+								of the {officeName} submitted to the Sangguniang Bayan of Tanauan.
+							{/if}
+						</p>
 					</div>
-				{:else}
-					<div class="rounded-3xl border-2 border-slate-200 bg-slate-50 p-6 shadow-sm sm:p-8">
-						<AccomplishmentSection {department} limit={3} collapsible={true} cleanLayout={true} />
-					</div>
-				{/if}
-			</div>
-		</section>
+
+					{#if isMAO}
+						<MAOAccomplishmentsGallery />
+						<div class="mt-12 rounded-3xl border-2 border-slate-200 bg-slate-50 p-6 shadow-sm sm:p-8">
+							<div class="mb-4 flex items-center justify-between border-b border-slate-200 pb-3">
+								<h3 class="text-base font-black text-blue-950">Published Legislative & Quarterly Reports</h3>
+								<span class="rounded-full bg-slate-200 px-2.5 py-0.5 text-[11px] font-bold text-slate-700">Official Depository</span>
+							</div>
+							<AccomplishmentSection {department} limit={3} collapsible={true} cleanLayout={true} />
+						</div>
+					{:else if isCivilRegistrar}
+						<CivilRegistrarAccomplishments />
+					{:else}
+						<div class="rounded-3xl border-2 border-slate-200 bg-slate-50 p-6 shadow-sm sm:p-8">
+							<AccomplishmentSection {department} limit={3} collapsible={true} cleanLayout={true} />
+						</div>
+					{/if}
+				</div>
+			</section>
+		{/if}
 
 		<!-- Designed Section Updates: renders <section id="updates"> only when the
 		     admin-designed sections exist AND have approved posts (renders nothing otherwise) -->
@@ -2011,14 +1893,18 @@
 						class="mb-3 inline-flex items-center gap-2 rounded-md border border-amber-300 bg-amber-100 px-3.5 py-1 text-xs font-black tracking-wider text-amber-950 uppercase"
 					>
 						<span class="h-2 w-2 rounded-full bg-amber-600"></span>
-						SECTION 06 // HONORS, CITATIONS & AWARDS
+						SECTION {awardsNavCode} // HONORS, CITATIONS & AWARDS
 					</div>
 					<h2 class="text-3xl leading-tight font-black tracking-tight text-blue-950 sm:text-4xl">
 						Awards & Achievements
 					</h2>
 					<p class="mt-2.5 text-base leading-relaxed font-normal text-slate-800">
-						Provincial and regional citations recognizing outstanding business permitting,
-						year-on-year local revenue growth, and sound fiscal administration.
+						{#if isCivilRegistrar}
+							Official Philippine Statistics Authority (PSA) provincial citations recognizing outstanding performance, civil registration excellence, and the Birth Registration Assistance Project (BRAP).
+						{:else}
+							Provincial and regional citations recognizing outstanding business permitting,
+							year-on-year local revenue growth, and sound fiscal administration.
+						{/if}
 					</p>
 				</div>
 
@@ -2028,30 +1914,36 @@
 			</div>
 		</section>
 
-		<!-- Section 7: Department Personnel (Official Staff Registry) -->
-		<section id="personnel" class="bg-white py-20">
-			<div class="container mx-auto max-w-7xl px-6">
-				<div class="mb-10 max-w-3xl border-b-2 border-slate-200 pb-6">
-					<div
-						class="mb-3 inline-flex items-center gap-2 rounded-md border border-blue-300 bg-blue-100 px-3.5 py-1 text-xs font-black tracking-wider text-blue-950 uppercase"
-					>
-						<span class="h-2 w-2 rounded-full bg-blue-900"></span>
-						SECTION 07 // PUBLIC SERVANTS REGISTRY
+		<!-- Section: Department Personnel (Official Staff Registry) -->
+		{#if shouldShowPersonnel}
+			<section id="personnel" class="bg-white py-20">
+				<div class="container mx-auto max-w-7xl px-6">
+					<div class="mb-10 max-w-3xl border-b-2 border-slate-200 pb-6">
+						<div
+							class="mb-3 inline-flex items-center gap-2 rounded-md border border-blue-300 bg-blue-100 px-3.5 py-1 text-xs font-black tracking-wider text-blue-950 uppercase"
+						>
+							<span class="h-2 w-2 rounded-full bg-blue-900"></span>
+							SECTION // PUBLIC SERVANTS REGISTRY
+						</div>
+						<h2 class="text-3xl leading-tight font-black tracking-tight text-blue-950 sm:text-4xl">
+							Department Personnel
+						</h2>
+						<p class="mt-2.5 text-base leading-relaxed font-normal text-slate-800">
+							Meet the dedicated public servants of the {officeName} committed to delivering quality services
+							to the people of Tanauan.
+						</p>
 					</div>
-					<h2 class="text-3xl leading-tight font-black tracking-tight text-blue-950 sm:text-4xl">
-						Department Personnel
-					</h2>
-					<p class="mt-2.5 text-base leading-relaxed font-normal text-slate-800">
-						Meet the dedicated public servants of the {officeName} committed to delivering quality services
-						to the people of Tanauan.
-					</p>
-				</div>
 
-				<div class="rounded-3xl border-2 border-slate-200 bg-slate-50 p-6 shadow-sm sm:p-8">
-					<PersonnelSection {department} limit={3} collapsible={true} cleanLayout={true} />
+					<div class="rounded-3xl border-2 border-slate-200 bg-slate-50 p-6 shadow-sm sm:p-8">
+						<PersonnelSection {department} limit={3} collapsible={true} cleanLayout={true} />
+					</div>
 				</div>
-			</div>
-		</section>
+			</section>
+		{/if}
+
+		{#if !isMAO && shouldPutFormsAtEnd && downloadableForms && downloadableForms.length > 0}
+			{@render formsSection()}
+		{/if}
 	</main>
 
 	<!-- Executive Civic Footer -->
@@ -2155,6 +2047,212 @@
 			</div>
 		</div>
 	</footer>
+
+	<!-- ========================================================================= -->
+	<!-- DOWNLOADABLE FORM DETAIL & PREVIEW MODAL                                  -->
+	<!-- ========================================================================= -->
+	{#if activeFormModal}
+		<div
+			class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
+			role="dialog"
+			aria-modal="true"
+			aria-labelledby="form-modal-title"
+		>
+			<!-- Backdrop -->
+			<div
+				class="absolute inset-0 bg-blue-950/70 backdrop-blur-sm"
+				onclick={closeFormModal}
+				transition:fade={{ duration: 200 }}
+			></div>
+
+			<!-- Modal Panel -->
+			<div
+				class="relative z-10 w-full max-w-lg overflow-hidden rounded-3xl border-2 border-slate-200 bg-white shadow-2xl"
+				transition:scale={{ duration: 250, start: 0.92 }}
+			>
+				<!-- Coloured top bar -->
+				<div class="h-2 w-full bg-gradient-to-r from-blue-900 via-blue-700 to-blue-500"></div>
+
+				<!-- Modal Header -->
+				<div class="flex items-start justify-between gap-4 border-b border-slate-100 px-6 py-5">
+					<div class="flex items-center gap-3">
+						<div
+							class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-blue-100 text-2xl"
+						>
+							{activeFormModal.icon || '📄'}
+						</div>
+						<div>
+							<div class="text-[10px] font-black uppercase tracking-wider text-blue-700">Official {officeCode || 'Government'} Form</div>
+							<h2 id="form-modal-title" class="text-xl font-black text-blue-950">{activeFormModal.title}</h2>
+						</div>
+					</div>
+					<button
+						type="button"
+						onclick={closeFormModal}
+						class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-lg font-bold text-slate-600 transition-colors hover:bg-slate-100 hover:text-blue-950"
+						aria-label="Close">✕</button
+					>
+				</div>
+
+				<!-- Modal Body -->
+				<div class="space-y-5 px-6 py-6">
+					<!-- Type badge -->
+					{#if activeFormModal.type}
+						<span
+							class="inline-flex items-center gap-1.5 rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-black tracking-wider text-blue-900 uppercase"
+						>
+							<span class="h-1.5 w-1.5 rounded-full bg-blue-500"></span>
+							{activeFormModal.type}
+						</span>
+					{/if}
+
+					<!-- Description -->
+					{#if activeFormModal.description}
+						<div class="rounded-2xl border-l-4 border-blue-700 bg-blue-50/60 p-4">
+							<p class="text-sm leading-relaxed font-semibold text-slate-800">
+								{activeFormModal.description}
+							</p>
+						</div>
+					{/if}
+
+					<!-- Form Preview Image if Available -->
+					{#if activeFormModal.preview || activeFormModal.image || (activeFormModal.url && activeFormModal.url.match(/\.(png|jpg|jpeg|webp)$/i))}
+						<div class="relative overflow-hidden rounded-2xl border-2 border-slate-200 bg-slate-50 p-2.5 text-center">
+							<img
+								src={activeFormModal.preview || activeFormModal.image || activeFormModal.url}
+								alt={activeFormModal.title}
+								class="max-h-52 mx-auto rounded-xl object-contain shadow-sm border border-slate-200 bg-white"
+							/>
+							{#if activeFormModal.htmlUrl}
+								<div class="mt-2 text-center">
+									<a
+										href={activeFormModal.htmlUrl}
+										target="_blank"
+										rel="noopener noreferrer"
+										class="inline-flex items-center gap-1.5 text-xs font-bold text-blue-700 hover:text-blue-900 hover:underline"
+									>
+										<span>🔍 View Full Interactive Printable Document ↗</span>
+									</a>
+								</div>
+							{/if}
+						</div>
+					{:else if activeFormModal.url && activeFormModal.url.match(/\.pdf$/i)}
+						<div class="relative overflow-hidden rounded-2xl border-2 border-slate-200 bg-slate-100 p-2">
+							<iframe
+								src="{activeFormModal.url}#toolbar=0"
+								title="{activeFormModal.title} Preview"
+								class="w-full h-72 rounded-xl border border-slate-300 bg-white shadow-inner"
+							></iframe>
+							<div class="mt-2.5 flex items-center justify-between px-1 text-xs">
+								<span class="text-slate-500 font-bold">📄 Official Document Preview</span>
+								<div class="flex items-center gap-3">
+									{#if activeFormModal.htmlUrl}
+										<a
+											href={activeFormModal.htmlUrl}
+											target="_blank"
+											rel="noopener noreferrer"
+											class="font-black text-blue-700 hover:text-blue-950 hover:underline"
+										>
+											Interactive View ↗
+										</a>
+									{/if}
+									<a
+										href={activeFormModal.url}
+										target="_blank"
+										rel="noopener noreferrer"
+										class="font-black text-blue-900 hover:text-blue-950 hover:underline"
+									>
+										Open Fullscreen ↗
+									</a>
+								</div>
+							</div>
+						</div>
+					{/if}
+
+					<!-- Requirements if available -->
+					{#if activeFormModal.requirements && activeFormModal.requirements.length > 0}
+						<div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+							<div class="text-[10px] font-black uppercase tracking-wider text-slate-600 mb-2">Required Attachments & Guidelines</div>
+							<ul class="space-y-1.5 text-xs text-slate-700">
+								{#each activeFormModal.requirements as req}
+									<li class="flex items-start gap-2">
+										<span class="text-emerald-600 font-black">✓</span>
+										<span class="font-medium">{req}</span>
+									</li>
+								{/each}
+							</ul>
+						</div>
+					{/if}
+
+					<!-- Info row -->
+					<div class="grid grid-cols-2 gap-3">
+						<div class="rounded-xl border border-slate-200 bg-slate-50 p-3">
+							<div class="text-[10px] font-black uppercase tracking-wider text-slate-500">Issuing Office</div>
+							<div class="text-sm font-black text-blue-950">{officeCode || department}</div>
+						</div>
+						<div class="rounded-xl border border-slate-200 bg-slate-50 p-3">
+							<div class="text-[10px] font-black uppercase tracking-wider text-slate-500">Format</div>
+							<div class="text-sm font-black text-blue-950">{activeFormModal.format || 'Official PDF'}</div>
+						</div>
+					</div>
+
+					<!-- Note -->
+					<div
+						class="flex items-start gap-2.5 rounded-xl border border-amber-200 bg-amber-50 p-3.5"
+					>
+						<span class="shrink-0 text-base">⚠️</span>
+						<p class="text-xs font-semibold text-amber-900 leading-relaxed">
+							Ensure the downloaded form is the most current version. Submit completed forms to the {officeName} at the Municipal Hall.
+						</p>
+					</div>
+				</div>
+
+				<!-- Modal Footer -->
+				<div
+					class="flex items-center justify-between gap-3 border-t border-slate-100 bg-slate-50 px-6 py-4"
+				>
+					<div class="flex items-center gap-1.5 text-xs font-bold text-slate-500">
+						<span class="h-1.5 w-1.5 rounded-full bg-blue-700"></span>
+						<span>Official Government Document</span>
+					</div>
+					<div class="flex items-center gap-2">
+						<button
+							type="button"
+							onclick={closeFormModal}
+							class="rounded-xl border border-slate-300 bg-white px-4 py-2 text-xs font-black text-slate-700 transition-colors hover:bg-slate-100"
+						>Close</button>
+						{#if activeFormModal.htmlUrl}
+							<a
+								href={activeFormModal.htmlUrl}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="inline-flex items-center gap-1.5 rounded-xl border border-blue-700 bg-white px-3.5 py-2 text-xs font-black text-blue-950 shadow-xs transition-all hover:bg-blue-50 hover:scale-105 active:scale-95"
+							>
+								<span>🖨 Printable View ↗</span>
+							</a>
+						{/if}
+						<a
+							href={activeFormModal.url || activeFormModal.downloadUrl}
+							target="_blank"
+							download
+							rel="noopener noreferrer"
+							class="inline-flex items-center gap-2 rounded-xl bg-blue-800 px-5 py-2 text-xs font-black text-white shadow-md transition-all hover:scale-105 hover:bg-blue-700 active:scale-95"
+						>
+							<svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+								><path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+								/></svg
+							>
+							<span>Download Form ↗</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	{/if}
 
 	<!-- ========================================================================= -->
 	<!-- FLOATING WINDOW MODAL (Vision, Mission, Service Offered & Procedures)     -->
