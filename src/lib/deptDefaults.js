@@ -819,7 +819,7 @@ export const DEPT_DEFAULTS = {
       'Swift Response & Recovery Services',
       'Building Safer Communities Together'
     ],
-    head: { name: '', title: 'MDRRM Officer', term: 'Department Head', quote: 'Disaster preparedness is not just our mandate — it is our commitment to protecting every life in Tanauan.', credentials: ['Disaster Risk Reduction Specialist', 'Emergency Management Professional'], room: 'MDRRMO Office, Municipal Hall Complex, Tanauan, Leyte', schedule: 'Monday – Friday: 8:00 AM – 5:00 PM (24/7 Emergency Response)' },
+    head: { name: 'Ricardo Alejo N. Mazo', title: 'MDRRM Officer', term: 'Department Head', quote: 'Disaster preparedness is not just our mandate — it is our commitment to protecting every life in Tanauan.', credentials: ['Disaster Risk Reduction Specialist', 'Emergency Management Professional'], room: 'MDRRMO Office, Municipal Hall Complex, Tanauan, Leyte', schedule: 'Monday – Friday: 8:00 AM – 5:00 PM (24/7 Emergency Response)' },
     stats: [
       { value: '54', suffix: '', label: 'Barangays Protected', description: 'DRRM coverage across all 54 barangays in Tanauan' },
       { value: '24/7', suffix: '', label: 'Emergency Response', description: 'Round-the-clock emergency response capability' },
@@ -827,11 +827,182 @@ export const DEPT_DEFAULTS = {
       { value: '12', suffix: '+', label: 'Annual Drills', description: 'Evacuation drills and preparedness exercises conducted yearly' }
     ],
     mandates: [
-      { index: '01', code: 'PREV-MIT', title: 'Disaster Prevention & Mitigation', description: 'Implements programs and measures to prevent, reduce, and mitigate disaster risks in the municipality.', tag: 'Prevention', details: ['Hazard Mapping & Risk Assessment', 'Vulnerable Area Identification', 'Structural Mitigation Measures'] },
-      { index: '02', code: 'PREP', title: 'Disaster Preparedness', description: 'Develops and implements disaster preparedness plans, training programs, and community awareness activities.', tag: 'Preparedness', details: ['Evacuation Planning & Drills', 'Early Warning System Management', 'Stockpiling of Relief Goods'] },
-      { index: '03', code: 'RESPONSE', title: 'Emergency Response & Recovery', description: 'Leads emergency response operations during calamities and coordinates post-disaster recovery and rehabilitation.', tag: 'Response & Recovery', details: ['Emergency Operations Center Activation', 'Relief Distribution Management', 'Post-Disaster Rehabilitation Coordination'] }
+      {
+        index: '01',
+        code: 'EMERG-RESP',
+        title: 'Emergency Response Services',
+        description: '24/7 on-scene emergency rescue, basic life support, patient trauma triage, and rapid ambulance transport to the nearest hospital facility by the Tanauan Emergency Response Team (TERT).',
+        tag: '24/7 Emergency Dispatch',
+        details: [
+          'Immediate Dispatch via 0916-197-7360 / 0931-739-3333 & 167.600 MHz Radio',
+          'On-Scene Medical Assessment, First Aid & Basic Life Support (BLS)',
+          'Hazardous Situation Extraction & Patient Packaging',
+          'Emergency Vehicle Transport to Nearest Hospital & Medical Turnover',
+          'Post-Operation Incident Logging & Multi-Agency Reporting'
+        ]
+      },
+      {
+        index: '02',
+        code: 'MED-TRANSPORT',
+        title: 'Non-Emergency Medical Transport Support Services',
+        description: 'Scheduled compassionate patient transport for medical referrals, hospital check-ups, post-treatment discharges, and specialized healthcare mobility for Tanauan residents.',
+        tag: 'Medical Transport',
+        details: [
+          'In-Person Submission of Approved Request Letter (24–48 Hours Prior)',
+          'MDRRMO Verification, Patient Assessment & Unit Scheduling',
+          'Assisted Boarding, Continuous Patient Monitoring & Safe Turnover',
+          'Official Transport Logbook Recording & Healthcare Coordination'
+        ]
+      },
+      {
+        index: '03',
+        code: 'COMM-SERVICES',
+        title: 'Community Services Support (Logistics & Transport)',
+        description: 'Logistical vehicle deployment and community transport support for burial assistance, municipal activities, educational field logistics, and civic public services.',
+        tag: 'Logistics & Community Support',
+        details: [
+          'Request Letter to Mayor Gina E. Merilo thru MDRRM Officer Ricardo Alejo N. Mazo',
+          'Advance Filing (24–48 Hours Prior) for Fleet & Crew Availability',
+          'Vehicle Deployment with Dedicated Driver & Safety Protocol Compliance',
+          'Return Trip Inspection & Driver/Crew Logbook Sign-Off'
+        ]
+      },
+      {
+        index: '04',
+        code: 'EVAC-SUPPORT',
+        title: 'Evacuation Support Services',
+        description: 'Coordinated disaster evacuation transport during hydrometeorological calamities, pre-emptive evacuations, and emergency shelter transfers across Tanauan’s 54 barangays.',
+        tag: 'Disaster Evacuation',
+        details: [
+          'Coordination with MSWDO & Barangay Emergency Officials',
+          'MDRRMO Hazard Assessment & Rapid Evacuation Fleet Mobilization',
+          'Designated Barangay Pick-Up & Drop-Off Point Synchronization',
+          'Safe Transit & Turnover to Certified Storm-Resilient Evacuation Centers'
+        ]
+      },
+      {
+        index: '05',
+        code: 'INCIDENT-CERT',
+        title: 'Issuance of Disaster Incident Certification',
+        description: 'Official issuance of verified Disaster Incident Certifications for insurance, legal, social welfare assistance, and calamity recovery documentation.',
+        tag: 'Public Certification',
+        details: [
+          'Securing Supporting Incident/Spot Report from PNP, BFP, or Barangay',
+          'Filing Formal Request with Blotter & Identification Proof at MDRRMO',
+          'Information Verification: Affected Person/Family, Location & Event Date',
+          'Official Certification Preparation & Authorized Issuance'
+        ]
+      }
     ],
-    schedule: { hours: 'Monday – Friday | 8:00 AM – 5:00 PM (24/7 Emergency Hotline)', location: 'MDRRMO Office, Tanauan Municipal Hall Complex, Real St., Tanauan, Leyte', contactNumber: '', email: 'mdrrmo@tanauanleyte.gov.ph', helpline: 'MDRRMO Emergency Operations Center' }
+    downloadableForms: [
+      {
+        title: 'Emergency Response Services Step-by-Step Guide',
+        category: 'Emergency Dispatch',
+        description: 'Official 5-step operational protocol for emergency reporting, on-scene rescue, and patient hospital transport.',
+        downloadUrl: '/docs/mdrrmo/emergency-response-and-medical-transport.pdf',
+        url: '/docs/mdrrmo/emergency-response-and-medical-transport.pdf',
+        preview: '/docs/mdrrmo/emergency-response-preview.png',
+        image: '/docs/mdrrmo/emergency-response-preview.png',
+        icon: '🚨',
+        type: 'Step-by-Step Guide / PDF',
+        format: 'Official PDF Document',
+        fileSize: '821 KB',
+        fileType: 'PDF Document',
+        requirements: [
+          'Immediate call to 0916-197-7360 / 0931-739-3333 or VHF 167.600 MHz',
+          'Provide clear incident location, landmarks, and count of affected persons',
+          'Stay calm and follow emergency operator instructions until rescue arrives'
+        ]
+      },
+      {
+        title: 'Non-Emergency Medical Transport Support Guide',
+        category: 'Medical Transport',
+        description: 'Step-by-step application procedure for requesting scheduled patient ambulance transport and check-up logistics.',
+        downloadUrl: '/docs/mdrrmo/emergency-response-and-medical-transport.pdf',
+        url: '/docs/mdrrmo/emergency-response-and-medical-transport.pdf',
+        preview: '/docs/mdrrmo/medical-transport-preview.jpg',
+        image: '/docs/mdrrmo/medical-transport-preview.jpg',
+        icon: '🚑',
+        type: 'Step-by-Step Guide / PDF',
+        format: 'Official PDF Document',
+        fileSize: '821 KB',
+        fileType: 'PDF Document',
+        requirements: [
+          'Request letter addressed to Mayor Hon. Ma. Gina E. Merilo thru Ricardo Alejo N. Mazo',
+          'Submit at least 24–48 hours before needed transport date',
+          'Include applicant and patient contact number/s and destination clinic/hospital'
+        ]
+      },
+      {
+        title: 'Community Services Support Step-by-Step Guide',
+        category: 'Community Support',
+        description: 'Guidelines and request procedure for municipal vehicle logistics, burial transport, and school activity support.',
+        downloadUrl: '/docs/mdrrmo/community-services-support.pdf',
+        url: '/docs/mdrrmo/community-services-support.pdf',
+        preview: '/docs/mdrrmo/community-services-preview.jpg',
+        image: '/docs/mdrrmo/community-services-preview.jpg',
+        icon: '🤝',
+        type: 'Step-by-Step Guide / PDF',
+        format: 'Official PDF Document',
+        fileSize: '445 KB',
+        fileType: 'PDF Document',
+        requirements: [
+          'Request letter to the Local Chief Executive specifying exact transport service needed',
+          'Secure official Mayor\'s Office approval prior to MDRRMO scheduling',
+          'Filing at least 24–48 hours before the event date to ensure vehicle and driver availability'
+        ]
+      },
+      {
+        title: 'Evacuation Support Services Guide',
+        category: 'Disaster Evacuation',
+        description: 'Barangay coordination, MSWDO intake, and fleet transport protocol for pre-emptive and mandatory calamity evacuations.',
+        downloadUrl: '/docs/mdrrmo/evacuation-support-services.pdf',
+        url: '/docs/mdrrmo/evacuation-support-services.pdf',
+        preview: '/docs/mdrrmo/evacuation-support-preview.jpg',
+        image: '/docs/mdrrmo/evacuation-support-preview.jpg',
+        icon: '🛡️',
+        type: 'Step-by-Step Guide / PDF',
+        format: 'Official PDF Document',
+        fileSize: '306 KB',
+        fileType: 'PDF Document',
+        requirements: [
+          'Intake coordination with Ms. Arleen B. Cinco (MSWDO) at 0995-005-8959',
+          'Provide pickup point, number of evacuees, and special needs (children, elderly, PWDs)',
+          'Coordination with Barangay Officials for safe rendezvous point staging'
+        ]
+      },
+      {
+        title: 'Disaster Incident Certification Request Guide',
+        category: 'Public Certification',
+        description: 'Requirements, agency spot report verifications, and processing steps for securing a Disaster Incident Certificate.',
+        downloadUrl: '/docs/mdrrmo/disaster-incident-certification.pdf',
+        url: '/docs/mdrrmo/disaster-incident-certification.pdf',
+        preview: '/docs/mdrrmo/disaster-certification-preview.jpg',
+        image: '/docs/mdrrmo/disaster-certification-preview.jpg',
+        icon: '📜',
+        type: 'Step-by-Step Guide / PDF',
+        format: 'Official PDF Document',
+        fileSize: '336 KB',
+        fileType: 'PDF Document',
+        requirements: [
+          'Official supporting report from PNP, BFP, or Barangay blotter / spot report',
+          'Valid government-issued ID and formal request letter to MDRRMO',
+          'Accurate incident details: date, location, affected family name, and damages incurred'
+        ]
+      }
+    ],
+    schedule: {
+      hours: '24/7 Emergency Dispatch & Operations (Office: Mon – Fri | 8:00 AM – 5:00 PM)',
+      location: 'MDRRMO Office & Operations Center, Tanauan Municipal Hall Complex, Real St., Tanauan, Leyte',
+      contactNumber: 'Globe: 0916-197-7360 | Smart: 0931-739-3333',
+      globeNumber: '0916-197-7360',
+      smartNumber: '0931-739-3333',
+      radioFrequency: '167.600 MHz',
+      facebook: 'MDRRMO-TANAUAN LEYTE',
+      facebookUrl: 'https://www.facebook.com/search/top?q=MDRRMO-TANAUAN%20LEYTE',
+      email: 'mdrrmo@tanauanleyte.gov.ph',
+      helpline: 'MDRRMO Emergency Operations Center (EOC)'
+    }
   },
   MENRO: {
     officeName: 'Municipal Environment & Natural Resources Office',

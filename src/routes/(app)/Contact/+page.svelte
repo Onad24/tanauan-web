@@ -23,10 +23,10 @@
 			themeColor: '#ef4444' // Crimson Red
 		},
 		{
-			name: 'Tanauan Rescue',
-			number: '+63 912-936-6706',
-			altNumber: '+63 916-197-7360',
-			description: '24/7 medical emergencies, ambulance transport, and disaster response.',
+			name: 'Tanauan Rescue (MDRRMO)',
+			number: '+63 916-197-7360',
+			altNumber: '+63 931-739-3333',
+			description: '24/7 medical emergencies, ambulance transport, and disaster response. Base Radio: 167.600 MHz.',
 			responseTime: '~7 min response',
 			priority: 'critical',
 			category: 'Rescue',

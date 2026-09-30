@@ -64,7 +64,7 @@
 		{
 			category: 'Health & Emergencies',
 			q: 'What are the official 24/7 emergency hotline numbers for Tanauan, Leyte?',
-			a: 'For immediate response: Tanauan Rescue / MDRRMO: 0912-936-6706 or 0916-197-7360; Philippine National Police (PNP Tanauan): 0951-163-3878; Bureau of Fire Protection (BFP Tanauan): 0916-197-4504; Municipal Hall Operator: (053) 123-4567.'
+			a: 'For immediate response: Tanauan Rescue / MDRRMO: Globe 0916-197-7360 or Smart 0931-739-3333 (Base Radio: 167.600 MHz); Philippine National Police (PNP Tanauan): 0951-163-3878; Bureau of Fire Protection (BFP Tanauan): 0916-197-4504; Municipal Hall Operator: (053) 123-4567.'
 		},
 		{
 			category: 'Health & Emergencies',

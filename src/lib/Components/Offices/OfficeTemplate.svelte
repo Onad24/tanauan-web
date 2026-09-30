@@ -16,6 +16,9 @@
 	import CivilRegistrarOrgChart from '$lib/Components/Offices/CivilRegistrarOrgChart.svelte';
 	import CivilRegistrarAccomplishments from '$lib/Components/Offices/CivilRegistrarAccomplishments.svelte';
 	import CivilRegistrarDuties from '$lib/Components/Offices/CivilRegistrarDuties.svelte';
+	import MDRRMODuties from '$lib/Components/Offices/MDRRMODuties.svelte';
+	import MDRRMOAccomplishments from '$lib/Components/Offices/MDRRMOAccomplishments.svelte';
+	import MDRRMOOrgChart from '$lib/Components/Offices/MDRRMOOrgChart.svelte';
 
 	let {
 		officeName = "Municipal Treasurer's Office",
@@ -249,8 +252,15 @@
 		department === 'Municipal Civil Registrar'
 	);
 
-	const shouldShowPersonnel = $derived(showPersonnel && !isCivilRegistrar);
-	const shouldPutFormsAtEnd = $derived(formsAtEnd || isCivilRegistrar);
+	const isMDRRMO = $derived(
+		officeCode === 'MDRRMO' ||
+		department === 'MDRRMO' ||
+		(officeName && officeName.toLowerCase().includes('disaster risk'))
+	);
+
+	const shouldShowPersonnel = $derived(showPersonnel && !isCivilRegistrar && !isMDRRMO);
+	const shouldPutFormsAtEnd = $derived(formsAtEnd || isCivilRegistrar || isMDRRMO);
+	const shouldShowAwards = $derived(!isMDRRMO);
 
 	const baseNav = $derived([
 		{ id: 'overview', label: 'Overview' },
@@ -260,8 +270,8 @@
 		...(!isMAO && mandates && mandates.length > 0 ? [{ id: 'mandates', label: 'Mandates' }] : []),
 		{ id: 'leadership', label: 'Leadership' },
 		{ id: 'structure', label: 'Structure' },
-		...(showAccomplishments ? [{ id: 'accomplishments', label: 'Reports' }] : []),
-		{ id: 'awards', label: 'Recognition' },
+		...(showAccomplishments ? [{ id: 'accomplishments', label: isCivilRegistrar || isMDRRMO ? 'Accomplishments' : 'Reports' }] : []),
+		...(shouldShowAwards ? [{ id: 'awards', label: 'Recognition' }] : []),
 		...(shouldShowPersonnel ? [{ id: 'personnel', label: 'Personnel' }] : []),
 		...(!isMAO && shouldPutFormsAtEnd && downloadableForms && downloadableForms.length > 0 ? [{ id: 'forms', label: 'Forms' }] : [])
 	]);
@@ -472,6 +482,68 @@
 							<span>Leadership</span>
 						</button>
 					</div>
+
+					{#if isMDRRMO}
+						<!-- 24/7 Emergency Dispatch Quick-Access Banner -->
+						<div
+							class="mt-6 rounded-2xl border-2 border-amber-400 bg-gradient-to-r from-blue-950 via-slate-900 to-blue-950 p-4 sm:p-5 text-white shadow-xl"
+						>
+							<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+								<div class="flex items-center gap-3.5">
+									<div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-amber-400 text-slate-950 text-xl font-black shadow-md">
+										🚨
+									</div>
+									<div>
+										<div class="flex items-center gap-2">
+											<span class="text-[10px] font-mono font-black tracking-widest text-amber-400 uppercase">
+												24/7 EMERGENCY DISPATCH HOTLINES // RESCUE TANAUAN
+											</span>
+											<span class="inline-block h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+										</div>
+										<div class="flex flex-wrap items-center gap-x-4 gap-y-1.5 mt-1">
+											<a
+												href="tel:09161977360"
+												class="group inline-flex items-center gap-2 font-mono text-sm sm:text-base font-black text-white hover:text-amber-300 transition"
+											>
+												<span class="rounded bg-blue-600 px-1.5 py-0.5 text-[10px] font-black text-white">GLOBE</span>
+												<span>0916-197-7360</span>
+											</a>
+											<span class="text-slate-600 hidden sm:inline">•</span>
+											<a
+												href="tel:09317393333"
+												class="group inline-flex items-center gap-2 font-mono text-sm sm:text-base font-black text-white hover:text-emerald-300 transition"
+											>
+												<span class="rounded bg-emerald-600 px-1.5 py-0.5 text-[10px] font-black text-white">SMART</span>
+												<span>0931-739-3333</span>
+											</a>
+											<span class="text-slate-600 hidden sm:inline">•</span>
+											<span class="inline-flex items-center gap-2 font-mono text-xs sm:text-sm font-bold text-amber-300">
+												<span class="rounded bg-amber-500 px-1.5 py-0.5 text-[10px] font-black text-slate-950">VHF RADIO</span>
+												<span>167.600 MHz</span>
+											</span>
+										</div>
+									</div>
+								</div>
+
+								<div class="flex items-center gap-2 self-start md:self-auto shrink-0">
+									<a
+										href="tel:09161977360"
+										class="inline-flex items-center gap-2 rounded-xl bg-red-600 px-4 py-2.5 text-xs font-black uppercase tracking-wider text-white shadow-md transition hover:bg-red-500 hover:scale-105 active:scale-95"
+									>
+										<span>Call Globe</span>
+										<span>📞</span>
+									</a>
+									<a
+										href="tel:09317393333"
+										class="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-4 py-2.5 text-xs font-black uppercase tracking-wider text-white shadow-md transition hover:bg-emerald-500 hover:scale-105 active:scale-95"
+									>
+										<span>Call Smart</span>
+										<span>📱</span>
+									</a>
+								</div>
+							</div>
+						</div>
+					{/if}
 
 					<!-- Citizen Public Service Badges -->
 					<div
@@ -1319,6 +1391,8 @@
 
 				{#if isCivilRegistrar}
 					<CivilRegistrarDuties />
+				{:else if isMDRRMO}
+					<MDRRMODuties />
 				{:else}
 					<!-- Mandates Grid (Matching exact civic card design with orange top border, badges, and dash items) -->
 					<div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -1372,7 +1446,7 @@
 				{/if}
 
 				<!-- Optional Expandable Full 17 Statutory Duties (Verbatim COA/CSC Enumeration) -->
-				{#if dutiesAndResponsibilities}
+				{#if dutiesAndResponsibilities && !isCivilRegistrar && !isMDRRMO}
 					<div class="mt-8 flex flex-col items-center">
 						<button
 							type="button"
@@ -1691,19 +1765,72 @@
 										<div class="mt-1 text-xs text-blue-200">{schedule.location}</div>
 									</div>
 								{/if}
-								{#if schedule.contactNumber || schedule.email}
+								{#if schedule.contactNumber || schedule.email || isMDRRMO}
 									<div class="rounded-xl border border-blue-700 bg-blue-900 p-4">
-										<div class="mb-0.5 text-xs font-bold text-amber-400 uppercase">
-											CONTACT & INQUIRIES
+										<div class="mb-1 text-xs font-bold text-amber-400 uppercase">
+											{isMDRRMO ? '24/7 EMERGENCY DISPATCH HOTLINES' : 'CONTACT & INQUIRIES'}
 										</div>
-										{#if schedule.contactNumber}<div
-												class="font-mono text-base font-bold text-white"
-											>
-												{schedule.contactNumber}
-											</div>{/if}
-										{#if schedule.email}<div class="mt-0.5 font-mono text-xs text-blue-200">
-												{schedule.email}
-											</div>{/if}
+										{#if isMDRRMO}
+											<div class="mt-2.5 space-y-2">
+												<!-- Globe -->
+												<a
+													href="tel:09161977360"
+													class="flex items-center justify-between rounded-lg bg-blue-950/80 p-2.5 border border-blue-800 hover:border-amber-400 transition"
+												>
+													<div class="flex items-center gap-2">
+														<span class="rounded bg-blue-600 px-2 py-0.5 text-[10px] font-black text-white">GLOBE</span>
+														<span class="font-mono text-sm sm:text-base font-bold text-white">0916-197-7360</span>
+													</div>
+													<span class="text-xs font-bold text-amber-300">Call Now 📞</span>
+												</a>
+												<!-- Smart -->
+												<a
+													href="tel:09317393333"
+													class="flex items-center justify-between rounded-lg bg-blue-950/80 p-2.5 border border-blue-800 hover:border-emerald-400 transition"
+												>
+													<div class="flex items-center gap-2">
+														<span class="rounded bg-emerald-600 px-2 py-0.5 text-[10px] font-black text-white">SMART</span>
+														<span class="font-mono text-sm sm:text-base font-bold text-white">0931-739-3333</span>
+													</div>
+													<span class="text-xs font-bold text-emerald-300">Call Now 📱</span>
+												</a>
+												<!-- VHF Base Radio -->
+												<div class="flex items-center justify-between rounded-lg bg-amber-500/10 p-2.5 border border-amber-400/40">
+													<div class="flex items-center gap-2">
+														<span class="rounded bg-amber-500 px-2 py-0.5 text-[10px] font-black text-slate-950">BASE RADIO</span>
+														<span class="font-mono text-sm sm:text-base font-black text-amber-300">167.600 MHz</span>
+													</div>
+													<span class="text-xs font-bold text-amber-200">📡 VHF EOC</span>
+												</div>
+												<!-- Facebook Page -->
+												<a
+													href="https://www.facebook.com/search/top?q=MDRRMO-TANAUAN%20LEYTE"
+													target="_blank"
+													rel="noopener noreferrer"
+													class="flex items-center justify-between rounded-lg bg-blue-800/40 p-2.5 border border-blue-600/40 hover:bg-blue-800/70 transition"
+												>
+													<div class="flex items-center gap-2">
+														<span class="rounded bg-blue-500 px-2 py-0.5 text-[10px] font-black text-white">FACEBOOK</span>
+														<span class="text-xs sm:text-sm font-bold text-blue-100">MDRRMO-TANAUAN LEYTE</span>
+													</div>
+													<span class="text-xs font-bold text-blue-300">Open Page ↗</span>
+												</a>
+												{#if schedule.email}
+													<div class="pt-1 text-center font-mono text-xs text-blue-200">
+														Email: {schedule.email}
+													</div>
+												{/if}
+											</div>
+										{:else}
+											{#if schedule.contactNumber}<div
+													class="font-mono text-base font-bold text-white"
+												>
+													{schedule.contactNumber}
+												</div>{/if}
+											{#if schedule.email}<div class="mt-0.5 font-mono text-xs text-blue-200">
+													{schedule.email}
+												</div>{/if}
+										{/if}
 									</div>
 								{/if}
 							</div>
@@ -1835,6 +1962,8 @@
 						<MAOOrgChart />
 					{:else if department === 'Civil Registrar' || officeCode === 'MCRO' || officeCode === 'MCR' || department === 'Municipal Civil Registrar'}
 						<CivilRegistrarOrgChart />
+					{:else if isMDRRMO}
+						<MDRRMOOrgChart />
 					{:else}
 						<OrgChartSection {department} defaultImage={orgChartImage} cleanLayout={true} />
 					{/if}
@@ -1851,14 +1980,16 @@
 							class="mb-3 inline-flex items-center gap-2 rounded-md border border-amber-300 bg-amber-100 px-3.5 py-1 text-xs font-black tracking-wider text-amber-950 uppercase"
 						>
 							<span class="h-2 w-2 rounded-full bg-amber-600"></span>
-							SECTION {accomplishmentsNavCode} // {isCivilRegistrar ? 'CIVIL REGISTRY MILESTONES & SPECIAL PROJECTS' : 'FISCAL PERFORMANCE & SCORECARDS'}
+							SECTION {accomplishmentsNavCode} // {isCivilRegistrar ? 'CIVIL REGISTRY MILESTONES & SPECIAL PROJECTS' : isMDRRMO ? 'DISASTER PREPAREDNESS & DRILL OPERATIONS' : 'FISCAL PERFORMANCE & SCORECARDS'}
 						</div>
 						<h2 class="text-3xl leading-tight font-black tracking-tight text-blue-950 sm:text-4xl">
-							Accomplishment Reports
+							{isMDRRMO ? 'Field Operations & Accomplishments' : 'Accomplishment Reports'}
 						</h2>
 						<p class="mt-2.5 text-base leading-relaxed font-normal text-slate-800">
 							{#if isCivilRegistrar}
 								Official public service milestones, community outreach records, and flagship civil registration projects of the Municipal Civil Registrar of Tanauan.
+							{:else if isMDRRMO}
+								Official disaster preparedness operations, community resilience milestones, and simultaneous earthquake drills led by the Municipal Disaster Risk Reduction & Management Office.
 							{:else}
 								Official performance scorecards, program accomplishments, and transparency disclosures
 								of the {officeName} submitted to the Sangguniang Bayan of Tanauan.
@@ -1877,6 +2008,8 @@
 						</div>
 					{:else if isCivilRegistrar}
 						<CivilRegistrarAccomplishments />
+					{:else if isMDRRMO}
+						<MDRRMOAccomplishments />
 					{:else}
 						<div class="rounded-3xl border-2 border-slate-200 bg-slate-50 p-6 shadow-sm sm:p-8">
 							<AccomplishmentSection {department} limit={3} collapsible={true} cleanLayout={true} />
@@ -1890,34 +2023,36 @@
 		     admin-designed sections exist AND have approved posts (renders nothing otherwise) -->
 		<DepartmentSectionsFeed {department} />
 
-		<!-- Section 6: Awards & Citations (Provincial & Regional Honors) -->
-		<section id="awards" class="relative border-b-2 border-slate-200 bg-slate-50 py-20">
-			<div class="container mx-auto max-w-7xl px-6">
-				<div class="mb-10 max-w-3xl border-b-2 border-slate-200 pb-6">
-					<div
-						class="mb-3 inline-flex items-center gap-2 rounded-md border border-amber-300 bg-amber-100 px-3.5 py-1 text-xs font-black tracking-wider text-amber-950 uppercase"
-					>
-						<span class="h-2 w-2 rounded-full bg-amber-600"></span>
-						SECTION {awardsNavCode} // HONORS, CITATIONS & AWARDS
+		<!-- Section: Awards & Citations (Provincial & Regional Honors) -->
+		{#if shouldShowAwards}
+			<section id="awards" class="relative border-b-2 border-slate-200 bg-slate-50 py-20">
+				<div class="container mx-auto max-w-7xl px-6">
+					<div class="mb-10 max-w-3xl border-b-2 border-slate-200 pb-6">
+						<div
+							class="mb-3 inline-flex items-center gap-2 rounded-md border border-amber-300 bg-amber-100 px-3.5 py-1 text-xs font-black tracking-wider text-amber-950 uppercase"
+						>
+							<span class="h-2 w-2 rounded-full bg-amber-600"></span>
+							SECTION {awardsNavCode} // HONORS, CITATIONS & AWARDS
+						</div>
+						<h2 class="text-3xl leading-tight font-black tracking-tight text-blue-950 sm:text-4xl">
+							Awards & Achievements
+						</h2>
+						<p class="mt-2.5 text-base leading-relaxed font-normal text-slate-800">
+							{#if isCivilRegistrar}
+								Official Philippine Statistics Authority (PSA) provincial citations recognizing outstanding performance, civil registration excellence, and the Birth Registration Assistance Project (BRAP).
+							{:else}
+								Provincial and regional citations recognizing outstanding business permitting,
+								year-on-year local revenue growth, and sound fiscal administration.
+							{/if}
+						</p>
 					</div>
-					<h2 class="text-3xl leading-tight font-black tracking-tight text-blue-950 sm:text-4xl">
-						Awards & Achievements
-					</h2>
-					<p class="mt-2.5 text-base leading-relaxed font-normal text-slate-800">
-						{#if isCivilRegistrar}
-							Official Philippine Statistics Authority (PSA) provincial citations recognizing outstanding performance, civil registration excellence, and the Birth Registration Assistance Project (BRAP).
-						{:else}
-							Provincial and regional citations recognizing outstanding business permitting,
-							year-on-year local revenue growth, and sound fiscal administration.
-						{/if}
-					</p>
-				</div>
 
-				<div class="rounded-3xl border-2 border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-					<AwardsSection {department} limit={3} collapsible={true} cleanLayout={true} />
+					<div class="rounded-3xl border-2 border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+						<AwardsSection {department} limit={3} collapsible={true} cleanLayout={true} />
+					</div>
 				</div>
-			</div>
-		</section>
+			</section>
+		{/if}
 
 		<!-- Section: Department Personnel (Official Staff Registry) -->
 		{#if shouldShowPersonnel}
@@ -2057,202 +2192,221 @@
 	<!-- DOWNLOADABLE FORM DETAIL & PREVIEW MODAL                                  -->
 	<!-- ========================================================================= -->
 	{#if activeFormModal}
+		{@const fileUrl = activeFormModal.url || activeFormModal.downloadUrl}
+		{@const previewImg = activeFormModal.preview || activeFormModal.image || (fileUrl && fileUrl.match(/\.(png|jpg|jpeg|webp)$/i) ? fileUrl : null)}
+		{@const isPdf = Boolean(fileUrl && fileUrl.match(/\.pdf$/i))}
 		<div
-			class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
+			class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 md:p-6"
 			role="dialog"
 			aria-modal="true"
 			aria-labelledby="form-modal-title"
 		>
 			<!-- Backdrop -->
 			<div
-				class="absolute inset-0 bg-blue-950/70 backdrop-blur-sm"
+				class="absolute inset-0 bg-blue-950/80 backdrop-blur-md"
 				onclick={closeFormModal}
 				transition:fade={{ duration: 200 }}
 			></div>
 
 			<!-- Modal Panel -->
 			<div
-				class="relative z-10 w-full max-w-lg overflow-hidden rounded-3xl border-2 border-slate-200 bg-white shadow-2xl"
-				transition:scale={{ duration: 250, start: 0.92 }}
+				class="relative z-10 flex flex-col w-full max-w-4xl lg:max-w-5xl max-h-[92vh] overflow-hidden rounded-3xl border-2 border-slate-200 bg-white shadow-2xl"
+				transition:scale={{ duration: 250, start: 0.94 }}
 			>
 				<!-- Coloured top bar -->
-				<div class="h-2 w-full bg-gradient-to-r from-blue-900 via-blue-700 to-blue-500"></div>
+				<div class="h-2 w-full bg-gradient-to-r from-blue-900 via-amber-500 to-blue-700 shrink-0"></div>
 
 				<!-- Modal Header -->
-				<div class="flex items-start justify-between gap-4 border-b border-slate-100 px-6 py-5">
-					<div class="flex items-center gap-3">
+				<div class="flex items-center justify-between gap-4 border-b border-slate-200 bg-white px-6 py-4 shrink-0">
+					<div class="flex items-center gap-3 min-w-0">
 						<div
-							class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-blue-100 text-2xl"
+							class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-blue-100 text-2xl shadow-xs"
 						>
 							{activeFormModal.icon || '📄'}
 						</div>
-						<div>
-							<div class="text-[10px] font-black uppercase tracking-wider text-blue-700">Official {officeCode || 'Government'} Form</div>
-							<h2 id="form-modal-title" class="text-xl font-black text-blue-950">{activeFormModal.title}</h2>
+						<div class="min-w-0">
+							<div class="flex flex-wrap items-center gap-2">
+								<span class="text-[10px] font-black uppercase tracking-wider text-blue-700">Official {officeCode || 'Government'} Document</span>
+								{#if activeFormModal.fileSize}
+									<span class="rounded bg-slate-100 border border-slate-200 px-2 py-0.5 font-mono text-[10px] font-bold text-slate-700">
+										{activeFormModal.fileSize}
+									</span>
+								{/if}
+								{#if activeFormModal.type}
+									<span class="rounded-full bg-blue-50 border border-blue-200 px-2 py-0.5 text-[10px] font-bold text-blue-900 uppercase">
+										{activeFormModal.type}
+									</span>
+								{/if}
+							</div>
+							<h2 id="form-modal-title" class="truncate text-lg sm:text-xl font-black text-blue-950">{activeFormModal.title}</h2>
 						</div>
 					</div>
-					<button
-						type="button"
-						onclick={closeFormModal}
-						class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-lg font-bold text-slate-600 transition-colors hover:bg-slate-100 hover:text-blue-950"
-						aria-label="Close">✕</button
-					>
+					<div class="flex items-center gap-2 shrink-0">
+						{#if fileUrl}
+							<a
+								href={fileUrl}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="hidden sm:inline-flex items-center gap-1.5 rounded-xl border border-blue-200 bg-blue-50 px-3 py-1.5 text-xs font-bold text-blue-900 hover:bg-blue-100 transition"
+								title="Open in new window"
+							>
+								<span>Full Window ↗</span>
+							</a>
+						{/if}
+						<button
+							type="button"
+							onclick={closeFormModal}
+							class="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-base font-bold text-slate-600 transition-colors hover:bg-slate-100 hover:text-blue-950"
+							aria-label="Close">✕</button
+						>
+					</div>
 				</div>
 
-				<!-- Modal Body -->
-				<div class="space-y-5 px-6 py-6">
-					<!-- Type badge -->
-					{#if activeFormModal.type}
-						<span
-							class="inline-flex items-center gap-1.5 rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-black tracking-wider text-blue-900 uppercase"
-						>
-							<span class="h-1.5 w-1.5 rounded-full bg-blue-500"></span>
-							{activeFormModal.type}
-						</span>
-					{/if}
-
-					<!-- Description -->
-					{#if activeFormModal.description}
-						<div class="rounded-2xl border-l-4 border-blue-700 bg-blue-50/60 p-4">
-							<p class="text-sm leading-relaxed font-semibold text-slate-800">
-								{activeFormModal.description}
-							</p>
+				<!-- Modal Body (Scrollable document inspection view) -->
+				<div class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6 bg-slate-50/60">
+					<!-- Inspection Mode Banner -->
+					<div class="flex items-center justify-between rounded-2xl border border-blue-200 bg-blue-50/70 p-3.5 text-xs">
+						<div class="flex items-center gap-2.5 text-blue-950 font-semibold">
+							<span class="text-base">📄</span>
+							<span><strong>Document Inspection Mode:</strong> You can review the complete file preview and instructions below to decide whether to download.</span>
 						</div>
-					{/if}
+						{#if fileUrl}
+							<a
+								href={fileUrl}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="shrink-0 text-blue-800 font-bold underline hover:text-blue-950 ml-2"
+							>
+								Open Full PDF ↗
+							</a>
+						{/if}
+					</div>
 
-					<!-- Form Preview Image if Available -->
-					{#if activeFormModal.preview || activeFormModal.image || (activeFormModal.url && activeFormModal.url.match(/\.(png|jpg|jpeg|webp)$/i))}
-						<div class="relative overflow-hidden rounded-2xl border-2 border-slate-200 bg-slate-50 p-2.5 text-center">
-							<img
-								src={activeFormModal.preview || activeFormModal.image || activeFormModal.url}
-								alt={activeFormModal.title}
-								class="max-h-52 mx-auto rounded-xl object-contain shadow-sm border border-slate-200 bg-white"
-							/>
-							{#if activeFormModal.htmlUrl}
-								<div class="mt-2 text-center">
-									<a
-										href={activeFormModal.htmlUrl}
-										target="_blank"
-										rel="noopener noreferrer"
-										class="inline-flex items-center gap-1.5 text-xs font-bold text-blue-700 hover:text-blue-900 hover:underline"
-									>
-										<span>🔍 View Full Interactive Printable Document ↗</span>
-									</a>
-								</div>
-							{/if}
+					<!-- Document Preview Stage (Large & Clear) -->
+					{#if previewImg}
+						<div class="rounded-2xl border-2 border-slate-300 bg-white p-3 sm:p-5 shadow-sm">
+							<div class="mb-3 flex items-center justify-between border-b border-slate-100 pb-2 text-xs">
+								<span class="font-bold text-slate-700 flex items-center gap-1.5">
+									<span>🔍</span> Document High-Resolution Preview
+								</span>
+								{#if isPdf}
+									<span class="font-mono text-[11px] text-slate-500">PDF Guide • Ready for Download</span>
+								{/if}
+							</div>
+							<div class="max-h-[540px] overflow-y-auto rounded-xl border border-slate-200 bg-slate-100/50 p-2 text-center">
+								<img
+									src={previewImg}
+									alt={activeFormModal.title}
+									class="mx-auto h-auto max-h-[750px] w-auto max-w-full rounded-lg shadow-sm border border-slate-200 bg-white object-contain"
+								/>
+							</div>
 						</div>
-					{:else if activeFormModal.url && activeFormModal.url.match(/\.pdf$/i)}
-						<div class="relative overflow-hidden rounded-2xl border-2 border-slate-200 bg-slate-100 p-2">
-							<iframe
-								src="{activeFormModal.url}#toolbar=0"
-								title="{activeFormModal.title} Preview"
-								class="w-full h-72 rounded-xl border border-slate-300 bg-white shadow-inner"
-							></iframe>
-							<div class="mt-2.5 flex items-center justify-between px-1 text-xs">
-								<span class="text-slate-500 font-bold">📄 Official Document Preview</span>
-								<div class="flex items-center gap-3">
-									{#if activeFormModal.htmlUrl}
-										<a
-											href={activeFormModal.htmlUrl}
-											target="_blank"
-											rel="noopener noreferrer"
-											class="font-black text-blue-700 hover:text-blue-950 hover:underline"
-										>
-											Interactive View ↗
-										</a>
-									{/if}
-									<a
-										href={activeFormModal.url}
-										target="_blank"
-										rel="noopener noreferrer"
-										class="font-black text-blue-900 hover:text-blue-950 hover:underline"
-									>
-										Open Fullscreen ↗
-									</a>
-								</div>
+					{:else if isPdf}
+						<div class="rounded-2xl border-2 border-slate-300 bg-white p-3 sm:p-5 shadow-sm">
+							<div class="mb-3 flex items-center justify-between border-b border-slate-100 pb-2 text-xs">
+								<span class="font-bold text-slate-700">Official PDF Document Preview</span>
+								<a href={fileUrl} target="_blank" rel="noopener noreferrer" class="font-bold text-blue-700 hover:underline">
+									Open in New Tab ↗
+								</a>
+							</div>
+							<div class="h-[520px] rounded-xl border border-slate-200 overflow-hidden bg-slate-100">
+								<iframe
+									src="{fileUrl}#toolbar=1"
+									title="{activeFormModal.title} Preview"
+									class="w-full h-full bg-white"
+								></iframe>
 							</div>
 						</div>
 					{/if}
 
-					<!-- Requirements if available -->
-					{#if activeFormModal.requirements && activeFormModal.requirements.length > 0}
-						<div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-							<div class="text-[10px] font-black uppercase tracking-wider text-slate-600 mb-2">Required Attachments & Guidelines</div>
-							<ul class="space-y-1.5 text-xs text-slate-700">
-								{#each activeFormModal.requirements as req}
-									<li class="flex items-start gap-2">
-										<span class="text-emerald-600 font-black">✓</span>
-										<span class="font-medium">{req}</span>
-									</li>
-								{/each}
-							</ul>
-						</div>
-					{/if}
+					<!-- Description & Requirements Drawer -->
+					<div class="grid gap-4 md:grid-cols-2">
+						<!-- Description -->
+						{#if activeFormModal.description}
+							<div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-2xs">
+								<div class="text-[10px] font-black uppercase tracking-wider text-slate-500 mb-2">Form Description & Purpose</div>
+								<p class="text-xs sm:text-sm leading-relaxed font-normal text-slate-700">
+									{activeFormModal.description}
+								</p>
+							</div>
+						{/if}
 
-					<!-- Info row -->
-					<div class="grid grid-cols-2 gap-3">
-						<div class="rounded-xl border border-slate-200 bg-slate-50 p-3">
-							<div class="text-[10px] font-black uppercase tracking-wider text-slate-500">Issuing Office</div>
-							<div class="text-sm font-black text-blue-950">{officeCode || department}</div>
-						</div>
-						<div class="rounded-xl border border-slate-200 bg-slate-50 p-3">
-							<div class="text-[10px] font-black uppercase tracking-wider text-slate-500">Format</div>
-							<div class="text-sm font-black text-blue-950">{activeFormModal.format || 'Official PDF'}</div>
+						<!-- Requirements or Official Guidelines -->
+						<div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-2xs">
+							<div class="text-[10px] font-black uppercase tracking-wider text-slate-500 mb-2">
+								{activeFormModal.requirements?.length ? 'Prerequisites & Checklist' : 'Official Guidelines'}
+							</div>
+							{#if activeFormModal.requirements && activeFormModal.requirements.length > 0}
+								<ul class="space-y-2 text-xs text-slate-700">
+									{#each activeFormModal.requirements as req}
+										<li class="flex items-start gap-2">
+											<span class="text-emerald-600 font-black">✓</span>
+											<span>{req}</span>
+										</li>
+									{/each}
+								</ul>
+							{:else}
+								<p class="text-xs text-slate-600 leading-relaxed">
+									Verify all entries before submitting. Ensure accurate applicant details and complete required agency attachments.
+								</p>
+							{/if}
 						</div>
 					</div>
 
-					<!-- Note -->
-					<div
-						class="flex items-start gap-2.5 rounded-xl border border-amber-200 bg-amber-50 p-3.5"
-					>
-						<span class="shrink-0 text-base">⚠️</span>
-						<p class="text-xs font-semibold text-amber-900 leading-relaxed">
-							Ensure the downloaded form is the most current version. Submit completed forms to the {officeName} at the Municipal Hall.
-						</p>
+					<!-- Office & Format Details -->
+					<div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+						<div class="rounded-xl border border-slate-200 bg-white p-3">
+							<div class="text-[10px] font-black uppercase tracking-wider text-slate-400">Department</div>
+							<div class="font-bold text-slate-900 truncate">{officeCode || department}</div>
+						</div>
+						<div class="rounded-xl border border-slate-200 bg-white p-3">
+							<div class="text-[10px] font-black uppercase tracking-wider text-slate-400">Format</div>
+							<div class="font-bold text-slate-900 truncate">{activeFormModal.format || 'Official PDF'}</div>
+						</div>
+						<div class="rounded-xl border border-slate-200 bg-white p-3">
+							<div class="text-[10px] font-black uppercase tracking-wider text-slate-400">File Size</div>
+							<div class="font-bold text-slate-900 truncate">{activeFormModal.fileSize || 'Standard PDF'}</div>
+						</div>
+						<div class="rounded-xl border border-slate-200 bg-white p-3">
+							<div class="text-[10px] font-black uppercase tracking-wider text-slate-400">Availability</div>
+							<div class="font-bold text-emerald-700 truncate">Immediate Download</div>
+						</div>
 					</div>
 				</div>
 
-				<!-- Modal Footer -->
-				<div
-					class="flex items-center justify-between gap-3 border-t border-slate-100 bg-slate-50 px-6 py-4"
-				>
-					<div class="flex items-center gap-1.5 text-xs font-bold text-slate-500">
-						<span class="h-1.5 w-1.5 rounded-full bg-blue-700"></span>
-						<span>Official Government Document</span>
+				<!-- Modal Footer (Decision Bar: Download vs Close) -->
+				<div class="flex flex-col sm:flex-row items-center justify-between gap-4 border-t-2 border-slate-200 bg-white px-6 py-4 shrink-0 shadow-sm">
+					<div class="flex items-center gap-2 text-xs text-slate-600">
+						<span class="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 text-xs font-bold">✓</span>
+						<span>Review complete. Decide whether to download or exit:</span>
 					</div>
-					<div class="flex items-center gap-2">
+					<div class="flex items-center gap-3 w-full sm:w-auto justify-end">
 						<button
 							type="button"
 							onclick={closeFormModal}
-							class="rounded-xl border border-slate-300 bg-white px-4 py-2 text-xs font-black text-slate-700 transition-colors hover:bg-slate-100"
-						>Close</button>
-						{#if activeFormModal.htmlUrl}
+							class="w-full sm:w-auto rounded-xl border border-slate-300 bg-white hover:bg-slate-100 px-5 py-2.5 text-xs font-black text-slate-700 transition"
+						>
+							Close / Do Not Download
+						</button>
+						{#if fileUrl}
 							<a
-								href={activeFormModal.htmlUrl}
+								href={fileUrl}
 								target="_blank"
+								download
 								rel="noopener noreferrer"
-								class="inline-flex items-center gap-1.5 rounded-xl border border-blue-700 bg-white px-3.5 py-2 text-xs font-black text-blue-950 shadow-xs transition-all hover:bg-blue-50 hover:scale-105 active:scale-95"
+								class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-blue-900 hover:bg-blue-800 px-6 py-2.5 text-xs font-black text-white shadow-md transition hover:scale-105 active:scale-95"
 							>
-								<span>🖨 Printable View ↗</span>
+								<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										stroke-width="2.5"
+										d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+									/>
+								</svg>
+								<span>Download File {activeFormModal.fileSize ? `(${activeFormModal.fileSize})` : ''}</span>
 							</a>
 						{/if}
-						<a
-							href={activeFormModal.url || activeFormModal.downloadUrl}
-							target="_blank"
-							download
-							rel="noopener noreferrer"
-							class="inline-flex items-center gap-2 rounded-xl bg-blue-800 px-5 py-2 text-xs font-black text-white shadow-md transition-all hover:scale-105 hover:bg-blue-700 active:scale-95"
-						>
-							<svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-								><path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									stroke-width="2"
-									d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-								/></svg
-							>
-							<span>Download Form ↗</span>
-						</a>
 					</div>
 				</div>
 			</div>
