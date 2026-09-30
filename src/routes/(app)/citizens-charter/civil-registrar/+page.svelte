@@ -1,5 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
+	import CivilRegistrarDuties from '$lib/Components/Offices/CivilRegistrarDuties.svelte';
 
 	// Citizen Charter Data
 	let charter = {
@@ -14,109 +15,121 @@
 			'The office of the Municipal Civil Registrar implements civil registration programs of the Municipality pursuant to the Civil Registry Law.',
 		services: [
 			{
-				id: 'documents',
-				title: 'Application for Documents (Birth, Marriage, Death)',
-				about:
-					'Register birth, marriage, and death events within the prescribed period and receive certificates.',
-				processing_time: '34 minutes',
-				requirements: [
-					'Birth: Marriage Contract of Parents, PSA Negative Certificate of the Child, Baptismal Certificate of the Child, Affidavit of 2 Disinterested Persons (Delayed Registration), Current Community Tax Certificate/Valid ID, Affidavit to Use the Surname of the Father (if parents are not married)',
-					'Marriage: Copy of COM for Registration, Joint affidavit of the applicant duly notarized (for delayed registration), Negative Result from PSA (for delayed registration), Old copy of the unregistered document (for delayed registration)',
-					'Death: Personal appearance of informant (spouse or nearest kin) if death occurred at home, Death Certificate prepared by hospital if death occurred in hospital'
-				],
-				steps: [
-					'Proceed to the Municipal Civil Registrar’s Office (MCR) and verbalize request',
-					'If document/s is available proceed to Municipal Treasury Office (MTO) for payment',
-					'Present Official Receipt to registry clerk',
-					'Checks and signs the certificate',
-					'Receives the Certificate'
-				],
-				fees: 'Php 80.00',
-				in_charge:
-					'Vincent Francis A. Salvaña / Virginia Parmo / Miracelo Vertudes / Ma. Clenia Pilola'
-			},
-			{
-				id: 'marriage_license',
-				title: 'Application for Marriage License',
-				about:
-					'File separate sworn applications for marriage license with the proper local civil registrar.',
-				processing_time: '10 days & 1 hour',
-				requirements: [
-					'Pre-marital Counselling Certificates',
-					'Birth/Baptismal Certificates of Contracting Parties/Valid ID/CTC',
-					'Parental Consent (if minor)',
-					'Parental Advise (21-24 of age)',
-					'Certificate of No Marriage (CENOMAR)',
-					'Duly Notarized Affidavit of Cohabitant for couples living together 5+ years'
-				],
-				steps: [
-					'Applicants to proceed to the Municipal Civil Registrar’s Office (MCR) and verbalize request',
-					'Applicants submit requirements',
-					'If requirements are complete, proceed for payment to MTO',
-					'Applicants present Official Receipt to registry clerk',
-					'Posting of Notice of Application',
-					'Claim Marriage License after posting'
-				],
-				fees: 'Php 150.00',
-				in_charge:
-					'Vincent Francis A. Salvaña / Virginia Parmo / Miracelo Vertudes / Ma. Clenia Pilola'
-			},
-			{
 				id: 'timely_registration',
+				index: '01',
+				code: 'TIME-REG',
 				title: 'Timely Registration of Vital Events (Birth, Marriage, Death)',
 				about:
-					'Register all vital events within the prescribed period and release owner’s copy of registered documents.',
-				processing_time: '50 minutes',
-				requirements: [],
-				steps: [
-					'Proceed to MCR Office and provide needed info',
-					'Review civil registry form and let signatories affix signatures',
-					'Claim owner’s copy of registered documents'
+					'Register vital events (birth, marriage, death) within the prescribed statutory period and receive the owner’s copy of registered documents.',
+				processing_time: 'Same day / Within statutory period',
+				requirements: [
+					'Certificate of Live Birth (COLB) duly signed by attending physician or midwife (for births)',
+					'Certificate of Marriage (COM) signed by solemnizing officer and contracting parties (for marriages)',
+					'Certificate of Death (COD) signed by attending physician or Municipal Health Officer (for deaths)',
+					'Valid government-issued ID of the informant or contracting parties'
 				],
-				fees: '-',
-				in_charge: 'Vincent Francis A. Salvaña / Virginia Parmo'
+				steps: [
+					'Proceed to the MCR office, verbalize requests, provide needed information and documents.',
+					'Review the prepared civil registry form and let signatories affix their signatures.',
+					'Proceed to the treasurer’s office to pay the required fees.',
+					'Claim owner’s copy of registered documents of vital events.'
+				],
+				fees: 'As prescribed by Municipal Revenue Code',
+				in_charge: 'Office of the Municipal Civil Registrar / Municipal Treasury Office'
 			},
 			{
 				id: 'late_registration',
+				index: '02',
+				code: 'LATE-REG',
 				title: 'Late Registration of Vital Events (Birth, Marriage, Death)',
 				about:
-					'Register vital events beyond the prescribed period and secure delayed registration certificates.',
-				processing_time: 'Depends on event',
+					'Delayed filing and registration of vital events beyond the statutory period. Subject to mandatory 10-day legal posting period before release. Must submit 2 xerox copies of each document.',
+				processing_time: '10-Day Mandatory Legal Posting Period Required',
 				requirements: [
-					'Birth: PSA Negative Registration, Baptismal Certificate, Form 137-E / School Certification, Marriage Contract of Parents, AUSF & AAP if not married, Voter’s Registration Record, Affidavit of two disinterested persons',
-					'Marriage: PSA Negative Registration, Certificate of Marriage (Form 97), Marriage Certificate from parish/religious sector, Joint Affidavit of two disinterested persons',
-					'Death: PSA Negative Certification, Certificate of Death signed by Municipal Health Officer, Joint Affidavit of two disinterested persons'
+					'Requirements for Late Registration of Birth (2 xerox copies each): PSA Negative Result (No Record of Birth), Baptismal Certification, Bakuna Record (for children ages 0-5), School Records (Certification / Form 137 / TOR / Diploma), Marriage Certificate of Parents, At least 2 Livebirths of Siblings, Voter’s Certification, Philippine National ID / PhilSys Verification Slip, 2 pcs 2x2 picture with white background, Brgy. Certification, Joint Affidavit of Two Disinterested Persons (with xerox copy of valid ID of witnesses).',
+					'Requirements for Late Registration of Marriage (2 xerox copies each): PSA Negative Result (No Record of Marriage), CENOMAR (for both contracting parties), Affidavit of Two Dis-interested Persons (with xerox copy of valid ID of witnesses), Birth certificates of any children born to the couple showing parents’ marriage details, Photocopy of valid government-issued IDs of the couple.',
+					'Requirements for Late Registration of Death (2 xerox copies each): PSA Negative Result (No Record of Death), Burial Certificate, Affidavit of Two Dis-interested Persons (with xerox copy of valid ID of witnesses), Photocopy of valid government-issued IDs of the deceased and informant.'
 				],
 				steps: [
-					'Proceed to MCR Office and verbalize request',
-					'Submit required documents',
-					'Review and sign civil registry forms',
-					'MCR subscribes affidavits',
-					'Posting of Notice of Delayed Registration',
-					'Approved registration of vital events',
-					'Claim owner’s copy of late registered documents'
+					'Proceed to the MCR office to verbalize the request.',
+					'Secure and submit the needed requirements (must submit 2 xerox copies of each document).',
+					'Review the filled out civil registry forms and let signatories affix their signatures.',
+					'Proceed to the treasurer’s office to pay the required fees.',
+					'Claim the owner’s copy of late registered documents (Note: released only after the required 10-day posting period).'
 				],
-				fees: 'Php 50 – 30 per affidavit depending on event',
-				in_charge:
-					'Vincent Francis A. Salvaña / Virginia Parmo / Miracelo Vertudes / Ma. Clenia Pilola'
+				fees: 'Php 50.00 – 150.00 (depending on event & affidavit notarization)',
+				in_charge: 'Office of the Municipal Civil Registrar / Municipal Treasury Office'
 			},
 			{
-				id: 'breqs',
-				title: 'Batch Request Query System (BREQS)',
+				id: 'marriage_license',
+				index: '03',
+				code: 'MARR-LIC',
+				title: 'Application for Marriage License',
 				about:
-					'Submit requests for multiple civil registry documents and track their release from PSA CRS outlets.',
-				processing_time: '7 working days + half day for delivery',
+					'Filing separate sworn applications for marriage license before contracting marriage. Subject to mandatory 10-day legal posting period before release. Must submit 2 xerox copies of each document.',
+				processing_time: '10-Day Mandatory Legal Posting Period Required',
 				requirements: [
-					'Application Form: WHITE – Certificate of Live Birth, PINK – Certificate of Marriage, YELLOW – Certificate of Death, GREEN – Certificate of No Marriage/Advisory on Marriage'
+					'Core Requirements (2 xerox copies each): CENOMAR (Certificate of No Marriage), PSA/Local Live Birth, Brgy. Residency, Photocopy of valid government-issued IDs, Parental Consent for 18 up to below 21 years of age, Parental Advice for 21 up to 25 years of age.',
+					'Additional if one of the couple is a Foreigner: Certificate of Legal Capacity / No Legal Impediment to Contract Marriage issued by the foreigner’s embassy or consulate, Divorce Decree / Annulment / Death Certificate of former spouse (if previously married). Documents not in English must be translated.'
 				],
 				steps: [
-					'Submit all requirements to BREQS Collecting Officer',
-					'Wait for PSA schedule for release',
-					'Office Personnel travels to CRS outlet to claim request',
-					'Client claims requested Civil Registry documents'
+					'Applicants proceed to the MCR office and verbally state their request.',
+					'Secure and submit required documents (must submit 2 xerox copies of each document).',
+					'If requirements are complete and applicants are qualified, proceed to the treasurer’s office to pay the required fees.',
+					'Present the required documents to the MSWD office for pre-marriage counseling.',
+					'Submit the complete requirements, including the pre-marriage counseling certificate, to the MCR office for posting of the marriage application.',
+					'Claim Marriage License at the MCR office after posting (released strictly after the 10-day posting period).'
 				],
-				fees: 'Php 155 – 210 per copy depending on document type',
-				in_charge: 'Vincent Francis A. Salvaña / Jovey Ann B. Buendia / Ma. Cyril C. Bibar'
+				fees: 'Php 150.00 (plus pre-marriage counseling / statutory fees)',
+				in_charge: 'Office of the Municipal Civil Registrar / MSWDO / MTO'
+			},
+			{
+				id: 'certified_copies',
+				index: '04',
+				code: 'CTC-ISSUANCE',
+				title: 'Requesting of Certified True Copies of Certificate of Birth, Marriage, Death',
+				about:
+					'Archival search, verification, and issuance of certified true copies of birth, marriage, and death certificates from municipal archives.',
+				processing_time: '30 to 45 minutes (same-day release)',
+				requirements: [
+					'Valid government-issued ID of the requesting person.',
+					'Proof of relationship or authorization (when the requester is not the document owner or is requesting on behalf of another person): Authorization Letter, Valid IDs of document owner and authorized representative, Special Power of Attorney (SPA) when applicable.',
+					'For representatives: Valid government-issued ID of both the representative and the person whose record is being requested.'
+				],
+				steps: [
+					'Proceed to the MCR office and verbalize the request.',
+					'If the requested document is available, present a valid government-issued ID and other required supporting documents, if any.',
+					'Proceed to the treasurer’s office to pay the required fees.',
+					'Wait for the processing time and claim your copy from the MCR staff.'
+				],
+				fees: 'Php 80.00 per certified true copy',
+				in_charge: 'Office of the Municipal Civil Registrar / Municipal Treasury Office'
+			},
+			{
+				id: 'clerical_petitions',
+				index: '05',
+				code: 'RA-PETITIONS',
+				title: 'Filing of Petitions for Clerical Error R.A. 9048 & R.A. 10172',
+				about:
+					'Administrative proceedings for correction of clerical/typographical errors, change of first name, gender, or date of birth without need of a judicial court order. Subject to 10-day consecutive posting on bulletin board and OCRG Manila approval (takes 2 to 6 months). Must submit 2 xerox copies of each document.',
+				processing_time: '10-Day Posting + 2 to 6 Months OCRG Manila Final Approval',
+				requirements: [
+					'Correction of Clerical Error (RA 9048) [2 xerox copies each]: PSA & Local COLB of Child, Baptismal Certificate, Marriage Certificate of Parents (if applicable), Marriage Certificate of Petitioner (if applicable), Voter’s Certification, School Records, Certificate of Employment / Service Record, Valid Government-Issued IDs, Any other supporting documents, Certificate of Indigency (if applicable).',
+					'Change of First Name (RA 9048) [2 xerox copies each]: PSA & Local COLB of Child, Baptismal Certificate, Marriage Certificate (if applicable), Voter’s Certification, School Records, Police & NBI Clearance, Service Record / Affidavit of Non-Employment, Newspaper Publication, Valid Government-Issued IDs, Any other supporting documents, Certificate of Indigency (if applicable).',
+					'Change of Gender (RA 10172) [2 xerox copies each]: PSA & Local COLB of Child, Baptismal Certificate, Marriage Certificate (if applicable), Voter’s Certification, School Records, Police & NBI Clearance, Service Record / Affidavit of Non-Employment, Medical Certificate from Government Physician, Ultrasound Result, Affidavit of No Medical Record of Birth, Newspaper Publication, Valid Government-Issued IDs, Any other supporting documents, Certificate of Indigency (if applicable).',
+					'Change of Day & Month of Birth (RA 10172) [2 xerox copies each]: PSA & Local COLB of Child, Baptismal Certificate, Marriage Certificate (if applicable), Voter’s Certification, School Records, Police & NBI Clearance, Service Record / Affidavit of Non-Employment, Newspaper Publication, Valid Government-Issued IDs, Any other supporting documents, Certificate of Indigency (if applicable).'
+				],
+				steps: [
+					'Proceed to the MCR office and verbalize the request.',
+					'Present the documents for initial interview and assessment.',
+					'Go to the cashier at the treasurer’s office to pay the required filing fee, get the official receipt and present it to the MCR staff.',
+					'The MCR office will post a notice of the petition on their bulletin board for ten (10) consecutive days.',
+					'After the ten (10) days posting, the petitioner must return to the MCR office to sign the formal verified petition.',
+					'The MCR office forwards the validated petition to the Office of the Civil Registrar General (OCRG) in Manila for final approval, which takes two to six months.',
+					'Once approved and affirmed by the CRG, the MCR office will update the petitioner to get the Certificate of Finality from the office to request the updated/annotated document from the Philippine Statistics Authority (PSA).'
+				],
+				fees: 'RA 9048 Clerical: Php 1,000.00 | RA 9048 First Name: Php 3,000.00 | RA 10172: Php 3,000.00 (plus publication / indigent fee exemptions)',
+				in_charge: 'Office of the Municipal Civil Registrar / OCRG PSA Manila'
 			}
 		],
 		feedback:
@@ -301,44 +314,26 @@
 	</div>
 
 	<!-- Services -->
-	<section id="services" class="mb-6 space-y-4">
-		<h2 class="text-xl font-semibold">Services</h2>
-		{#each charter.services as svc}
-			<article id={svc.id} class="rounded-lg bg-white p-5 shadow-sm">
-				<div class="flex items-start justify-between">
-					<div>
-						<h3 class="text-lg font-semibold">{svc.title}</h3>
-						<p class="mt-1 text-sm text-gray-600">{svc.about}</p>
-					</div>
-					<div class="text-xs text-gray-500">
-						Processing time: <strong>{svc.processing_time}</strong>
-					</div>
+	<section id="services" class="mb-10 space-y-6">
+		<div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between border-b border-slate-200 pb-4">
+			<div>
+				<div class="inline-flex items-center gap-2 rounded-md border border-blue-300 bg-blue-100 px-3 py-1 text-xs font-black tracking-wider text-blue-950 uppercase">
+					OFFICE OF THE MUNICIPAL CIVIL REGISTRAR // SERVICES OFFERED
 				</div>
-				<div class="mt-4 grid grid-cols-1 gap-4 md:grid-cols-3">
-					<div>
-						<h4 class="font-medium">Requirements</h4>
-						<ul class="mt-2 list-inside list-disc space-y-1 text-sm">
-							{#each svc.requirements as r}
-								<li>{r}</li>
-							{/each}
-						</ul>
-					</div>
-					<div>
-						<h4 class="font-medium">Steps</h4>
-						<ol class="mt-2 list-inside list-decimal space-y-1 text-sm">
-							{#each svc.steps as st}
-								<li>{st}</li>
-							{/each}
-						</ol>
-					</div>
-					<div>
-						<h4 class="font-medium">Fees & In-Charge</h4>
-						<p class="mt-2 text-sm">{svc.fees}</p>
-						<p class="mt-1 text-sm">In‑Charge: <strong>{svc.in_charge}</strong></p>
-					</div>
-				</div>
-			</article>
-		{/each}
+				<h2 class="mt-2 text-2xl font-black text-blue-950 sm:text-3xl">Official Citizen's Charter & Statutory Services</h2>
+				<p class="mt-1 text-sm text-slate-600">
+					All procedures, documentary requirements, and mandatory posting periods compliant with Act No. 3753, RA 9048, and RA 10172.
+				</p>
+			</div>
+			<div class="flex items-center gap-2">
+				<span class="rounded-xl border border-emerald-300 bg-emerald-50 px-3 py-1.5 text-xs font-black text-emerald-800 shadow-2xs">
+					✓ Complete PDF Data & Animated Guide
+				</span>
+			</div>
+		</div>
+
+		<!-- Animated Interactive Duties & Requirements Guide -->
+		<CivilRegistrarDuties />
 	</section>
 
 	<!-- Feedback -->

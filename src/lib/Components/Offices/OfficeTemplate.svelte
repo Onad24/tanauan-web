@@ -15,6 +15,7 @@
 	import MAOOrgChart from '$lib/Components/Offices/MAOOrgChart.svelte';
 	import CivilRegistrarOrgChart from '$lib/Components/Offices/CivilRegistrarOrgChart.svelte';
 	import CivilRegistrarAccomplishments from '$lib/Components/Offices/CivilRegistrarAccomplishments.svelte';
+	import CivilRegistrarDuties from '$lib/Components/Offices/CivilRegistrarDuties.svelte';
 
 	let {
 		officeName = "Municipal Treasurer's Office",
@@ -1316,55 +1317,59 @@
 					</p>
 				</div>
 
-				<!-- Mandates Grid (Matching exact civic card design with orange top border, badges, and dash items) -->
-				<div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-					{#each mandates as mandate}
-						<div
-							class="flex flex-col justify-between rounded-2xl border border-t-4 border-slate-200/80 border-t-amber-500 bg-white p-7 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg sm:p-8"
-						>
-							<div>
-								<!-- Header: Index Number & Code Badge -->
-								<div class="mb-6 flex items-center justify-between">
-									<span class="text-3xl font-black tracking-tight text-amber-500">
-										{mandate.index}
+				{#if isCivilRegistrar}
+					<CivilRegistrarDuties />
+				{:else}
+					<!-- Mandates Grid (Matching exact civic card design with orange top border, badges, and dash items) -->
+					<div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+						{#each mandates as mandate}
+							<div
+								class="flex flex-col justify-between rounded-2xl border border-t-4 border-slate-200/80 border-t-amber-500 bg-white p-7 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg sm:p-8"
+							>
+								<div>
+									<!-- Header: Index Number & Code Badge -->
+									<div class="mb-6 flex items-center justify-between">
+										<span class="text-3xl font-black tracking-tight text-amber-500">
+											{mandate.index}
+										</span>
+										<span
+											class="rounded border border-blue-200 bg-blue-50/70 px-2 py-0.5 font-mono text-[10px] font-bold tracking-wider text-blue-900 uppercase"
+										>
+											{mandate.code}
+										</span>
+									</div>
+
+									<!-- Category Tag -->
+									<span class="mb-2 block text-xs font-black tracking-wider text-blue-900 uppercase">
+										{mandate.tag}
 									</span>
-									<span
-										class="rounded border border-blue-200 bg-blue-50/70 px-2 py-0.5 font-mono text-[10px] font-bold tracking-wider text-blue-900 uppercase"
-									>
-										{mandate.code}
-									</span>
+
+									<!-- Main Function Title -->
+									<h3 class="mb-3 text-xl leading-snug font-black text-slate-900">
+										{mandate.title}
+									</h3>
+
+									<!-- Description -->
+									<p class="mb-8 text-sm leading-relaxed font-normal text-slate-600">
+										{mandate.description}
+									</p>
 								</div>
 
-								<!-- Category Tag -->
-								<span class="mb-2 block text-xs font-black tracking-wider text-blue-900 uppercase">
-									{mandate.tag}
-								</span>
-
-								<!-- Main Function Title -->
-								<h3 class="mb-3 text-xl leading-snug font-black text-slate-900">
-									{mandate.title}
-								</h3>
-
-								<!-- Description -->
-								<p class="mb-8 text-sm leading-relaxed font-normal text-slate-600">
-									{mandate.description}
-								</p>
+								<!-- Bullet Points with Orange Dash -->
+								<div class="space-y-3.5 border-t border-slate-100 pt-6">
+									{#each mandate.details as detail}
+										<div
+											class="flex items-start text-xs leading-snug font-medium text-slate-800 sm:text-sm"
+										>
+											<span class="mr-2.5 font-bold text-amber-500 select-none">—</span>
+											<span>{detail}</span>
+										</div>
+									{/each}
+								</div>
 							</div>
-
-							<!-- Bullet Points with Orange Dash -->
-							<div class="space-y-3.5 border-t border-slate-100 pt-6">
-								{#each mandate.details as detail}
-									<div
-										class="flex items-start text-xs leading-snug font-medium text-slate-800 sm:text-sm"
-									>
-										<span class="mr-2.5 font-bold text-amber-500 select-none">—</span>
-										<span>{detail}</span>
-									</div>
-								{/each}
-							</div>
-						</div>
-					{/each}
-				</div>
+						{/each}
+					</div>
+				{/if}
 
 				<!-- Optional Expandable Full 17 Statutory Duties (Verbatim COA/CSC Enumeration) -->
 				{#if dutiesAndResponsibilities}
