@@ -1005,28 +1005,152 @@ export const DEPT_DEFAULTS = {
     }
   },
   MENRO: {
+    department: 'MENRO',
     officeName: 'Municipal Environment & Natural Resources Office',
     officeCode: 'MENRO',
     category: 'Environment & Natural Resources Management',
     citizensCharterUrl: '/citizens-charter/environment',
-    tagline: 'Protecting and conserving the natural environment of Tanauan through sustainable resource management, environmental enforcement, and community stewardship.',
+    showAccomplishments: true,
+    tagline: 'Enforcing ecological solid waste management, sustainable natural resource conservation, and environmental protection under RA 9003 for the Municipality of Tanauan.',
     typewriterWords: [
-      'Protecting Tanauan\'s Environment',
-      'Sustainable Natural Resource Management',
-      'Clean Environment for Future Generations',
-      'Green Governance for a Better Tanauan'
+      'Ecological Solid Waste Management',
+      'Implementing the 10-Year SWM Plan (2024–2033)',
+      'Protecting Tanauan\'s Natural Resources',
+      'Enforcing RA 9003 & Municipal Ordinance No. 2024-20'
     ],
-    head: { name: '', title: 'Municipal Environment & Natural Resources Officer', term: 'Department Head', quote: 'A healthy environment is not a privilege but a right — we protect it for our children and generations to come.', credentials: ['Environmental Management Specialist', 'Natural Resources Conservation Officer'], room: 'Municipal Hall, Tanauan, Leyte', schedule: 'Monday – Friday: 8:00 AM – 5:00 PM' },
+    head: { name: 'Mark Leo T. Cinco', title: 'MENRO Designate', term: 'Department Head', quote: 'A healthy environment is not a privilege but a constitutional right — we protect and preserve it through strict waste segregation, diversion, and community stewardship.', credentials: ['MENRO Designate', 'Environmental Management Specialist', 'Natural Resources Conservation Officer'], room: 'Municipal Hall, Tanauan, Leyte', schedule: 'Monday – Friday: 8:00 AM – 5:00 PM' },
     stats: [
-      { value: '54', suffix: '', label: 'Barangays Covered', description: 'Environmental programs and enforcement in all 54 barangays' },
-      { value: '100', suffix: '%', label: 'Compliance Rate', description: 'Compliance with environmental laws and local ordinances' },
-      { value: '12', suffix: '+', label: 'Programs Annually', description: 'Environmental protection and conservation programs per year' },
-      { value: '100', suffix: '%', label: 'DENR Partnership', description: 'Full coordination with DENR on environmental management' }
+      { value: '64.03', suffix: '%', label: 'Waste Diversion Rate', description: '18,656.75 kgs/day diverted under the approved 10-Year SWM Plan' },
+      { value: '60,700', suffix: '', label: 'Projected Population', description: 'Served across all 54 barangays in the Municipality of Tanauan' },
+      { value: '29,136', suffix: ' kg', label: 'Daily Waste Generated', description: 'Municipal daily waste volume based on 0.48 kg/capita generation' },
+      { value: '10-Yr', suffix: ' Plan', label: 'Solid Waste Plan', description: 'Approved 2024–2033 roadmap under RA 9003 & MO No. 2024-20' }
     ],
     mandates: [
-      { index: '01', code: 'ENV-ENFC', title: 'Environmental Law Enforcement', description: 'Enforces environmental laws, ordinances, and regulations to protect the natural environment of Tanauan.', tag: 'Core Function', details: ['Environmental Violation Monitoring', 'Tree Cutting Permit Control', 'Anti-Illegal Logging Operations'] },
-      { index: '02', code: 'SWM', title: 'Solid Waste Management', description: 'Implements the Municipal Solid Waste Management Plan in compliance with RA 9003.', tag: 'Waste Management', details: ['Waste Segregation Programs', 'Barangay SWM Compliance Monitoring', 'Eco-Savers Program Implementation'] },
-      { index: '03', code: 'ENV-PROMO', title: 'Environmental Advocacy & Education', description: 'Conducts environmental education, advocacy, and community participation programs throughout the municipality.', tag: 'Advocacy', details: ['Tree Planting & Greening Programs', 'Environmental Education in Schools', 'Community Clean-up Campaigns'] }
+      {
+        index: '01',
+        code: 'BIO-WASTE',
+        title: 'Nabubulok na Basura (Biodegradable Waste)',
+        description: 'Organikong basura mula sa kusina, pagkain, at bakuran na maaaring gawing pataba o kompos sa lupa.',
+        tag: 'Compostable',
+        details: [
+          'Balat ng prutas & gulay',
+          'Hasang, bituka at tinik ng isda',
+          'Tuyong dahon at tirang pagkain'
+        ]
+      },
+      {
+        index: '02',
+        code: 'RECY-WASTE',
+        title: 'Nareresiklo na Basura (Recyclable Waste)',
+        description: 'Mga tuyo at malinis na materyales na maaari pang gamitin muli, dalhin sa MRF, o ibenta sa junk shop.',
+        tag: 'Recyclables',
+        details: [
+          'Papel, karton, at dry paper packaging',
+          'Bote (glass containers) at tin cans',
+          'PET bottles, plastics atbp.'
+        ]
+      },
+      {
+        index: '03',
+        code: 'RESI-WASTE',
+        title: 'Di-Nareresiklo na Basura (Residual Waste)',
+        description: 'Mga basurang hindi na maaaring gawing kompos o iresiklo; tanging kinokolekta patungo sa Sanitary Landfill.',
+        tag: 'Landfill Disposal',
+        details: [
+          'Sanitary napkins at disposable diapers',
+          'Sachets at balat ng kendi',
+          'Tissue at iba pang di-nabubulok'
+        ]
+      },
+      {
+        index: '04',
+        code: 'SPEC-WASTE',
+        title: 'Nakakalason na Basura (Special Waste)',
+        description: 'Mapanganib at kemikal na basura kasama ang sirang appliances at electronic waste na may espesyal na pagtatapon.',
+        tag: 'Special / Hazardous',
+        details: [
+          'Pintura, spray canister at thinner',
+          'Baterya (lead-acid at household)',
+          'Mga sirang gamit: aparador, TV, radyo, refrigerator'
+        ]
+      }
+    ],
+    downloadableForms: [
+      {
+        title: 'Checklist for Cutting Permit (MENRO Certification)',
+        category: 'Tree Cutting Permitting',
+        description: 'Official documentary requirements and certification checklist for tree cutting permit applications filed through the Municipal Environment & Natural Resources Office.',
+        downloadUrl: '/docs/menro/checklist-for-cutting-permit.pdf',
+        url: '/docs/menro/checklist-for-cutting-permit.pdf',
+        icon: '🌳',
+        type: 'Permit Checklist / PDF',
+        format: 'Official PDF Document',
+        fileSize: '68 KB',
+        fileType: 'PDF Document',
+        requirements: [
+          'Barangay Certification (2 Original Copies)',
+          'Tax Declaration / Xerox copy if original Certificate of Title (If the applicant is not the landowner, attach photocopy of Affidavit of Heirship)',
+          'Picture han Puno (Clear printed photo of the tree to be cut)',
+          'Picture of newly planted tree (Greening and reforestation compliance)',
+          'Certification Fee: ₱80.00 pesos per tree (payable at the Municipal Treasurer\'s Office)',
+          'Letter of Intent addressed to CENR Officer Edgardo D. Alegre, RPF'
+        ]
+      },
+      {
+        title: 'Certification for Business Permit (Citizen\'s Charter & Guide)',
+        category: 'Business Permitting',
+        description: 'Official Citizen\'s Charter, requirements, and step-by-step procedure for securing an Environmental Certification for Business Permit (residential, commercial, and industrial).',
+        downloadUrl: '/docs/menro/certification-for-business-permit.pdf',
+        url: '/docs/menro/certification-for-business-permit.pdf',
+        icon: '📋',
+        type: 'Citizen\'s Charter / PDF',
+        format: 'Official PDF Document',
+        fileSize: '82 KB',
+        fileType: 'PDF Document',
+        requirements: [
+          'Certificate of Non-Coverage (CNC) or Environmental Compliance Certificate (ECC) from the Department of Environment and Natural Resources (DENR)',
+          'Barangay Resolution endorsing the business operation from the host Barangay',
+          'Step 1 (Client): Secure all necessary documents needed to be attached (CNC/ACC, Barangay Resolution)',
+          'Step 2 (Client): Pay ₱80.00 Certification Fee at the Municipal Treasurer\'s Office and present proof of payment',
+          'Step 3 (Client): File complete documents at the Office of the MENRO',
+          'Agency Action: Immediately make and print the certification (Processing time: 10 minutes by MENRO Staff)'
+        ]
+      },
+      {
+        title: 'Solid Waste Segregation & Classification Guidelines (RA 9003)',
+        category: 'Solid Waste Management',
+        description: 'Official waste sorting and mandatory at-source segregation guidelines under RA 9003 and Municipal Ordinance No. 2024-20 covering Biodegradable, Recyclable, Residual, and Special Waste.',
+        downloadUrl: '/docs/menro/residual-waste-guidelines.pdf',
+        url: '/docs/menro/residual-waste-guidelines.pdf',
+        icon: '♻️',
+        type: 'Citizen Guide / PDF',
+        format: 'Official PDF Document',
+        fileSize: '1.7 MB',
+        fileType: 'PDF Document',
+        requirements: [
+          'Nabubulok na Basura (Biodegradable): Fruit & vegetable peels, fish entrails/bones, dry leaves, leftover food',
+          'Nareresiklo na Basura (Recyclable): Clean paper, cardboard boxes, bottles, tin cans, PET plastics',
+          'Di-Nareresiklo na Basura (Residual): Sanitary napkins, diapers, sachets, candy wrappers, tissue',
+          'Nakakalason na Basura (Special): Paint, spray canisters, thinner, batteries, defective electronic appliances'
+        ]
+      },
+      {
+        title: 'MENRO Official Hierarchy & Collection Fleet Blueprint',
+        category: 'Administrative Hierarchy',
+        description: 'Complete civil service structure, operational hierarchy, and 5-vehicle collection fleet directory of the Municipal Environment & Natural Resources Office.',
+        downloadUrl: '/images/org-charts/menro/menro-org-chart.pdf',
+        url: '/images/org-charts/menro/menro-org-chart.pdf',
+        icon: '🏛️',
+        type: 'CSC Ratified Chart / PDF',
+        format: 'Official PDF Document',
+        fileSize: '2.1 MB',
+        fileType: 'PDF Document',
+        requirements: [
+          'Executive Governance under Hon. Ma. Gina E. Merilo and Mark Leo T. Cinco',
+          'Natural Resources & Landfill Heavy Equipment Section directory',
+          '5-truck weekday collection fleet routes and personnel assignments'
+        ]
+      }
     ],
     schedule: { hours: 'Monday – Friday | 8:00 AM – 5:00 PM', location: 'Tanauan Municipal Hall, Real St., Tanauan, Leyte', contactNumber: '', email: 'menro@tanauanleyte.gov.ph', helpline: 'MENRO Office, Municipal Hall Ground Floor' }
   },

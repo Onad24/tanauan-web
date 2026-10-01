@@ -19,6 +19,10 @@
 	import MDRRMODuties from '$lib/Components/Offices/MDRRMODuties.svelte';
 	import MDRRMOAccomplishments from '$lib/Components/Offices/MDRRMOAccomplishments.svelte';
 	import MDRRMOOrgChart from '$lib/Components/Offices/MDRRMOOrgChart.svelte';
+	import MENROAccomplishments from '$lib/Components/Offices/MENROAccomplishments.svelte';
+	import MENROCollectionSchedule from '$lib/Components/Offices/MENROCollectionSchedule.svelte';
+	import MENROOrgChart from '$lib/Components/Offices/MENROOrgChart.svelte';
+	import MENRODuties from '$lib/Components/Offices/MENRODuties.svelte';
 
 	let {
 		officeName = "Municipal Treasurer's Office",
@@ -258,22 +262,30 @@
 		(officeName && officeName.toLowerCase().includes('disaster risk'))
 	);
 
-	const shouldShowPersonnel = $derived(showPersonnel && !isCivilRegistrar && !isMDRRMO);
-	const shouldPutFormsAtEnd = $derived(formsAtEnd || isCivilRegistrar || isMDRRMO);
-	const shouldShowAwards = $derived(!isMDRRMO);
+	const isMENRO = $derived(
+		officeCode === 'MENRO' ||
+		department === 'MENRO' ||
+		(officeName && officeName.toLowerCase().includes('environment'))
+	);
+
+	const shouldShowPersonnel = $derived(showPersonnel && !isCivilRegistrar && !isMDRRMO && !isMENRO);
+	const shouldPutFormsAtEnd = $derived(formsAtEnd || isCivilRegistrar || isMDRRMO || isMENRO);
+	const shouldShowAwards = $derived(!isMDRRMO && !isMENRO);
 
 	const baseNav = $derived([
 		{ id: 'overview', label: 'Overview' },
 		...(vision || mission ? [{ id: 'vision-mission', label: 'Vision & Mission' }] : []),
-		...(isMAO || (servicesOffered && servicesOffered.length > 0) ? [{ id: 'services', label: 'Services' }] : []),
+		...(isMAO || isMENRO || (servicesOffered && servicesOffered.length > 0)
+			? [{ id: isMENRO ? 'collection-schedule' : 'services', label: isMENRO ? 'Waste Schedule' : 'Services' }]
+			: []),
 		...(!isMAO && !shouldPutFormsAtEnd && downloadableForms && downloadableForms.length > 0 ? [{ id: 'forms', label: 'Forms' }] : []),
 		...(!isMAO && mandates && mandates.length > 0 ? [{ id: 'mandates', label: 'Mandates' }] : []),
 		{ id: 'leadership', label: 'Leadership' },
 		{ id: 'structure', label: 'Structure' },
-		...(showAccomplishments ? [{ id: 'accomplishments', label: isCivilRegistrar || isMDRRMO ? 'Accomplishments' : 'Reports' }] : []),
+		...(showAccomplishments ? [{ id: 'accomplishments', label: isCivilRegistrar || isMDRRMO || isMENRO ? 'Accomplishments' : 'Reports' }] : []),
 		...(shouldShowAwards ? [{ id: 'awards', label: 'Recognition' }] : []),
 		...(shouldShowPersonnel ? [{ id: 'personnel', label: 'Personnel' }] : []),
-		...(!isMAO && shouldPutFormsAtEnd && downloadableForms && downloadableForms.length > 0 ? [{ id: 'forms', label: 'Forms' }] : [])
+		...(!isMAO && shouldPutFormsAtEnd && downloadableForms && downloadableForms.length > 0 ? [{ id: 'forms', label: isMENRO ? 'Downloadables' : 'Forms' }] : [])
 	]);
 
 	// Downloadable Forms Modal State
@@ -411,7 +423,7 @@
 				</div>
 
 				<div class="flex items-center gap-2 text-xs font-bold text-blue-950">
-					<span class="h-2.5 w-2.5 rounded-full bg-emerald-600"></span>
+					<span class="h-2.5 w-2.5 rounded-full {isMENRO ? 'bg-amber-400' : 'bg-emerald-600'}"></span>
 					<span>Official Municipal Public Service Portal</span>
 				</div>
 			</div>
@@ -564,7 +576,7 @@
 							<span class="block text-[11px] font-bold text-slate-500 uppercase"
 								>CITIZEN ASSISTANCE</span
 							>
-							<span class="text-sm font-black text-emerald-700">Open & Accessible</span>
+							<span class="text-sm font-black {isMENRO ? 'text-amber-600' : 'text-emerald-700'}">Open & Accessible</span>
 							{#if schedule.helpline}<span
 									class="mt-0.5 block text-[11px] font-medium text-slate-600"
 									>{schedule.helpline}</span
@@ -920,6 +932,8 @@
 				email={schedule?.email}
 				charterUrl={citizensCharterUrl}
 			/>
+		{:else if isMENRO}
+			<MENROCollectionSchedule />
 		{:else if servicesOffered && servicesOffered.length > 0}
 			<section id="services" class="bg-white py-20">
 				<div class="container mx-auto max-w-7xl px-6">
@@ -1241,18 +1255,20 @@
 					>
 						<span class="h-2 w-2 animate-pulse rounded-full bg-blue-700"></span>
 						{#if formsNavCode}
-							SECTION {formsNavCode} // OFFICIAL DOWNLOADABLE FORMS
+							SECTION {formsNavCode} // {isMENRO ? 'OFFICIAL DOWNLOADABLES & CITIZEN GUIDES' : 'OFFICIAL DOWNLOADABLE FORMS'}
 						{:else}
-							OFFICIAL DOWNLOADABLE FORMS
+							{isMENRO ? 'OFFICIAL DOWNLOADABLES & CITIZEN GUIDES' : 'OFFICIAL DOWNLOADABLE FORMS'}
 						{/if}
 					</div>
 					<h2
 						class="text-3xl leading-tight font-black tracking-tight text-blue-950 sm:text-4xl lg:text-5xl"
 					>
-						Downloadable Office Forms
+						{isMENRO ? 'Downloadables & Citizen Guides' : 'Downloadable Office Forms'}
 					</h2>
 					<p class="mt-4 text-base leading-relaxed font-normal text-slate-800 sm:text-lg">
-						Official forms available for download. Click any form card to view its details, inspect the file, or download directly.
+						{isMENRO
+							? 'Official MENRO permit checklists, Citizen’s Charters, and environmental regulatory guides available for direct download and document inspection.'
+							: 'Official forms available for download. Click any form card to view its details, inspect the file, or download directly.'}
 					</p>
 				</div>
 
@@ -1270,7 +1286,7 @@
 						>
 							<!-- Top accent bar -->
 							<div
-								class="h-1.5 w-full bg-gradient-to-r from-blue-900 via-blue-700 to-blue-500 transition-all duration-300 group-hover:h-2"
+								class="h-1.5 w-full bg-gradient-to-r {isMENRO ? 'from-blue-950 via-blue-700 to-amber-500' : 'from-blue-900 via-blue-700 to-blue-500'} transition-all duration-300 group-hover:h-2"
 							></div>
 
 							<!-- Shine overlay on hover -->
@@ -1289,7 +1305,7 @@
 									</div>
 									<div class="flex flex-col items-end gap-1">
 										<span class="font-mono text-[10px] font-black text-slate-400 uppercase"
-											>FORM {String(fIdx + 1).padStart(2, '0')}</span
+											>{isMENRO ? 'DOC' : 'FORM'} {String(fIdx + 1).padStart(2, '0')}</span
 										>
 										<span
 											class="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-slate-50 px-2.5 py-0.5 text-[10px] font-black text-slate-600 uppercase transition-colors group-hover:border-blue-300 group-hover:bg-blue-50 group-hover:text-blue-800"
@@ -1339,7 +1355,7 @@
 										href={form.url || form.downloadUrl}
 										download
 										onclick={(e) => e.stopPropagation()}
-										class="inline-flex items-center gap-1.5 rounded-xl bg-blue-800 hover:bg-blue-700 px-4 py-2 text-xs font-black text-white shadow-sm transition-all hover:scale-105 active:scale-95"
+										class="inline-flex items-center gap-1.5 rounded-xl {isMENRO ? 'bg-amber-400 hover:bg-amber-500 text-blue-950 font-black shadow-amber-200/50' : 'bg-blue-800 hover:bg-blue-700 text-white'} px-4 py-2 text-xs font-black shadow-sm transition-all hover:scale-105 active:scale-95"
 									>
 										<svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -1376,16 +1392,20 @@
 					<div
 						class="mb-3 inline-block rounded-md border border-blue-300 bg-blue-100 px-3.5 py-1 text-xs font-black tracking-wider text-blue-950 uppercase"
 					>
-						SECTION {mandatesNavCode || '02'} // STATUTORY MANDATES
+						SECTION {mandatesNavCode || '02'} // {isMENRO ? 'WASTE CLASSIFICATION & SEGREGATION MANDATES' : 'STATUTORY MANDATES'}
 					</div>
 					<h2
 						class="text-3xl leading-tight font-black tracking-tight text-blue-950 sm:text-4xl lg:text-5xl"
 					>
-						Official Duties & Public Functions
+						{isMENRO ? 'Waste Segregation & Classification Guidelines' : 'Official Duties & Public Functions'}
 					</h2>
 					<p class="mt-4 text-base leading-relaxed font-normal text-slate-800 sm:text-lg">
-						Administered pursuant to Republic Act No. 7160 (Local Government Code of 1991) and
-						municipal ordinances. {tagline}
+						{#if isMENRO}
+							Official waste classification and mandatory at-source sorting guidelines under Republic Act No. 9003 (Ecological Solid Waste Management Act of 2000) and Tanauan Municipal Ordinance No. 2024-20.
+						{:else}
+							Administered pursuant to Republic Act No. 7160 (Local Government Code of 1991) and
+							municipal ordinances. {tagline}
+						{/if}
 					</p>
 				</div>
 
@@ -1393,6 +1413,8 @@
 					<CivilRegistrarDuties />
 				{:else if isMDRRMO}
 					<MDRRMODuties />
+				{:else if isMENRO}
+					<MENRODuties />
 				{:else}
 					<!-- Mandates Grid (Matching exact civic card design with orange top border, badges, and dash items) -->
 					<div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -1446,7 +1468,7 @@
 				{/if}
 
 				<!-- Optional Expandable Full 17 Statutory Duties (Verbatim COA/CSC Enumeration) -->
-				{#if dutiesAndResponsibilities && !isCivilRegistrar && !isMDRRMO}
+				{#if dutiesAndResponsibilities && !isCivilRegistrar && !isMDRRMO && !isMENRO}
 					<div class="mt-8 flex flex-col items-center">
 						<button
 							type="button"
@@ -1681,7 +1703,7 @@
 								</div>
 								<div class="text-right text-xs">
 									<div class="font-bold text-slate-500 uppercase">CIVIL SERVICE STATUS</div>
-									<div class="text-sm font-black text-emerald-700">Regular Appointed Official</div>
+									<div class="text-sm font-black {isMENRO ? 'text-amber-600' : 'text-emerald-700'}">Regular Appointed Official</div>
 								</div>
 							</div>
 
@@ -1739,7 +1761,7 @@
 								<span class="text-xs font-black tracking-wider text-amber-400 uppercase">
 									PUBLIC SERVICE ASSISTANCE
 								</span>
-								<span class="text-xs font-black text-emerald-300">OPEN TO PUBLIC</span>
+								<span class="text-xs font-black {isMENRO ? 'text-amber-400' : 'text-emerald-300'}">OPEN TO PUBLIC</span>
 							</div>
 
 							<h4 class="mb-3 text-2xl leading-snug font-black text-white">
@@ -1940,7 +1962,7 @@
 					<div
 						class="rounded-2xl border-2 border-slate-200 bg-white p-5 shadow-sm transition-colors hover:border-blue-900"
 					>
-						<div class="mb-1 text-xs font-black tracking-wide text-emerald-700 uppercase">
+						<div class="mb-1 text-xs font-black tracking-wide {isMENRO ? 'text-amber-600' : 'text-emerald-700'} uppercase">
 							04 // STATUTORY BASIS
 						</div>
 						<div class="text-base font-black text-blue-950">COA & CSC Compliant</div>
@@ -1964,6 +1986,8 @@
 						<CivilRegistrarOrgChart />
 					{:else if isMDRRMO}
 						<MDRRMOOrgChart />
+					{:else if isMENRO}
+						<MENROOrgChart />
 					{:else}
 						<OrgChartSection {department} defaultImage={orgChartImage} cleanLayout={true} />
 					{/if}
@@ -1980,16 +2004,18 @@
 							class="mb-3 inline-flex items-center gap-2 rounded-md border border-amber-300 bg-amber-100 px-3.5 py-1 text-xs font-black tracking-wider text-amber-950 uppercase"
 						>
 							<span class="h-2 w-2 rounded-full bg-amber-600"></span>
-							SECTION {accomplishmentsNavCode} // {isCivilRegistrar ? 'CIVIL REGISTRY MILESTONES & SPECIAL PROJECTS' : isMDRRMO ? 'DISASTER PREPAREDNESS & DRILL OPERATIONS' : 'FISCAL PERFORMANCE & SCORECARDS'}
+							SECTION {accomplishmentsNavCode} // {isCivilRegistrar ? 'CIVIL REGISTRY MILESTONES & SPECIAL PROJECTS' : isMDRRMO ? 'DISASTER PREPAREDNESS & DRILL OPERATIONS' : isMENRO ? 'SOLID WASTE MANAGEMENT & DIVERSION SCORECARD' : 'FISCAL PERFORMANCE & SCORECARDS'}
 						</div>
 						<h2 class="text-3xl leading-tight font-black tracking-tight text-blue-950 sm:text-4xl">
-							{isMDRRMO ? 'Field Operations & Accomplishments' : 'Accomplishment Reports'}
+							{isMDRRMO ? 'Field Operations & Accomplishments' : isMENRO ? 'Solid Waste Management & Accomplishments' : isCivilRegistrar ? 'Department Accomplishments' : 'Accomplishment Reports'}
 						</h2>
 						<p class="mt-2.5 text-base leading-relaxed font-normal text-slate-800">
 							{#if isCivilRegistrar}
 								Official public service milestones, community outreach records, and flagship civil registration projects of the Municipal Civil Registrar of Tanauan.
 							{:else if isMDRRMO}
 								Official disaster preparedness operations, community resilience milestones, and simultaneous earthquake drills led by the Municipal Disaster Risk Reduction & Management Office.
+							{:else if isMENRO}
+								Official ecological solid waste management updates, waste diversion performance benchmarks, and statutory accomplishments under RA 9003 and Municipal Ordinance No. 2024-20.
 							{:else}
 								Official performance scorecards, program accomplishments, and transparency disclosures
 								of the {officeName} submitted to the Sangguniang Bayan of Tanauan.
@@ -2010,6 +2036,8 @@
 						<CivilRegistrarAccomplishments />
 					{:else if isMDRRMO}
 						<MDRRMOAccomplishments />
+					{:else if isMENRO}
+						<MENROAccomplishments />
 					{:else}
 						<div class="rounded-3xl border-2 border-slate-200 bg-slate-50 p-6 shadow-sm sm:p-8">
 							<AccomplishmentSection {department} limit={3} collapsible={true} cleanLayout={true} />
@@ -2181,7 +2209,7 @@
 			>
 				<div>© 2025 Local Government Unit of Tanauan, Leyte. All rights reserved.</div>
 				<div class="flex items-center gap-2 font-bold text-amber-300">
-					<span class="h-2 w-2 rounded-full bg-emerald-400"></span>
+					<span class="h-2 w-2 rounded-full {isMENRO ? 'bg-amber-400' : 'bg-emerald-400'}"></span>
 					<span>ARTA Republic Act No. 11032 Compliant</span>
 				</div>
 			</div>
@@ -2340,7 +2368,7 @@
 								<ul class="space-y-2 text-xs text-slate-700">
 									{#each activeFormModal.requirements as req}
 										<li class="flex items-start gap-2">
-											<span class="text-emerald-600 font-black">✓</span>
+											<span class="{isMENRO ? 'text-amber-500' : 'text-emerald-600'} font-black">✓</span>
 											<span>{req}</span>
 										</li>
 									{/each}
@@ -2369,7 +2397,7 @@
 						</div>
 						<div class="rounded-xl border border-slate-200 bg-white p-3">
 							<div class="text-[10px] font-black uppercase tracking-wider text-slate-400">Availability</div>
-							<div class="font-bold text-emerald-700 truncate">Immediate Download</div>
+							<div class="font-bold {isMENRO ? 'text-amber-600' : 'text-emerald-700'} truncate">Immediate Download</div>
 						</div>
 					</div>
 				</div>
@@ -2377,7 +2405,7 @@
 				<!-- Modal Footer (Decision Bar: Download vs Close) -->
 				<div class="flex flex-col sm:flex-row items-center justify-between gap-4 border-t-2 border-slate-200 bg-white px-6 py-4 shrink-0 shadow-sm">
 					<div class="flex items-center gap-2 text-xs text-slate-600">
-						<span class="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 text-xs font-bold">✓</span>
+						<span class="flex h-5 w-5 items-center justify-center rounded-full {isMENRO ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-700'} text-xs font-bold">✓</span>
 						<span>Review complete. Decide whether to download or exit:</span>
 					</div>
 					<div class="flex items-center gap-3 w-full sm:w-auto justify-end">
@@ -2394,7 +2422,7 @@
 								target="_blank"
 								download
 								rel="noopener noreferrer"
-								class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-blue-900 hover:bg-blue-800 px-6 py-2.5 text-xs font-black text-white shadow-md transition hover:scale-105 active:scale-95"
+								class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl {isMENRO ? 'bg-amber-400 hover:bg-amber-500 text-blue-950 font-black shadow-amber-200/50' : 'bg-blue-900 hover:bg-blue-800 text-white'} px-6 py-2.5 text-xs font-black shadow-md transition hover:scale-105 active:scale-95"
 							>
 								<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 									<path
