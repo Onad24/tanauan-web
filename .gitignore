@@ -22,5 +22,9 @@ Thumbs.db
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 static/images/Licod.mp4
+# Static assets now live in Supabase storage (see static-cdn-manifest.json) with the
+# originals in ../tanauan-static-assets — keep the local static/ folder empty.
+static/*
+!static/.gitkeep
 .vercel
 .env*

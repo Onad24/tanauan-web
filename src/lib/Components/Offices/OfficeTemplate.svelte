@@ -13,6 +13,7 @@
 	import HealthOfficeOrgChart from '$lib/Components/Offices/HealthOfficeOrgChart.svelte';
 	import MAOServicesPortal from '$lib/Components/Offices/MAOServicesPortal.svelte';
 	import MAOOrgChart from '$lib/Components/Offices/MAOOrgChart.svelte';
+	import MAOAccomplishmentsGallery from '$lib/Components/Offices/MAOAccomplishmentsGallery.svelte';
 	import CivilRegistrarOrgChart from '$lib/Components/Offices/CivilRegistrarOrgChart.svelte';
 	import CivilRegistrarAccomplishments from '$lib/Components/Offices/CivilRegistrarAccomplishments.svelte';
 	import CivilRegistrarDuties from '$lib/Components/Offices/CivilRegistrarDuties.svelte';
