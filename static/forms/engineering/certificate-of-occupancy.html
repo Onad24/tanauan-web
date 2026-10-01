@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Certificate of Occupancy — Municipality of Tanauan, Leyte</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #f1f5f9; color: #0f172a; min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center;
+      padding: 2rem 1rem; font-family: 'Inter', -apple-system, sans-serif;
+    }
+    .toolbar {
+      width: 100%; max-width: 900px; margin-bottom: 1.5rem;
+      display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem;
+      background: #0f172a; color: white; padding: 0.85rem 1.5rem; border-radius: 16px;
+      box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.3); font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .toolbar-title { font-size: 0.85rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: #e2e8f0; display: flex; align-items: center; gap: 0.5rem; }
+    .btn-group { display: flex; gap: 0.5rem; }
+    .btn { padding: 0.5rem 1rem; border-radius: 10px; font-size: 0.8rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem; transition: all 0.2s; text-decoration: none; border: none; }
+    .btn-primary { background: #f59e0b; color: #0f172a; }
+    .btn-primary:hover { background: #fbbf24; transform: translateY(-1px); }
+    .btn-outline { background: rgba(255, 255, 255, 0.1); color: white; border: 1px solid rgba(255, 255, 255, 0.2); }
+    .btn-outline:hover { background: rgba(255, 255, 255, 0.2); }
+    .document-page {
+      background: white; width: 100%; max-width: 900px; padding: 3rem 3.5rem;
+      border-radius: 12px; box-shadow: 0 20px 40px -15px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.05);
+      position: relative; font-size: 0.82rem; line-height: 1.6;
+      border: 4px double #0f172a;
+    }
+    .header-center { text-align: center; margin-bottom: 1.5rem; }
+    .header-center h1 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.5rem; font-weight: 900; letter-spacing: 0.05em; margin-top: 0.4rem; color: #0f172a; }
+    .line-field { border-bottom: 1px solid #475569; min-height: 1.2rem; display: inline-block; }
+    .label { font-weight: 700; font-size: 0.75rem; color: #1e293b; text-transform: uppercase; }
+    .cert-body { line-height: 1.7; text-align: justify; margin: 1.5rem 0; font-size: 0.85rem; color: #1e293b; }
+    .post-box { border: 2.5px solid #0f172a; padding: 1rem; width: 280px; text-align: center; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; line-height: 1.4; }
+    .sign-name-line { border-top: 1.5px solid #0f172a; margin-top: 3rem; padding-top: 0.35rem; font-weight: 900; font-size: 0.85rem; text-transform: uppercase; text-align: center; }
+    @media print {
+      body { background: white; padding: 0; }
+      .toolbar { display: none !important; }
+      .document-page { box-shadow: none; border-radius: 0; padding: 1.5cm; max-width: 100%; border: 3px double #0f172a; }
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <div class="toolbar-title">
+      <span>🏠 Office of the Building Official</span>
+      <span style="color: #64748b;">•</span>
+      <span style="color: #f59e0b;">Official Certificate of Occupancy</span>
+    </div>
+    <div class="btn-group">
+      <a href="/Departments/Engineering" class="btn btn-outline">← Back</a>
+      <button onclick="window.print()" class="btn btn-primary">🖨️ Print Certificate</button>
+      <a href="/forms/engineering/certificate-of-occupancy.pdf" download class="btn btn-outline">⬇ Download PDF</a>
+    </div>
+  </div>
+
+  <div class="document-page">
+    <div class="header-center">
+      <div style="font-size: 0.72rem; font-weight: 600; text-transform: uppercase; color: #475569;">Republic of the Philippines</div>
+      <div style="font-size: 0.78rem; font-weight: 700; text-transform: uppercase;">Municipality of Tanauan • Province of Leyte</div>
+      <div style="font-size: 0.85rem; font-weight: 800; text-transform: uppercase; color: #1e3a8a; margin-top: 2px;">OFFICE OF THE BUILDING OFFICIAL</div>
+      <h1>CERTIFICATE OF OCCUPANCY</h1>
+      <div style="margin-top: 0.4rem; display: flex; justify-content: center; gap: 2rem; font-weight: 900; font-size: 0.85rem;">
+        <label><input type="checkbox"> FULL</label>
+        <label><input type="checkbox"> PARTIAL</label>
+      </div>
+    </div>
+
+    <!-- METADATA NUMBERS -->
+    <div style="display: flex; justify-content: space-between; margin-bottom: 1.25rem; font-size: 0.8rem;">
+      <div style="width: 48%; line-height: 2;">
+        <div>No. <span class="line-field" style="width: 75%;"></span></div>
+        <div>Date Issued: <span class="line-field" style="width: 60%;"></span></div>
+        <div>FSIC No.: <span class="line-field" style="width: 65%;"></span></div>
+      </div>
+      <div style="width: 48%; line-height: 2;">
+        <div>Fees Paid: <span class="line-field" style="width: 70%;"></span></div>
+        <div>Official Receipt No.: <span class="line-field" style="width: 50%;"></span></div>
+        <div>Date Paid: <span class="line-field" style="width: 70%;"></span></div>
+      </div>
+    </div>
+
+    <!-- CERTIFICATION BODY -->
+    <p class="cert-body">
+      This is to certify that the building / structure has been designed and constructed in full conformity with the issued <strong>Building Permit No.</strong> <span class="line-field" style="width: 180px;"></span> dated <span class="line-field" style="width: 150px;"></span>.
+    </p>
+
+    <div style="margin-bottom: 1.25rem; font-size: 0.82rem; line-height: 2.2;">
+      <div>Name of Owner: <span class="line-field" style="width: 80%;"></span></div>
+      <div>Title of Project: <span class="line-field" style="width: 80%;"></span></div>
+      <div>Date of Completion: <span class="line-field" style="width: 75%;"></span></div>
+      <div style="display: flex; gap: 1rem;">
+        <div style="flex: 2;">Use or Character of Occupancy: <span class="line-field" style="width: 50%;"></span></div>
+        <div style="flex: 1;">Group: <span class="line-field" style="width: 60%;"></span></div>
+      </div>
+      <div>Located at / Along: <span class="line-field" style="width: 78%;"></span></div>
+    </div>
+
+    <p class="cert-body" style="font-size: 0.78rem; color: #334155;">
+      The Owner shall properly maintain the building/structure to enhance its architectural well-being, structural stability, electrical, mechanical, sanitation, plumbing, electronics, interior design and fire-protective properties and shall not be occupied or used for purposes other than its intended use as stated above.
+    </p>
+
+    <p class="cert-body" style="font-size: 0.78rem; color: #334155;">
+      This Certificate of Occupancy is hereby issued pursuant to Section 309 of the National Building Code of the Philippines (PD 1096), its Revised IRR, and other referral codes.
+    </p>
+
+    <!-- SIGNATURE AND POSTING BOX -->
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 2rem;">
+      <div class="post-box">
+        A certified copy hereof shall be posted within the premises of the building / structure and shall not be removed without authority from the Building Official.
+      </div>
+
+      <div style="width: 320px;">
+        <div class="sign-name-line">
+          ENGR. RAUL S. SOLIVA
+          <div style="font-size: 0.7rem; font-weight: 700; color: #1e3a8a;">BUILDING OFFICIAL / MUNICIPAL ENGINEER</div>
+          <div style="font-size: 0.7rem; color: #64748b; font-weight: 600;">DATE: <span class="line-field" style="width: 140px;"></span></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 2rem; font-size: 0.65rem; font-weight: 800; color: #64748b; text-transform: uppercase;">
+      THIS CERTIFICATE MAY BE CANCELLED OR REVOKED PURSUANT TO SECTION 309 OF THE NATIONAL BUILDING CODE OF THE PHILIPPINES (PD 1096) AND ITS REVISED IRR
+    </div>
+  </div>
+</body>
+</html>

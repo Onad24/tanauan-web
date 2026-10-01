@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demolition Permit — Office of the Building Official, Tanauan, Leyte</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #f1f5f9; color: #0f172a; min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center;
+      padding: 2rem 1rem; font-family: 'Inter', -apple-system, sans-serif;
+    }
+    .toolbar {
+      width: 100%; max-width: 900px; margin-bottom: 1.5rem;
+      display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem;
+      background: #0f172a; color: white; padding: 0.85rem 1.5rem; border-radius: 16px;
+      box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.3); font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .toolbar-title { font-size: 0.85rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: #e2e8f0; display: flex; align-items: center; gap: 0.5rem; }
+    .btn-group { display: flex; gap: 0.5rem; }
+    .btn { padding: 0.5rem 1rem; border-radius: 10px; font-size: 0.8rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem; transition: all 0.2s; text-decoration: none; border: none; }
+    .btn-primary { background: #f59e0b; color: #0f172a; }
+    .btn-primary:hover { background: #fbbf24; transform: translateY(-1px); }
+    .btn-outline { background: rgba(255, 255, 255, 0.1); color: white; border: 1px solid rgba(255, 255, 255, 0.2); }
+    .btn-outline:hover { background: rgba(255, 255, 255, 0.2); }
+    .document-page {
+      background: white; width: 100%; max-width: 900px; padding: 2.5rem 3rem;
+      border-radius: 12px; box-shadow: 0 20px 40px -15px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.05);
+      position: relative; font-size: 0.78rem; line-height: 1.4;
+    }
+    .header-center { text-align: center; margin-bottom: 1.25rem; }
+    .header-center h1 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.25rem; font-weight: 900; letter-spacing: 0.05em; margin-top: 0.25rem; }
+    .form-box { border: 1.5px solid #0f172a; margin-bottom: 1rem; }
+    .box-title { background: #0f172a; color: white; font-weight: 800; font-size: 0.75rem; padding: 0.25rem 0.5rem; text-transform: uppercase; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .box-content { padding: 0.6rem 0.75rem; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; }
+    .line-field { border-bottom: 1px solid #475569; min-height: 1.2rem; }
+    .label { font-weight: 700; font-size: 0.72rem; color: #334155; text-transform: uppercase; }
+    .sign-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 0.5rem; }
+    .sign-card { border: 1px solid #64748b; padding: 0.75rem; text-align: center; }
+    .sign-name-line { border-top: 1px solid #0f172a; margin-top: 2rem; padding-top: 0.25rem; font-weight: 800; font-size: 0.8rem; text-transform: uppercase; }
+    .conditions-list { padding-left: 1.25rem; margin-top: 0.5rem; font-size: 0.75rem; line-height: 1.6; }
+    @media print {
+      body { background: white; padding: 0; }
+      .toolbar { display: none !important; }
+      .document-page { box-shadow: none; border-radius: 0; padding: 1cm; max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <div class="toolbar-title">
+      <span>🏗️ Office of the Building Official</span>
+      <span style="color: #64748b;">•</span>
+      <span style="color: #f59e0b;">DPWH Accessory Form (Demolition Permit)</span>
+    </div>
+    <div class="btn-group">
+      <a href="/Departments/Engineering" class="btn btn-outline">← Back</a>
+      <button onclick="window.print()" class="btn btn-primary">🖨️ Print Form</button>
+      <a href="/forms/engineering/demolition-permit.pdf" download class="btn btn-outline">⬇ Download PDF</a>
+    </div>
+  </div>
+
+  <div class="document-page">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+      <div style="font-weight: 800; font-size: 0.75rem;">DPWH ACCESSORY FORM NO.</div>
+      <div style="display: flex; gap: 0.75rem; font-size: 0.7rem; font-weight: 700;">
+        <div>APPLICATION NO: <span class="line-field" style="display: inline-block; width: 80px;"></span></div>
+        <div>FP NO: <span class="line-field" style="display: inline-block; width: 80px;"></span></div>
+        <div>BUILDING PERMIT NO: <span class="line-field" style="display: inline-block; width: 90px;"></span></div>
+      </div>
+    </div>
+
+    <div class="header-center">
+      <div style="font-size: 0.8rem; font-weight: 600;">Republic of the Philippines • Department of Public Works & Highways</div>
+      <div style="font-size: 0.85rem; font-weight: 700;">Pamahalaang Bayan ng Tanauan, Lalawigan ng Leyte</div>
+      <div style="font-size: 0.95rem; font-weight: 900; text-transform: uppercase; margin-top: 0.2rem;">TANGGAPAN NG PINUNONG PANGGUSALI (Office of the Building Official)</div>
+      <div style="font-size: 0.8rem; font-weight: 700; color: #475569;">PROCESSING AND EVALUATION DIVISION — Line and Grade Section</div>
+      <h1>DEMOLITION PERMIT</h1>
+    </div>
+
+    <!-- BOX 1 -->
+    <div class="form-box">
+      <div class="box-title">BOX 1 (TO BE ACCOMPLISHED BY OWNER/APPLICANT AND/OR LICENSED DESIGN PROFESSIONAL)</div>
+      <div class="box-content">
+        <div class="grid-3">
+          <div><span class="label">Owner / Applicant Last Name:</span><div class="line-field"></div></div>
+          <div><span class="label">First Name:</span><div class="line-field"></div></div>
+          <div><span class="label">M.I. & TIN:</span><div class="line-field"></div></div>
+        </div>
+        <div class="grid-3" style="margin-top: 0.5rem;">
+          <div><span class="label">Address (Street, Brgy):</span><div class="line-field"></div></div>
+          <div><span class="label">City / Municipality:</span><div class="line-field">Tanauan, Leyte</div></div>
+          <div><span class="label">Character of Occupancy:</span><div class="line-field"></div></div>
+        </div>
+        <div class="grid-3" style="margin-top: 0.5rem;">
+          <div><span class="label">Location of Demolition:</span><div class="line-field"></div></div>
+          <div><span class="label">Lot / Blk No:</span><div class="line-field"></div></div>
+          <div><span class="label">TCT / Tax Dec No:</span><div class="line-field"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOX 2 & 3 -->
+    <div class="sign-row">
+      <div class="sign-card">
+        <div class="label">BOX 2: Architect or Civil Engineer (Design Plans)</div>
+        <div class="sign-name-line">ARCHITECT OR CIVIL ENGINEER</div>
+        <div style="font-size: 0.7rem; color: #475569;">(Signed and Sealed)</div>
+        <div style="margin-top: 0.5rem; text-align: left; font-size: 0.7rem;">
+          <div>PRC No: ____________ Validity: ____________</div>
+          <div>PTR No: ____________ Date Issued: ___________</div>
+        </div>
+      </div>
+      <div class="sign-card">
+        <div class="label">BOX 3: Full-Time Supervising Engineer/Architect</div>
+        <div class="sign-name-line">ARCHITECT OR CIVIL ENGINEER</div>
+        <div style="font-size: 0.7rem; color: #475569;">(Signed and Sealed)</div>
+        <div style="margin-top: 0.5rem; text-align: left; font-size: 0.7rem;">
+          <div>PRC No: ____________ Validity: ____________</div>
+          <div>PTR No: ____________ Date Issued: ___________</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOX 4 -->
+    <div class="sign-row" style="margin-top: 0.75rem;">
+      <div class="sign-card">
+        <div class="label">BOX 4: Building Owner</div>
+        <div class="sign-name-line">BUILDING OWNER SIGNATURE</div>
+        <div style="font-size: 0.7rem; color: #475569;">Date: __________________</div>
+      </div>
+      <div class="sign-card">
+        <div class="label">Lot Owner Consent</div>
+        <div class="sign-name-line">LOT OWNER SIGNATURE</div>
+        <div style="font-size: 0.7rem; color: #475569;">Date: __________________</div>
+      </div>
+    </div>
+
+    <!-- BOX 6: SAFETY CONDITIONS -->
+    <div class="form-box" style="margin-top: 1rem;">
+      <div class="box-title">BOX 6 (CONDITIONS FOR DEMOLITION — RULE XI PD 1096)</div>
+      <div class="box-content">
+        <ol class="conditions-list">
+          <li>The building/structure is not subject to any pending court litigation.</li>
+          <li>Demolition shall strictly adhere to Rule XI of the National Building Code (PD 1096) under direct supervision of a full-time architect or civil engineer.</li>
+          <li>All gas, electric, water, and utility service lines shall be completely shut off and disconnected outside property line prior to work.</li>
+          <li>At least five (5) days before actual demolition work is started, the Permittee shall notify the Office of the Building Official in writing.</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- PERMIT ISSUANCE -->
+    <div style="margin-top: 1.5rem; border-top: 2px solid #0f172a; padding-top: 1rem; display: flex; justify-content: space-between; align-items: center;">
+      <div>
+        <div style="font-weight: 800; text-transform: uppercase;">PERMIT ISSUED BY:</div>
+        <div style="font-size: 0.75rem; color: #475569;">Pamahalaang Bayan ng Tanauan • Lalawigan ng Leyte</div>
+      </div>
+      <div style="text-align: center;">
+        <div style="font-weight: 900; font-size: 0.9rem; text-transform: uppercase;">ENGR. RAUL S. SOLIVA</div>
+        <div style="font-size: 0.75rem; font-weight: 700; color: #475569;">CHIEF, PROCESSING & EVALUATION / BUILDING OFFICIAL</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

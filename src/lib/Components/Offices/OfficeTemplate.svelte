@@ -23,6 +23,7 @@
 	import MENROCollectionSchedule from '$lib/Components/Offices/MENROCollectionSchedule.svelte';
 	import MENROOrgChart from '$lib/Components/Offices/MENROOrgChart.svelte';
 	import MENRODuties from '$lib/Components/Offices/MENRODuties.svelte';
+	import EngineeringOrgChart from '$lib/Components/Offices/EngineeringOrgChart.svelte';
 
 	let {
 		officeName = "Municipal Treasurer's Office",
@@ -268,9 +269,16 @@
 		(officeName && officeName.toLowerCase().includes('environment'))
 	);
 
-	const shouldShowPersonnel = $derived(showPersonnel && !isCivilRegistrar && !isMDRRMO && !isMENRO);
-	const shouldPutFormsAtEnd = $derived(formsAtEnd || isCivilRegistrar || isMDRRMO || isMENRO);
-	const shouldShowAwards = $derived(!isMDRRMO && !isMENRO);
+	const isEngineering = $derived(
+		department === 'Engineering' ||
+		officeCode === 'MEO' ||
+		department === 'Municipal Engineering Office' ||
+		(officeName && officeName.toLowerCase().includes('engineering'))
+	);
+
+	const shouldShowPersonnel = $derived(showPersonnel && !isCivilRegistrar && !isMDRRMO && !isMENRO && !isEngineering);
+	const shouldPutFormsAtEnd = $derived(formsAtEnd || isCivilRegistrar || isMDRRMO || isMENRO || isEngineering);
+	const shouldShowAwards = $derived(!isMDRRMO && !isMENRO && !isEngineering);
 
 	const baseNav = $derived([
 		{ id: 'overview', label: 'Overview' },
@@ -288,8 +296,9 @@
 		...(!isMAO && shouldPutFormsAtEnd && downloadableForms && downloadableForms.length > 0 ? [{ id: 'forms', label: isMENRO ? 'Downloadables' : 'Forms' }] : [])
 	]);
 
-	// Downloadable Forms Modal State
+	// Downloadable Forms State & Folder Management
 	let activeFormModal = $state(null);
+	let selectedFolder = $state(null); // null = show folder overview; string = currently open folder
 
 	function openFormModal(form) {
 		activeFormModal = form;
@@ -298,6 +307,144 @@
 	function closeFormModal() {
 		activeFormModal = null;
 	}
+
+	function openFolderView(folderName) {
+		selectedFolder = folderName;
+		if (typeof window !== 'undefined') {
+			setTimeout(() => {
+				const el = document.getElementById('open-folder-stage');
+				if (el) {
+					const offset = 140;
+					const top = el.getBoundingClientRect().top + window.scrollY - offset;
+					window.scrollTo({ top, behavior: 'smooth' });
+				}
+			}, 50);
+		}
+	}
+
+	function closeFolderView() {
+		selectedFolder = null;
+		if (typeof window !== 'undefined') {
+			setTimeout(() => {
+				const el = document.getElementById('forms');
+				if (el) {
+					const offset = 140;
+					const top = el.getBoundingClientRect().top + window.scrollY - offset;
+					window.scrollTo({ top, behavior: 'smooth' });
+				}
+			}, 50);
+		}
+	}
+
+	const formCategories = $derived.by(() => {
+		if (!downloadableForms || downloadableForms.length === 0) return [];
+		const cats = [];
+		for (const f of downloadableForms) {
+			if (f.category && !cats.includes(f.category)) {
+				cats.push(f.category);
+			}
+		}
+		return cats;
+	});
+
+	const folderDetails = {
+		'Building Permit': {
+			id: 'building-permit',
+			code: 'PD 1096 NBCP',
+			icon: '🏗️',
+			title: 'Building Permit Document Folder',
+			badge: 'Official NBCP Dossier',
+			stat: '7 Official Forms',
+			tagline: 'Presidential Decree No. 1096 • National Building Code of the Philippines',
+			description: 'Official unified filing dossier containing the prerequisite checklist, architectural, electrical, mechanical, electronics, sanitary/plumbing, demolition, and structural permit applications for all building constructions and renovations.',
+			keyDocs: [
+				'Checklist of Appended Documents',
+				'Architectural Permit (NBC Form No. A-01)',
+				'Electrical Permit Form',
+				'Electronics Permit Form (A-07)',
+				'Demolition Permit Form',
+				'Sanitary / Plumbing Permit (A-04)',
+				'Structural Permit Form (A-02)'
+			]
+		},
+		'Fencing Permit': {
+			id: 'fencing-permit',
+			code: 'DPWH LINE & GRADE',
+			icon: '🚧',
+			title: 'Fencing Permit Document Folder',
+			badge: 'Official Boundary Dossier',
+			stat: '2 Official Forms',
+			tagline: 'Perimeter Wall & Fence Construction • Line & Grade Clearances',
+			description: 'Official municipal filing dossier containing the appended requirements checklist, line and grade survey verification requirements, and the official DPWH fencing permit application form for all perimeter walls and barriers.',
+			keyDocs: [
+				'Checklist of Fencing Appended Documents',
+				'Fencing Permit Application Form'
+			]
+		},
+		'Occupancy Permit': {
+			id: 'occupancy-permit',
+			code: 'SEC 309 NBCP',
+			icon: '🏠',
+			title: 'Occupancy Permit Document Folder',
+			badge: 'Official Occupancy Dossier',
+			stat: '3 Official Forms',
+			tagline: 'Certificate of Occupancy • Final Inspection & Clearances',
+			description: 'Official municipal dossier containing the Unified Application Form for Occupancy, notarized Certificate of Completion, and the official Certificate of Occupancy under Section 309 of the National Building Code (PD 1096).',
+			keyDocs: [
+				'Unified Application Form for Occupancy',
+				'Certificate of Completion Form',
+				'Official Certificate of Occupancy Form'
+			]
+		},
+		'Downloadable Checklist': {
+			id: 'downloadable-checklist',
+			code: 'MEO CHECKLISTS',
+			icon: '📋',
+			title: 'Downloadable Checklist Folder',
+			badge: 'Official Prerequisite Dossier',
+			stat: '3 Official Checklists',
+			tagline: 'Utility Connections & Occupancy Prerequisite Checklists',
+			description: 'Official municipal repository containing the prescribed documentary checklists for DORELCO electrical connections, Primewater water service connections, and Certificate of Occupancy clearances.',
+			keyDocs: [
+				'Checklist for Electrical Connection',
+				'Checklist for Water Connection',
+				'Checklist for Occupancy Permit'
+			]
+		},
+		'Burial Permit': {
+			id: 'burial-permit',
+			code: 'CEMETERY & BURIAL',
+			icon: '🪦',
+			title: 'Burial Permit Document Folder',
+			badge: 'Official Cemetery Dossier',
+			stat: '1 Official Form',
+			tagline: 'Tanauan New Cemetery Extension • Lot Assignment & Permitting',
+			description: 'Official municipal filing dossier containing the burial permit application and cemetery lot assignment schedule for the Tanauan New Cemetery Extension, covering individual grave lots, perimeter niches, and family lots.',
+			keyDocs: [
+				'Tanauan New Cemetery Extension Burial Permit Form'
+			]
+		},
+		'Project Implementation Form': {
+			id: 'project-implementation-form',
+			code: 'PROJECT IMPL',
+			icon: '🚧',
+			title: 'Project Implementation Form Folder',
+			badge: 'Official Project Dossier',
+			stat: '3 Official Forms',
+			tagline: 'Program of Work • Concrete Pouring • Final Project Inspection',
+			description: 'Official municipal engineering forms for infrastructure project implementation, including Request for Program of Work (POW) / Detailed Estimate, Concrete Pouring Permit & Pre-Pouring Checklist, and Request for Final Inspection of Completed Projects.',
+			keyDocs: [
+				'Request for Program of Work / Detailed Estimate',
+				'Concrete Pouring Permit & Request for Pouring Inspection',
+				'Request for Final Inspection of Completed Project'
+			]
+		}
+	};
+
+	const activeFolderItems = $derived.by(() => {
+		if (!selectedFolder || !downloadableForms) return [];
+		return downloadableForms.filter((f) => f.category === selectedFolder);
+	});
 
 	const navSections = $derived(
 		baseNav.map((s, idx) => ({
@@ -316,7 +463,7 @@
 	function scrollTo(id) {
 		const target = document.getElementById(id);
 		if (target) {
-			const offset = 80;
+			const offset = 140;
 			const targetPosition = target.getBoundingClientRect().top + window.scrollY - offset;
 			window.scrollTo({ top: targetPosition, behavior: 'smooth' });
 			activeSection = id;
@@ -358,9 +505,9 @@
 <div
 	class="min-h-screen bg-slate-50 font-sans text-slate-900 antialiased selection:bg-amber-300 selection:text-blue-950"
 >
-	<!-- Fixed Floating Clean Pill Navigation -->
+	<!-- Fixed Floating Clean Pill Navigation (Desktop only, positioned safely below site header) -->
 	<header
-		class="fixed top-4 left-1/2 z-50 -translate-x-1/2 transition-all duration-500 {scrollY > 260
+		class="fixed top-20 left-1/2 z-30 -translate-x-1/2 transition-all duration-500 hidden md:block {scrollY > 260
 			? 'translate-y-0 opacity-100'
 			: 'pointer-events-none -translate-y-4 opacity-0'}"
 	>
@@ -392,7 +539,7 @@
 	<!-- Executive Hero Section with 3D Ambient Flowing Wave in the Background -->
 	<section
 		id="overview"
-		class="relative overflow-hidden border-b-4 border-amber-400 bg-gradient-to-b from-blue-50/80 via-slate-50 to-white pt-16 pb-16 lg:pt-24 lg:pb-20"
+		class="scroll-mt-28 sm:scroll-mt-36 relative overflow-hidden border-b-4 border-amber-400 bg-gradient-to-b from-blue-50/80 via-slate-50 to-white pt-16 pb-16 lg:pt-24 lg:pb-20"
 	>
 		<!-- 3D Three.js Background Canvas (Coastal Waves & Flow of Public Funds) -->
 		<OfficeHeroCanvas />
@@ -1235,145 +1382,434 @@
 		{/if}
 
 	{#snippet formsSection()}
-		<!-- Section: Downloadable Forms -->
-		<section id="forms" class="relative bg-gradient-to-b from-slate-50 via-white to-slate-50 py-20 overflow-hidden border-t-2 border-slate-200">
-			<!-- Decorative background elements -->
+		<!-- Section: Downloadable Forms (Royal Blue & Amber Yellow Folder System) -->
+		<section id="forms" class="scroll-mt-28 sm:scroll-mt-36 relative bg-gradient-to-b from-blue-50/60 via-white to-blue-50/40 pt-16 pb-32 sm:pt-20 sm:pb-40 overflow-hidden border-t-2 border-amber-400/50">
+			<!-- Decorative background elements in Royal Blue & Amber Yellow -->
 			<div class="pointer-events-none absolute inset-0">
-				<div
-					class="absolute -top-20 -right-20 h-80 w-80 rounded-full bg-blue-100/40 blur-3xl"
-				></div>
-				<div
-					class="absolute -bottom-20 -left-20 h-80 w-80 rounded-full bg-amber-100/40 blur-3xl"
-				></div>
+				<div class="absolute -top-24 -right-24 h-96 w-96 rounded-full bg-blue-900/5 blur-3xl"></div>
+				<div class="absolute -bottom-24 -left-24 h-96 w-96 rounded-full bg-amber-400/10 blur-3xl"></div>
 			</div>
 
 			<div class="relative container mx-auto max-w-7xl px-6">
-				<!-- Section Header -->
-				<div class="mb-10 max-w-3xl">
-					<div
-						class="mb-3 inline-flex items-center gap-2 rounded-md border border-blue-300 bg-blue-100 px-3.5 py-1 text-xs font-black tracking-wider text-blue-950 uppercase"
-					>
-						<span class="h-2 w-2 animate-pulse rounded-full bg-blue-700"></span>
-						{#if formsNavCode}
-							SECTION {formsNavCode} // {isMENRO ? 'OFFICIAL DOWNLOADABLES & CITIZEN GUIDES' : 'OFFICIAL DOWNLOADABLE FORMS'}
-						{:else}
-							{isMENRO ? 'OFFICIAL DOWNLOADABLES & CITIZEN GUIDES' : 'OFFICIAL DOWNLOADABLE FORMS'}
-						{/if}
+				<!-- Section Header in Royal Blue & Amber Yellow -->
+				<div class="mb-12 flex flex-col justify-between gap-6 border-b-2 border-blue-900/15 pb-8 md:flex-row md:items-end">
+					<div class="max-w-3xl">
+						<div
+							class="mb-3 inline-flex items-center gap-2 rounded-md border-2 border-amber-400 bg-blue-950 px-3.5 py-1 text-xs font-black tracking-wider text-amber-400 uppercase shadow-xs"
+						>
+							<span class="h-2 w-2 animate-pulse rounded-full bg-amber-400"></span>
+							{#if formsNavCode}
+								SECTION {formsNavCode} // {isMENRO ? 'OFFICIAL DOWNLOADABLES & CITIZEN GUIDES' : 'OFFICIAL PERMIT FOLDERS & FORMS'}
+							{:else}
+								{isMENRO ? 'OFFICIAL DOWNLOADABLES & CITIZEN GUIDES' : 'OFFICIAL PERMIT FOLDERS & FORMS'}
+							{/if}
+						</div>
+						<h2
+							class="text-3xl leading-tight font-black tracking-tight text-blue-950 sm:text-4xl lg:text-5xl"
+						>
+							{isMENRO ? 'Downloadables & Citizen Guides' : 'Downloadable Office Forms'}
+						</h2>
+						<p class="mt-4 text-base leading-relaxed font-normal text-blue-950/80 sm:text-lg">
+							{isMENRO
+								? 'Official MENRO permit checklists, Citizen’s Charters, and environmental regulatory guides available for direct download and document inspection.'
+								: 'All engineering permit documents are organized into dedicated official folders. Click a folder below to open and access its full collection of downloadable and printable forms.'}
+						</p>
 					</div>
-					<h2
-						class="text-3xl leading-tight font-black tracking-tight text-blue-950 sm:text-4xl lg:text-5xl"
-					>
-						{isMENRO ? 'Downloadables & Citizen Guides' : 'Downloadable Office Forms'}
-					</h2>
-					<p class="mt-4 text-base leading-relaxed font-normal text-slate-800 sm:text-lg">
-						{isMENRO
-							? 'Official MENRO permit checklists, Citizen’s Charters, and environmental regulatory guides available for direct download and document inspection.'
-							: 'Official forms available for download. Click any form card to view its details, inspect the file, or download directly.'}
-					</p>
+
+					<!-- Quick Total Forms Pill in Royal Blue & Amber Yellow -->
+					<div class="flex shrink-0 items-center gap-3">
+						<div class="rounded-2xl border-2 border-amber-400 bg-blue-950 px-6 py-3.5 text-left shadow-md">
+							<div class="text-[10px] font-black tracking-wider text-amber-400 uppercase">OFFICIAL REPOSITORY</div>
+							<div class="flex items-center gap-2">
+								<span class="text-2xl font-black text-amber-300">{downloadableForms.length}</span>
+								<span class="text-xs font-bold text-blue-100">Documents in {formCategories.length || 1} Folders</span>
+							</div>
+						</div>
+					</div>
 				</div>
 
-				<!-- Forms Cards Grid -->
-				<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-					{#each downloadableForms as form, fIdx}
-						<div
-							role="button"
-							tabindex="0"
-							onclick={() => openFormModal(form)}
-							onkeydown={(e) => e.key === 'Enter' && openFormModal(form)}
-							id="form-card-{fIdx}"
-							class="group relative flex cursor-pointer flex-col overflow-hidden rounded-3xl border-2 border-slate-200 bg-white text-left shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-blue-700 hover:shadow-2xl"
-							title="Click to view {form.title}"
-						>
-							<!-- Top accent bar -->
-							<div
-								class="h-1.5 w-full bg-gradient-to-r {isMENRO ? 'from-blue-950 via-blue-700 to-amber-500' : 'from-blue-900 via-blue-700 to-blue-500'} transition-all duration-300 group-hover:h-2"
-							></div>
+				{#if formCategories.length > 0}
+					<!-- ========================================================================= -->
+					<!-- PERMIT FOLDER SYSTEM (ROYAL BLUE & AMBER YELLOW)                         -->
+					<!-- ========================================================================= -->
 
-							<!-- Shine overlay on hover -->
-							<div
-								class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-								style="background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%);"
-							></div>
+					<!-- FOLDER OVERVIEW RACK -->
+					<div class="mb-12">
+						<div class="mb-5 flex items-center justify-between">
+							<div class="flex flex-wrap items-center gap-2.5">
+								<span class="text-xs font-black tracking-wider text-blue-950 uppercase">OFFICIAL PERMIT DOSSIERS:</span>
+								<span class="text-xs font-bold text-amber-700">Click a folder to view its contained forms</span>
+							</div>
+							{#if selectedFolder}
+								<button
+									type="button"
+									onclick={closeFolderView}
+									class="inline-flex items-center gap-1.5 rounded-xl border-2 border-amber-400 bg-white hover:bg-amber-400 hover:text-blue-950 px-3.5 py-1.5 text-xs font-black text-blue-950 transition-all shadow-xs"
+								>
+									<span>📁 View All Folders</span>
+								</button>
+							{/if}
+						</div>
 
-							<div class="flex flex-1 flex-col p-6 sm:p-7">
-								<!-- Icon & Number -->
-								<div class="mb-5 flex items-center justify-between">
-									<div
-										class="flex h-14 w-14 items-center justify-center rounded-2xl border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-blue-100 text-3xl shadow-sm transition-transform duration-300 group-hover:scale-110 group-hover:shadow-md"
-									>
-										{form.icon || '📄'}
+						<!-- Folder Cards (Building Permit, Fencing Permit, Occupancy Permit, Downloadable Checklist & Burial Permit) -->
+						<div class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+							{#each formCategories as cat}
+								{@const details = folderDetails[cat] || {
+									code: cat.toUpperCase(),
+									icon: '📋',
+									title: `${cat} Document Folder`,
+									badge: 'Official Dossier',
+									tagline: 'Prescribed Municipal Technical Forms',
+									description: `Official folder containing all forms and checklists related to ${cat}.`,
+									keyDocs: []
+								}}
+								{@const items = downloadableForms.filter((f) => f.category === cat)}
+								{@const isOpen = selectedFolder === cat}
+
+								<div
+									role="button"
+									tabindex="0"
+									onclick={() => openFolderView(cat)}
+									onkeydown={(e) => e.key === 'Enter' && openFolderView(cat)}
+									class="group relative flex cursor-pointer flex-col overflow-hidden rounded-3xl border-2 {isOpen
+										? 'border-amber-400 ring-4 ring-amber-400/40 shadow-2xl'
+										: 'border-amber-400/80 hover:border-amber-400'} bg-gradient-to-br from-blue-950 via-blue-900 to-blue-950 text-white shadow-xl transition-all duration-300 hover:-translate-y-2 text-left"
+									title="Click to open {cat} folder"
+								>
+									<!-- Realistic Folder Tab on top left -->
+									<div class="flex items-center justify-between px-4 pt-4 pb-2 sm:px-6 sm:pt-5">
+										<div class="inline-flex items-center gap-2 rounded-xl border-2 border-amber-400/60 bg-blue-900/90 px-3 py-1 sm:px-3.5 sm:py-1.5 text-[10px] sm:text-[11px] font-black tracking-wider text-amber-300 uppercase shadow-inner">
+											<span>📂 DOSSIER // {details.code}</span>
+										</div>
+										<span class="rounded-full border-2 border-amber-400 bg-amber-400 px-2.5 py-0.5 sm:px-3 sm:py-1 font-mono text-[11px] sm:text-xs font-black text-blue-950 shadow-sm uppercase tracking-wide">
+											{items.length} {items.length === 1 ? 'Form' : 'Forms'}
+										</span>
 									</div>
-									<div class="flex flex-col items-end gap-1">
-										<span class="font-mono text-[10px] font-black text-slate-400 uppercase"
-											>{isMENRO ? 'DOC' : 'FORM'} {String(fIdx + 1).padStart(2, '0')}</span
-										>
-										<span
-											class="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-slate-50 px-2.5 py-0.5 text-[10px] font-black text-slate-600 uppercase transition-colors group-hover:border-blue-300 group-hover:bg-blue-50 group-hover:text-blue-800"
-										>
-											🗗 Open ↗
+
+									<!-- Folder Body -->
+									<div class="flex flex-1 flex-col p-5 sm:p-8">
+										<div class="mb-5 flex items-start gap-4">
+											<div class="flex h-14 w-14 sm:h-16 sm:w-16 shrink-0 items-center justify-center rounded-2xl border-2 border-amber-400 bg-amber-400/20 text-2xl sm:text-3xl shadow-md transition-transform duration-300 group-hover:scale-110">
+												{details.icon}
+											</div>
+											<div class="min-w-0">
+												<div class="text-[10px] sm:text-[11px] font-bold text-amber-400 uppercase tracking-widest truncate">
+													{details.tagline}
+												</div>
+												<h3 class="mt-1 text-xl sm:text-2xl font-black text-white group-hover:text-amber-300 transition-colors leading-tight">
+													{details.title}
+												</h3>
+											</div>
+										</div>
+
+										<p class="mb-5 sm:mb-6 text-xs sm:text-sm leading-relaxed text-blue-100 font-normal">
+											{details.description}
+										</p>
+
+										<!-- Folder File Previews / Key Documents -->
+										<div class="mb-5 sm:mb-6 rounded-2xl border border-amber-400/30 bg-blue-950/80 p-3.5 sm:p-4">
+											<div class="mb-2 text-[10px] font-black text-amber-400 uppercase tracking-wider">
+												Forms Included in this Folder:
+											</div>
+											<div class="flex flex-wrap gap-1.5">
+												{#each items as item}
+													<span class="inline-flex items-center gap-1 rounded-lg border border-blue-700/60 bg-blue-900/80 px-2 py-0.5 sm:px-2.5 sm:py-1 text-[10px] sm:text-[11px] font-semibold text-blue-100 max-w-full">
+														<span class="text-amber-400 font-black">✓</span>
+														<span class="truncate max-w-[280px] sm:max-w-[340px]">{item.title}</span>
+													</span>
+												{/each}
+											</div>
+										</div>
+
+										<!-- Folder Open Action Button -->
+										<div class="mt-auto pt-2">
+											<div
+												class="flex w-full items-center justify-between rounded-2xl border-2 border-amber-400 {isOpen
+													? 'bg-amber-300 text-blue-950 shadow-inner'
+													: 'bg-amber-400 hover:bg-amber-300 text-blue-950'} px-4 py-3 sm:px-6 sm:py-3.5 font-black text-xs sm:text-sm shadow-md transition-all group-hover:shadow-amber-400/30"
+											>
+												<span class="flex items-center gap-2 truncate">
+													<span class="truncate">{isOpen ? `📂 ${cat} Folder Open Below` : `📂 Open ${cat} Folder`}</span>
+												</span>
+												<span class="text-base font-black transition-transform group-hover:translate-x-1 shrink-0">→</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							{/each}
+						</div>
+					</div>
+
+					<!-- OPEN FOLDER STAGE (When a folder is selected) -->
+					{#if selectedFolder}
+						<div id="open-folder-stage" class="scroll-mt-28 sm:scroll-mt-36 space-y-6 sm:space-y-8 rounded-3xl border-2 border-amber-400 bg-white p-4 sm:p-8 lg:p-10 shadow-2xl">
+							<!-- Folder Top Bar & Switcher in Royal Blue & Amber Yellow -->
+							<div class="flex flex-col justify-between gap-4 border-b-2 border-amber-400/40 pb-6 md:flex-row md:items-center">
+								<div class="flex flex-wrap items-center gap-3">
+									<button
+										type="button"
+										onclick={closeFolderView}
+										class="inline-flex items-center gap-1.5 rounded-xl border-2 border-blue-950 bg-blue-950 hover:bg-blue-900 px-4 py-2 text-xs font-black text-amber-300 transition-all shadow-sm hover:scale-105 active:scale-95"
+									>
+										<span>← Close Folder</span>
+									</button>
+									<div class="flex items-center gap-2 text-xs font-black text-blue-950 uppercase tracking-wide">
+										<span class="text-slate-400">ARCHIVE</span>
+										<span class="text-amber-500">/</span>
+										<span class="rounded-lg border-2 border-amber-400 bg-amber-100 px-3 py-1 text-blue-950">
+											📂 {selectedFolder} Folder
 										</span>
 									</div>
 								</div>
 
-								<!-- Form type badge -->
-								{#if form.type}
-									<span
-										class="mb-2 inline-block rounded-full border border-blue-200 bg-blue-50 px-2.5 py-0.5 text-[10px] font-black tracking-wider text-blue-900 uppercase"
-									>
-										{form.type}
-									</span>
-								{/if}
+								<!-- Quick Switcher Tabs -->
+								<div class="flex flex-wrap items-center gap-2">
+									<span class="text-xs font-black text-blue-950 uppercase mr-1">Switch Folder:</span>
+									{#each formCategories as cat}
+										{@const count = downloadableForms.filter((f) => f.category === cat).length}
+										<button
+											type="button"
+											onclick={() => openFolderView(cat)}
+											class="inline-flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-black transition-all {selectedFolder === cat
+												? 'border-2 border-amber-400 bg-amber-400 text-blue-950 shadow-md scale-105'
+												: 'border-2 border-blue-950 bg-white text-blue-950 hover:bg-blue-50'}"
+										>
+											<span>{folderDetails[cat]?.icon || '📁'} {cat}</span>
+											<span
+												class="rounded-full px-2 py-0.5 text-[10px] font-black {selectedFolder === cat
+													? 'bg-blue-950 text-amber-300'
+													: 'bg-blue-100 text-blue-950'}"
+											>
+												{count}
+											</span>
+										</button>
+									{/each}
+								</div>
+							</div>
 
-								<!-- Title -->
-								<h3
-									class="mb-2 text-lg leading-snug font-black text-blue-950 transition-colors group-hover:text-blue-700"
+							<!-- Folder Open Interior Banner (Royal Blue & Amber Yellow) -->
+							<div class="relative overflow-hidden rounded-3xl border-2 border-amber-400 bg-gradient-to-r from-blue-950 via-blue-900 to-blue-950 p-6 sm:p-8 text-white shadow-md">
+								<div class="h-1.5 w-full bg-amber-400 absolute top-0 left-0"></div>
+								<div class="flex flex-col justify-between gap-6 md:flex-row md:items-center">
+									<div class="flex items-start gap-4">
+										<div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border-2 border-amber-400 bg-amber-400/20 text-3xl shadow-sm">
+											{folderDetails[selectedFolder]?.icon || '📂'}
+										</div>
+										<div>
+											<div class="flex flex-wrap items-center gap-2">
+												<span class="rounded-md border border-amber-400 bg-amber-400/20 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-amber-300">
+													{folderDetails[selectedFolder]?.code || folderDetails[selectedFolder]?.badge || 'Municipal Permitting Dossier'}
+												</span>
+												<span class="text-xs font-bold text-amber-300">• {activeFolderItems.length} Forms in this Folder</span>
+											</div>
+											<h3 class="mt-1 text-2xl sm:text-3xl font-black text-white">
+												{selectedFolder} Official Forms & Applications
+											</h3>
+											<p class="mt-2 text-xs sm:text-sm text-blue-100 font-normal max-w-3xl leading-relaxed">
+												{folderDetails[selectedFolder]?.description || `Complete set of official documents, forms, and checklists required for ${selectedFolder}. Click any form to inspect details, print the digital form, or download the official PDF.`}
+											</p>
+										</div>
+									</div>
+
+									<div class="flex shrink-0 items-center gap-2 text-right">
+										<div class="rounded-2xl border border-amber-400/50 bg-blue-900/60 px-5 py-3 text-center">
+											<div class="text-[10px] font-black text-amber-400 uppercase">ACTIVE FOLDER</div>
+											<div class="font-mono text-xl font-black text-white">{activeFolderItems.length} FORMS</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- Cards Grid for the Active Folder -->
+							<div class="grid gap-6 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+								{#each activeFolderItems as form, fIdx}
+									<div
+										role="button"
+										tabindex="0"
+										onclick={() => openFormModal(form)}
+										onkeydown={(e) => e.key === 'Enter' && openFormModal(form)}
+										id="form-card-{selectedFolder}-{fIdx}"
+										class="group relative flex cursor-pointer flex-col overflow-hidden rounded-3xl border-2 border-blue-900/20 bg-white text-left shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-amber-400 hover:shadow-2xl"
+										title="Click to view {form.title}"
+									>
+										<!-- Top accent bar in Royal Blue & Amber Yellow -->
+										<div class="h-2 w-full bg-gradient-to-r from-blue-950 via-blue-800 to-amber-400 transition-all duration-300 group-hover:h-2.5"></div>
+
+										<!-- Shine overlay on hover -->
+										<div
+											class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+											style="background: linear-gradient(135deg, rgba(251,191,36,0.1) 0%, transparent 60%);"
+										></div>
+
+										<div class="flex flex-1 flex-col p-5 sm:p-7">
+											<!-- Icon, Category Badge & Number -->
+											<div class="mb-4 flex items-center justify-between">
+												<div
+													class="flex h-13 w-13 items-center justify-center rounded-2xl border-2 border-amber-400 bg-amber-50 text-2xl shadow-xs transition-transform duration-300 group-hover:scale-110"
+												>
+													{form.icon || '📄'}
+												</div>
+												<div class="flex flex-col items-end gap-1">
+													<span class="rounded-md border border-amber-400 bg-amber-100 px-2 py-0.5 text-[9px] font-black text-amber-950 uppercase tracking-wider">
+														{form.category}
+													</span>
+													<span class="font-mono text-[10px] font-black text-blue-950 uppercase">
+														FORM {form.index || String(fIdx + 1).padStart(2, '0')}
+													</span>
+												</div>
+											</div>
+
+											<!-- Form type badge -->
+											{#if form.type}
+												<span class="mb-2 inline-block rounded-full border border-blue-200 bg-blue-50 px-2.5 py-0.5 text-[10px] font-black tracking-wider text-blue-950 uppercase">
+													{form.type}
+												</span>
+											{/if}
+
+											<!-- Title -->
+											<h3 class="mb-2 text-base sm:text-lg leading-snug font-black text-blue-950 transition-colors group-hover:text-blue-800">
+												{form.title}
+											</h3>
+
+											<!-- Description -->
+											{#if form.description}
+												<p class="mb-4 line-clamp-2 text-xs sm:text-sm leading-relaxed font-medium text-slate-700">
+													{form.description}
+												</p>
+											{/if}
+
+											<!-- Checklist highlight box -->
+											{#if form.requirements && form.requirements.length > 0}
+												<div class="mb-4 rounded-xl border border-blue-200 bg-blue-50/70 p-2.5 text-[11px] text-blue-950">
+													<div class="font-bold text-blue-950 mb-1 flex items-center justify-between">
+														<span>Checklist Prerequisite:</span>
+														<span class="text-[10px] font-mono text-amber-700 font-bold">{form.requirements.length} Items</span>
+													</div>
+													<div class="truncate text-slate-700">
+														• {form.requirements[0]}
+													</div>
+												</div>
+											{/if}
+
+											<!-- CTA Row in Royal Blue & Amber Yellow -->
+											<div class="mt-auto flex flex-wrap items-center justify-between gap-2 pt-4 border-t border-slate-100">
+												<button
+													type="button"
+													onclick={(e) => {
+														e.stopPropagation();
+														openFormModal(form);
+													}}
+													class="inline-flex items-center gap-1 rounded-xl border-2 border-blue-950 bg-white hover:bg-blue-950 hover:text-amber-300 px-3 py-2 text-xs font-black text-blue-950 transition-all hover:scale-105 active:scale-95 shadow-2xs"
+												>
+													<span>👁️ Inspect</span>
+												</button>
+
+												<div class="flex items-center gap-1.5 ml-auto">
+													{#if form.htmlUrl}
+														<a
+															href={form.htmlUrl}
+															target="_blank"
+															onclick={(e) => e.stopPropagation()}
+															class="inline-flex items-center gap-1 rounded-xl border-2 border-amber-500 bg-amber-400 hover:bg-amber-300 text-blue-950 px-2.5 py-2 text-xs font-black transition-all hover:scale-105 active:scale-95 shadow-2xs"
+															title="Open printable fillable HTML form in browser"
+														>
+															<span>🖨️ Print</span>
+														</a>
+													{/if}
+
+													<a
+														href={form.url || form.downloadUrl}
+														download
+														onclick={(e) => e.stopPropagation()}
+														class="inline-flex items-center gap-1 rounded-xl border-2 border-blue-950 bg-blue-950 hover:bg-blue-900 text-amber-300 px-3 py-2 text-xs font-black shadow-sm transition-all hover:scale-105 active:scale-95"
+													>
+														<svg class="h-3.5 w-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+															<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+														</svg>
+														<span>PDF</span>
+													</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								{/each}
+							</div>
+
+							<!-- Close Folder Action at Bottom -->
+							<div class="pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+								<button
+									type="button"
+									onclick={closeFolderView}
+									class="inline-flex items-center gap-2 rounded-2xl border-2 border-amber-400 bg-blue-950 hover:bg-blue-900 px-6 py-3 text-xs font-black text-amber-300 transition-all shadow-md hover:scale-105 active:scale-95"
 								>
-									{form.title}
-								</h3>
+									<span>← Close {selectedFolder} Folder &amp; Return to All Folders</span>
+								</button>
 
-								<!-- Description -->
-								{#if form.description}
-									<p class="mb-5 line-clamp-2 text-sm leading-relaxed font-medium text-slate-600">
-										{form.description}
-									</p>
-								{/if}
-
-								<!-- CTA Row -->
-								<div class="mt-auto flex items-center justify-between gap-2 pt-4 border-t border-slate-100">
-									<button
-										type="button"
-										onclick={(e) => {
-											e.stopPropagation();
-											openFormModal(form);
-										}}
-										class="inline-flex items-center gap-1.5 rounded-xl border border-slate-300 bg-slate-50 hover:bg-slate-100 px-3.5 py-2 text-xs font-black text-slate-800 transition-all hover:scale-105 active:scale-95 shadow-2xs"
-									>
-										<span>👁️ View File</span>
-									</button>
-
-									<a
-										href={form.url || form.downloadUrl}
-										download
-										onclick={(e) => e.stopPropagation()}
-										class="inline-flex items-center gap-1.5 rounded-xl {isMENRO ? 'bg-amber-400 hover:bg-amber-500 text-blue-950 font-black shadow-amber-200/50' : 'bg-blue-800 hover:bg-blue-700 text-white'} px-4 py-2 text-xs font-black shadow-sm transition-all hover:scale-105 active:scale-95"
-									>
-										<svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-										</svg>
-										<span>Download</span>
-									</a>
+								<div class="text-xs font-bold text-blue-950">
+									Viewing {activeFolderItems.length} of {downloadableForms.length} Total Municipal Forms
 								</div>
 							</div>
 						</div>
-					{/each}
-				</div>
+					{/if}
+				{:else}
+					<!-- Fallback for offices without categorized folders -->
+					<div class="grid gap-6 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+						{#each downloadableForms as form, fIdx}
+							<div
+								role="button"
+								tabindex="0"
+								onclick={() => openFormModal(form)}
+								onkeydown={(e) => e.key === 'Enter' && openFormModal(form)}
+								id="form-card-{fIdx}"
+								class="group relative flex cursor-pointer flex-col overflow-hidden rounded-3xl border-2 border-blue-900/20 bg-white text-left shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-amber-400 hover:shadow-2xl"
+								title="Click to view {form.title}"
+							>
+								<div class="h-2 w-full bg-gradient-to-r from-blue-950 via-blue-800 to-amber-400"></div>
+								<div class="flex flex-1 flex-col p-6 sm:p-7">
+									<div class="mb-4 flex items-center justify-between">
+										<div class="flex h-13 w-13 items-center justify-center rounded-2xl border-2 border-amber-400 bg-amber-50 text-2xl">
+											{form.icon || '📄'}
+										</div>
+										<span class="font-mono text-[10px] font-black text-blue-950 uppercase">
+											{isMENRO ? 'DOC' : 'FORM'} {String(fIdx + 1).padStart(2, '0')}
+										</span>
+									</div>
+									<h3 class="mb-2 text-lg font-black text-blue-950">{form.title}</h3>
+									{#if form.description}
+										<p class="mb-4 text-xs font-medium text-slate-700">{form.description}</p>
+									{/if}
+									<div class="mt-auto flex items-center justify-between gap-2 pt-4 border-t border-slate-100">
+										<button
+											type="button"
+											onclick={(e) => {
+												e.stopPropagation();
+												openFormModal(form);
+											}}
+											class="inline-flex items-center gap-1 rounded-xl border-2 border-blue-950 bg-white px-3 py-2 text-xs font-black text-blue-950 hover:bg-blue-950 hover:text-amber-300"
+										>
+											👁️ Inspect
+										</button>
+										<a
+											href={form.url || form.downloadUrl}
+											download
+											onclick={(e) => e.stopPropagation()}
+											class="inline-flex items-center gap-1 rounded-xl border-2 border-blue-950 bg-blue-950 px-3 py-2 text-xs font-black text-amber-300 hover:bg-blue-900"
+										>
+											PDF
+										</a>
+									</div>
+								</div>
+							</div>
+						{/each}
+					</div>
+				{/if}
 
-				<!-- Disclaimer note -->
-				<div class="mt-8 flex items-start gap-3 rounded-2xl border border-amber-200 bg-amber-50/70 p-4">
-					<span class="text-xl shrink-0">ℹ️</span>
-					<p class="text-xs font-semibold text-amber-900 leading-relaxed">
-						All forms are official local government documents. Ensure you are downloading the latest version. For assistance, visit the {officeName} at the Municipal Hall during office hours.
-					</p>
+				<!-- Disclaimer note in Royal Blue & Amber Yellow -->
+				<div class="mt-12 flex items-start gap-3 rounded-2xl border-2 border-amber-400 bg-amber-50 p-5 shadow-xs">
+					<span class="text-2xl shrink-0">🏛️</span>
+					<div class="text-xs text-blue-950 leading-relaxed">
+						<span class="font-black text-blue-950">Official Engineering Document Advisory:</span> All downloadable permit forms, schedules, and checklists are official documents of the Local Government Unit of Tanauan, Leyte under the Office of the Building Official. Both PDF downloads and printable browser forms are accepted for technical plan review at the Municipal Engineering Office, Tanauan Town Hall.
+					</div>
 				</div>
 			</div>
 		</section>
@@ -1385,7 +1821,7 @@
 
 		<!-- Section 2: Core Mandates & Functions -->
 		{#if !isMAO && mandates && mandates.length > 0}
-			<section id="mandates" class="bg-slate-50 py-20">
+			<section id="mandates" class="scroll-mt-28 sm:scroll-mt-36 bg-slate-50 py-20">
 			<div class="container mx-auto max-w-7xl px-6">
 				<!-- Section Header -->
 				<div class="mb-14 max-w-3xl">
@@ -1655,7 +2091,7 @@
 		{/if}
 
 		<!-- Section 3: Leadership & Executive Profile -->
-		<section id="leadership" class="bg-white py-20">
+		<section id="leadership" class="scroll-mt-28 sm:scroll-mt-36 bg-white py-20">
 			<div class="container mx-auto max-w-7xl px-6">
 				<div class="mb-12 max-w-3xl">
 					<div
@@ -1877,7 +2313,7 @@
 		<!-- Section 4: Organizational Structure (Executive Governance Matrix & Blueprint Viewer) -->
 		<section
 			id="structure"
-			class="relative overflow-hidden border-b-2 border-slate-200 bg-slate-50 py-20"
+			class="scroll-mt-28 sm:scroll-mt-36 relative overflow-hidden border-b-2 border-slate-200 bg-slate-50 py-20"
 		>
 			<!-- Subtle Civic Grid Background -->
 			<div
@@ -1988,6 +2424,8 @@
 						<MDRRMOOrgChart />
 					{:else if isMENRO}
 						<MENROOrgChart />
+					{:else if isEngineering}
+						<EngineeringOrgChart />
 					{:else}
 						<OrgChartSection {department} defaultImage={orgChartImage} cleanLayout={true} />
 					{/if}
@@ -1997,7 +2435,7 @@
 
 		<!-- Section 5: Accomplishment Reports (Audited Fiscal Performance) -->
 		{#if showAccomplishments}
-			<section id="accomplishments" class="relative border-b-2 border-slate-200 bg-white py-20">
+			<section id="accomplishments" class="scroll-mt-28 sm:scroll-mt-36 relative border-b-2 border-slate-200 bg-white py-20">
 				<div class="container mx-auto max-w-7xl px-6">
 					<div class="mb-10 max-w-3xl border-b-2 border-slate-200 pb-6">
 						<div
@@ -2255,6 +2693,25 @@
 						<div class="min-w-0">
 							<div class="flex flex-wrap items-center gap-2">
 								<span class="text-[10px] font-black uppercase tracking-wider text-blue-700">Official {officeCode || 'Government'} Document</span>
+								{#if activeFormModal.category}
+									<span
+										class="rounded-full px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider {activeFormModal.category === 'Building Permit'
+											? 'border border-blue-900 bg-blue-100 text-blue-950'
+											: activeFormModal.category === 'Fencing Permit'
+												? 'border border-amber-400 bg-amber-100 text-amber-950'
+												: activeFormModal.category === 'Occupancy Permit'
+													? 'border-2 border-amber-400 bg-blue-950 text-amber-300'
+													: activeFormModal.category === 'Downloadable Checklist'
+														? 'border-2 border-amber-400 bg-amber-400 text-blue-950'
+														: activeFormModal.category === 'Burial Permit'
+															? 'border-2 border-amber-400 bg-blue-950 text-amber-300'
+															: activeFormModal.category === 'Project Implementation Form'
+																? 'border-2 border-amber-400 bg-blue-950 text-amber-300'
+																: 'border border-blue-200 bg-blue-50 text-blue-900'}"
+									>
+										{folderDetails[activeFormModal.category]?.icon ? `${folderDetails[activeFormModal.category].icon} ` : ''}{activeFormModal.category}
+									</span>
+								{/if}
 								{#if activeFormModal.fileSize}
 									<span class="rounded bg-slate-100 border border-slate-200 px-2 py-0.5 font-mono text-[10px] font-bold text-slate-700">
 										{activeFormModal.fileSize}
@@ -2292,9 +2749,9 @@
 
 				<!-- Modal Body (Scrollable document inspection view) -->
 				<div class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6 bg-slate-50/60">
-					<!-- Inspection Mode Banner -->
-					<div class="flex items-center justify-between rounded-2xl border border-blue-200 bg-blue-50/70 p-3.5 text-xs">
-						<div class="flex items-center gap-2.5 text-blue-950 font-semibold">
+					<!-- Inspection Mode Banner (Royal Blue & Amber Yellow) -->
+					<div class="flex items-center justify-between rounded-2xl border-2 border-amber-400 bg-amber-50 p-3.5 text-xs">
+						<div class="flex items-center gap-2.5 text-blue-950 font-bold">
 							<span class="text-base">📄</span>
 							<span><strong>Document Inspection Mode:</strong> You can review the complete file preview and instructions below to decide whether to download.</span>
 						</div>
@@ -2303,7 +2760,7 @@
 								href={fileUrl}
 								target="_blank"
 								rel="noopener noreferrer"
-								class="shrink-0 text-blue-800 font-bold underline hover:text-blue-950 ml-2"
+								class="shrink-0 text-blue-950 font-black underline hover:text-amber-700 ml-2"
 							>
 								Open Full PDF ↗
 							</a>
@@ -2312,13 +2769,13 @@
 
 					<!-- Document Preview Stage (Large & Clear) -->
 					{#if previewImg}
-						<div class="rounded-2xl border-2 border-slate-300 bg-white p-3 sm:p-5 shadow-sm">
+						<div class="rounded-2xl border-2 border-amber-400/40 bg-white p-3 sm:p-5 shadow-sm">
 							<div class="mb-3 flex items-center justify-between border-b border-slate-100 pb-2 text-xs">
-								<span class="font-bold text-slate-700 flex items-center gap-1.5">
+								<span class="font-bold text-blue-950 flex items-center gap-1.5">
 									<span>🔍</span> Document High-Resolution Preview
 								</span>
 								{#if isPdf}
-									<span class="font-mono text-[11px] text-slate-500">PDF Guide • Ready for Download</span>
+									<span class="font-mono text-[11px] text-amber-700 font-bold">PDF Guide • Ready for Download</span>
 								{/if}
 							</div>
 							<div class="max-h-[540px] overflow-y-auto rounded-xl border border-slate-200 bg-slate-100/50 p-2 text-center">
@@ -2330,14 +2787,14 @@
 							</div>
 						</div>
 					{:else if isPdf}
-						<div class="rounded-2xl border-2 border-slate-300 bg-white p-3 sm:p-5 shadow-sm">
+						<div class="rounded-2xl border-2 border-amber-400/40 bg-white p-3 sm:p-5 shadow-sm">
 							<div class="mb-3 flex items-center justify-between border-b border-slate-100 pb-2 text-xs">
-								<span class="font-bold text-slate-700">Official PDF Document Preview</span>
-								<a href={fileUrl} target="_blank" rel="noopener noreferrer" class="font-bold text-blue-700 hover:underline">
+								<span class="font-black text-blue-950">Official PDF Document Preview</span>
+								<a href={fileUrl} target="_blank" rel="noopener noreferrer" class="font-black text-blue-950 hover:text-amber-700 underline">
 									Open in New Tab ↗
 								</a>
 							</div>
-							<div class="h-[520px] rounded-xl border border-slate-200 overflow-hidden bg-slate-100">
+							<div class="h-[520px] rounded-xl border border-blue-900/20 overflow-hidden bg-slate-100">
 								<iframe
 									src="{fileUrl}#toolbar=1"
 									title="{activeFormModal.title} Preview"
@@ -2351,24 +2808,24 @@
 					<div class="grid gap-4 md:grid-cols-2">
 						<!-- Description -->
 						{#if activeFormModal.description}
-							<div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-2xs">
-								<div class="text-[10px] font-black uppercase tracking-wider text-slate-500 mb-2">Form Description & Purpose</div>
-								<p class="text-xs sm:text-sm leading-relaxed font-normal text-slate-700">
+							<div class="rounded-2xl border-2 border-blue-900/15 bg-white p-5 shadow-2xs">
+								<div class="text-[10px] font-black uppercase tracking-wider text-amber-700 mb-2">Form Description &amp; Purpose</div>
+								<p class="text-xs sm:text-sm leading-relaxed font-normal text-slate-800">
 									{activeFormModal.description}
 								</p>
 							</div>
 						{/if}
 
 						<!-- Requirements or Official Guidelines -->
-						<div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-2xs">
-							<div class="text-[10px] font-black uppercase tracking-wider text-slate-500 mb-2">
+						<div class="rounded-2xl border-2 border-blue-900/15 bg-white p-5 shadow-2xs">
+							<div class="text-[10px] font-black uppercase tracking-wider text-amber-700 mb-2">
 								{activeFormModal.requirements?.length ? 'Prerequisites & Checklist' : 'Official Guidelines'}
 							</div>
 							{#if activeFormModal.requirements && activeFormModal.requirements.length > 0}
-								<ul class="space-y-2 text-xs text-slate-700">
+								<ul class="space-y-2 text-xs text-blue-950 font-medium">
 									{#each activeFormModal.requirements as req}
 										<li class="flex items-start gap-2">
-											<span class="{isMENRO ? 'text-amber-500' : 'text-emerald-600'} font-black">✓</span>
+											<span class="text-amber-500 font-black">✓</span>
 											<span>{req}</span>
 										</li>
 									{/each}
@@ -2381,50 +2838,60 @@
 						</div>
 					</div>
 
-					<!-- Office & Format Details -->
+					<!-- Office & Format Details in Royal Blue & Amber Yellow -->
 					<div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-						<div class="rounded-xl border border-slate-200 bg-white p-3">
-							<div class="text-[10px] font-black uppercase tracking-wider text-slate-400">Department</div>
-							<div class="font-bold text-slate-900 truncate">{officeCode || department}</div>
+						<div class="rounded-xl border border-blue-900/20 bg-white p-3">
+							<div class="text-[10px] font-black uppercase tracking-wider text-amber-700">Department</div>
+							<div class="font-black text-blue-950 truncate">{officeCode || department}</div>
 						</div>
-						<div class="rounded-xl border border-slate-200 bg-white p-3">
-							<div class="text-[10px] font-black uppercase tracking-wider text-slate-400">Format</div>
-							<div class="font-bold text-slate-900 truncate">{activeFormModal.format || 'Official PDF'}</div>
+						<div class="rounded-xl border border-blue-900/20 bg-white p-3">
+							<div class="text-[10px] font-black uppercase tracking-wider text-amber-700">Format</div>
+							<div class="font-bold text-blue-950 truncate">{activeFormModal.format || 'Official PDF'}</div>
 						</div>
-						<div class="rounded-xl border border-slate-200 bg-white p-3">
-							<div class="text-[10px] font-black uppercase tracking-wider text-slate-400">File Size</div>
-							<div class="font-bold text-slate-900 truncate">{activeFormModal.fileSize || 'Standard PDF'}</div>
+						<div class="rounded-xl border border-blue-900/20 bg-white p-3">
+							<div class="text-[10px] font-black uppercase tracking-wider text-amber-700">File Size</div>
+							<div class="font-bold text-blue-950 truncate">{activeFormModal.fileSize || 'Standard PDF'}</div>
 						</div>
-						<div class="rounded-xl border border-slate-200 bg-white p-3">
-							<div class="text-[10px] font-black uppercase tracking-wider text-slate-400">Availability</div>
-							<div class="font-bold {isMENRO ? 'text-amber-600' : 'text-emerald-700'} truncate">Immediate Download</div>
+						<div class="rounded-xl border border-blue-900/20 bg-white p-3">
+							<div class="text-[10px] font-black uppercase tracking-wider text-amber-700">Availability</div>
+							<div class="font-black text-amber-600 truncate">Immediate Access</div>
 						</div>
 					</div>
 				</div>
 
 				<!-- Modal Footer (Decision Bar: Download vs Close) -->
-				<div class="flex flex-col sm:flex-row items-center justify-between gap-4 border-t-2 border-slate-200 bg-white px-6 py-4 shrink-0 shadow-sm">
-					<div class="flex items-center gap-2 text-xs text-slate-600">
-						<span class="flex h-5 w-5 items-center justify-center rounded-full {isMENRO ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-700'} text-xs font-bold">✓</span>
+				<div class="flex flex-col sm:flex-row items-center justify-between gap-4 border-t-2 border-amber-400/40 bg-white px-6 py-4 shrink-0 shadow-sm">
+					<div class="flex items-center gap-2 text-xs text-blue-950">
+						<span class="flex h-5 w-5 items-center justify-center rounded-full bg-amber-100 text-amber-900 border border-amber-400 text-xs font-bold">✓</span>
 						<span>Review complete. Decide whether to download or exit:</span>
 					</div>
-					<div class="flex items-center gap-3 w-full sm:w-auto justify-end">
+					<div class="flex flex-wrap items-center gap-2.5 w-full sm:w-auto justify-end">
 						<button
 							type="button"
 							onclick={closeFormModal}
-							class="w-full sm:w-auto rounded-xl border border-slate-300 bg-white hover:bg-slate-100 px-5 py-2.5 text-xs font-black text-slate-700 transition"
+							class="w-full sm:w-auto rounded-xl border-2 border-blue-950 bg-white hover:bg-blue-50 px-4 py-2.5 text-xs font-black text-blue-950 transition"
 						>
-							Close / Do Not Download
+							Close / Exit
 						</button>
+						{#if activeFormModal.htmlUrl}
+							<a
+								href={activeFormModal.htmlUrl}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 rounded-xl border-2 border-amber-500 bg-amber-400 hover:bg-amber-300 text-blue-950 px-4 py-2.5 text-xs font-black shadow-xs transition hover:scale-105 active:scale-95"
+							>
+								<span>🖨️ Fill &amp; Print HTML ↗</span>
+							</a>
+						{/if}
 						{#if fileUrl}
 							<a
 								href={fileUrl}
 								target="_blank"
 								download
 								rel="noopener noreferrer"
-								class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl {isMENRO ? 'bg-amber-400 hover:bg-amber-500 text-blue-950 font-black shadow-amber-200/50' : 'bg-blue-900 hover:bg-blue-800 text-white'} px-6 py-2.5 text-xs font-black shadow-md transition hover:scale-105 active:scale-95"
+								class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border-2 border-blue-950 bg-blue-950 hover:bg-blue-900 text-amber-300 px-5 py-2.5 text-xs font-black shadow-md transition hover:scale-105 active:scale-95"
 							>
-								<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<svg class="h-4 w-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 									<path
 										stroke-linecap="round"
 										stroke-linejoin="round"
@@ -2432,7 +2899,7 @@
 										d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
 									/>
 								</svg>
-								<span>Download File {activeFormModal.fileSize ? `(${activeFormModal.fileSize})` : ''}</span>
+								<span>Download PDF {activeFormModal.fileSize ? `(${activeFormModal.fileSize})` : ''}</span>
 							</a>
 						{/if}
 					</div>

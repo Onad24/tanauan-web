@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Concrete Pouring Permit &amp; Inspection Request — Municipality of Tanauan, Leyte</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #f1f5f9; color: #0f172a; min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center;
+      padding: 1.5rem 1rem; font-family: 'Inter', -apple-system, sans-serif;
+    }
+    .toolbar {
+      width: 100%; max-width: 900px; margin-bottom: 1.5rem;
+      display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0.75rem;
+      background: #0f172a; color: white; padding: 0.85rem 1.25rem; border-radius: 16px;
+      box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.3); font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .toolbar-title { font-size: 0.85rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: #e2e8f0; display: flex; align-items: center; gap: 0.5rem; }
+    .btn-group { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .btn { padding: 0.5rem 1rem; border-radius: 10px; font-size: 0.8rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem; transition: all 0.2s; text-decoration: none; border: none; }
+    .btn-primary { background: #f59e0b; color: #0f172a; }
+    .btn-primary:hover { background: #fbbf24; transform: translateY(-1px); }
+    .btn-outline { background: rgba(255, 255, 255, 0.1); color: white; border: 1px solid rgba(255, 255, 255, 0.2); }
+    .btn-outline:hover { background: rgba(255, 255, 255, 0.2); }
+    .document-page {
+      background: white; width: 100%; max-width: 900px; padding: 3rem 3.5rem;
+      border-radius: 12px; box-shadow: 0 20px 40px -15px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.05);
+      position: relative; font-size: 0.85rem; line-height: 1.5; margin-bottom: 2rem;
+    }
+    @media (max-width: 640px) {
+      body { padding: 0.75rem 0.5rem; }
+      .document-page { padding: 1.5rem 1rem; border-radius: 8px; font-size: 0.8rem; }
+      .toolbar { padding: 0.75rem 1rem; }
+      .toolbar-title { font-size: 0.75rem; }
+      .btn { padding: 0.4rem 0.75rem; font-size: 0.75rem; }
+    }
+    .header-center { text-align: center; margin-bottom: 1.5rem; border-bottom: 2px solid #0f172a; padding-bottom: 1rem; }
+    .header-center h3 { font-size: 0.8rem; font-weight: 600; text-transform: uppercase; color: #475569; }
+    .header-center .lgu-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.3rem; font-weight: 900; color: #1e3a8a; letter-spacing: 0.05em; margin: 0.25rem 0; }
+    .header-center .dept-title { font-family: serif; font-style: italic; font-size: 1.15rem; color: #dc2626; font-weight: bold; }
+    .form-main-title {
+      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.15rem; font-weight: 900;
+      text-transform: uppercase; letter-spacing: 0.05em; color: #0f172a; text-align: center;
+      margin: 1.25rem 0 1.5rem; border: 2px solid #0f172a; padding: 0.5rem; background: #f8fafc;
+    }
+    .sec-head {
+      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.85rem; font-weight: 900;
+      text-transform: uppercase; color: #0f172a; background: #e2e8f0; padding: 0.35rem 0.75rem;
+      border-radius: 4px; margin: 1.25rem 0 0.75rem;
+    }
+    .form-row { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; margin-bottom: 0.75rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.25rem; flex: 1; min-width: 140px; }
+    .form-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: #334155; }
+    .form-input {
+      padding: 0.45rem 0.65rem; border: 1px solid #cbd5e1; border-radius: 6px;
+      font-size: 0.825rem; color: #0f172a; background: #f8fafc; font-family: inherit; width: 100%;
+    }
+    .form-input:focus { outline: none; border-color: #1e3a8a; background: white; }
+    .check-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 0.5rem; margin-top: 0.35rem; }
+    .table-custom { width: 100%; border-collapse: collapse; margin-top: 0.5rem; font-size: 0.8rem; }
+    .table-custom th, .table-custom td { border: 1px solid #cbd5e1; padding: 0.4rem 0.6rem; text-align: left; }
+    .table-custom th { background: #f1f5f9; font-weight: 800; text-transform: uppercase; }
+    @media print {
+      body { background: white; padding: 0; }
+      .toolbar { display: none !important; }
+      .document-page { box-shadow: none; border-radius: 0; padding: 1cm; max-width: 100%; margin-bottom: 0; }
+      .form-input { border: none; border-bottom: 1px solid #000; border-radius: 0; background: transparent; padding: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <div class="toolbar-title">
+      <span>🏗️ Municipal Engineering Office</span>
+      <span style="color: #64748b;">•</span>
+      <span style="color: #f59e0b;">Concrete Pouring Permit</span>
+    </div>
+    <div class="btn-group">
+      <a href="/Departments/Engineering" class="btn btn-outline">← Back</a>
+      <button onclick="window.print()" class="btn btn-primary">🖨️ Print Form</button>
+      <a href="/forms/engineering/concrete-pouring-permit.pdf" download class="btn btn-outline">⬇ Download PDF</a>
+    </div>
+  </div>
+
+  <div class="document-page">
+    <div class="header-center">
+      <h3>Republic of the Philippines • Province of Leyte</h3>
+      <div class="lgu-title">MUNICIPALITY OF TANAUAN</div>
+      <div class="dept-title">Municipal Engineering Office</div>
+    </div>
+
+    <div class="form-main-title">
+      CONCRETE POURING PERMIT / REQUEST FOR POURING INSPECTION
+    </div>
+
+    <div class="form-row" style="justify-content: space-between;">
+      <div class="form-group" style="max-width: 250px;">
+        <label class="form-label">Pouring Permit No.</label>
+        <input type="text" class="form-input">
+      </div>
+      <div class="form-group" style="max-width: 200px;">
+        <label class="form-label">Date of Application</label>
+        <input type="date" class="form-input">
+      </div>
+    </div>
+
+    <!-- I. PROJECT INFORMATION -->
+    <div class="sec-head">I. Project Information</div>
+    <div class="form-row">
+      <div class="form-group" style="flex: 2;">
+        <label class="form-label">Project Name</label>
+        <input type="text" class="form-input">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group" style="flex: 1.5;">
+        <label class="form-label">Project Location</label>
+        <input type="text" class="form-input">
+      </div>
+      <div class="form-group" style="flex: 1;">
+        <label class="form-label">Building / Structure</label>
+        <input type="text" class="form-input">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group" style="flex: 1.5;">
+        <label class="form-label">Contractor / Implementing Entity</label>
+        <input type="text" class="form-input">
+      </div>
+      <div class="form-group" style="flex: 1;">
+        <label class="form-label">Contract / P.O. No.</label>
+        <input type="text" class="form-input">
+      </div>
+    </div>
+
+    <!-- II. DETAILS OF CONCRETE POURING -->
+    <div class="sec-head">II. Details of Concrete Pouring</div>
+    <div class="form-group" style="margin-bottom: 0.75rem;">
+      <label class="form-label">Structural Member/s to be Poured:</label>
+      <div class="check-grid">
+        <label><input type="checkbox"> Footing</label>
+        <label><input type="checkbox"> Column</label>
+        <label><input type="checkbox"> Beam</label>
+        <label><input type="checkbox"> Slab</label>
+        <label><input type="checkbox"> Stair</label>
+        <label><input type="checkbox"> Wall</label>
+        <label><input type="checkbox"> Pavement</label>
+        <label><input type="checkbox"> Others</label>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group" style="flex: 1;">
+        <label class="form-label">Estimated Volume (m³)</label>
+        <input type="text" class="form-input" placeholder="m³">
+      </div>
+      <div class="form-group" style="flex: 1;">
+        <label class="form-label">Specified Strength f'c (MPa)</label>
+        <input type="text" class="form-input" placeholder="MPa / psi">
+      </div>
+      <div class="form-group" style="flex: 1;">
+        <label class="form-label">Concrete Mix</label>
+        <div style="display: flex; gap: 0.75rem; margin-top: 0.25rem;">
+          <label><input type="radio" name="mix"> Ready-Mix</label>
+          <label><input type="radio" name="mix"> Site-Mixed</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group" style="flex: 1;">
+        <label class="form-label">Date of Pouring</label>
+        <input type="date" class="form-input">
+      </div>
+      <div class="form-group" style="flex: 1;">
+        <label class="form-label">Expected Start Time</label>
+        <input type="time" class="form-input">
+      </div>
+      <div class="form-group" style="flex: 1;">
+        <label class="form-label">Expected Completion</label>
+        <input type="time" class="form-input">
+      </div>
+    </div>
+
+    <!-- III. PRE-POURING CHECKLIST -->
+    <div class="sec-head">III. Pre-Pouring Checklist</div>
+    <table class="table-custom">
+      <thead>
+        <tr>
+          <th style="width: 40px; text-align: center;">✓</th>
+          <th>Check Item</th>
+          <th style="width: 140px;">Remarks</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td style="text-align: center;"><input type="checkbox"></td><td>Formworks properly installed, aligned and adequately supported</td><td><input type="text" class="form-input" style="padding: 0.2rem;"></td></tr>
+        <tr><td style="text-align: center;"><input type="checkbox"></td><td>Reinforcing bars installed in accordance with approved plans</td><td><input type="text" class="form-input" style="padding: 0.2rem;"></td></tr>
+        <tr><td style="text-align: center;"><input type="checkbox"></td><td>Reinforcing bars properly tied and secured</td><td><input type="text" class="form-input" style="padding: 0.2rem;"></td></tr>
+        <tr><td style="text-align: center;"><input type="checkbox"></td><td>Required concrete cover provided</td><td><input type="text" class="form-input" style="padding: 0.2rem;"></td></tr>
+        <tr><td style="text-align: center;"><input type="checkbox"></td><td>Embedded items/sleeves/openings properly installed</td><td><input type="text" class="form-input" style="padding: 0.2rem;"></td></tr>
+        <tr><td style="text-align: center;"><input type="checkbox"></td><td>Construction joints properly prepared</td><td><input type="text" class="form-input" style="padding: 0.2rem;"></td></tr>
+        <tr><td style="text-align: center;"><input type="checkbox"></td><td>Forms and area are clean and free from debris</td><td><input type="text" class="form-input" style="padding: 0.2rem;"></td></tr>
+        <tr><td style="text-align: center;"><input type="checkbox"></td><td>Access and working area are safe and adequate</td><td><input type="text" class="form-input" style="padding: 0.2rem;"></td></tr>
+        <tr><td style="text-align: center;"><input type="checkbox"></td><td>Concrete materials/equipment are available and ready</td><td><input type="text" class="form-input" style="padding: 0.2rem;"></td></tr>
+        <tr><td style="text-align: center;"><input type="checkbox"></td><td>Approved plans are available at the work site</td><td><input type="text" class="form-input" style="padding: 0.2rem;"></td></tr>
+      </tbody>
+    </table>
+
+    <!-- IV. POURING CLEARANCE -->
+    <div class="sec-head">IV. Pouring Clearance &amp; Inspection Result</div>
+    <div style="margin: 0.5rem 0;">
+      <label style="margin-right: 1.5rem;"><input type="radio" name="clearance"> <strong>CLEARED FOR CONCRETE POURING</strong></label>
+      <label><input type="radio" name="clearance"> <strong>NOT CLEARED – CORRECTIONS REQUIRED</strong></label>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; gap: 2rem; margin-top: 2rem;">
+      <div style="flex: 1; text-align: center;">
+        <div style="border-bottom: 1.5px solid #0f172a; height: 35px; margin-bottom: 0.35rem;"></div>
+        <strong style="font-size: 0.8rem; text-transform: uppercase;">Contractor / Authorized Representative</strong>
+      </div>
+      <div style="flex: 1; text-align: center;">
+        <div style="border-bottom: 1.5px solid #0f172a; height: 35px; margin-bottom: 0.35rem;"></div>
+        <strong style="font-size: 0.8rem; text-transform: uppercase;">Municipal Engineering Office Representative</strong>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

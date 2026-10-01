@@ -327,7 +327,7 @@ export const DEPT_DEFAULTS = {
     officeName: 'Municipal Engineering Office',
     officeCode: 'MEO',
     category: 'Infrastructure & Public Works',
-    citizensCharterUrl: '/citizens-charter',
+    citizensCharterUrl: '/citizens-charter/engineering',
     tagline: 'Designing, constructing, and maintaining public infrastructure to support the development and progress of the Municipality of Tanauan.',
     typewriterWords: [
       'Building Tanauan\'s Infrastructure',
@@ -335,7 +335,16 @@ export const DEPT_DEFAULTS = {
       'Safe Roads & Resilient Communities',
       'Engineering Excellence for Progress'
     ],
-    head: { name: '', title: 'Municipal Engineer', term: 'Department Head', quote: 'Quality infrastructure is the foundation of community development and the driver of economic progress.', credentials: ['Licensed Civil Engineer', 'Public Works Specialist', 'Registered Electrical Engineer'], room: 'Municipal Hall, Tanauan, Leyte', schedule: 'Monday – Friday: 8:00 AM – 5:00 PM' },
+    head: { 
+      name: 'Engr. Raul S. Soliva', 
+      title: 'Municipal Engineer', 
+      term: 'Department Head', 
+      quote: 'Quality infrastructure is the foundation of community development and the driver of economic progress.', 
+      credentials: ['Licensed Civil Engineer', 'Municipal Engineer', 'Building Official'], 
+      room: 'Municipal Engineering Office, Tanauan Town Hall, Real St., Tanauan, Leyte', 
+      schedule: 'Monday – Friday: 8:00 AM – 5:00 PM',
+      image: '/Engineering/soliva-raul.jpg'
+    },
     stats: [
       { value: '54', suffix: '', label: 'Barangays Served', description: 'Infrastructure projects across all 54 barangays' },
       { value: '100', suffix: '%', label: 'Project Compliance', description: 'Full compliance with DPWH and building code standards' },
@@ -347,7 +356,418 @@ export const DEPT_DEFAULTS = {
       { index: '02', code: 'MAINT', title: 'Infrastructure Maintenance', description: 'Maintains all municipal infrastructure to ensure safety, functionality, and longevity.', tag: 'Maintenance', details: ['Road & Bridge Maintenance', 'Public Building Upkeep', 'Emergency Repair Response'] },
       { index: '03', code: 'BUILD-PERMIT', title: 'Building Permit Processing', description: 'Reviews and processes building permit applications to ensure compliance with building codes and standards.', tag: 'Regulatory', details: ['Building Permit Issuance', 'Plan Review & Approval', 'Occupancy Permit Processing'] }
     ],
-    schedule: { hours: 'Monday – Friday | 8:00 AM – 5:00 PM', location: 'Tanauan Municipal Hall, Real St., Tanauan, Leyte', contactNumber: '', email: 'engineering@tanauanleyte.gov.ph', helpline: 'Engineering Office, Municipal Hall Ground Floor' }
+    schedule: { hours: 'Monday – Friday | 8:00 AM – 5:00 PM', location: 'Tanauan Municipal Hall, Real St., Tanauan, Leyte', contactNumber: '', email: '' },
+    downloadableForms: [
+      {
+        index: '01',
+        category: 'Building Permit',
+        title: 'Checklist of Building Permit Documents Appended to the Application',
+        type: 'Application Checklist • PD 1096',
+        icon: '📋',
+        description: 'Official checklist of documents required for Building Permit applications covering architectural, structural, sanitary/plumbing, electrical, and mechanical plans, MPDC zoning clearances, and proof of land ownership.',
+        format: 'Official PDF Document',
+        fileSize: '143 KB',
+        url: '/forms/engineering/checklist-building-permit.pdf',
+        downloadUrl: '/forms/engineering/checklist-building-permit.pdf',
+        htmlUrl: '/forms/engineering/checklist-building-permit.html',
+        requirements: [
+          'Unified Building Permit Application Form (7 copies, signed and sealed, notarized)',
+          'Construction Logbook (2 official copies)',
+          'Complete Architectural, Structural, Electrical, Plumbing/Sanitary & Mechanical Plans (5-7 sets)',
+          'Bill of Materials & Cost Estimates (Typed, 7 copies, signed and sealed, notarized)',
+          'Building Specifications & Structural Design Computations (2 original copies)',
+          'MPDC Zoning & Locational Clearances (5 copies)',
+          'Proof of Land Ownership (Tax Dec, Title, Deed of Sale, or Lease Contract - 5 copies)',
+          'Fire Safety Evaluation Clearance (FSEC) from Bureau of Fire Protection',
+          'PRC & PTR IDs of all signing Engineers and Architects (5 copies)',
+          'Barangay Clearance & DPWH Road Right-of-Way Clearance (if along national highway)'
+        ]
+      },
+      {
+        index: '02',
+        category: 'Building Permit',
+        title: 'Architectural Permit Application Form (NBC Form No. A-01)',
+        type: 'NBC Form No. A-01 • Architectural Code',
+        icon: '🏛️',
+        description: 'Official National Building Code application form for architectural plans, spatial programming, Batas Pambansa Bilang 344 (Accessibility Law) facilities, and Fire Code conformance.',
+        format: 'Official PDF Document',
+        fileSize: '173 KB',
+        url: '/forms/engineering/architectural-permit.pdf',
+        downloadUrl: '/forms/engineering/architectural-permit.pdf',
+        htmlUrl: '/forms/engineering/architectural-permit.html',
+        requirements: [
+          'Box 1: Accomplished in print by the Owner/Applicant with complete property identification',
+          'Box 2: BP 344 accessibility features, percentage of site occupancy, and Fire Code compliance',
+          'Box 3: Design professional plans and specifications signed and sealed by registered Architect',
+          'Box 4: Supervisor / In-Charge of architectural works signed and sealed by registered Architect',
+          'Box 5 & 6: Building Owner signature and Lot Owner written consent',
+          'Five (5) complete sets of architectural drawings, floor plans, elevations, sections, and schedules'
+        ]
+      },
+      {
+        index: '03',
+        category: 'Building Permit',
+        title: 'Electrical Permit Application Form',
+        type: 'Electrical Code of the Philippines • DPWH/OBO',
+        icon: '⚡',
+        description: 'Official application form for electrical installations, service entrance connections, transformers, generators/UPS capacity, and Philippine Electrical Code compliance.',
+        format: 'Official PDF Document',
+        fileSize: '188 KB',
+        url: '/forms/engineering/electrical-permit.pdf',
+        downloadUrl: '/forms/engineering/electrical-permit.pdf',
+        htmlUrl: '/forms/engineering/electrical-permit.html',
+        requirements: [
+          'Box 1: Accomplished in print by applicant with load summary (connected load, transformer, generator)',
+          'Box 2: Plans and specifications signed and sealed by Professional Electrical Engineer (PEE)',
+          'Box 3: Supervisor of electrical works signed and sealed by PEE, REE, or Licensed Master Electrician',
+          'Box 4 & 5: Building Owner and Lot Owner consent signatures',
+          'Five (5) sets of electrical plans, single-line riser diagram, and load computation',
+          'PCAB electrical contractor license for installations of 200A / 230V and above'
+        ]
+      },
+      {
+        index: '04',
+        category: 'Building Permit',
+        title: 'Electronics Permit Application Form (NBC Form No. A-07)',
+        type: 'NBC Form No. A-07 • Electronics Code',
+        icon: '📡',
+        description: 'Prescribed permit for telecommunications, broadcast, CCTV security, fire alarm systems, IT networks, building automation, and structured cabling/optical fiber.',
+        format: 'Official PDF Document',
+        fileSize: '151 KB',
+        url: '/forms/engineering/electronics-permit.pdf',
+        downloadUrl: '/forms/engineering/electronics-permit.pdf',
+        htmlUrl: '/forms/engineering/electronics-permit.html',
+        requirements: [
+          'Box 1: Accomplished in print by Owner/Applicant with location and scope of work',
+          'Box 2: Nature of installation works and electronics equipment systems',
+          'Box 3: Plans and specifications signed and sealed by Professional Electronics Engineer (PECE)',
+          'Box 4: Supervisor/In-Charge signed and sealed by Professional Electronics Engineer (PECE)',
+          'Box 5 & 6: Building Owner and Lot Owner written consent',
+          'Five (5) sets of electronic documents, system layout schematics, and bill of materials'
+        ]
+      },
+      {
+        index: '05',
+        category: 'Building Permit',
+        title: 'Demolition Permit Application Form',
+        type: 'DPWH Accessory Form • Rule XI Safety Code',
+        icon: '🏗️',
+        description: 'Official permit required prior to the demolition of any building or structure, enforcing Rule XI safety standards, utility line disconnections, and full-time professional supervision.',
+        format: 'Official PDF Document',
+        fileSize: '162 KB',
+        url: '/forms/engineering/demolition-permit.pdf',
+        downloadUrl: '/forms/engineering/demolition-permit.pdf',
+        htmlUrl: '/forms/engineering/demolition-permit.html',
+        requirements: [
+          'Box 1: Accomplished by Owner/Applicant with demolition scope and location details',
+          'Box 2 & 3: Demolition plans and specifications signed and sealed by Architect or Civil Engineer',
+          'Box 4: Building Owner and Lot Owner signed conformity',
+          'Certification that building is not subject to any pending court litigation',
+          'Disconnection of all electric, water, gas, and telephone lines prior to demolition work',
+          'Written notice to the Office of the Building Official at least five (5) days prior to demolition'
+        ]
+      },
+      {
+        index: '06',
+        category: 'Building Permit',
+        title: 'Sanitary / Plumbing Permit Application Form',
+        type: 'Plumbing Code of the Philippines • DPWH/OBO',
+        icon: '🚿',
+        description: 'Official permit application for sanitary sewer connections, potable water piping distribution, septic vault construction, and plumbing fixture compliance.',
+        format: 'Official PDF Document',
+        fileSize: '191 KB',
+        url: '/forms/engineering/sanitary-permit.pdf',
+        downloadUrl: '/forms/engineering/sanitary-permit.pdf',
+        htmlUrl: '/forms/engineering/sanitary-permit.html',
+        requirements: [
+          'Accomplished application with fixtures summary and plumbing specifications',
+          'Plans and specs signed and sealed by Licensed Sanitary Engineer or Master Plumber',
+          'Building Owner and Lot Owner signatures',
+          'Five (5) sets of sanitary/plumbing plans, isometric pipe layout, and septic tank details'
+        ]
+      },
+      {
+        index: '07',
+        category: 'Building Permit',
+        title: 'Structural Permit Application Form',
+        type: 'National Structural Code of the Philippines (NSCP)',
+        icon: '🏢',
+        description: 'Prescribed structural permit covering concrete, steel, timber, and foundation engineering works in full compliance with seismic and wind load safety codes.',
+        format: 'Official PDF Document',
+        fileSize: '219 KB',
+        url: '/forms/engineering/structural-permit.pdf',
+        downloadUrl: '/forms/engineering/structural-permit.pdf',
+        htmlUrl: '/forms/engineering/structural-permit.html',
+        requirements: [
+          'Structural design computation sheets signed and sealed by Licensed Civil/Structural Engineer',
+          'Foundation, column, beam, slab, and framing details (5 sets)',
+          'Boring test and geotechnical soil investigation report (for commercial/multi-story structures)',
+          'Material strength specifications and concrete mix design standards'
+        ]
+      },
+      {
+        index: '08',
+        category: 'Fencing Permit',
+        title: 'Checklist of Fencing Permit Documents Appended to the Application',
+        type: 'Application Checklist • Fencing',
+        icon: '🚧',
+        description: 'Official checklist of documents required for Fencing Permit applications, including perspective, site development, foundation plan, structural details, MPDC clearances, and proof of land ownership.',
+        format: 'Official PDF Document',
+        fileSize: '135 KB',
+        url: '/forms/engineering/checklist-fencing-permit.pdf',
+        downloadUrl: '/forms/engineering/checklist-fencing-permit.pdf',
+        htmlUrl: '/forms/engineering/checklist-fencing-permit.html',
+        requirements: [
+          'Fencing Permit Application Form (7 copies, signed and sealed by licensed Architect or Civil Engineer)',
+          'Construction Logbook (2 official copies)',
+          'Perspective, Location Plan & Site Development Plan (Scale 1:200m)',
+          'Floor Plan, Elevations, Sections & Foundation Plan (Scale 1:100m)',
+          'Structural Details: Columns, Wall & Column Footings (Scale 1:20m)',
+          'Bill of Materials & Cost Estimates (Typed, 7 copies, signed and sealed)',
+          'Building Specifications (Original copy, 7 copies)',
+          'Zoning / Land Use & Locational Clearance from MPDC (5 copies)',
+          'Proof of Land Ownership / Right to Use (Tax Dec, Title, Deed of Sale, or Lease - 5 copies)',
+          'Fire Safety Clearance Certificate from BFP (if electrical layout is on fence design)',
+          'PRC & PTR IDs of Civil Engineer & Architect (5 copies)',
+          'Barangay Clearance & DPWH Road Right-of-Way Clearance (if along national highway)'
+        ]
+      },
+      {
+        index: '09',
+        category: 'Fencing Permit',
+        title: 'Fencing Permit Application Form',
+        type: 'DPWH Accessory Form • Line & Grade',
+        icon: '📐',
+        description: 'Official application form for the construction, erection, addition, alteration, or renovation of fences, including measurements (length & height), fencing materials, and relocation survey compliance.',
+        format: 'Official PDF Document',
+        fileSize: '226 KB',
+        url: '/forms/engineering/fencing-permit.pdf',
+        downloadUrl: '/forms/engineering/fencing-permit.pdf',
+        htmlUrl: '/forms/engineering/fencing-permit.html',
+        requirements: [
+          'Box 1: Accomplished in print by the Applicant with property and location details',
+          'Box 7: Measurements (length & height in meters) and Type of Fencing (R.C., hollow blocks, bricks, cyclone wire, steel matting)',
+          'Box 2: Design professional plans and specifications signed and sealed by Architect or Civil Engineer',
+          'Box 3: Full-time inspector and supervisor of construction works signed and sealed by Architect or Civil Engineer',
+          'Box 4 & 5: Building Owner signature and Lot Owner written consent',
+          'Relocation survey conducted by a licensed Geodetic Engineer prior to commencement',
+          'Written notification to owners of adjoining buildings at least 10 days before excavation'
+        ]
+      },
+      {
+        index: '10',
+        category: 'Occupancy Permit',
+        title: 'Unified Application Form for Certificate of Occupancy',
+        type: 'NBCP Rule III Application Form',
+        icon: '📑',
+        description: 'Official unified application form for Certificate of Occupancy (Full or Partial) and joint Fire Safety Inspection Certificate (FSIC) endorsed to the Bureau of Fire Protection.',
+        format: 'Official PDF Document',
+        fileSize: '206 KB',
+        url: '/forms/engineering/unified-application-occupancy.pdf',
+        downloadUrl: '/forms/engineering/unified-application-occupancy.pdf',
+        htmlUrl: '/forms/engineering/unified-application-occupancy.html',
+        requirements: [
+          'Accomplished in print by the Applicant/Owner with complete project and property information',
+          'Declaration of Full or Partial Occupancy request and FSIC application',
+          'Gross floor area, storeys, units, and actual date of completion',
+          'Attested by Full-Time Inspector or Supervisor of Construction (Licensed Architect or Civil Engineer)',
+          'Community Tax Certificate (CTC) details of applicant and supervising engineer'
+        ]
+      },
+      {
+        index: '11',
+        category: 'Occupancy Permit',
+        title: 'Certificate of Completion Form',
+        type: 'NBCP Rule III Completion Clearance',
+        icon: '✅',
+        description: 'Official 2-page sworn certification executed by the supervising architect/civil engineer, contractor, and trade specialists (electrical, mechanical, sanitary, electronics) prior to occupancy approval.',
+        format: 'Official PDF Document',
+        fileSize: '983 KB',
+        url: '/forms/engineering/certificate-of-completion.pdf',
+        downloadUrl: '/forms/engineering/certificate-of-completion.pdf',
+        htmlUrl: '/forms/engineering/certificate-of-completion.html',
+        requirements: [
+          'Notarized sworn certification signed by supervising Architect/Civil Engineer',
+          'Summary of actual construction costs: materials, labor, equipment, and total building cost',
+          'Contractor/AMO conformity and PCAB license details',
+          'Signatures and professional seals of all design trade practitioners (Architect, Civil, Electrical, Mechanical, Sanitary, Electronics, Interior)',
+          'Signatures of full-time specialty works construction supervisors'
+        ]
+      },
+      {
+        index: '12',
+        category: 'Occupancy Permit',
+        title: 'Certificate of Occupancy Form',
+        type: 'Official Building Official Certificate',
+        icon: '🏠',
+        description: 'Official certificate authorized and issued by the Municipal Building Official confirming that the building conforms with PD 1096 and is approved for physical occupancy.',
+        format: 'Official PDF Document',
+        fileSize: '183 KB',
+        url: '/forms/engineering/certificate-of-occupancy.pdf',
+        downloadUrl: '/forms/engineering/certificate-of-occupancy.pdf',
+        htmlUrl: '/forms/engineering/certificate-of-occupancy.html',
+        requirements: [
+          'Official certificate issued and authorized by the Municipal Building Official',
+          'Certified copy required to be posted visibly within the premises of the building/structure',
+          'Full or Partial Occupancy determination and FSIC reference number',
+          'Official Receipt and Building Permit reference validation',
+          'Strict adherence to the approved character and group of occupancy'
+        ]
+      },
+      {
+        index: '13',
+        category: 'Downloadable Checklist',
+        title: 'Checklist for Electrical Connection',
+        type: 'DORELCO Utility Prerequisite Checklist',
+        icon: '⚡',
+        description: 'Official prerequisite checklist for electrical service connection in Tanauan, including DORELCO application, electrical layout plan, permit form, tax declaration, land ownership, and clearances.',
+        format: 'Official PDF Document',
+        fileSize: '82 KB',
+        url: '/forms/engineering/checklist-electrical-connection.pdf',
+        downloadUrl: '/forms/engineering/checklist-electrical-connection.pdf',
+        htmlUrl: '/forms/engineering/checklist-electrical-connection.html',
+        requirements: [
+          'Approved Application Form from DORELCO',
+          'Electrical Layout Plan signed and sealed by Professional Electrical Engineer',
+          'Duly accomplished Electrical Permit Form',
+          'Tax Declaration R13 (2 Photocopies)',
+          'Mode of Ownership / Right over land (2 Photocopies)',
+          '2 Photocopies of Entry pass and Certificate of Award (if Pabahay Beneficiary)',
+          'Picture of the house/structure inside and outside with the ABE & signed by the ABE',
+          'Detailed Engineering Drawing signed by the Civil Engineer/Architect (5 sets)',
+          'Barangay Certification / Clearance (1 Photocopy)',
+          'Locational Clearance from MPDC',
+          'Reduced Copy of Electrical Layout Plan (1 copy)',
+          'Fire Safety Inspection Certificate (FSIC) from BFP'
+        ]
+      },
+      {
+        index: '14',
+        category: 'Downloadable Checklist',
+        title: 'Checklist for Water Connection',
+        type: 'Primewater Utility Prerequisite Checklist',
+        icon: '🚰',
+        description: 'Official prerequisite checklist for municipal water service connection, including Primewater application, tax declaration, mode of ownership, house photo, engineering drawings, and barangay clearance.',
+        format: 'Official PDF Document',
+        fileSize: '80 KB',
+        url: '/forms/engineering/checklist-water-connection.pdf',
+        downloadUrl: '/forms/engineering/checklist-water-connection.pdf',
+        htmlUrl: '/forms/engineering/checklist-water-connection.html',
+        requirements: [
+          'Approved Application Form from Primewater',
+          'Tax Declaration R13 (2 Photocopies)',
+          'Mode of Ownership / Right over land (2 Photocopies)',
+          'Picture of the house (2 photocopies)',
+          'Detailed Engineering Drawing signed by the Civil Engineer/Architect (5 sets)',
+          'Barangay Certification / Clearance (1 Photocopy)'
+        ]
+      },
+      {
+        index: '15',
+        category: 'Downloadable Checklist',
+        title: 'Checklist for Occupancy Permit',
+        type: 'Section 309 NBCP Prerequisite Checklist',
+        icon: '📋',
+        description: 'Official prerequisite checklist of documents required for Certificate of Occupancy issuance, including notarized completion certificates, unified application, logbook, as-built plans, and FSIC.',
+        format: 'Official PDF Document',
+        fileSize: '83 KB',
+        url: '/forms/engineering/checklist-occupancy-permit.pdf',
+        downloadUrl: '/forms/engineering/checklist-occupancy-permit.pdf',
+        htmlUrl: '/forms/engineering/checklist-occupancy-permit.html',
+        requirements: [
+          '5 Copies of duly accomplished & notarized Certificate of Completion signed by owner and licensed Architect/Civil Engineer (and Contractor/AMO if contract)',
+          '5 Copies of duly accomplished Unified Application Form for Occupancy',
+          '1 copy of the Construction Logbook with records of construction processes',
+          '3 Photocopies of valid PRC licenses and PTR of all involved professionals',
+          'Photograph of the Structure with substantial completion showing front, sides, and rear areas',
+          '2 Photocopies of Approved Building Permit Certificate and Order of Payment',
+          '4 sets of As-built plans (if changes occurred from the issued Building Permit)',
+          'Fire Safety Inspection Certificate (FSIC) issued from the Municipal Fire Station'
+        ]
+      },
+      {
+        index: '16',
+        category: 'Burial Permit',
+        title: 'Tanauan New Cemetery Extension Burial Permit Form',
+        type: 'Municipal Cemetery Lot Assignment & Burial Clearance',
+        icon: '🪦',
+        description: 'Official application and lot assignment permit for the Tanauan New Cemetery Extension, including panel, row, and level allocations, and prescribed fee schedules for individual lots and niches.',
+        format: 'Official PDF Document',
+        fileSize: '106 KB',
+        url: '/forms/engineering/burial-permit.pdf',
+        downloadUrl: '/forms/engineering/burial-permit.pdf',
+        htmlUrl: '/forms/engineering/burial-permit.html',
+        requirements: [
+          'Section 1: Applicant Information (Name, Age, Sex, Civil Status, Contact No., Occupation, Complete Address)',
+          'Deceased Information: Full name of deceased (†) and Age in years',
+          'Section 2: Lot Assignment details (Lot No./Panel, Row, Level, Application No., Block, Lot, Date)',
+          'Section 3: Lot Type selection (Individual Grave Lot, Perimeter Layer Niches Renewal, 5-Yr/10-Yr Rental or Sale, or Family Lots)',
+          'Official burial permit and municipal fee assessment payment compliance'
+        ]
+      },
+      {
+        index: '17',
+        category: 'Project Implementation Form',
+        title: 'Request for Program of Work / Detailed Estimate',
+        type: 'POW & Project Allocation Request',
+        icon: '📐',
+        description: 'Official form to request the preparation of Program of Work (POW) and detailed cost estimates for municipal infrastructure projects, including roadway zoning safeguards and final inspection checklists.',
+        format: 'Official PDF Document',
+        fileSize: '314 KB',
+        url: '/forms/engineering/request-for-program-of-work.pdf',
+        downloadUrl: '/forms/engineering/request-for-program-of-work.pdf',
+        htmlUrl: '/forms/engineering/request-for-program-of-work.html',
+        requirements: [
+          'Name of project, appropriation, and fund source',
+          'Implementation mode: By Administration or By Contract',
+          'Social safeguard / zoning certification for existing roadway or Deed of Donation',
+          'Drawing plans, detailed estimate, and contract copies',
+          'Pre-construction and post-construction photographs',
+          'Barangay Chairman conformity and Municipal Mayor approval'
+        ]
+      },
+      {
+        index: '18',
+        category: 'Project Implementation Form',
+        title: 'Concrete Pouring Permit & Request for Pouring Inspection',
+        type: 'Structural Inspection & Quality Clearance',
+        icon: '🏗️',
+        description: 'Official pre-pouring checklist and municipal inspection clearance permit for concrete pouring across footing, column, beam, slab, wall, and pavement works.',
+        format: 'Official PDF Document',
+        fileSize: '207 KB',
+        url: '/forms/engineering/concrete-pouring-permit.pdf',
+        downloadUrl: '/forms/engineering/concrete-pouring-permit.pdf',
+        htmlUrl: '/forms/engineering/concrete-pouring-permit.html',
+        requirements: [
+          'Structural member identification (footing, column, beam, slab, wall, pavement)',
+          'Estimated volume (m³) and specified concrete compressive strength f\'c (MPa)',
+          'Delivery method: pump, transit mixer, manual',
+          'Pre-pouring checklist verification (formworks, rebars, spacing, cover, joints)',
+          'Concrete cylinder samples and slump testing compliance',
+          'MEO inspection result and Pouring Clearance sign-off'
+        ]
+      },
+      {
+        index: '19',
+        category: 'Project Implementation Form',
+        title: 'Request for Final Inspection of Completed Project',
+        type: 'Project Completion Verification',
+        icon: '🔍',
+        description: 'Official formal request for Municipal Engineering Office final inspection of completed infrastructure projects prior to acceptance and final payment processing.',
+        format: 'Official PDF Document',
+        fileSize: '36 KB',
+        url: '/forms/engineering/request-for-final-inspection.pdf',
+        downloadUrl: '/forms/engineering/request-for-final-inspection.pdf',
+        htmlUrl: '/forms/engineering/request-for-final-inspection.html',
+        requirements: [
+          'Project name, location, and contractor details',
+          'Contract/PO number and contract amount',
+          'Dates of commencement and completion',
+          'Contractor certification of completion in accordance with approved plans',
+          'MEO receiving acknowledgment and verification schedule'
+        ]
+      }
+    ]
   },
   GSO: {
     officeName: 'General Services Office',
