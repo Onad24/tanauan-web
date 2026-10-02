@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Individual Treatment Record (Dental) — Municipal Health Office, Tanauan, Leyte</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #0f172a;
+      color: #0f172a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem;
+      font-family: 'Inter', -apple-system, sans-serif;
+    }
+
+    .toolbar {
+      width: 100%;
+      max-width: 950px;
+      margin-bottom: 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      background: #1e293b;
+      color: white;
+      padding: 0.85rem 1.5rem;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .toolbar-title {
+      font-size: 0.85rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #38bdf8;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .btn {
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.2s;
+      text-decoration: none;
+      border: none;
+    }
+
+    .btn-primary {
+      background: #f59e0b;
+      color: #0f172a;
+    }
+    .btn-primary:hover {
+      background: #fbbf24;
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .document-page {
+      background: white;
+      width: 100%;
+      max-width: 950px;
+      padding: 2.5rem 3rem;
+      border-radius: 12px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      position: relative;
+      margin-bottom: 2rem;
+    }
+
+    .header-table {
+      width: 100%;
+      margin-bottom: 1.25rem;
+    }
+
+    .header-text {
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    .header-text h3 {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #475569;
+      text-transform: uppercase;
+    }
+
+    .header-text h2 {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    .header-text h1 {
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: #0369a1;
+      letter-spacing: 0.05em;
+      margin-top: 0.2rem;
+      text-transform: uppercase;
+    }
+
+    .title-banner {
+      background: #f8fafc;
+      border: 2px solid #0f172a;
+      text-align: center;
+      padding: 0.4rem;
+      margin: 1rem 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .form-top-meta {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 700;
+      font-size: 0.85rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .patient-info-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 0.5rem 1rem;
+      font-size: 0.82rem;
+      margin-bottom: 1.25rem;
+      border-bottom: 2px solid #cbd5e1;
+      padding-bottom: 1rem;
+    }
+
+    .field-row {
+      display: flex;
+      align-items: flex-end;
+      gap: 0.4rem;
+    }
+
+    .field-label {
+      font-weight: 700;
+      color: #1e293b;
+      white-space: nowrap;
+    }
+
+    .field-line {
+      flex: 1;
+      border-bottom: 1px solid #475569;
+      min-height: 1.2rem;
+    }
+
+    .section-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #0f172a;
+      background: #e2e8f0;
+      padding: 0.35rem 0.6rem;
+      margin-bottom: 0.6rem;
+      border-left: 4px solid #0284c7;
+    }
+
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+
+    table.data-table th, table.data-table td {
+      border: 1px solid #64748b;
+      padding: 0.35rem 0.45rem;
+      text-align: center;
+    }
+
+    table.data-table th {
+      background: #f1f5f9;
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    table.data-table td.left {
+      text-align: left;
+    }
+
+    .chart-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .tooth-row {
+      display: flex;
+      border: 1px solid #0f172a;
+      font-family: monospace;
+      font-size: 0.75rem;
+    }
+
+    .tooth-cell {
+      flex: 1;
+      text-align: center;
+      border-right: 1px solid #94a3b8;
+      padding: 0.25rem 0;
+    }
+    .tooth-cell:last-child {
+      border-right: none;
+    }
+
+    .legend-box {
+      border: 1.5px solid #0f172a;
+      padding: 0.75rem;
+      background: #f8fafc;
+      font-size: 0.72rem;
+      line-height: 1.5;
+      margin-top: 1rem;
+    }
+
+    @media print {
+      body {
+        background: white;
+        padding: 0;
+      }
+      .toolbar {
+        display: none;
+      }
+      .document-page {
+        box-shadow: none;
+        padding: 1.5cm;
+        max-width: 100%;
+        page-break-after: always;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="toolbar">
+    <div class="toolbar-title">
+      <span>🦷</span> MHO Form 1 — Individual Treatment Record (Dental)
+    </div>
+    <div class="btn-group">
+      <a href="/Departments/Health%20Office#forms" class="btn btn-outline">
+        ← Back to Health Office
+      </a>
+      <button onclick="window.print()" class="btn btn-primary">
+        🖨️ Print Form
+      </button>
+      <a href="/forms/health-office/MHO-Individual-Treatment-Record-Dental.pdf" download class="btn btn-outline">
+        ⬇️ Download PDF
+      </a>
+    </div>
+  </div>
+
+  <!-- PAGE 1 OF 2 -->
+  <div class="document-page">
+    <div class="form-top-meta">
+      <span>Form 1</span>
+      <span>File No. ____________________</span>
+    </div>
+
+    <table class="header-table">
+      <tr>
+        <td style="width: 70px; text-align: center; vertical-align: middle;">
+          <img src="/HRMO/official-seal.png" alt="Tanauan Official Seal" style="width: 60px; height: 60px; border-radius: 50%;">
+        </td>
+        <td class="header-text">
+          <h3>Republic of the Philippines • Province of Leyte</h3>
+          <h2>MUNICIPALITY OF TANAUAN, LEYTE</h2>
+          <h1>MUNICIPAL HEALTH OFFICE</h1>
+        </td>
+        <td style="width: 70px;"></td>
+      </tr>
+    </table>
+
+    <div class="title-banner">
+      Individual Treatment Record (Dental Health Services)
+    </div>
+
+    <div class="patient-info-grid">
+      <div class="field-row" style="grid-column: span 3;">
+        <span class="field-label">Name:</span>
+        <div class="field-line"></div>
+        <span style="font-size: 0.7rem; color: #64748b;">(Surname, First Name, M.I.)</span>
+      </div>
+
+      <div class="field-row">
+        <span class="field-label">Date of Birth:</span>
+        <div class="field-line"></div>
+      </div>
+      <div class="field-row">
+        <span class="field-label">Age:</span>
+        <div class="field-line"></div>
+      </div>
+      <div class="field-row">
+        <span class="field-label">Sex:</span>
+        <div class="field-line"></div>
+      </div>
+
+      <div class="field-row" style="grid-column: span 3;">
+        <span class="field-label">Place of Birth:</span>
+        <div class="field-line"></div>
+      </div>
+
+      <div class="field-row" style="grid-column: span 3;">
+        <span class="field-label">Address:</span>
+        <div class="field-line"></div>
+      </div>
+
+      <div class="field-row" style="grid-column: span 2;">
+        <span class="field-label">Occupation:</span>
+        <div class="field-line"></div>
+      </div>
+      <div class="field-row">
+        <span class="field-label">Civil Status:</span>
+        <div class="field-line"></div>
+      </div>
+
+      <div class="field-row" style="grid-column: span 3;">
+        <span class="field-label">Parent / Guardian:</span>
+        <div class="field-line"></div>
+      </div>
+
+      <div class="field-row" style="grid-column: span 3;">
+        <span class="field-label">Medical History / Allergies:</span>
+        <div class="field-line"></div>
+      </div>
+    </div>
+
+    <!-- ORAL HEALTH STATUS SECTION -->
+    <div class="section-title">A. Oral Health Status Checklist</div>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="width: 45%;">Condition / Examination Finding</th>
+          <th style="width: 15%;">Present (✓) / Absent (X)</th>
+          <th style="width: 25%;">Permanent Dentition Count</th>
+          <th style="width: 15%;">Number</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="left">Date of Oral Examination</td>
+          <td></td>
+          <td class="left">No. of Perm. Teeth Present</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td class="left">Dental Caries</td>
+          <td></td>
+          <td class="left">No. of Perm. Sound Teeth</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td class="left">Gingivitis / Periodontal Disease</td>
+          <td></td>
+          <td class="left">No. of Decayed Teeth (D)</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td class="left">Oral Debris & Plaque Accumulation</td>
+          <td></td>
+          <td class="left">No. of Missing Teeth (M)</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td class="left">Dental Calculus (Supragingival/Subgingival)</td>
+          <td></td>
+          <td class="left">No. of Filled Teeth (F)</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td class="left">Abnormal Tissue Growth / Lesion</td>
+          <td></td>
+          <td class="left font-bold" style="background: #f1f5f9;">Total DMF Teeth (D+M+F)</td>
+          <td class="font-bold"></td>
+        </tr>
+        <tr>
+          <td class="left">Cleft Lip / Palate</td>
+          <td></td>
+          <td class="left">No. of Decayed Temp Teeth (d)</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td class="left">Others (Supernumerary, Mesiodens, etc.)</td>
+          <td></td>
+          <td class="left font-bold" style="background: #f1f5f9;">Total df Teeth (d+f)</td>
+          <td class="font-bold"></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- SUMMARY OF SERVICES REFERRED -->
+    <div class="section-title">B. Summary of Services Referred & Rendered</div>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="width: 12%;">Date</th>
+          <th style="width: 8%;">Tooth No.</th>
+          <th style="width: 10%;">Oral Prophy</th>
+          <th style="width: 10%;">Temp. Filling</th>
+          <th style="width: 10%;">Perm. Filling</th>
+          <th style="width: 8%;">Sealant</th>
+          <th style="width: 8%;">Exo</th>
+          <th style="width: 12%;">Consultation</th>
+          <th style="width: 12%;">Others (Specify)</th>
+          <th style="width: 10%;">Remarks</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td style="height: 1.6rem;"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td style="height: 1.6rem;"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td style="height: 1.6rem;"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td style="height: 1.6rem;"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td style="height: 1.6rem;"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      </tbody>
+    </table>
+
+    <div style="display: flex; justify-content: flex-end; margin-top: 1.5rem;">
+      <div style="text-align: center; width: 280px;">
+        <div style="border-bottom: 1.5px solid #0f172a; height: 1.5rem; margin-bottom: 0.35rem;"></div>
+        <div style="font-size: 0.8rem; font-weight: 800; text-transform: uppercase;">Attending Government Dentist</div>
+        <div style="font-size: 0.7rem; color: #475569;">License No. & Official Stamp</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 2 OF 2: DENTITION MONITORING CHART -->
+  <div class="document-page">
+    <div class="section-title">C. Five-Year Oral Health Condition Charting</div>
+    
+    <div class="chart-grid">
+      <div>
+        <div style="font-size: 0.78rem; font-weight: 800; margin-bottom: 0.25rem;">YEAR 1 — Date: _________________</div>
+        <div class="tooth-row" style="background: #eff6ff;">
+          <span style="padding: 0.25rem 0.5rem; font-weight: bold; background: #dbeafe;">Deciduous</span>
+          <div class="tooth-cell">55</div><div class="tooth-cell">54</div><div class="tooth-cell">53</div><div class="tooth-cell">52</div><div class="tooth-cell">51</div>
+          <div class="tooth-cell">61</div><div class="tooth-cell">62</div><div class="tooth-cell">63</div><div class="tooth-cell">64</div><div class="tooth-cell">65</div>
+        </div>
+        <div class="tooth-row">
+          <span style="padding: 0.25rem 0.5rem; font-weight: bold; background: #e2e8f0;">Maxillary</span>
+          <div class="tooth-cell">18</div><div class="tooth-cell">17</div><div class="tooth-cell">16</div><div class="tooth-cell">15</div><div class="tooth-cell">14</div><div class="tooth-cell">13</div><div class="tooth-cell">12</div><div class="tooth-cell">11</div>
+          <div class="tooth-cell">21</div><div class="tooth-cell">22</div><div class="tooth-cell">23</div><div class="tooth-cell">24</div><div class="tooth-cell">25</div><div class="tooth-cell">26</div><div class="tooth-cell">27</div><div class="tooth-cell">28</div>
+        </div>
+        <div class="tooth-row">
+          <span style="padding: 0.25rem 0.5rem; font-weight: bold; background: #e2e8f0;">Mandibular</span>
+          <div class="tooth-cell">48</div><div class="tooth-cell">47</div><div class="tooth-cell">46</div><div class="tooth-cell">45</div><div class="tooth-cell">44</div><div class="tooth-cell">43</div><div class="tooth-cell">42</div><div class="tooth-cell">41</div>
+          <div class="tooth-cell">31</div><div class="tooth-cell">32</div><div class="tooth-cell">33</div><div class="tooth-cell">34</div><div class="tooth-cell">35</div><div class="tooth-cell">36</div><div class="tooth-cell">37</div><div class="tooth-cell">38</div>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-size: 0.78rem; font-weight: 800; margin-bottom: 0.25rem;">YEAR 2 — Date: _________________</div>
+        <div class="tooth-row">
+          <span style="padding: 0.25rem 0.5rem; font-weight: bold; background: #e2e8f0;">Maxillary</span>
+          <div class="tooth-cell">18</div><div class="tooth-cell">17</div><div class="tooth-cell">16</div><div class="tooth-cell">15</div><div class="tooth-cell">14</div><div class="tooth-cell">13</div><div class="tooth-cell">12</div><div class="tooth-cell">11</div>
+          <div class="tooth-cell">21</div><div class="tooth-cell">22</div><div class="tooth-cell">23</div><div class="tooth-cell">24</div><div class="tooth-cell">25</div><div class="tooth-cell">26</div><div class="tooth-cell">27</div><div class="tooth-cell">28</div>
+        </div>
+        <div class="tooth-row">
+          <span style="padding: 0.25rem 0.5rem; font-weight: bold; background: #e2e8f0;">Mandibular</span>
+          <div class="tooth-cell">48</div><div class="tooth-cell">47</div><div class="tooth-cell">46</div><div class="tooth-cell">45</div><div class="tooth-cell">44</div><div class="tooth-cell">43</div><div class="tooth-cell">42</div><div class="tooth-cell">41</div>
+          <div class="tooth-cell">31</div><div class="tooth-cell">32</div><div class="tooth-cell">33</div><div class="tooth-cell">34</div><div class="tooth-cell">35</div><div class="tooth-cell">36</div><div class="tooth-cell">37</div><div class="tooth-cell">38</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SERVICES MONITORING & LEGEND -->
+    <div class="section-title">D. Clinical Legend & Tooth Condition Standards</div>
+    <div class="legend-box">
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem;">
+        <div>
+          <div style="font-weight: 800; text-transform: uppercase; color: #0284c7; margin-bottom: 0.25rem;">Permanent Teeth (CAPITALS)</div>
+          <div><strong>/</strong> — Sound Tooth</div>
+          <div><strong>D</strong> — Decayed Tooth</div>
+          <div><strong>F</strong> — Filled Tooth</div>
+          <div><strong>M</strong> — Missing Tooth</div>
+          <div><strong>Un</strong> — Unerupted Tooth</div>
+          <div><strong>JC</strong> — Jacket Crown</div>
+          <div><strong>P</strong> — Pontic Bridge</div>
+        </div>
+        <div>
+          <div style="font-weight: 800; text-transform: uppercase; color: #0284c7; margin-bottom: 0.25rem;">Temporary Teeth (small letters)</div>
+          <div><strong>/</strong> — Sound Tooth</div>
+          <div><strong>d</strong> — Decayed Tooth</div>
+          <div><strong>f</strong> — Filled Tooth</div>
+          <div><strong>m</strong> — Missing Tooth</div>
+          <div><strong>un</strong> — Unerupted Tooth</div>
+          <div><strong>jc</strong> — Jacket Crown</div>
+          <div><strong>p</strong> — Pontic</div>
+        </div>
+        <div>
+          <div style="font-weight: 800; text-transform: uppercase; color: #0284c7; margin-bottom: 0.25rem;">Services Rendered Code</div>
+          <div><strong>S</strong> — Pit & Fissure Sealant</div>
+          <div><strong>PF</strong> — Permanent Restoration / Filling</div>
+          <div><strong>TF</strong> — Temporary Restoration / Filling</div>
+          <div><strong>X</strong> — Dental Extraction / Exodontia</div>
+          <div><strong>O</strong> — Other Clinical Procedures</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

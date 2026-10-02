@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient Data & Clinical Evaluation Record (Konsulta) — Municipal Health Office, Tanauan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #0f172a;
+      color: #0f172a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem;
+      font-family: 'Inter', -apple-system, sans-serif;
+    }
+    .toolbar {
+      width: 100%;
+      max-width: 980px;
+      margin-bottom: 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      background: #1e293b;
+      color: white;
+      padding: 0.85rem 1.5rem;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .toolbar-title {
+      font-size: 0.85rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #38bdf8;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .btn-group { display: flex; gap: 0.5rem; }
+    .btn {
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.2s;
+      text-decoration: none;
+      border: none;
+    }
+    .btn-primary { background: #f59e0b; color: #0f172a; }
+    .btn-primary:hover { background: #fbbf24; transform: translateY(-1px); }
+    .btn-outline {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .btn-outline:hover { background: rgba(255, 255, 255, 0.2); }
+    .document-page {
+      background: white;
+      width: 100%;
+      max-width: 980px;
+      padding: 2.2rem 2.8rem;
+      border-radius: 12px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      position: relative;
+      margin-bottom: 2rem;
+    }
+    .clinic-header {
+      border: 2px solid #0f172a;
+      padding: 0.6rem 1rem;
+      margin-bottom: 1rem;
+      background: #f8fafc;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .clinic-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      color: #0369a1;
+      letter-spacing: 0.04em;
+    }
+    .clinic-meta {
+      font-size: 0.75rem;
+      color: #334155;
+      font-weight: 600;
+    }
+    .section-bar {
+      background: #0f172a;
+      color: white;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.35rem 0.6rem;
+      margin: 0.75rem 0 0.4rem 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    table.form-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.72rem;
+      margin-bottom: 0.6rem;
+    }
+    table.form-table th, table.form-table td {
+      border: 1px solid #475569;
+      padding: 0.25rem 0.4rem;
+    }
+    table.form-table th {
+      background: #f1f5f9;
+      font-weight: 800;
+      text-align: left;
+    }
+    .box-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+      font-size: 0.72rem;
+    }
+    .box-item {
+      border: 1px solid #64748b;
+      padding: 0.4rem;
+      background: #fafafa;
+    }
+    .box-item h4 {
+      font-size: 0.74rem;
+      font-weight: 800;
+      border-bottom: 1px solid #cbd5e1;
+      margin-bottom: 0.3rem;
+      padding-bottom: 0.15rem;
+      color: #0369a1;
+      text-transform: uppercase;
+    }
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      margin-bottom: 0.15rem;
+    }
+    .check-box {
+      width: 10px;
+      height: 10px;
+      border: 1px solid #0f172a;
+      display: inline-block;
+    }
+    @media print {
+      body { background: white; padding: 0; }
+      .toolbar { display: none; }
+      .document-page { box-shadow: none; padding: 1.2cm; max-width: 100%; page-break-after: always; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="toolbar">
+    <div class="toolbar-title">
+      <span>🩺</span> MHO PhilHealth Konsulta Clinical Record
+    </div>
+    <div class="btn-group">
+      <a href="/Departments/Health%20Office#forms" class="btn btn-outline">
+        ← Back to Health Office
+      </a>
+      <button onclick="window.print()" class="btn btn-primary">
+        🖨️ Print Form
+      </button>
+      <a href="/forms/health-office/MHO-Patient-Data-Record.pdf" download class="btn btn-outline">
+        ⬇️ Download PDF
+      </a>
+    </div>
+  </div>
+
+  <!-- PAGE 1 OF 2 -->
+  <div class="document-page">
+    <div class="clinic-header">
+      <div>
+        <div class="clinic-title">TANAUAN MUNICIPAL HEALTH OFFICE</div>
+        <div class="clinic-meta">Corner E. Ramos St. & Real St., Brgy. Buntay, Tanauan, Leyte</div>
+        <div class="clinic-meta" style="color: #0369a1; font-weight: 800;">ACCREDITATION NUMBER: P08038120</div>
+      </div>
+      <div style="text-align: right; font-size: 0.75rem; font-weight: bold;">
+        <div>Date: ________________</div>
+        <div style="margin-top: 0.2rem;">Time: ________________</div>
+      </div>
+    </div>
+
+    <div class="section-bar">I. PATIENT DATA & DEMOGRAPHICS</div>
+    <table class="form-table">
+      <tr>
+        <td colspan="7"><strong>Address:</strong> Bldg No. / Street / Barangay / Town / Province / Region / Zip Code: __________________________________________________</td>
+      </tr>
+      <tr>
+        <td colspan="3"><strong>Name of Patient:</strong> __________________________________________________</td>
+        <td colspan="2"><strong>PHIC ID No.:</strong> ____________________</td>
+        <td colspan="2"><strong>Mobile No.:</strong> ____________________</td>
+      </tr>
+      <tr>
+        <td colspan="2">Last: ___________________</td>
+        <td colspan="2">First: ___________________</td>
+        <td>Middle: ___________</td>
+        <td>Suffix: ______</td>
+        <td>Mother's Maiden: ___________________</td>
+      </tr>
+      <tr>
+        <td>DOB: ____________</td>
+        <td>Age: _____</td>
+        <td>Sex: [ ] M [ ] F</td>
+        <td>Civil Status: _________</td>
+        <td colspan="2">Senior / PWD ID No.: _________________</td>
+        <td>Pregnant: [ ] Y [ ] N</td>
+      </tr>
+    </table>
+
+    <div class="section-bar">II. PHILHEALTH MEMBERSHIP INFORMATION</div>
+    <table class="form-table">
+      <tr>
+        <td colspan="3"><strong>Name of Member:</strong> __________________________________________________</td>
+        <td colspan="2"><strong>Member PHIC ID:</strong> ____________________</td>
+        <td colspan="2"><strong>DOB:</strong> ____________</td>
+      </tr>
+      <tr>
+        <td colspan="2">Membership Category: [ ] Direct [ ] Indirect</td>
+        <td colspan="3">Membership Type: [ ] Employed [ ] Indigent [ ] Senior [ ] 4Ps</td>
+        <td colspan="2">Relationship: ____________________</td>
+      </tr>
+    </table>
+
+    <div class="section-bar">III. PAST MEDICAL, FAMILY & SOCIAL HISTORY</div>
+    <table class="form-table">
+      <thead>
+        <tr>
+          <th style="width: 25%;">Past Medical History</th>
+          <th style="width: 25%;">Family History</th>
+          <th style="width: 25%;">Past Surgical & Trauma</th>
+          <th style="width: 25%;">Personal / Social History</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <div class="checkbox-item"><span class="check-box"></span> Hypertension</div>
+            <div class="checkbox-item"><span class="check-box"></span> Diabetes Mellitus</div>
+            <div class="checkbox-item"><span class="check-box"></span> Bronchial Asthma</div>
+            <div class="checkbox-item"><span class="check-box"></span> Pulmonary TB</div>
+            <div class="checkbox-item"><span class="check-box"></span> Cerebrovascular Disease</div>
+            <div class="checkbox-item"><span class="check-box"></span> Cancer / Malignancy</div>
+            <div class="checkbox-item"><span class="check-box"></span> Hepatitis / Liver Disease</div>
+            <div class="checkbox-item"><span class="check-box"></span> Epilepsy / Seizure</div>
+          </td>
+          <td>
+            <div class="checkbox-item"><span class="check-box"></span> Hypertension</div>
+            <div class="checkbox-item"><span class="check-box"></span> Diabetes Mellitus</div>
+            <div class="checkbox-item"><span class="check-box"></span> Bronchial Asthma</div>
+            <div class="checkbox-item"><span class="check-box"></span> Pulmonary TB</div>
+            <div class="checkbox-item"><span class="check-box"></span> Heart Disease</div>
+            <div class="checkbox-item"><span class="check-box"></span> Kidney Disease</div>
+            <div class="checkbox-item"><span class="check-box"></span> Cancer / Malignancy</div>
+            <div class="checkbox-item"><span class="check-box"></span> Thyroid Disease</div>
+          </td>
+          <td style="vertical-align: top;">
+            <div><strong>Operation:</strong> ________________</div>
+            <div><strong>Date:</strong> ____________________</div>
+            <div><strong>Hospital:</strong> ________________</div>
+            <div style="margin-top: 0.5rem;"><strong>Trauma:</strong> _________________</div>
+            <div><strong>Type:</strong> ____________________</div>
+          </td>
+          <td style="vertical-align: top;">
+            <div><strong>Smoking:</strong> [ ] Yes [ ] No [ ] Quit</div>
+            <div><strong>Alcohol:</strong> [ ] Yes [ ] No [ ] Quit</div>
+            <div><strong>Illicit Drugs:</strong> [ ] Yes [ ] No</div>
+            <div><strong>Sexually Active:</strong> [ ] Yes [ ] No</div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="section-bar">IV. IMMUNIZATION & OB-GYNE PROFILE</div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; font-size: 0.72rem;">
+      <div style="border: 1px solid #475569; padding: 0.4rem;">
+        <strong>Childhood / Adult Vaccines:</strong>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.2rem; margin-top: 0.25rem;">
+          <div>[ ] BCG [ ] OPV 1-3 [ ] DPT 1-3</div>
+          <div>[ ] HepB 1-3 [ ] MMR 1-2 [ ] Flu</div>
+          <div>[ ] Pneumococcal [ ] Tetanus Toxoid</div>
+          <div>[ ] HPV [ ] COVID-19 Primary/Booster</div>
+        </div>
+      </div>
+      <div style="border: 1px solid #475569; padding: 0.4rem;">
+        <strong>OB-Gyne & Family Planning (Female):</strong>
+        <div style="margin-top: 0.2rem;">Menarche: ________ LMP: ________ Duration: ________</div>
+        <div>Gravidity: ______ Parity: ______ Full Term: ______ Abortions: ______</div>
+        <div>Living Children: ______ Premature: ______ Family Planning: [ ] Y [ ] N</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 2 OF 2: PHYSICAL EXAMINATION & NCD RISK ASSESSMENT -->
+  <div class="document-page">
+    <div class="section-bar">V. PEDIATRIC & SYSTEMATIC PHYSICAL EXAMINATION</div>
+    <table class="form-table">
+      <tr>
+        <td><strong>Vital Signs:</strong> BP: ____/____ mmHg</td>
+        <td>HR: ____ bpm</td>
+        <td>RR: ____ cpm</td>
+        <td>Temp: ____ °C</td>
+        <td>O2Sat: ____ %</td>
+        <td>Height: ____ cm</td>
+        <td>Weight: ____ kg</td>
+        <td>BMI: ____ kg/m²</td>
+      </tr>
+    </table>
+
+    <div class="box-grid">
+      <div class="box-item">
+        <h4>A. HEENT</h4>
+        <div class="checkbox-item"><span class="check-box"></span> Essentially normal</div>
+        <div class="checkbox-item"><span class="check-box"></span> Icteric Sclerae</div>
+        <div class="checkbox-item"><span class="check-box"></span> Pale conjunctivae</div>
+        <div class="checkbox-item"><span class="check-box"></span> Cervical lymphadenopathy</div>
+      </div>
+      <div class="box-item">
+        <h4>B. CHEST / LUNGS</h4>
+        <div class="checkbox-item"><span class="check-box"></span> Essentially normal</div>
+        <div class="checkbox-item"><span class="check-box"></span> Decreased breath sounds</div>
+        <div class="checkbox-item"><span class="check-box"></span> Wheezes / Rhonchi</div>
+        <div class="checkbox-item"><span class="check-box"></span> Crackles / Rales</div>
+      </div>
+      <div class="box-item">
+        <h4>C. HEART / CVS</h4>
+        <div class="checkbox-item"><span class="check-box"></span> Essentially normal</div>
+        <div class="checkbox-item"><span class="check-box"></span> Irregular rhythm</div>
+        <div class="checkbox-item"><span class="check-box"></span> Murmurs present</div>
+        <div class="checkbox-item"><span class="check-box"></span> Heaves / Thrills</div>
+      </div>
+      <div class="box-item">
+        <h4>D. ABDOMEN</h4>
+        <div class="checkbox-item"><span class="check-box"></span> Essentially normal</div>
+        <div class="checkbox-item"><span class="check-box"></span> Tenderness / Rigidity</div>
+        <div class="checkbox-item"><span class="check-box"></span> Palpable mass</div>
+        <div class="checkbox-item"><span class="check-box"></span> Hyperactive bowel</div>
+      </div>
+      <div class="box-item">
+        <h4>E. GENITOURINARY</h4>
+        <div class="checkbox-item"><span class="check-box"></span> Essentially normal</div>
+        <div class="checkbox-item"><span class="check-box"></span> Abnormal discharge</div>
+        <div class="checkbox-item"><span class="check-box"></span> Cervical lesion</div>
+        <div class="checkbox-item"><span class="check-box"></span> Scrotal swelling</div>
+      </div>
+      <div class="box-item">
+        <h4>F. DRE / RECTAL</h4>
+        <div class="checkbox-item"><span class="check-box"></span> Essentially normal</div>
+        <div class="checkbox-item"><span class="check-box"></span> Enlarged prostate</div>
+        <div class="checkbox-item"><span class="check-box"></span> Hemorrhoids / Mass</div>
+        <div class="checkbox-item"><span class="check-box"></span> Not applicable</div>
+      </div>
+      <div class="box-item">
+        <h4>G. EXTREMITIES</h4>
+        <div class="checkbox-item"><span class="check-box"></span> Essentially normal</div>
+        <div class="checkbox-item"><span class="check-box"></span> Cyanosis / Pallor</div>
+        <div class="checkbox-item"><span class="check-box"></span> Edema / Swelling</div>
+        <div class="checkbox-item"><span class="check-box"></span> Weak peripheral pulses</div>
+      </div>
+      <div class="box-item">
+        <h4>H. NEUROLOGICAL</h4>
+        <div class="checkbox-item"><span class="check-box"></span> Essentially normal</div>
+        <div class="checkbox-item"><span class="check-box"></span> Motor weakness / Deficit</div>
+        <div class="checkbox-item"><span class="check-box"></span> Sensory loss</div>
+        <div class="checkbox-item"><span class="check-box"></span> Gait abnormality</div>
+      </div>
+    </div>
+
+    <div class="section-bar">VI. NCD HIGH-RISK CARDIOVASCULAR & DIABETES ASSESSMENT (20+ YEARS OLD)</div>
+    <table class="form-table">
+      <tr>
+        <td style="width: 50%;">Eats high-fat/salt food (fast foods, instant noodles, street foods)?</td>
+        <td style="width: 10%;">[ ] YES [ ] NO</td>
+        <td style="width: 30%;">At least 2.5 hours of physical activity weekly?</td>
+        <td style="width: 10%;">[ ] YES [ ] NO</td>
+      </tr>
+      <tr>
+        <td>Previously diagnosed with Diabetes Mellitus?</td>
+        <td>[ ] YES [ ] NO</td>
+        <td>Polydipsia, Polyphagia, or Polyuria symptoms?</td>
+        <td>[ ] YES [ ] NO</td>
+      </tr>
+      <tr>
+        <td>Chest pain or heaviness across front of chest lasting >30 mins?</td>
+        <td>[ ] YES [ ] NO</td>
+        <td>Difficulty talking, arm/leg weakness or numbness on one side?</td>
+        <td>[ ] YES [ ] NO</td>
+      </tr>
+      <tr>
+        <td colspan="2"><strong>Blood Glucose (FBS / RBS):</strong> ______ mg/dL &nbsp;|&nbsp; <strong>Date:</strong> ________</td>
+        <td colspan="2"><strong>Urine Ketone / Protein:</strong> ________________ &nbsp;|&nbsp; <strong>Date:</strong> ________</td>
+      </tr>
+    </table>
+
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 2rem;">
+      <div style="text-align: center; width: 280px;">
+        <div style="border-bottom: 1.5px solid #0f172a; height: 1.5rem; margin-bottom: 0.35rem;"></div>
+        <div style="font-size: 0.8rem; font-weight: 800; text-transform: uppercase;">Name of Interviewer / Nurse</div>
+        <div style="font-size: 0.7rem; color: #475569;">Municipal Health Office Staff</div>
+      </div>
+      <div style="text-align: center; width: 280px;">
+        <div style="border-bottom: 1.5px solid #0f172a; height: 1.5rem; margin-bottom: 0.35rem;"></div>
+        <div style="font-size: 0.8rem; font-weight: 800; text-transform: uppercase;">Name of Attending Physician</div>
+        <div style="font-size: 0.7rem; color: #475569;">License No. & Official Stamp</div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

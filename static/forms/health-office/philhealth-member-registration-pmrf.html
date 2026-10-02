@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PhilHealth Member Registration Form (PMRF) — Universal Health Care</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #0f172a;
+      color: #0f172a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem;
+      font-family: 'Inter', -apple-system, sans-serif;
+    }
+    .toolbar {
+      width: 100%;
+      max-width: 980px;
+      margin-bottom: 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      background: #1e293b;
+      color: white;
+      padding: 0.85rem 1.5rem;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .toolbar-title {
+      font-size: 0.85rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #38bdf8;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .btn-group { display: flex; gap: 0.5rem; }
+    .btn {
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.2s;
+      text-decoration: none;
+      border: none;
+    }
+    .btn-primary { background: #f59e0b; color: #0f172a; }
+    .btn-primary:hover { background: #fbbf24; transform: translateY(-1px); }
+    .btn-outline {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .btn-outline:hover { background: rgba(255, 255, 255, 0.2); }
+    .document-page {
+      background: white;
+      width: 100%;
+      max-width: 980px;
+      padding: 2.2rem 2.8rem;
+      border-radius: 12px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      position: relative;
+      margin-bottom: 2rem;
+    }
+    .pmrf-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #0f172a;
+      padding-bottom: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    .pmrf-title {
+      text-align: center;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .pmrf-title h1 {
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: #0369a1;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .pmrf-title h2 {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #475569;
+    }
+    .section-bar {
+      background: #0284c7;
+      color: white;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.3rem 0.5rem;
+      margin: 0.6rem 0 0.35rem 0;
+    }
+    table.pmrf-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.72rem;
+      margin-bottom: 0.5rem;
+    }
+    table.pmrf-table th, table.pmrf-table td {
+      border: 1px solid #475569;
+      padding: 0.25rem 0.4rem;
+    }
+    table.pmrf-table th {
+      background: #f1f5f9;
+      font-weight: 800;
+      text-align: left;
+    }
+    .check-box {
+      width: 10px;
+      height: 10px;
+      border: 1px solid #0f172a;
+      display: inline-block;
+      margin-right: 0.2rem;
+    }
+    @media print {
+      body { background: white; padding: 0; }
+      .toolbar { display: none; }
+      .document-page { box-shadow: none; padding: 1.2cm; max-width: 100%; page-break-after: always; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="toolbar">
+    <div class="toolbar-title">
+      <span>💳</span> PhilHealth Member Registration Form (PMRF)
+    </div>
+    <div class="btn-group">
+      <a href="/Departments/Health%20Office#forms" class="btn btn-outline">
+        ← Back to Health Office
+      </a>
+      <button onclick="window.print()" class="btn btn-primary">
+        🖨️ Print Form
+      </button>
+      <a href="/forms/health-office/PhilHealth-Member-Registration-Form-PMRF.pdf" download class="btn btn-outline">
+        ⬇️ Download PDF
+      </a>
+    </div>
+  </div>
+
+  <!-- PAGE 1 OF 2 -->
+  <div class="document-page">
+    <div class="pmrf-header">
+      <div style="font-weight: 900; font-size: 1.3rem; color: #16a34a; font-family: 'Plus Jakarta Sans', sans-serif;">
+        PhilHealth
+        <div style="font-size: 0.65rem; color: #475569; font-weight: bold;">Your Partner in Health</div>
+      </div>
+      <div class="pmrf-title">
+        <h2>PMRF</h2>
+        <h1>PHILHEALTH MEMBER REGISTRATION FORM</h1>
+        <h2>UHC v.1 January 2020</h2>
+      </div>
+      <div style="border: 1.5px solid #0f172a; padding: 0.4rem; font-size: 0.7rem; font-weight: bold; width: 220px;">
+        <div>PHILHEALTH ID NO. (PIN):</div>
+        <div style="font-family: monospace; letter-spacing: 0.2em; font-size: 0.85rem; margin-top: 0.2rem;">[ ][ ]-[ ][ ][ ][ ][ ][ ][ ][ ][ ]-[ ]</div>
+      </div>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; font-size: 0.72rem; font-weight: bold; margin-bottom: 0.5rem; background: #f8fafc; padding: 0.35rem 0.6rem; border: 1px solid #cbd5e1;">
+      <div>PURPOSE: &nbsp; [ ] REGISTRATION &nbsp;&nbsp; [ ] UPDATING / AMENDMENT</div>
+      <div>Preferred KonSulTa Provider: <strong>Tanauan Municipal Health Office</strong></div>
+    </div>
+
+    <div class="section-bar">I. PERSONAL DETAILS</div>
+    <table class="pmrf-table">
+      <tr>
+        <th style="width: 25%;">Role</th>
+        <th style="width: 25%;">Last Name</th>
+        <th style="width: 25%;">First Name</th>
+        <th style="width: 10%;">Extension</th>
+        <th style="width: 15%;">Middle Name</th>
+      </tr>
+      <tr>
+        <td><strong>MEMBER</strong></td>
+        <td></td><td></td><td></td><td></td>
+      </tr>
+      <tr>
+        <td><strong>MOTHER'S MAIDEN NAME</strong></td>
+        <td></td><td></td><td></td><td></td>
+      </tr>
+      <tr>
+        <td><strong>SPOUSE (If Married)</strong></td>
+        <td></td><td></td><td></td><td></td>
+      </tr>
+      <tr>
+        <td colspan="2"><strong>Date of Birth:</strong> [mm] / [dd] / [yyyy]</td>
+        <td colspan="3"><strong>Place of Birth:</strong> City / Municipality / Province / Country: ____________________</td>
+      </tr>
+      <tr>
+        <td><strong>Sex:</strong> [ ] Male &nbsp; [ ] Female</td>
+        <td colspan="2"><strong>Civil Status:</strong> [ ] Single [ ] Married [ ] Widow/er [ ] Annulled</td>
+        <td colspan="2"><strong>Citizenship:</strong> [ ] Filipino [ ] Dual [ ] Foreign</td>
+      </tr>
+    </table>
+
+    <div class="section-bar">II. ADDRESS AND CONTACT DETAILS</div>
+    <table class="pmrf-table">
+      <tr>
+        <td colspan="2"><strong>Permanent Home Address:</strong> Unit/Room/Bldg/Lot/Block/Street: __________________________________________________</td>
+      </tr>
+      <tr>
+        <td>Subdivision / Barangay: ____________________</td>
+        <td>Municipality / Province / Zip Code: <strong>Tanauan, Leyte 6501</strong></td>
+      </tr>
+      <tr>
+        <td><strong>Mobile Number (Required):</strong> ________________________</td>
+        <td><strong>Email Address:</strong> ________________________</td>
+      </tr>
+    </table>
+
+    <div class="section-bar">III. DECLARATION OF DEPENDENTS</div>
+    <table class="pmrf-table">
+      <thead>
+        <tr>
+          <th>Last Name</th>
+          <th>First Name</th>
+          <th>Middle Name</th>
+          <th>Relationship</th>
+          <th>Date of Birth</th>
+          <th>Citizenship</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td style="height: 1.4rem;"></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td style="height: 1.4rem;"></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td style="height: 1.4rem;"></td><td></td><td></td><td></td><td></td><td></td></tr>
+      </tbody>
+    </table>
+
+    <div class="section-bar">IV. MEMBER CLASSIFICATION</div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; font-size: 0.72rem;">
+      <div style="border: 1px solid #475569; padding: 0.4rem;">
+        <strong>DIRECT CONTRIBUTOR:</strong>
+        <div style="margin-top: 0.2rem;">
+          <div><span class="check-box"></span> Employed Private &nbsp;&nbsp; <span class="check-box"></span> Employed Government</div>
+          <div><span class="check-box"></span> Professional Practitioner &nbsp;&nbsp; <span class="check-box"></span> Self-Earning Individual</div>
+          <div><span class="check-box"></span> Kasambahay / Family Driver &nbsp;&nbsp; <span class="check-box"></span> Migrant Worker / OFW</div>
+          <div><span class="check-box"></span> Lifetime Member</div>
+        </div>
+      </div>
+      <div style="border: 1px solid #475569; padding: 0.4rem;">
+        <strong>INDIRECT CONTRIBUTOR:</strong>
+        <div style="margin-top: 0.2rem;">
+          <div><span class="check-box"></span> Listahanan (DSWD) &nbsp;&nbsp; <span class="check-box"></span> 4Ps / MCCT Beneficiary</div>
+          <div><span class="check-box"></span> Senior Citizen &nbsp;&nbsp; <span class="check-box"></span> LGU-sponsored Indigent</div>
+          <div><span class="check-box"></span> Person with Disability (PWD ID: ____________)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 2 OF 2 -->
+  <div class="document-page">
+    <div class="section-bar">V. UPDATING / AMENDMENT DETAILS</div>
+    <table class="pmrf-table">
+      <thead>
+        <tr>
+          <th style="width: 35%;">Please Check:</th>
+          <th style="width: 32%;">FROM</th>
+          <th style="width: 33%;">TO</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="check-box"></span> Change / Correction of Name</td>
+          <td></td><td></td>
+        </tr>
+        <tr>
+          <td><span class="check-box"></span> Correction of Date of Birth</td>
+          <td></td><td></td>
+        </tr>
+        <tr>
+          <td><span class="check-box"></span> Correction of Sex</td>
+          <td></td><td></td>
+        </tr>
+        <tr>
+          <td><span class="check-box"></span> Change of Civil Status</td>
+          <td></td><td></td>
+        </tr>
+        <tr>
+          <td><span class="check-box"></span> Updating of Address / Mobile / Email</td>
+          <td></td><td></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div style="border: 1.5px solid #0f172a; padding: 0.75rem; margin-top: 1rem; font-size: 0.72rem; line-height: 1.5; background: #f8fafc;">
+      <strong>ATTESTATION:</strong>
+      <p style="margin-top: 0.25rem;">
+        Under penalty of law, I hereby attest that the information provided, including the documents I have attached to this form, are true and accurate to the best of my knowledge. I agree and authorize PhilHealth for the subsequent validation, verification, and data sharing for health insurance processes under the Universal Health Care Act (RA 11223).
+      </p>
+
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 2rem;">
+        <div style="text-align: center; width: 320px;">
+          <div style="border-bottom: 1px solid #0f172a; height: 1.5rem; margin-bottom: 0.25rem;"></div>
+          <div style="font-weight: bold; text-transform: uppercase;">Member's Signature over Printed Name</div>
+          <div>Date: ________________________</div>
+        </div>
+
+        <div style="border: 1.5px solid #475569; width: 110px; height: 110px; text-align: center; padding: 0.3rem; font-size: 0.65rem;">
+          Right Thumbmark (if unable to write)
+        </div>
+      </div>
+    </div>
+
+    <div style="border: 2px solid #0f172a; padding: 0.6rem; margin-top: 1.5rem; background: #eff6ff; font-size: 0.72rem;">
+      <div style="font-weight: 800; text-transform: uppercase; color: #1e3a8a; margin-bottom: 0.35rem;">
+        FOR PHILHEALTH / MUNICIPAL HEALTH OFFICE USE ONLY
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+        <div>
+          <div>Received By: ____________________________________</div>
+          <div style="margin-top: 0.25rem;">Tanauan Municipal Health Office LHIO / Desk</div>
+        </div>
+        <div>
+          <div>Date & Time: __________________________________</div>
+          <div style="margin-top: 0.25rem;">Verification Status: [ ] Complete [ ] Pending Docs</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
