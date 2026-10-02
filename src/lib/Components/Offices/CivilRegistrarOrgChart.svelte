@@ -725,11 +725,13 @@
 		aria-labelledby="person-detail-title"
 	>
 		<!-- Dim / Blurred Backdrop -->
-		<div
-			class="absolute inset-0 bg-blue-950/80 backdrop-blur-md transition-opacity"
+		<button
+			type="button"
+			class="absolute inset-0 h-full w-full bg-blue-950/80 backdrop-blur-md transition-opacity cursor-default border-0 p-0"
 			onclick={closeDetail}
+			aria-label="Close details dialog"
 			transition:fade={{ duration: 200 }}
-		></div>
+		></button>
 
 		<!-- Modal Container -->
 		<div
