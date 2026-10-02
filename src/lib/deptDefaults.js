@@ -769,116 +769,6 @@ export const DEPT_DEFAULTS = {
       }
     ]
   },
-  'Health Office': {
-    officeName: 'Municipal Health Office',
-    officeCode: 'MHO',
-    category: 'Public Health & Primary Care Delivery',
-    citizensCharterUrl: '/citizens-charter/health-office',
-    tagline: 'Delivering comprehensive primary healthcare, disease prevention, maternal-child health, and Universal Health Care across all 54 barangays of Tanauan, Leyte.',
-    typewriterWords: [
-      'Comprehensive Primary Healthcare Delivery',
-      'Universal Health Care & PhilHealth Konsulta',
-      'Maternal, Newborn & Child Health Protection',
-      'Epidemiological Surveillance & Health Promotion'
-    ],
-    head: {
-      name: 'Dr. Arlene V. Santo',
-      title: 'Municipal Health Officer',
-      term: 'Head of Office / MHO',
-      quote: 'Public health service is dedicated to ensuring that quality, compassionate, and preventive healthcare is accessible to every family and every community in Tanauan.',
-      credentials: ['Doctor of Medicine', 'Municipal Health Officer', 'Fellow in Public Health Administration'],
-      room: 'Office of the Municipal Health Officer, Tanauan Municipal Health Center, Real St. cor. E. Ramos St., Brgy. Buntay, Tanauan, Leyte',
-      schedule: 'Monday – Friday: 8:00 AM – 5:00 PM (24/7 Emergency Support)',
-      image: '/HealthOffice/santo-arlene.jpg'
-    },
-    stats: [
-      { value: '34', suffix: '', label: 'Active Healthcare Staff', description: 'Doctors, nurses, midwives, dentists, and health specialists' },
-      { value: '54', suffix: '', label: 'Barangays Served', description: 'Complete healthcare coverage across all rural health stations' },
-      { value: '100', suffix: '%', label: 'UHC & Konsulta', description: 'Full accreditation under Universal Health Care & PhilHealth Konsulta' },
-      { value: '24/7', suffix: '', label: 'Emergency Ready', description: 'Ambulance conduction and maternal emergency standby' }
-    ],
-    mandates: [
-      { index: '01', code: 'PRIMARY-CARE', title: 'Primary Clinical Care & Consultation', description: 'Administers general outpatient consultations, clinical diagnostics, chronic disease management, and emergency primary care.', tag: 'Clinical Care', details: ['General Medical Consultations', 'Laboratory & Diagnostic Services', 'Pharmacy & Essential Drug Dispensation'] },
-      { index: '02', code: 'MAT-CHILD', title: 'Maternal & Child Healthcare (MNCHN)', description: 'Provides prenatal, delivery, postpartum, neonatal care, and municipal immunization campaigns for mothers and children.', tag: 'Maternal-Child', details: ['Prenatal & Birthing Ward Facilities', 'School-Based & National Immunization', 'Nutrition & Growth Monitoring'] },
-      { index: '03', code: 'SURVEILLANCE', title: 'Epidemiology, Sanitation & UHC', description: 'Conducts disease surveillance, environmental sanitation inspections, water potability testing, and PhilHealth Konsulta enrollment.', tag: 'Public Health', details: ['Disease Surveillance & Outbreak Response', 'Sanitary Inspection & Potability Testing', 'PhilHealth Konsulta Registration'] }
-    ],
-    schedule: {
-      hours: 'Monday – Friday | 8:00 AM – 5:00 PM (24/7 Emergency Conduction)',
-      location: 'Tanauan Municipal Health Center, Real St. cor. E. Ramos St., Brgy. Buntay, Tanauan, Leyte',
-      contactNumber: 'health@tanauanleyte.gov.ph',
-      email: 'health@tanauanleyte.gov.ph',
-      helpline: 'Rural Health Unit (RHU) Emergency Conduction'
-    },
-    downloadableForms: [
-      {
-        index: '01',
-        category: 'Dental Health Services',
-        title: 'Individual Treatment Record — Oral Health Status & Monitoring (Form 1)',
-        type: 'Dental Clinical Record • Form 1',
-        icon: '🦷',
-        description: 'Official Municipal Health Office oral examination and dental monitoring record for tracking oral health status, DMFT / dft caries indices, gingival condition, dental sealant, prophylaxis, fillings, and surgical extractions across 5 annual clinical monitoring cycles.',
-        format: 'Official PDF Document',
-        fileSize: '372 KB',
-        url: '/forms/health-office/MHO-Individual-Treatment-Record-Dental.pdf',
-        downloadUrl: '/forms/health-office/MHO-Individual-Treatment-Record-Dental.pdf',
-        htmlUrl: '/forms/health-office/individual-treatment-record-dental.html',
-        requirements: [
-          'Accomplished Part I: Patient Demographics, Full Name, DOB, Age, Sex, Address, Occupation & Parent/Guardian',
-          'Accomplished Medical History and Allergies disclosure before any dental intervention',
-          'Oral Health Status Checklist: Dental Caries, Gingivitis, Periodontal Disease, Calculus, and Debris',
-          'Summary of Services Referred: Tooth No., Oral Prophy, Temporary/Permanent Filling, Sealant, and Extraction',
-          'Year 1 to Year 5 Annual Dentition Charting for permanent and deciduous teeth',
-          'Attending Government Dentist Official Signature and License verification'
-        ]
-      },
-      {
-        index: '02',
-        category: 'Clinical Consultation & Primary Care',
-        title: 'First Patient Encounter & Comprehensive Clinical Record (PhilHealth Konsulta)',
-        type: 'Primary Care Record • Accreditation P08038120',
-        icon: '🩺',
-        description: 'Comprehensive patient clinical evaluation dossier used by Rural Health Unit (RHU) physicians and healthcare staff covering demographic profile, PhilHealth membership details, past medical/surgical history, pediatric growth metrics, systematic physical examination (HEENT, chest, heart, abdomen), and NCD high-risk cardiovascular/diabetes assessments.',
-        format: 'Official PDF Document',
-        fileSize: '882 KB',
-        url: '/forms/health-office/MHO-Patient-Data-Record.pdf',
-        downloadUrl: '/forms/health-office/MHO-Patient-Data-Record.pdf',
-        htmlUrl: '/forms/health-office/patient-data-record.html',
-        requirements: [
-          'Part I - Patient Demographics & Residence Address (Barangay, Town, Province, Zip Code)',
-          'Part II - PhilHealth Information & Valid PHIC ID / Senior Citizen / PWD Identification',
-          'Past Medical, Surgical & Family History Checklist (Hypertension, Diabetes, Asthma, TB, Cancer)',
-          'Complete Immunization History: Childhood (BCG, OPV, DPT, MMR, HepB) & Adult (Pneumococcal, Flu, HPV)',
-          'OB-Gyne & Family Planning Profile for female patients (Menstrual cycle, Gravidity, Parity, Deliveries)',
-          'Pediatric Client Growth Monitoring (0–24 Months: Head, Arm, Waist Circumference, Height, Weight)',
-          'Pertinent Physical Examination Findings & Vital Signs (BP, HR, RR, Temp, O2Sat, BMI)',
-          'NCD High-Risk Assessment for age 20+ (Dietary salt/fat, Physical activity, Angina/Stroke, Glucose & Lipids)'
-        ]
-      },
-      {
-        index: '03',
-        category: 'PhilHealth & Universal Health Care',
-        title: 'PhilHealth Member Registration Form (PMRF — UHC v.1)',
-        type: 'Statutory UHC Form • RA 11223',
-        icon: '💳',
-        description: 'Official statutory enrollment and member data record form for Universal Health Care (UHC) coverage, Konsulta registration, declaration of qualified dependents, and updating/amendment of member profile with the Philippine Health Insurance Corporation.',
-        format: 'Official PDF Document',
-        fileSize: '712 KB',
-        url: '/forms/health-office/PhilHealth-Member-Registration-Form-PMRF.pdf',
-        downloadUrl: '/forms/health-office/PhilHealth-Member-Registration-Form-PMRF.pdf',
-        htmlUrl: '/forms/health-office/philhealth-member-registration-pmrf.html',
-        requirements: [
-          'Purpose Specification: Check appropriate box for New Registration or Updating / Amendment',
-          'Designation of Preferred Accredited KonSulTa Primary Care Provider (Tanauan Municipal Health Office)',
-          'Part I: Complete Personal Details (Full Name, Mother Maiden Name, Spouse, Birth Date/Place, Sex, Civil Status)',
-          'Part II: Permanent & Mailing Address with active Mobile Number and Email Address',
-          'Part III: Declaration of Qualified Legal Dependents (Spouse, Children under 21, Parents 60+)',
-          'Part IV: Member Type Selection (Direct Contributor: Employed/Self-Earning/OFW vs. Indirect: 4Ps/Senior/PWD)',
-          'Part V (If updating): Correction of Name, Date of Birth, Sex, Civil Status, or Contact Details',
-          'Signed Member Certification with Date and Right Thumbmark if unable to write'
-        ]
-      }
-    ]
-  },
   GSO: {
     officeName: 'General Services Office',
     officeCode: 'GSO',
@@ -1022,7 +912,6 @@ export const DEPT_DEFAULTS = {
       name: 'Dr. Arlene V. Santo', 
       title: 'Municipal Health Officer', 
       term: 'Department Head', 
-      image: '/HealthOffice/santo-arlene.jpg',
       quote: 'Health is a fundamental human right. Our unwavering mission is to ensure every resident across Tanauan’s 54 barangays receives accessible, compassionate, and high-quality frontline healthcare and preventive medicine.', 
       credentials: ['Licensed Medical Doctor', 'Municipal Health Officer', 'Public Health & Primary Care Lead'], 
       room: 'Office of the Municipal Health Officer, Tanauan Municipal Health Center', 
@@ -1039,7 +928,73 @@ export const DEPT_DEFAULTS = {
       { index: '02', code: 'MAT-CHILD', title: 'Maternal & Child Health', description: 'Provides maternal care, child health, and family planning services to promote family wellness.', tag: 'Family Health', details: ['Prenatal & Postnatal Care', 'Child Growth Monitoring', 'Family Planning Services'] },
       { index: '03', code: 'HEALTH-PROMO', title: 'Health Promotion & Education', description: 'Conducts health education, information campaigns, and community outreach to promote healthy lifestyles.', tag: 'Health Promotion', details: ['Community Health Education', 'Health Advocacy Campaigns', 'Lifestyle Disease Prevention'] }
     ],
-    schedule: { hours: 'Monday – Friday | 8:00 AM – 5:00 PM', location: 'Tanauan Municipal Health Center, Tanauan, Leyte', contactNumber: '', email: 'health@tanauanleyte.gov.ph', helpline: 'Municipal Health Office, Consultation Room' }
+    schedule: { hours: 'Monday – Friday | 8:00 AM – 5:00 PM', location: 'Tanauan Municipal Health Center, Tanauan, Leyte', contactNumber: '', email: 'health@tanauanleyte.gov.ph', helpline: 'Municipal Health Office, Consultation Room' },
+    downloadableForms: [
+      {
+        index: '01',
+        category: 'Dental Health Services',
+        title: 'Individual Treatment Record — Oral Health Status & Monitoring (Form 1)',
+        type: 'Dental Clinical Record • Form 1',
+        icon: '🦷',
+        description: 'Official Municipal Health Office oral examination and dental monitoring record for tracking oral health status, DMFT / dft caries indices, gingival condition, dental sealant, prophylaxis, fillings, and surgical extractions across 5 annual clinical monitoring cycles.',
+        format: 'Official PDF Document',
+        fileSize: '372 KB',
+        url: '/forms/health-office/MHO-Individual-Treatment-Record-Dental.pdf',
+        downloadUrl: '/forms/health-office/MHO-Individual-Treatment-Record-Dental.pdf',
+        requirements: [
+          'Accomplished Part I: Patient Demographics, Full Name, DOB, Age, Sex, Address, Occupation & Parent/Guardian',
+          'Accomplished Medical History and Allergies disclosure before any dental intervention',
+          'Oral Health Status Checklist: Dental Caries, Gingivitis, Periodontal Disease, Calculus, and Debris',
+          'Summary of Services Referred: Tooth No., Oral Prophy, Temporary/Permanent Filling, Sealant, and Extraction',
+          'Year 1 to Year 5 Annual Dentition Charting for permanent and deciduous teeth',
+          'Attending Government Dentist Official Signature and License verification'
+        ]
+      },
+      {
+        index: '02',
+        category: 'Clinical Consultation & Primary Care',
+        title: 'First Patient Encounter & Comprehensive Clinical Record (PhilHealth Konsulta)',
+        type: 'Primary Care Record • Accreditation P08038120',
+        icon: '🩺',
+        description: 'Comprehensive patient clinical evaluation dossier used by Rural Health Unit (RHU) physicians and healthcare staff covering demographic profile, PhilHealth membership details, past medical/surgical history, pediatric growth metrics, systematic physical examination (HEENT, chest, heart, abdomen), and NCD high-risk cardiovascular/diabetes assessments.',
+        format: 'Official PDF Document',
+        fileSize: '882 KB',
+        url: '/forms/health-office/MHO-Patient-Data-Record.pdf',
+        downloadUrl: '/forms/health-office/MHO-Patient-Data-Record.pdf',
+        requirements: [
+          'Part I - Patient Demographics & Residence Address (Barangay, Town, Province, Zip Code)',
+          'Part II - PhilHealth Information & Valid PHIC ID / Senior Citizen / PWD Identification',
+          'Past Medical, Surgical & Family History Checklist (Hypertension, Diabetes, Asthma, TB, Cancer)',
+          'Complete Immunization History: Childhood (BCG, OPV, DPT, MMR, HepB) & Adult (Pneumococcal, Flu, HPV)',
+          'OB-Gyne & Family Planning Profile for female patients (Menstrual cycle, Gravidity, Parity, Deliveries)',
+          'Pediatric Client Growth Monitoring (0–24 Months: Head, Arm, Waist Circumference, Height, Weight)',
+          'Pertinent Physical Examination Findings & Vital Signs (BP, HR, RR, Temp, O2Sat, BMI)',
+          'NCD High-Risk Assessment for age 20+ (Dietary salt/fat, Physical activity, Angina/Stroke, Glucose & Lipids)'
+        ]
+      },
+      {
+        index: '03',
+        category: 'PhilHealth & Universal Health Care',
+        title: 'PhilHealth Member Registration Form (PMRF — UHC v.1)',
+        type: 'Statutory UHC Form • RA 11223',
+        icon: '💳',
+        description: 'Official statutory enrollment and member data record form for Universal Health Care (UHC) coverage, Konsulta registration, declaration of qualified dependents, and updating/amendment of member profile with the Philippine Health Insurance Corporation.',
+        format: 'Official PDF Document',
+        fileSize: '712 KB',
+        url: '/forms/health-office/PhilHealth-Member-Registration-Form-PMRF.pdf',
+        downloadUrl: '/forms/health-office/PhilHealth-Member-Registration-Form-PMRF.pdf',
+        requirements: [
+          'Purpose Specification: Check appropriate box for New Registration or Updating / Amendment',
+          'Designation of Preferred Accredited KonSulTa Primary Care Provider (Tanauan Municipal Health Office)',
+          'Part I: Complete Personal Details (Full Name, Mother Maiden Name, Spouse, Birth Date/Place, Sex, Civil Status)',
+          'Part II: Permanent & Mailing Address with active Mobile Number and Email Address',
+          'Part III: Declaration of Qualified Legal Dependents (Spouse, Children under 21, Parents 60+)',
+          'Part IV: Member Type Selection (Direct Contributor: Employed/Self-Earning/OFW vs. Indirect: 4Ps/Senior/PWD)',
+          'Part V (If updating): Correction of Name, Date of Birth, Sex, Civil Status, or Contact Details',
+          'Signed Member Certification with Date and Right Thumbmark if unable to write'
+        ]
+      }
+    ]
   },
   HRMO: {
     officeName: 'Human Resource Management Office',

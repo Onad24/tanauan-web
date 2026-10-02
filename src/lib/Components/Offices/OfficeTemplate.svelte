@@ -7,25 +7,9 @@
 	import PersonnelSection from '$lib/PersonnelSection.svelte';
 	import AccomplishmentSection from '$lib/AccomplishmentSection.svelte';
 	import OrgChartSection from '$lib/OrgChartSection.svelte';
-	import GSOOrgChart from '$lib/Components/Offices/GSOOrgChart.svelte';
-	import HRMOOrgChart from '$lib/Components/Offices/HRMOOrgChart.svelte';
 	import DepartmentSectionsFeed from '$lib/DepartmentSectionsFeed.svelte';
-	import HealthOfficeOrgChart from '$lib/Components/Offices/HealthOfficeOrgChart.svelte';
-	import HealthOfficeAccomplishments from '$lib/Components/Offices/HealthOfficeAccomplishments.svelte';
 	import MAOServicesPortal from '$lib/Components/Offices/MAOServicesPortal.svelte';
-	import MAOOrgChart from '$lib/Components/Offices/MAOOrgChart.svelte';
-	import MAOAccomplishmentsGallery from '$lib/Components/Offices/MAOAccomplishmentsGallery.svelte';
-	import CivilRegistrarOrgChart from '$lib/Components/Offices/CivilRegistrarOrgChart.svelte';
-	import CivilRegistrarAccomplishments from '$lib/Components/Offices/CivilRegistrarAccomplishments.svelte';
-	import CivilRegistrarDuties from '$lib/Components/Offices/CivilRegistrarDuties.svelte';
-	import MDRRMODuties from '$lib/Components/Offices/MDRRMODuties.svelte';
-	import MDRRMOAccomplishments from '$lib/Components/Offices/MDRRMOAccomplishments.svelte';
-	import MDRRMOOrgChart from '$lib/Components/Offices/MDRRMOOrgChart.svelte';
-	import MENROAccomplishments from '$lib/Components/Offices/MENROAccomplishments.svelte';
 	import MENROCollectionSchedule from '$lib/Components/Offices/MENROCollectionSchedule.svelte';
-	import MENROOrgChart from '$lib/Components/Offices/MENROOrgChart.svelte';
-	import MENRODuties from '$lib/Components/Offices/MENRODuties.svelte';
-	import EngineeringOrgChart from '$lib/Components/Offices/EngineeringOrgChart.svelte';
 
 	let {
 		officeName = "Municipal Treasurer's Office",
@@ -1927,66 +1911,58 @@
 					</p>
 				</div>
 
-				{#if isCivilRegistrar}
-					<CivilRegistrarDuties />
-				{:else if isMDRRMO}
-					<MDRRMODuties />
-				{:else if isMENRO}
-					<MENRODuties />
-				{:else}
-					<!-- Mandates Grid (Matching exact civic card design with orange top border, badges, and dash items) -->
-					<div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-						{#each mandates as mandate}
-							<div
-								class="flex flex-col justify-between rounded-2xl border border-t-4 border-slate-200/80 border-t-amber-500 bg-white p-7 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg sm:p-8"
-							>
-								<div>
-									<!-- Header: Index Number & Code Badge -->
-									<div class="mb-6 flex items-center justify-between">
-										<span class="text-3xl font-black tracking-tight text-amber-500">
-											{mandate.index}
-										</span>
-										<span
-											class="rounded border border-blue-200 bg-blue-50/70 px-2 py-0.5 font-mono text-[10px] font-bold tracking-wider text-blue-900 uppercase"
-										>
-											{mandate.code}
-										</span>
-									</div>
-
-									<!-- Category Tag -->
-									<span class="mb-2 block text-xs font-black tracking-wider text-blue-900 uppercase">
-										{mandate.tag}
+				<!-- Mandates Grid (Matching exact civic card design with orange top border, badges, and dash items) -->
+				<div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+					{#each mandates as mandate}
+						<div
+							class="flex flex-col justify-between rounded-2xl border border-t-4 border-slate-200/80 border-t-amber-500 bg-white p-7 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg sm:p-8"
+						>
+							<div>
+								<!-- Header: Index Number & Code Badge -->
+								<div class="mb-6 flex items-center justify-between">
+									<span class="text-3xl font-black tracking-tight text-amber-500">
+										{mandate.index}
 									</span>
-
-									<!-- Main Function Title -->
-									<h3 class="mb-3 text-xl leading-snug font-black text-slate-900">
-										{mandate.title}
-									</h3>
-
-									<!-- Description -->
-									<p class="mb-8 text-sm leading-relaxed font-normal text-slate-600">
-										{mandate.description}
-									</p>
+									<span
+										class="rounded border border-blue-200 bg-blue-50/70 px-2 py-0.5 font-mono text-[10px] font-bold tracking-wider text-blue-900 uppercase"
+									>
+										{mandate.code}
+									</span>
 								</div>
 
-								<!-- Bullet Points with Orange Dash -->
-								<div class="space-y-3.5 border-t border-slate-100 pt-6">
-									{#each mandate.details as detail}
-										<div
-											class="flex items-start text-xs leading-snug font-medium text-slate-800 sm:text-sm"
-										>
-											<span class="mr-2.5 font-bold text-amber-500 select-none">—</span>
-											<span>{detail}</span>
-										</div>
-									{/each}
-								</div>
+								<!-- Category Tag -->
+								<span class="mb-2 block text-xs font-black tracking-wider text-blue-900 uppercase">
+									{mandate.tag}
+								</span>
+
+								<!-- Main Function Title -->
+								<h3 class="mb-3 text-xl leading-snug font-black text-slate-900">
+									{mandate.title}
+								</h3>
+
+								<!-- Description -->
+								<p class="mb-8 text-sm leading-relaxed font-normal text-slate-600">
+									{mandate.description}
+								</p>
 							</div>
-						{/each}
-					</div>
-				{/if}
+
+							<!-- Bullet Points with Orange Dash -->
+							<div class="space-y-3.5 border-t border-slate-100 pt-6">
+								{#each mandate.details as detail}
+									<div
+										class="flex items-start text-xs leading-snug font-medium text-slate-800 sm:text-sm"
+									>
+										<span class="mr-2.5 font-bold text-amber-500 select-none">—</span>
+										<span>{detail}</span>
+									</div>
+								{/each}
+							</div>
+						</div>
+					{/each}
+				</div>
 
 				<!-- Optional Expandable Full 17 Statutory Duties (Verbatim COA/CSC Enumeration) -->
-				{#if dutiesAndResponsibilities && !isCivilRegistrar && !isMDRRMO && !isMENRO}
+				{#if dutiesAndResponsibilities}
 					<div class="mt-8 flex flex-col items-center">
 						<button
 							type="button"
@@ -2492,25 +2468,7 @@
 
 				<!-- Interactive Blueprint Canvas Frame -->
 				<div class="rounded-3xl border-2 border-slate-300 bg-white p-6 shadow-sm sm:p-8">
-					{#if officeCode === 'GSO' || department === 'GSO' || department === 'General Services Office'}
-						<GSOOrgChart />
-					{:else if officeCode === 'HRMO' || department === 'HRMO' || department === 'Human Resource Management Office'}
-						<HRMOOrgChart />
-					{:else if department === 'Health Office' || officeCode === 'MHO'}
-						<HealthOfficeOrgChart />
-					{:else if isMAO}
-						<MAOOrgChart />
-					{:else if department === 'Civil Registrar' || officeCode === 'MCRO' || officeCode === 'MCR' || department === 'Municipal Civil Registrar'}
-						<CivilRegistrarOrgChart />
-					{:else if isMDRRMO}
-						<MDRRMOOrgChart />
-					{:else if isMENRO}
-						<MENROOrgChart />
-					{:else if isEngineering}
-						<EngineeringOrgChart />
-					{:else}
-						<OrgChartSection {department} defaultImage={orgChartImage} cleanLayout={true} />
-					{/if}
+					<OrgChartSection {department} defaultImage={orgChartImage} cleanLayout={true} />
 				</div>
 			</div>
 		</section>
@@ -2545,28 +2503,9 @@
 						</p>
 					</div>
 
-					{#if isMAO}
-						<MAOAccomplishmentsGallery />
-						<div class="mt-12 rounded-3xl border-2 border-slate-200 bg-slate-50 p-6 shadow-sm sm:p-8">
-							<div class="mb-4 flex items-center justify-between border-b border-slate-200 pb-3">
-								<h3 class="text-base font-black text-blue-950">Published Legislative & Quarterly Reports</h3>
-								<span class="rounded-full bg-slate-200 px-2.5 py-0.5 text-[11px] font-bold text-slate-700">Official Depository</span>
-							</div>
-							<AccomplishmentSection {department} limit={3} collapsible={true} cleanLayout={true} />
-						</div>
-					{:else if isCivilRegistrar}
-						<CivilRegistrarAccomplishments />
-					{:else if isMDRRMO}
-						<MDRRMOAccomplishments />
-					{:else if isMENRO}
-						<MENROAccomplishments />
-					{:else if isHealthOffice}
-						<HealthOfficeAccomplishments />
-					{:else}
-						<div class="rounded-3xl border-2 border-slate-200 bg-slate-50 p-6 shadow-sm sm:p-8">
-							<AccomplishmentSection {department} limit={3} collapsible={true} cleanLayout={true} />
-						</div>
-					{/if}
+					<div class="rounded-3xl border-2 border-slate-50 p-6 shadow-sm sm:p-8">
+						<AccomplishmentSection {department} limit={3} collapsible={true} cleanLayout={true} />
+					</div>
 				</div>
 			</section>
 		{/if}
