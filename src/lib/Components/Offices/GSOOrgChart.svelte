@@ -371,6 +371,24 @@
 		zoomedImageModal = null;
 	}
 
+	$effect(() => {
+		if (typeof document !== 'undefined') {
+			if (selectedPersonnelModal || zoomedImageModal) {
+				document.body.classList.add('modal-open');
+				document.body.style.overflow = 'hidden';
+			} else {
+				document.body.classList.remove('modal-open');
+				document.body.style.overflow = '';
+			}
+		}
+		return () => {
+			if (typeof document !== 'undefined') {
+				document.body.classList.remove('modal-open');
+				document.body.style.overflow = '';
+			}
+		};
+	});
+
 	// Status badge styles: STRICTLY ROYAL BLUE & AMBER YELLOW
 	function getStatusBadgeStyles(status) {
 		if (status === 'Head') {
@@ -1056,7 +1074,7 @@
 	<!-- ========================================================================= -->
 	{#if selectedPersonnelModal}
 		<div
-			class="fixed inset-0 z-50 flex items-center justify-center p-4"
+			class="fixed inset-0 z-[9999] flex items-center justify-center p-4"
 			transition:fade={{ duration: 180 }}
 			role="dialog"
 			aria-modal="true"
@@ -1206,7 +1224,7 @@
 	<!-- ========================================================================= -->
 	{#if zoomedImageModal}
 		<div
-			class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6"
+			class="fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-6"
 			transition:fade={{ duration: 180 }}
 			role="dialog"
 			aria-modal="true"

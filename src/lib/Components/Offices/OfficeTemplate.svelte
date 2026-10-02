@@ -180,11 +180,30 @@
 	} = $props();
 
 	let scrollY = $state(0);
+	let lastScrollY = $state(0);
+	let isPillNavVisible = $state(true);
 	let activeSection = $state('overview');
 	let showFullDuties = $state(false);
 
 	// Floating Modal Window State: null | 'vision' | 'mission' | service object
 	let activeFloatingModal = $state(null);
+
+	// Auto-hide pill nav when scrolling down; reveal when scrolling up
+	$effect(() => {
+		const current = scrollY;
+		if (current > 300) {
+			if (current > lastScrollY + 8) {
+				// User is scrolling down through content -> hide pill
+				isPillNavVisible = false;
+			} else if (current < lastScrollY - 6) {
+				// User is scrolling up -> show pill for quick navigation
+				isPillNavVisible = true;
+			}
+		} else {
+			isPillNavVisible = true;
+		}
+		lastScrollY = current;
+	});
 
 	function openModal(item) {
 		activeFloatingModal = item;
@@ -204,13 +223,16 @@
 	$effect(() => {
 		if (typeof document !== 'undefined') {
 			if (activeFloatingModal || activeFormModal) {
+				document.body.classList.add('modal-open');
 				document.body.style.overflow = 'hidden';
 			} else {
+				document.body.classList.remove('modal-open');
 				document.body.style.overflow = '';
 			}
 		}
 		return () => {
 			if (typeof document !== 'undefined') {
+				document.body.classList.remove('modal-open');
 				document.body.style.overflow = '';
 			}
 		};
@@ -463,7 +485,7 @@
 	function scrollTo(id) {
 		const target = document.getElementById(id);
 		if (target) {
-			const offset = 140;
+			const offset = 180;
 			const targetPosition = target.getBoundingClientRect().top + window.scrollY - offset;
 			window.scrollTo({ top: targetPosition, behavior: 'smooth' });
 			activeSection = id;
@@ -507,9 +529,9 @@
 >
 	<!-- Fixed Floating Clean Pill Navigation (Desktop only, positioned safely below site header) -->
 	<header
-		class="fixed top-20 left-1/2 z-30 -translate-x-1/2 transition-all duration-500 hidden md:block {scrollY > 260
-			? 'translate-y-0 opacity-100'
-			: 'pointer-events-none -translate-y-4 opacity-0'}"
+		class="fixed top-20 left-1/2 z-30 -translate-x-1/2 transition-all duration-300 hidden md:block {scrollY > 260 && isPillNavVisible && !activeFloatingModal && !activeFormModal
+			? 'translate-y-0 opacity-100 pointer-events-auto'
+			: '-translate-y-8 opacity-0 pointer-events-none'}"
 	>
 		<div
 			class="flex items-center gap-1.5 rounded-full border-2 border-slate-300 bg-white/95 px-4 py-2 shadow-xl shadow-slate-900/10 backdrop-blur-md"
@@ -539,7 +561,7 @@
 	<!-- Executive Hero Section with 3D Ambient Flowing Wave in the Background -->
 	<section
 		id="overview"
-		class="scroll-mt-28 sm:scroll-mt-36 relative overflow-hidden border-b-4 border-amber-400 bg-gradient-to-b from-blue-50/80 via-slate-50 to-white pt-16 pb-16 lg:pt-24 lg:pb-20"
+		class="scroll-mt-44 sm:scroll-mt-52 relative overflow-hidden border-b-4 border-amber-400 bg-gradient-to-b from-blue-50/80 via-slate-50 to-white pt-16 pb-16 lg:pt-24 lg:pb-20"
 	>
 		<!-- 3D Three.js Background Canvas (Coastal Waves & Flow of Public Funds) -->
 		<OfficeHeroCanvas />
@@ -1383,7 +1405,7 @@
 
 	{#snippet formsSection()}
 		<!-- Section: Downloadable Forms (Royal Blue & Amber Yellow Folder System) -->
-		<section id="forms" class="scroll-mt-28 sm:scroll-mt-36 relative bg-gradient-to-b from-blue-50/60 via-white to-blue-50/40 pt-16 pb-32 sm:pt-20 sm:pb-40 overflow-hidden border-t-2 border-amber-400/50">
+		<section id="forms" class="scroll-mt-44 sm:scroll-mt-52 relative bg-gradient-to-b from-blue-50/60 via-white to-blue-50/40 pt-16 pb-32 sm:pt-20 sm:pb-40 overflow-hidden border-t-2 border-amber-400/50">
 			<!-- Decorative background elements in Royal Blue & Amber Yellow -->
 			<div class="pointer-events-none absolute inset-0">
 				<div class="absolute -top-24 -right-24 h-96 w-96 rounded-full bg-blue-900/5 blur-3xl"></div>
@@ -1542,7 +1564,7 @@
 
 					<!-- OPEN FOLDER STAGE (When a folder is selected) -->
 					{#if selectedFolder}
-						<div id="open-folder-stage" class="scroll-mt-28 sm:scroll-mt-36 space-y-6 sm:space-y-8 rounded-3xl border-2 border-amber-400 bg-white p-4 sm:p-8 lg:p-10 shadow-2xl">
+						<div id="open-folder-stage" class="scroll-mt-44 sm:scroll-mt-52 space-y-6 sm:space-y-8 rounded-3xl border-2 border-amber-400 bg-white p-4 sm:p-8 lg:p-10 shadow-2xl">
 							<!-- Folder Top Bar & Switcher in Royal Blue & Amber Yellow -->
 							<div class="flex flex-col justify-between gap-4 border-b-2 border-amber-400/40 pb-6 md:flex-row md:items-center">
 								<div class="flex flex-wrap items-center gap-3">
@@ -1821,7 +1843,7 @@
 
 		<!-- Section 2: Core Mandates & Functions -->
 		{#if !isMAO && mandates && mandates.length > 0}
-			<section id="mandates" class="scroll-mt-28 sm:scroll-mt-36 bg-slate-50 py-20">
+			<section id="mandates" class="scroll-mt-44 sm:scroll-mt-52 bg-slate-50 py-20">
 			<div class="container mx-auto max-w-7xl px-6">
 				<!-- Section Header -->
 				<div class="mb-14 max-w-3xl">
@@ -2091,7 +2113,7 @@
 		{/if}
 
 		<!-- Section 3: Leadership & Executive Profile -->
-		<section id="leadership" class="scroll-mt-28 sm:scroll-mt-36 bg-white py-20">
+		<section id="leadership" class="scroll-mt-44 sm:scroll-mt-52 bg-white py-20">
 			<div class="container mx-auto max-w-7xl px-6">
 				<div class="mb-12 max-w-3xl">
 					<div
@@ -2313,7 +2335,7 @@
 		<!-- Section 4: Organizational Structure (Executive Governance Matrix & Blueprint Viewer) -->
 		<section
 			id="structure"
-			class="scroll-mt-28 sm:scroll-mt-36 relative overflow-hidden border-b-2 border-slate-200 bg-slate-50 py-20"
+			class="scroll-mt-44 sm:scroll-mt-52 relative overflow-hidden border-b-2 border-slate-200 bg-slate-50 py-20"
 		>
 			<!-- Subtle Civic Grid Background -->
 			<div
@@ -2435,7 +2457,7 @@
 
 		<!-- Section 5: Accomplishment Reports (Audited Fiscal Performance) -->
 		{#if showAccomplishments}
-			<section id="accomplishments" class="scroll-mt-28 sm:scroll-mt-36 relative border-b-2 border-slate-200 bg-white py-20">
+			<section id="accomplishments" class="scroll-mt-44 sm:scroll-mt-52 relative border-b-2 border-slate-200 bg-white py-20">
 				<div class="container mx-auto max-w-7xl px-6">
 					<div class="mb-10 max-w-3xl border-b-2 border-slate-200 pb-6">
 						<div
@@ -3409,3 +3431,14 @@
 		</div>
 	{/if}
 </div>
+
+<style>
+	:global(body.modal-open) header.fixed,
+	:global(body:has([aria-modal='true'])) header.fixed,
+	:global(body:has([role='dialog'])) header.fixed {
+		display: none !important;
+		opacity: 0 !important;
+		pointer-events: none !important;
+		visibility: hidden !important;
+	}
+</style>
