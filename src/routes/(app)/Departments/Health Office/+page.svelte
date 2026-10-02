@@ -4,7 +4,7 @@
 
 	let { data } = $props();
 
-	const defaults = getDeptDefaults('Health Office') ?? { department: 'Health Office' };
+	const defaults = { department: 'Health Office', ...(getDeptDefaults('Health Office') ?? {}) };
 
 	// Merge Firestore dynamic data over defaults
 	const pageData = $derived(mergeOfficeData(defaults, data?.officePageData));

@@ -1003,6 +1003,7 @@ export const DEPT_DEFAULTS = {
     schedule: { hours: 'Monday – Friday | 8:00 AM – 5:00 PM', location: 'Ground Floor, Tanauan Municipal Hall, Real St., Tanauan, Leyte', contactNumber: '', email: 'gso@tanauanleyte.gov.ph', helpline: 'General Services Office, Ground Floor' }
   },
   'Health Office': {
+    department: 'Health Office',
     officeName: 'Municipal Health Office',
     officeCode: 'MHO',
     showAccomplishments: true,
