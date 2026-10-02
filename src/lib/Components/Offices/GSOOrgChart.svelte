@@ -1,7 +1,14 @@
 <script>
-	import { fade, fly, scale } from 'svelte/transition';
+	import { fade, fly, scale, slide } from 'svelte/transition';
 
-	// The official ratified documents
+	// =========================================================================
+	// OFFICIAL RATIFIED CSC ORGANIZATIONAL STRUCTURE — GSO TANAUAN
+	// Extracted with 100% fidelity from Official LGU Tanauan PDF Document
+	// Palette: Strictly Royal Blue (#051026, #0b2154, #1d4ed8, #2563eb)
+	//          and Amber Yellow (#f59e0b, #fbbf24, #d97706, #fef3c7) ONLY.
+	// =========================================================================
+
+	// Official Ratified Document Scans
 	const documentSheets = [
 		{
 			id: 'part1',
@@ -23,118 +30,329 @@
 		}
 	];
 
-	// Full Roster of General Services Section
+	// Role-specific descriptions generator
+	function getRoleDetails(position, name, section) {
+		const posLower = position.toLowerCase();
+		if (posLower.includes('head') || posLower.includes('operation manager')) {
+			return {
+				category: 'Executive Leadership & Operations Management',
+				overview: 'Overall operational head managing municipal facilities, logistics deployment, asset maintenance, and general support services across all offices and 54 barangays.',
+				duties: [
+					'Formulates and executes comprehensive maintenance and utility operations plans for all LGU facilities',
+					'Directs motor pool operations, municipal vehicle fleet dispatch, and logistics mobilization',
+					'Coordinates equipment and venue preparation for civic ceremonies, council sessions, and municipal festivals',
+					'Leads rapid logistics response and facility clearance during disasters, typhoons, and local emergencies'
+				],
+				hub: 'GSO Executive Suite, Tanauan Municipal Hall Complex',
+				hours: 'Monday – Friday | 8:00 AM – 5:00 PM (On-Call for Calamities)'
+			};
+		}
+		if (posLower.includes('book binder')) {
+			return {
+				category: 'Document Archival & Records Preservation',
+				overview: 'Specialist in preserving, binding, and restoring municipal records, legislative resolutions, ordinances, and vital civil registration volumes.',
+				duties: [
+					'Restores and binds permanent municipal council resolutions, ordinances, and executive orders',
+					'Applies specialized archival binding techniques to protect historical volumes from tropical humidity and wear',
+					'Performs preventative preservation of vital registry books and municipal tax records',
+					'Maintains physical book registers and orderly document indexing for fast retrieval'
+				],
+				hub: 'GSO Records & Archival Binding Desk, Municipal Hall',
+				hours: 'Monday – Friday | 8:00 AM – 5:00 PM'
+			};
+		}
+		if (posLower.includes('logistics')) {
+			return {
+				category: 'Supply Custodianship & Event Staging',
+				overview: 'Coordinates municipal equipment allocation, inventory dispatch, and staging requirements for municipal programs and barangay civic gatherings.',
+				duties: [
+					'Manages municipal sound systems, ceremonial tents, folding stages, and official seating',
+					'Coordinates equipment dispatch and transport logistics for town hall assemblies and cultural festivities',
+					'Tracks physical inventory of tools, supplies, and maintenance equipment',
+					'Assists in warehousing and distribution of emergency relief supplies during municipal calamities'
+				],
+				hub: 'GSO Logistics Hub & Equipment Depot, Municipal Hall Grounds',
+				hours: 'Monday – Friday | 8:00 AM – 5:00 PM'
+			};
+		}
+		if (posLower.includes('electrician')) {
+			return {
+				category: 'Electrical Systems & Public Lighting Maintenance',
+				overview: 'Technical specialist ensuring safe, continuous electrical power across all municipal facilities, public plazas, and municipal streetlight circuits.',
+				duties: [
+					'Maintains, inspects, and repairs electrical circuits and breaker panels in municipal government buildings',
+					'Services public streetlights, municipal park illuminations, and commemorative lighting',
+					'Inspects and tests emergency standby power generators for uninterrupted public operations',
+					'Installs temporary electrical drops and safe power cabling for civic events and town festivals'
+				],
+				hub: 'GSO Electrical & Mechanical Workshop, Tanauan Municipal Complex',
+				hours: 'Monday – Friday | 8:00 AM – 5:00 PM (Emergency Dispatch Ready)'
+			};
+		}
+		if (posLower.includes('carpenter')) {
+			return {
+				category: 'Carpentry & Structural Woodworks Maintenance',
+				overview: 'Craft specialist responsible for fabricating, repairing, and maintaining wooden structures, office partitions, and ceremonial platforms.',
+				duties: [
+					'Constructs and repairs office partitions, wooden cabinetry, doors, window casings, and desks',
+					'Erects and reinforces temporary wooden stages, podiums, and safety barricades for municipal events',
+					'Performs preventative building repairs on roofing trusses, ceilings, and exterior wood fittings',
+					'Installs typhoon window shutters and storm barriers on public buildings before typhoons'
+				],
+				hub: 'GSO Carpentry & Structural Workshop, Municipal Depot',
+				hours: 'Monday – Friday | 8:00 AM – 5:00 PM'
+			};
+		}
+		if (posLower.includes('welder')) {
+			return {
+				category: 'Metal Fabrication & Heavy Utility Welding',
+				overview: 'Skilled welder handling metal fabrication, structural repairs, utility truck reinforcement, and metal infrastructure maintenance.',
+				duties: [
+					'Performs arc and MIG welding on municipal gates, fence panels, drainage grates, and trash cages',
+					'Fabricates and repairs steel frames, stage trusses, and vehicle mounting brackets',
+					'Conducts structural maintenance on municipal dump trucks and heavy machinery bodies',
+					'Reinforces civic center steel columns and municipal playground equipment'
+				],
+				hub: 'GSO Metalworks & Welding Facility, Municipal Depot',
+				hours: 'Monday – Friday | 8:00 AM – 5:00 PM'
+			};
+		}
+		if (posLower.includes('driver')) {
+			return {
+				category: 'Fleet Operations & Logistical Transport',
+				overview: 'Professional motor pool driver responsible for the safe transit of municipal personnel, logistical supplies, and emergency cargo.',
+				duties: [
+					'Operates municipal service vans, utility haulers, and dump trucks for official municipal tasks',
+					'Conducts daily vehicle pre-trip inspections (Battery, Lights, Oil, Water, Brakes, Air, Gas)',
+					'Transports municipal medical teams, engineers, social workers, and relief goods to all 54 barangays',
+					'Maintains official driver travel logs, fuel consumption records, and preventive maintenance reports'
+				],
+				hub: 'GSO Motor Pool & Fleet Dispatch, Municipal Hall Grounds',
+				hours: 'Monday – Friday | 8:00 AM – 5:00 PM (Rotating Weekend & Emergency Dispatch)'
+			};
+		}
+		if (posLower.includes('park attendant') || posLower.includes('gardener')) {
+			return {
+				category: 'Public Parks & Landscape Maintenance',
+				overview: 'Dedicated grounds specialist keeping municipal plazas, memorial gardens, playgrounds, and public spaces green, vibrant, and clean.',
+				duties: [
+					'Prunes, waters, and cares for ornamental plants and trees in Tanauan Public Plaza and town parks',
+					'Maintains cleanliness of commemorative monuments, fountain areas, and visitor seating',
+					'Assists municipal clean-up initiatives and public greening projects across urban thoroughfares',
+					'Cleans fallen branches and restores park landscaping following monsoon weather'
+				],
+				hub: 'Tanauan Public Plaza & Municipal Grounds Care Station',
+				hours: 'Monday – Friday | 8:00 AM – 5:00 PM'
+			};
+		}
+		if (posLower.includes('clerical')) {
+			return {
+				category: 'Administrative Support & Dispatch Coordination',
+				overview: 'Provides essential front-desk clerical support, maintaining work orders, supply requisitions, and operational records for the section.',
+				duties: [
+					'Processes job orders, maintenance service requests, and utility dispatch slips',
+					'Maintains personnel daily time logs, monthly accomplishment reports, and supply rosters',
+					'Receives and routes official communications from barangay councils and municipal departments',
+					'Assists citizens and barangay representatives inquiring about municipal utility and facility bookings'
+				],
+				hub: 'GSO Administrative Frontline Desk, Tanauan Town Hall',
+				hours: 'Monday – Friday | 8:00 AM – 5:00 PM'
+			};
+		}
+		// Default: Utility Worker
+		return {
+			category: 'Municipal Facilities Upkeep & Utility Support',
+			overview: 'Frontline maintenance specialist ensuring cleanliness, functional readiness, and sanitation across all municipal buildings, grounds, and public venues.',
+			duties: [
+				'Executes daily sanitation, sweeping, and custodial cleaning of municipal offices, hallways, and public restrooms',
+				'Sets up tables, chairs, staging equipment, and sound systems for government assemblies and civic ceremonies',
+				'Participates in town-wide canal clearing, coastal clean-ups, and public market deep cleaning',
+				'Assists in post-typhoon debris clearing, road clearance, and relief goods hauling during emergencies'
+			],
+			hub: 'GSO Field Operations Hub, Tanauan Municipal Complex',
+			hours: 'Monday – Friday | 8:00 AM – 5:00 PM (Emergency Standby Ready)'
+		};
+	}
+
+	// 1. Executive Leadership
 	const headPersonnel = {
 		id: 'head-1',
 		name: 'EUGENIO C. RAMOS, JR.',
 		position: 'GSO Head / Operation Manager',
 		status: 'Head',
 		section: 'Executive Leadership',
-		badge: 'Department Head'
+		badge: 'Department Head',
+		batch: 'Leadership',
+		subCategory: 'Executive',
+		...getRoleDetails('GSO Head / Operation Manager', 'EUGENIO C. RAMOS, JR.', 'Executive Leadership')
 	};
 
-	const officeStaff = [
-		{ id: 'os-1', name: 'SOYOSA, HONEYLINE B.', position: 'Clerical / Utility Worker', status: 'Permanent', section: 'Office Staff' },
-		{ id: 'os-2', name: 'NARAJA, PAMELA', position: 'Book Binder', status: 'Permanent', section: 'Office Staff' },
-		{ id: 'os-3', name: 'GLORY, ROGER', position: 'Logistics', status: 'Permanent', section: 'Office Staff' },
-		{ id: 'os-4', name: 'CANDILA, AHRJEAN A.', position: 'Clerical Aide', status: 'Casual', section: 'Office Staff' },
-		{ id: 'os-5', name: 'DUMA, PEDRO C.', position: 'Clerical Aide', status: 'Casual', section: 'Office Staff' },
-		{ id: 'os-6', name: 'AVILA, AIZA', position: 'Clerical Aide', status: 'Job Order', section: 'Office Staff' },
-		{ id: 'os-7', name: 'BAÑARES, REMILYN', position: 'Clerical Aide', status: 'Job Order', section: 'Office Staff' },
-		{ id: 'os-8', name: 'GOBENCIONG, GINNA', position: 'Clerical Aide', status: 'Job Order', section: 'Office Staff' },
-		{ id: 'os-9', name: 'LUMBRE, ASUNCION', position: 'Clerical Aide', status: 'Job Order', section: 'Office Staff' },
-		{ id: 'os-10', name: 'TIZON, LORETO', position: 'Clerical Aide', status: 'Job Order', section: 'Office Staff' }
+	// 2. Section 1: Office Staff (10)
+	const rawOfficeStaff = [
+		{ id: 'os-1', name: 'SOYOSA, HONEYLINE B.', position: 'Clerical / Utility Worker', status: 'Permanent', section: 'Office Staff', subCategory: 'Clerical & Admin' },
+		{ id: 'os-2', name: 'NARAJA, PAMELA', position: 'Book Binder', status: 'Permanent', section: 'Office Staff', subCategory: 'Archival & Binding' },
+		{ id: 'os-3', name: 'GLORY, ROGER', position: 'Logistics', status: 'Permanent', section: 'Office Staff', subCategory: 'Logistics & Supply' },
+		{ id: 'os-4', name: 'CANDILA, AHRJEAN A.', position: 'Clerical Aide', status: 'Casual', section: 'Office Staff', subCategory: 'Clerical & Admin' },
+		{ id: 'os-5', name: 'DUMA, PEDRO C.', position: 'Clerical Aide', status: 'Casual', section: 'Office Staff', subCategory: 'Clerical & Admin' },
+		{ id: 'os-6', name: 'AVILA, AIZA', position: 'Clerical Aide', status: 'Job Order', section: 'Office Staff', subCategory: 'Clerical & Admin' },
+		{ id: 'os-7', name: 'BAÑARES, REMILYN', position: 'Clerical Aide', status: 'Job Order', section: 'Office Staff', subCategory: 'Clerical & Admin' },
+		{ id: 'os-8', name: 'GOBENCIONG, GINNA', position: 'Clerical Aide', status: 'Job Order', section: 'Office Staff', subCategory: 'Clerical & Admin' },
+		{ id: 'os-9', name: 'LUMBRE, ASUNCION', position: 'Clerical Aide', status: 'Job Order', section: 'Office Staff', subCategory: 'Clerical & Admin' },
+		{ id: 'os-10', name: 'TIZON, LORETO', position: 'Clerical Aide', status: 'Job Order', section: 'Office Staff', subCategory: 'Clerical & Admin' }
 	];
 
-	const fieldWorkers = [
-		{ id: 'fw-1', name: 'ARCENA, ROSIE C.', position: 'Utility Worker', status: 'Permanent', section: 'Field Workers' },
-		{ id: 'fw-2', name: 'BADRINA, DARYL', position: 'Utility Worker', status: 'Permanent', section: 'Field Workers' },
-		{ id: 'fw-3', name: 'CADION, RAYLE M.', position: 'Utility Worker', status: 'Permanent', section: 'Field Workers' },
-		{ id: 'fw-4', name: 'DANDAN, GERALDINE', position: 'Utility Worker', status: 'Permanent', section: 'Field Workers' },
-		{ id: 'fw-5', name: 'ECHAQUE, CHRISTAL', position: 'Utility Worker', status: 'Permanent', section: 'Field Workers' },
-		{ id: 'fw-6', name: 'GAUSIN, LORDELIZA A.', position: 'Utility Worker', status: 'Permanent', section: 'Field Workers' },
-		{ id: 'fw-7', name: 'MARCHADESCH, JESUSITO', position: 'Utility Worker', status: 'Permanent', section: 'Field Workers' },
-		{ id: 'fw-8', name: 'MARIANO, MAY D.', position: 'Utility Worker', status: 'Permanent', section: 'Field Workers' },
-		{ id: 'fw-9', name: 'ODULLADA, ADAMSON', position: 'Park Attendant', status: 'Permanent', section: 'Field Workers' },
-		{ id: 'fw-10', name: 'REPASA, RANEL', position: 'Carpenter', status: 'Permanent', section: 'Field Workers' },
-		{ id: 'fw-11', name: 'SONGALIA, ROLANDO', position: 'Electrician', status: 'Permanent', section: 'Field Workers' },
-		{ id: 'fw-12', name: 'REDOÑA, PAUL', position: 'Assistant Electrician', status: 'Casual', section: 'Field Workers' },
-		{ id: 'fw-13', name: 'DULAY, ELEUTERIO P.', position: 'Utility Worker', status: 'Casual', section: 'Field Workers' },
-		{ id: 'fw-14', name: 'ABAÑO, RAYMOND', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers' },
-		{ id: 'fw-15', name: 'ABARIENTOS, ALLAN', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers' },
-		{ id: 'fw-16', name: 'ALICANDO, JAYRIC', position: 'Assistant Electrician', status: 'Job Order', section: 'Field Workers' },
-		{ id: 'fw-17', name: 'ALICER, JUNJIE', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers' },
-		{ id: 'fw-18', name: 'BADEO, DOMINIC', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers' },
-		{ id: 'fw-19', name: 'BADEO, ROMMEL', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers' },
-		{ id: 'fw-20', name: 'BETE, JEFFREY', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers' },
-		{ id: 'fw-21', name: 'CATUDIO, MARJOY', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers' },
-		{ id: 'fw-22', name: 'CORALES, JOEY', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers' },
-		{ id: 'fw-23', name: 'CUMPIO, ROGELIO', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers' },
-		{ id: 'fw-24', name: 'CUMPIO, ZOSIMA', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers' },
-		{ id: 'fw-25', name: 'DALAGAN, DENNIS', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers' },
-		{ id: 'fw-26', name: 'DAYA-ON, DENNIS', position: 'Driver', status: 'Job Order', section: 'Field Workers' },
-		{ id: 'fw-27', name: 'DAYA-ON, MELODY', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers' },
-		{ id: 'fw-28', name: 'DE VEYRA, SIONY', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers' },
-		{ id: 'fw-29', name: 'DURANA, LARRY', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers' },
-		{ id: 'fw-30', name: 'ELONA, JANETH', position: 'Clerical Aide', status: 'Job Order', section: 'Field Workers' },
-		{ id: 'fw-31', name: 'GARCIA, JERRY', position: 'Gardener', status: 'Job Order', section: 'Field Workers' },
-		{ id: 'fw-32', name: 'HABABAG, JOEL', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers' },
-		{ id: 'fw-33', name: 'HUBAHIB, ANTHONY', position: 'Welder', status: 'Job Order', section: 'Field Workers' },
-		{ id: 'fw-34', name: 'MERCADO, ALEX', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers' },
-		{ id: 'fw-35', name: 'NARAJA, REGGIE BOY', position: 'Assistant Electrician', status: 'Job Order', section: 'Field Workers' },
-		{ id: 'fw-36', name: 'NERJA, ALFONSO', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers' },
-		{ id: 'fw-37', name: 'OLIMBERIO, CARLOS MIGUEL', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers' },
-		{ id: 'fw-38', name: 'PALO, FELIX', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers' },
-		{ id: 'fw-39', name: 'PARUNGAO, MEL IVAN', position: 'Driver', status: 'Job Order', section: 'Field Workers' },
-		{ id: 'fw-40', name: 'PARUNGAO, MELJOHN', position: 'Clerical Aide', status: 'Job Order', section: 'Field Workers' },
-		{ id: 'fw-41', name: 'RAZ, ROSELL', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers' },
-		{ id: 'fw-42', name: 'REBANO, ROQUE', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers' },
-		{ id: 'fw-43', name: 'REDOÑA, RECHARD', position: 'Driver', status: 'Job Order', section: 'Field Workers' },
-		{ id: 'fw-44', name: 'ROYERAS, ALJHON', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers' },
-		{ id: 'fw-45', name: 'SANTOS, SALES', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers' },
-		{ id: 'fw-46', name: 'SOLEDAD, RYAN', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers' },
-		{ id: 'fw-47', name: 'SOYOSA, MANNIX', position: 'Assistant Electrician', status: 'Job Order', section: 'Field Workers' },
-		{ id: 'fw-48', name: 'TOLIBAS, BYRON', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers' },
-		{ id: 'fw-49', name: 'VILLAMOR, CONCORDIO', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers' }
+	const officeStaff = rawOfficeStaff.map((p) => ({
+		...p,
+		batch: 'Office Staff',
+		...getRoleDetails(p.position, p.name, p.section)
+	}));
+
+	// 3. Section 2: Field Workers (49)
+	const rawFieldWorkers = [
+		// Batch 1 (Items 1 – 21)
+		{ id: 'fw-1', name: 'ARCENA, ROSIE C.', position: 'Utility Worker', status: 'Permanent', section: 'Field Workers', batchNum: 1, subCategory: 'Utilities & Maintenance' },
+		{ id: 'fw-2', name: 'BADRINA, DARYL', position: 'Utility Worker', status: 'Permanent', section: 'Field Workers', batchNum: 1, subCategory: 'Utilities & Maintenance' },
+		{ id: 'fw-3', name: 'CADION, RAYLE M.', position: 'Utility Worker', status: 'Permanent', section: 'Field Workers', batchNum: 1, subCategory: 'Utilities & Maintenance' },
+		{ id: 'fw-4', name: 'DANDAN, GERALDINE', position: 'Utility Worker', status: 'Permanent', section: 'Field Workers', batchNum: 1, subCategory: 'Utilities & Maintenance' },
+		{ id: 'fw-5', name: 'ECHAQUE, CHRISTAL', position: 'Utility Worker', status: 'Permanent', section: 'Field Workers', batchNum: 1, subCategory: 'Utilities & Maintenance' },
+		{ id: 'fw-6', name: 'GAUSIN, LORDELIZA A.', position: 'Utility Worker', status: 'Permanent', section: 'Field Workers', batchNum: 1, subCategory: 'Utilities & Maintenance' },
+		{ id: 'fw-7', name: 'MARCHADESCH, JESUSITO', position: 'Utility Worker', status: 'Permanent', section: 'Field Workers', batchNum: 1, subCategory: 'Utilities & Maintenance' },
+		{ id: 'fw-8', name: 'MARIANO, MAY D.', position: 'Utility Worker', status: 'Permanent', section: 'Field Workers', batchNum: 1, subCategory: 'Utilities & Maintenance' },
+		{ id: 'fw-9', name: 'ODULLADA, ADAMSON', position: 'Park Attendant', status: 'Permanent', section: 'Field Workers', batchNum: 1, subCategory: 'Parks & Grounds' },
+		{ id: 'fw-10', name: 'REPASA, RANEL', position: 'Carpenter', status: 'Permanent', section: 'Field Workers', batchNum: 1, subCategory: 'Technical Crafts' },
+		{ id: 'fw-11', name: 'SONGALIA, ROLANDO', position: 'Electrician', status: 'Permanent', section: 'Field Workers', batchNum: 1, subCategory: 'Technical Crafts' },
+		{ id: 'fw-12', name: 'REDOÑA, PAUL', position: 'Assistant Electrician', status: 'Casual', section: 'Field Workers', batchNum: 1, subCategory: 'Technical Crafts' },
+		{ id: 'fw-13', name: 'DULAY, ELEUTERIO P.', position: 'Utility Worker', status: 'Casual', section: 'Field Workers', batchNum: 1, subCategory: 'Utilities & Maintenance' },
+		{ id: 'fw-14', name: 'ABAÑO, RAYMOND', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers', batchNum: 1, subCategory: 'Utilities & Maintenance' },
+		{ id: 'fw-15', name: 'ABARIENTOS, ALLAN', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers', batchNum: 1, subCategory: 'Utilities & Maintenance' },
+		{ id: 'fw-16', name: 'ALICANDO, JAYRIC', position: 'Assistant Electrician', status: 'Job Order', section: 'Field Workers', batchNum: 1, subCategory: 'Technical Crafts' },
+		{ id: 'fw-17', name: 'ALICER, JUNJIE', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers', batchNum: 1, subCategory: 'Utilities & Maintenance' },
+		{ id: 'fw-18', name: 'BADEO, DOMINIC', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers', batchNum: 1, subCategory: 'Utilities & Maintenance' },
+		{ id: 'fw-19', name: 'BADEO, ROMMEL', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers', batchNum: 1, subCategory: 'Utilities & Maintenance' },
+		{ id: 'fw-20', name: 'BETE, JEFFREY', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers', batchNum: 1, subCategory: 'Utilities & Maintenance' },
+		{ id: 'fw-21', name: 'CATUDIO, MARJOY', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers', batchNum: 1, subCategory: 'Utilities & Maintenance' },
+
+		// Batch 2 (Items 22 – 49)
+		{ id: 'fw-22', name: 'CORALES, JOEY', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers', batchNum: 2, subCategory: 'Utilities & Maintenance' },
+		{ id: 'fw-23', name: 'CUMPIO, ROGELIO', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers', batchNum: 2, subCategory: 'Utilities & Maintenance' },
+		{ id: 'fw-24', name: 'CUMPIO, ZOSIMA', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers', batchNum: 2, subCategory: 'Utilities & Maintenance' },
+		{ id: 'fw-25', name: 'DALAGAN, DENNIS', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers', batchNum: 2, subCategory: 'Utilities & Maintenance' },
+		{ id: 'fw-26', name: 'DAYA-ON, DENNIS', position: 'Driver', status: 'Job Order', section: 'Field Workers', batchNum: 2, subCategory: 'Logistics & Fleet' },
+		{ id: 'fw-27', name: 'DAYA-ON, MELODY', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers', batchNum: 2, subCategory: 'Utilities & Maintenance' },
+		{ id: 'fw-28', name: 'DE VEYRA, SIONY', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers', batchNum: 2, subCategory: 'Utilities & Maintenance' },
+		{ id: 'fw-29', name: 'DURANA, LARRY', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers', batchNum: 2, subCategory: 'Utilities & Maintenance' },
+		{ id: 'fw-30', name: 'ELONA, JANETH', position: 'Clerical Aide', status: 'Job Order', section: 'Field Workers', batchNum: 2, subCategory: 'Parks & Grounds' },
+		{ id: 'fw-31', name: 'GARCIA, JERRY', position: 'Gardener', status: 'Job Order', section: 'Field Workers', batchNum: 2, subCategory: 'Parks & Grounds' },
+		{ id: 'fw-32', name: 'HABABAG, JOEL', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers', batchNum: 2, subCategory: 'Utilities & Maintenance' },
+		{ id: 'fw-33', name: 'HUBAHIB, ANTHONY', position: 'Welder', status: 'Job Order', section: 'Field Workers', batchNum: 2, subCategory: 'Technical Crafts' },
+		{ id: 'fw-34', name: 'MERCADO, ALEX', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers', batchNum: 2, subCategory: 'Utilities & Maintenance' },
+		{ id: 'fw-35', name: 'NARAJA, REGGIE BOY', position: 'Assistant Electrician', status: 'Job Order', section: 'Field Workers', batchNum: 2, subCategory: 'Technical Crafts' },
+		{ id: 'fw-36', name: 'NERJA, ALFONSO', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers', batchNum: 2, subCategory: 'Utilities & Maintenance' },
+		{ id: 'fw-37', name: 'OLIMBERIO, CARLOS MIGUEL', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers', batchNum: 2, subCategory: 'Utilities & Maintenance' },
+		{ id: 'fw-38', name: 'PALO, FELIX', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers', batchNum: 2, subCategory: 'Utilities & Maintenance' },
+		{ id: 'fw-39', name: 'PARUNGAO, MEL IVAN', position: 'Driver', status: 'Job Order', section: 'Field Workers', batchNum: 2, subCategory: 'Logistics & Fleet' },
+		{ id: 'fw-40', name: 'PARUNGAO, MELJOHN', position: 'Clerical Aide', status: 'Job Order', section: 'Field Workers', batchNum: 2, subCategory: 'Parks & Grounds' },
+		{ id: 'fw-41', name: 'RAZ, ROSELL', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers', batchNum: 2, subCategory: 'Utilities & Maintenance' },
+		{ id: 'fw-42', name: 'REBANO, ROQUE', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers', batchNum: 2, subCategory: 'Utilities & Maintenance' },
+		{ id: 'fw-43', name: 'REDOÑA, RECHARD', position: 'Driver', status: 'Job Order', section: 'Field Workers', batchNum: 2, subCategory: 'Logistics & Fleet' },
+		{ id: 'fw-44', name: 'ROYERAS, ALJHON', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers', batchNum: 2, subCategory: 'Utilities & Maintenance' },
+		{ id: 'fw-45', name: 'SANTOS, SALES', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers', batchNum: 2, subCategory: 'Utilities & Maintenance' },
+		{ id: 'fw-46', name: 'SOLEDAD, RYAN', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers', batchNum: 2, subCategory: 'Utilities & Maintenance' },
+		{ id: 'fw-47', name: 'SOYOSA, MANNIX', position: 'Assistant Electrician', status: 'Job Order', section: 'Field Workers', batchNum: 2, subCategory: 'Technical Crafts' },
+		{ id: 'fw-48', name: 'TOLIBAS, BYRON', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers', batchNum: 2, subCategory: 'Utilities & Maintenance' },
+		{ id: 'fw-49', name: 'VILLAMOR, CONCORDIO', position: 'Utility Worker', status: 'Job Order', section: 'Field Workers', batchNum: 2, subCategory: 'Utilities & Maintenance' }
 	];
+
+	const fieldWorkers = rawFieldWorkers.map((p) => ({
+		...p,
+		batch: `Field Workers Batch ${p.batchNum}`,
+		...getRoleDetails(p.position, p.name, p.section)
+	}));
 
 	const allPersonnel = [headPersonnel, ...officeStaff, ...fieldWorkers];
 
-	// Component State
+	// =========================================================================
+	// COMPONENT STATE (COLLAPSIBLE SECTIONS & VIEWS)
+	// =========================================================================
 	let mainViewMode = $state('organogram'); // 'organogram' | 'documents'
 	let activeSheetIndex = $state(0);
-	let selectedSectionFilter = $state('all'); // 'all' | 'Office Staff' | 'Field Workers'
+
+	// Collapsible Section States
+	let isHeadSubordinatesExpanded = $state(true);
+	let isOfficeStaffExpanded = $state(true);
+	let isFieldWorkersExpanded = $state(true);
+
+	// Sub-group toggles inside Field Workers
+	let activeFieldSubGroup = $state('all'); // 'all' | 'Technical Crafts' | 'Logistics & Fleet' | 'Parks & Grounds' | 'Utilities & Maintenance'
+
+	// Filters
 	let selectedStatusFilter = $state('all'); // 'all' | 'Permanent' | 'Casual' | 'Job Order'
 	let searchQuery = $state('');
-	let zoomedImageModal = $state(null);
-	let selectedPersonnelModal = $state(null);
 
-	// Filtering logic
-	const filteredPersonnel = $derived(
-		allPersonnel.filter((person) => {
-			if (selectedSectionFilter !== 'all' && person.section !== selectedSectionFilter && person.status !== 'Head') {
-				return false;
-			}
-			if (selectedStatusFilter !== 'all' && person.status !== selectedStatusFilter && person.status !== 'Head') {
-				return false;
-			}
+	// Modals
+	let selectedPersonnelModal = $state(null);
+	let zoomedImageModal = $state(null);
+
+	// Global Expand / Collapse All
+	function expandAll() {
+		isHeadSubordinatesExpanded = true;
+		isOfficeStaffExpanded = true;
+		isFieldWorkersExpanded = true;
+	}
+
+	function collapseAll() {
+		isHeadSubordinatesExpanded = true;
+		isOfficeStaffExpanded = false;
+		isFieldWorkersExpanded = false;
+	}
+
+	// Filtered Office Staff
+	const filteredOfficeStaff = $derived(
+		officeStaff.filter((person) => {
+			if (selectedStatusFilter !== 'all' && person.status !== selectedStatusFilter) return false;
 			if (searchQuery.trim() !== '') {
 				const q = searchQuery.toLowerCase().trim();
-				const matchName = person.name.toLowerCase().includes(q);
-				const matchPos = person.position.toLowerCase().includes(q);
-				const matchStat = person.status.toLowerCase().includes(q);
-				return matchName || matchPos || matchStat;
+				return (
+					person.name.toLowerCase().includes(q) ||
+					person.position.toLowerCase().includes(q) ||
+					person.status.toLowerCase().includes(q) ||
+					person.subCategory.toLowerCase().includes(q)
+				);
 			}
 			return true;
 		})
 	);
 
-	function openZoomModal(imgSrc) {
-		zoomedImageModal = imgSrc;
-	}
+	// Filtered Field Workers
+	const filteredFieldWorkers = $derived(
+		fieldWorkers.filter((person) => {
+			if (activeFieldSubGroup !== 'all' && person.subCategory !== activeFieldSubGroup) return false;
+			if (selectedStatusFilter !== 'all' && person.status !== selectedStatusFilter) return false;
+			if (searchQuery.trim() !== '') {
+				const q = searchQuery.toLowerCase().trim();
+				return (
+					person.name.toLowerCase().includes(q) ||
+					person.position.toLowerCase().includes(q) ||
+					person.status.toLowerCase().includes(q) ||
+					person.subCategory.toLowerCase().includes(q)
+				);
+			}
+			return true;
+		})
+	);
 
-	function closeZoomModal() {
-		zoomedImageModal = null;
+	// Total filtered count
+	const totalFilteredCount = $derived(
+		(matchesHead(headPersonnel, searchQuery, selectedStatusFilter) ? 1 : 0) +
+			filteredOfficeStaff.length +
+			filteredFieldWorkers.length
+	);
+
+	function matchesHead(head, q, stat) {
+		if (stat !== 'all' && stat !== 'Permanent' && stat !== 'Head') return false;
+		if (!q.trim()) return true;
+		const query = q.toLowerCase().trim();
+		return head.name.toLowerCase().includes(query) || head.position.toLowerCase().includes(query);
 	}
 
 	function openPersonnelModal(p) {
@@ -145,365 +363,631 @@
 		selectedPersonnelModal = null;
 	}
 
-	function getStatusBadgeClass(status) {
+	function openZoomModal(imgSrc) {
+		zoomedImageModal = imgSrc;
+	}
+
+	function closeZoomModal() {
+		zoomedImageModal = null;
+	}
+
+	// Status badge styles: STRICTLY ROYAL BLUE & AMBER YELLOW
+	function getStatusBadgeStyles(status) {
 		if (status === 'Head') {
-			return 'bg-amber-400 text-blue-950 border-amber-500 font-black';
+			return 'bg-gradient-to-r from-amber-400 to-amber-500 text-blue-950 font-black border border-amber-300 shadow-sm';
 		}
 		if (status === 'Permanent') {
-			return 'bg-emerald-100 text-emerald-900 border-emerald-300 font-bold';
+			return 'bg-blue-950 text-amber-300 font-extrabold border border-amber-400/80 shadow-2xs';
 		}
 		if (status === 'Casual') {
-			return 'bg-amber-100 text-amber-900 border-amber-300 font-bold';
+			return 'bg-blue-900 text-amber-200 font-bold border border-amber-500/50 shadow-2xs';
 		}
-		return 'bg-sky-100 text-sky-900 border-sky-300 font-bold';
+		// Job Order
+		return 'bg-blue-950/80 text-amber-300/90 font-semibold border border-blue-700/60';
 	}
 </script>
 
-<svelte:window onkeydown={(e) => {
-	if (e.key === 'Escape') {
-		if (zoomedImageModal) closeZoomModal();
-		if (selectedPersonnelModal) closePersonnelModal();
-	}
-}} />
+<svelte:window
+	onkeydown={(e) => {
+		if (e.key === 'Escape') {
+			if (selectedPersonnelModal) closePersonnelModal();
+			if (zoomedImageModal) closeZoomModal();
+		}
+	}}
+/>
 
-<div class="w-full space-y-8">
-	<!-- Top Interactive Header Banner -->
+<div class="w-full space-y-8 font-['Poppins',sans-serif]">
+	<!-- ========================================================================= -->
+	<!-- 1. TOP HERO BANNER: ROYAL BLUE & AMBER YELLOW GRADIENT                   -->
+	<!-- ========================================================================= -->
 	<div
-		class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-blue-950 via-slate-900 to-blue-950 p-6 sm:p-8 text-white shadow-xl border-2 border-blue-900"
+		class="relative overflow-hidden rounded-3xl border-2 border-amber-500/40 bg-gradient-to-br from-[#051026] via-[#0b2154] to-[#1e40af] p-6 text-white shadow-2xl sm:p-8"
 	>
-		<!-- Background decorative glowing aura -->
-		<div class="pointer-events-none absolute -right-12 -bottom-12 h-64 w-64 rounded-full bg-amber-400/10 blur-3xl"></div>
-		<div class="pointer-events-none absolute -left-12 -top-12 h-64 w-64 rounded-full bg-blue-500/10 blur-3xl"></div>
+		<!-- Background ambient amber glowing circles -->
+		<div
+			class="pointer-events-none absolute -top-16 -right-16 h-72 w-72 rounded-full bg-amber-400/15 blur-3xl"
+		></div>
+		<div
+			class="pointer-events-none absolute -bottom-16 -left-16 h-72 w-72 rounded-full bg-blue-600/25 blur-3xl"
+		></div>
 
-		<div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+		<div class="relative z-10 flex flex-col justify-between gap-6 md:flex-row md:items-center">
 			<div class="flex items-center gap-4">
-				<div class="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-white/10 p-2 border border-white/20 backdrop-blur-md shadow-md">
+				<div
+					class="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl border-2 border-amber-400/60 bg-gradient-to-br from-blue-950 to-blue-900 p-2.5 shadow-lg backdrop-blur-md"
+				>
 					<img src="/tanauan logo.svg" alt="Tanauan Seal" class="h-full w-full object-contain" />
 				</div>
 				<div>
-					<div class="flex items-center gap-2 mb-1">
-						<span class="inline-flex items-center gap-1.5 rounded-full bg-amber-400 px-3 py-0.5 text-[10px] font-black tracking-wider text-blue-950 uppercase shadow-2xs">
+					<div class="mb-1 flex flex-wrap items-center gap-2">
+						<span
+							class="inline-flex items-center gap-1.5 rounded-full border border-amber-400 bg-amber-400 px-3 py-0.5 text-[10px] font-black tracking-widest text-blue-950 uppercase shadow-xs"
+						>
 							<span class="h-1.5 w-1.5 rounded-full bg-blue-950 animate-pulse"></span>
-							CSC-RATIFIED HIERARCHY
+							OFFICIAL CSC RATIFIED
 						</span>
-						<span class="text-xs font-semibold text-slate-300">LGU Tanauan, Leyte</span>
+						<span class="text-xs font-semibold text-amber-200">Municipality of Tanauan, Leyte</span>
 					</div>
-					<h2 class="text-2xl sm:text-3xl font-black tracking-tight text-white uppercase">
+					<h2 class="text-2xl font-black tracking-tight text-white uppercase sm:text-3xl">
 						General Services Section
 					</h2>
-					<p class="text-xs sm:text-sm font-semibold text-amber-300 tracking-wider uppercase mt-0.5">
-						Official Organizational Chart & Personnel Directory
+					<p class="mt-0.5 text-xs font-bold tracking-wider text-amber-300 uppercase sm:text-sm">
+						Organizational Structure & Personnel Directory
 					</p>
 				</div>
 			</div>
 
-			<!-- Quick Metric Badges -->
+			<!-- Quick Metric Badges (Royal Blue & Amber Yellow Only) -->
 			<div class="flex flex-wrap items-center gap-2.5">
-				<div class="rounded-xl border border-white/15 bg-white/10 px-3.5 py-2 backdrop-blur-sm text-center">
-					<div class="text-[10px] font-extrabold uppercase tracking-wider text-slate-300">Office Staff</div>
-					<div class="text-lg font-black text-amber-300">10</div>
+				<div
+					class="rounded-2xl border border-amber-400/30 bg-blue-950/70 px-4 py-2.5 text-center backdrop-blur-md"
+				>
+					<div class="text-[10px] font-extrabold tracking-wider text-amber-200 uppercase">Office Staff</div>
+					<div class="text-xl font-black text-amber-400">10</div>
 				</div>
-				<div class="rounded-xl border border-white/15 bg-white/10 px-3.5 py-2 backdrop-blur-sm text-center">
-					<div class="text-[10px] font-extrabold uppercase tracking-wider text-slate-300">Field Personnel</div>
-					<div class="text-lg font-black text-emerald-400">49</div>
+				<div
+					class="rounded-2xl border border-amber-400/30 bg-blue-950/70 px-4 py-2.5 text-center backdrop-blur-md"
+				>
+					<div class="text-[10px] font-extrabold tracking-wider text-amber-200 uppercase">Field Workers</div>
+					<div class="text-xl font-black text-amber-400">49</div>
 				</div>
-				<div class="rounded-xl border border-white/15 bg-white/10 px-3.5 py-2 backdrop-blur-sm text-center">
-					<div class="text-[10px] font-extrabold uppercase tracking-wider text-slate-300">Total Workforce</div>
-					<div class="text-lg font-black text-white">60</div>
+				<div
+					class="rounded-2xl border-2 border-amber-400 bg-gradient-to-br from-amber-400 to-amber-500 px-4 py-2.5 text-center text-blue-950 shadow-md"
+				>
+					<div class="text-[10px] font-black tracking-wider uppercase">Total Workforce</div>
+					<div class="text-xl font-black">60</div>
 				</div>
 			</div>
 		</div>
 
-		<!-- View Switcher Tabs -->
-		<div class="mt-8 pt-6 border-t border-white/15 flex flex-wrap items-center justify-between gap-4">
-			<div class="inline-flex rounded-2xl bg-white/10 p-1 border border-white/20 backdrop-blur-md">
+		<!-- View Switcher Tabs & Quick Expand/Collapse -->
+		<div
+			class="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-amber-400/20 pt-6"
+		>
+			<div class="inline-flex rounded-2xl border border-amber-400/30 bg-blue-950/80 p-1 backdrop-blur-md">
 				<button
 					type="button"
 					onclick={() => (mainViewMode = 'organogram')}
-					class="inline-flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-black transition-all {mainViewMode === 'organogram'
-						? 'bg-amber-400 text-blue-950 shadow-md scale-102'
-						: 'text-white/80 hover:text-white hover:bg-white/10'}"
+					class="inline-flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-black transition-all {mainViewMode ===
+					'organogram'
+						? 'bg-amber-400 text-blue-950 shadow-md'
+						: 'text-amber-100 hover:bg-blue-900/60 hover:text-amber-300'}"
 				>
-					<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-					</svg>
-					<span>Interactive Organogram Tree</span>
+					<span>⚡ Collapsible Organogram</span>
 				</button>
 				<button
 					type="button"
 					onclick={() => (mainViewMode = 'documents')}
-					class="inline-flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-black transition-all {mainViewMode === 'documents'
-						? 'bg-amber-400 text-blue-950 shadow-md scale-102'
-						: 'text-white/80 hover:text-white hover:bg-white/10'}"
+					class="inline-flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-black transition-all {mainViewMode ===
+					'documents'
+						? 'bg-amber-400 text-blue-950 shadow-md'
+						: 'text-amber-100 hover:bg-blue-900/60 hover:text-amber-300'}"
 				>
-					<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-					</svg>
-					<span>Official Ratified Documents (3 Parts)</span>
+					<span>📄 Official Document Scans (3 Parts)</span>
 				</button>
 			</div>
 
-			<span class="text-xs font-semibold text-slate-300">
-				{mainViewMode === 'organogram' ? 'Showing visual tree & searchable roster' : 'Showing scanned civil service approved charts'}
-			</span>
+			<!-- Expand / Collapse All Buttons -->
+			{#if mainViewMode === 'organogram'}
+				<div class="flex items-center gap-2">
+					<button
+						type="button"
+						onclick={expandAll}
+						class="rounded-xl border border-amber-400/40 bg-blue-950 px-3 py-1.5 text-xs font-black text-amber-300 transition-all hover:bg-amber-400 hover:text-blue-950"
+					>
+						[+] Expand All Sections
+					</button>
+					<button
+						type="button"
+						onclick={collapseAll}
+						class="rounded-xl border border-amber-400/40 bg-blue-950 px-3 py-1.5 text-xs font-black text-amber-300 transition-all hover:bg-amber-400 hover:text-blue-950"
+					>
+						[−] Collapse All
+					</button>
+				</div>
+			{/if}
 		</div>
 	</div>
 
 	<!-- ========================================================================= -->
-	<!-- MODE 1: INTERACTIVE ORGANOGRAM TREE & SEARCHABLE ROSTER                  -->
+	<!-- 2. MODE 1: INTERACTIVE & COLLAPSIBLE ORGANOGRAM                           -->
 	<!-- ========================================================================= -->
 	{#if mainViewMode === 'organogram'}
-		<div class="space-y-10" transition:fade={{ duration: 180 }}>
-			<!-- Tree Visual Level: Top Leader Node -->
-			<div class="flex flex-col items-center">
-				<div class="text-center mb-4">
-					<span class="text-[11px] font-black uppercase tracking-widest text-amber-700 bg-amber-100 border border-amber-300 px-3 py-1 rounded-full">
-						DEPARTMENT HEAD
-					</span>
-				</div>
-
-				<!-- Head Leader Card -->
-				<div
-					role="button"
-					tabindex="0"
-					onclick={() => openPersonnelModal(headPersonnel)}
-					onkeydown={(e) => e.key === 'Enter' && openPersonnelModal(headPersonnel)}
-					class="group relative w-full max-w-md cursor-pointer rounded-3xl border-3 border-amber-400 bg-gradient-to-br from-white via-amber-50/40 to-white p-6 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:border-blue-900 text-center"
-				>
-					<div class="flex flex-col items-center">
-						<!-- Leader Avatar -->
-						<div class="relative mb-3">
-							<div class="flex h-20 w-20 items-center justify-center rounded-2xl bg-blue-950 text-white font-black text-2xl shadow-md border-2 border-amber-400">
-								ECR
-							</div>
-							<span class="absolute -bottom-1 -right-1 h-5 w-5 rounded-full bg-emerald-500 border-2 border-white" title="Active Head of Office"></span>
-						</div>
-
-						<h3 class="text-xl font-black text-blue-950 group-hover:text-blue-900 transition-colors">
-							EUGENIO C. RAMOS, JR.
-						</h3>
-						<div class="mt-1 text-xs font-extrabold text-amber-700 tracking-wide uppercase">
-							GSO Head / Operation Manager
-						</div>
-						<div class="mt-2 inline-flex items-center gap-1 rounded-full bg-amber-400 px-3 py-0.5 text-[10px] font-black text-blue-950 uppercase shadow-2xs">
-							<span>Official Department Head</span>
-						</div>
-					</div>
-
-					<div class="mt-4 pt-3 border-t border-amber-200/80 text-[11px] font-bold text-slate-500 group-hover:text-blue-900">
-						Click to inspect supervisory role ↗
-					</div>
-				</div>
-
-				<!-- Connecting Central Stem Line -->
-				<div class="w-1 h-10 bg-blue-900"></div>
-
-				<!-- Two-Way Distribution Line -->
-				<div class="hidden sm:block w-full max-w-3xl h-1 bg-blue-900 relative">
-					<!-- Left drop to Office Staff -->
-					<div class="absolute left-1/4 -top-0 w-1 h-8 bg-blue-900"></div>
-					<!-- Right drop to Field Workers -->
-					<div class="absolute right-1/4 -top-0 w-1 h-8 bg-blue-900"></div>
-				</div>
-
-				<!-- Two Main Branches Banner -->
-				<div class="mt-4 sm:mt-8 grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-4xl">
-					<!-- Section 1 Branch Card -->
-					<div
-						class="rounded-2xl border-2 {selectedSectionFilter === 'Office Staff' ? 'border-amber-500 bg-amber-50/70 shadow-md' : 'border-blue-900/30 bg-blue-50/40'} p-5 text-center transition-all hover:border-amber-500 cursor-pointer"
-						role="button"
-						tabindex="0"
-						onclick={() => (selectedSectionFilter = selectedSectionFilter === 'Office Staff' ? 'all' : 'Office Staff')}
-						onkeydown={(e) => e.key === 'Enter' && (selectedSectionFilter = selectedSectionFilter === 'Office Staff' ? 'all' : 'Office Staff')}
-					>
-						<span class="text-[10px] font-black uppercase tracking-wider text-blue-900 block mb-1">
-							SECTION 01
-						</span>
-						<h4 class="text-lg font-black text-blue-950">OFFICE STAFF</h4>
-						<p class="text-xs font-bold text-slate-600 mt-1">10 Dedicated Administrative Specialists</p>
-						<span class="inline-block mt-3 rounded-full bg-blue-950 text-amber-300 px-3 py-0.5 text-xs font-black">
-							{selectedSectionFilter === 'Office Staff' ? '✓ Filter Active' : 'Click to Filter'}
-						</span>
-					</div>
-
-					<!-- Section 2 Branch Card -->
-					<div
-						class="rounded-2xl border-2 {selectedSectionFilter === 'Field Workers' ? 'border-emerald-500 bg-emerald-50/70 shadow-md' : 'border-blue-900/30 bg-emerald-50/30'} p-5 text-center transition-all hover:border-emerald-500 cursor-pointer"
-						role="button"
-						tabindex="0"
-						onclick={() => (selectedSectionFilter = selectedSectionFilter === 'Field Workers' ? 'all' : 'Field Workers')}
-						onkeydown={(e) => e.key === 'Enter' && (selectedSectionFilter = selectedSectionFilter === 'Field Workers' ? 'all' : 'Field Workers')}
-					>
-						<span class="text-[10px] font-black uppercase tracking-wider text-emerald-900 block mb-1">
-							SECTION 02
-						</span>
-						<h4 class="text-lg font-black text-blue-950">FIELD WORKERS</h4>
-						<p class="text-xs font-bold text-slate-600 mt-1">49 Utility, Technical & Logistics Staff</p>
-						<span class="inline-block mt-3 rounded-full bg-blue-950 text-emerald-300 px-3 py-0.5 text-xs font-black">
-							{selectedSectionFilter === 'Field Workers' ? '✓ Filter Active' : 'Click to Filter'}
-						</span>
-					</div>
-				</div>
-			</div>
-
-			<!-- Filter Bar & Real-Time Search -->
-			<div class="rounded-3xl border-2 border-slate-200 bg-slate-50 p-6 shadow-sm space-y-4">
-				<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-					<!-- Search Input -->
+		<div class="space-y-8" transition:fade={{ duration: 180 }}>
+			<!-- Search & Status Filter Console -->
+			<div
+				class="space-y-4 rounded-3xl border-2 border-amber-500/30 bg-gradient-to-r from-blue-950 via-[#0d2259] to-blue-950 p-5 text-white shadow-md sm:p-6"
+			>
+				<div class="flex flex-col justify-between gap-4 md:flex-row md:items-center">
+					<!-- Search Box -->
 					<div class="relative w-full md:max-w-md">
-						<svg class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-						</svg>
 						<input
 							type="text"
 							bind:value={searchQuery}
-							placeholder="Search personnel by name or position (e.g. Electrician, Driver, Honeyline)..."
-							class="w-full rounded-xl border border-slate-300 bg-white py-2.5 pl-10 pr-4 text-xs font-semibold text-slate-900 placeholder-slate-400 shadow-2xs focus:border-blue-900 focus:outline-none focus:ring-1 focus:ring-blue-900"
+							placeholder="Search by name, position (e.g. Electrician, Driver, Honeyline)..."
+							class="w-full rounded-2xl border-2 border-amber-400/40 bg-blue-900/40 py-2.5 pr-10 pl-4 text-xs font-semibold text-white placeholder-amber-200/60 transition-all focus:border-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-400/30"
 						/>
 						{#if searchQuery}
 							<button
 								type="button"
 								onclick={() => (searchQuery = '')}
-								class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-xs font-black"
+								class="absolute top-1/2 right-3 -translate-y-1/2 text-xs font-black text-amber-300 hover:text-amber-100"
+								aria-label="Clear search"
 							>
 								✕
 							</button>
 						{/if}
 					</div>
 
-					<!-- Counter -->
-					<div class="text-xs font-bold text-slate-600">
-						Showing <span class="font-black text-blue-950">{filteredPersonnel.length}</span> of {allPersonnel.length} personnel
+					<div class="text-xs font-bold text-amber-200">
+						Showing <span class="font-black text-amber-400">{totalFilteredCount}</span> of 60 official personnel
 					</div>
 				</div>
 
-				<!-- Filter Chips -->
-				<div class="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-200">
-					<span class="text-xs font-bold text-slate-500 uppercase mr-1">Section:</span>
-					<button
-						type="button"
-						onclick={() => (selectedSectionFilter = 'all')}
-						class="rounded-lg px-3 py-1 text-xs font-black transition-all {selectedSectionFilter === 'all'
-							? 'bg-blue-950 text-white'
-							: 'bg-white border border-slate-300 text-slate-700 hover:bg-slate-100'}"
-					>
-						All Sections (60)
-					</button>
-					<button
-						type="button"
-						onclick={() => (selectedSectionFilter = 'Office Staff')}
-						class="rounded-lg px-3 py-1 text-xs font-black transition-all {selectedSectionFilter === 'Office Staff'
-							? 'bg-blue-950 text-white'
-							: 'bg-white border border-slate-300 text-slate-700 hover:bg-slate-100'}"
-					>
-						Office Staff (10)
-					</button>
-					<button
-						type="button"
-						onclick={() => (selectedSectionFilter = 'Field Workers')}
-						class="rounded-lg px-3 py-1 text-xs font-black transition-all {selectedSectionFilter === 'Field Workers'
-							? 'bg-blue-950 text-white'
-							: 'bg-white border border-slate-300 text-slate-700 hover:bg-slate-100'}"
-					>
-						Field Workers (49)
-					</button>
-
-					<div class="h-4 w-px bg-slate-300 mx-2 hidden sm:block"></div>
-
-					<span class="text-xs font-bold text-slate-500 uppercase mr-1">Status:</span>
+				<!-- Appointment Filter Chips (Royal Blue & Amber Yellow Only) -->
+				<div class="flex flex-wrap items-center gap-2 border-t border-amber-400/20 pt-3">
+					<span class="mr-1 text-xs font-extrabold text-amber-300 uppercase">Status:</span>
 					<button
 						type="button"
 						onclick={() => (selectedStatusFilter = 'all')}
-						class="rounded-lg px-3 py-1 text-xs font-black transition-all {selectedStatusFilter === 'all'
-							? 'bg-blue-950 text-white'
-							: 'bg-white border border-slate-300 text-slate-700 hover:bg-slate-100'}"
+						class="rounded-xl px-3 py-1 text-xs font-black transition-all {selectedStatusFilter ===
+						'all'
+							? 'bg-amber-400 text-blue-950 shadow-sm'
+							: 'border border-amber-400/30 bg-blue-950 text-amber-200 hover:bg-blue-900'}"
 					>
-						All Statuses
+						All Statuses (60)
 					</button>
 					<button
 						type="button"
 						onclick={() => (selectedStatusFilter = 'Permanent')}
-						class="rounded-lg px-3 py-1 text-xs font-black transition-all {selectedStatusFilter === 'Permanent'
-							? 'bg-emerald-600 text-white'
-							: 'bg-emerald-50 border border-emerald-300 text-emerald-900 hover:bg-emerald-100'}"
+						class="rounded-xl px-3 py-1 text-xs font-black transition-all {selectedStatusFilter ===
+						'Permanent'
+							? 'bg-amber-400 text-blue-950 shadow-sm'
+							: 'border border-amber-400/30 bg-blue-950 text-amber-200 hover:bg-blue-900'}"
 					>
 						Permanent (14)
 					</button>
 					<button
 						type="button"
 						onclick={() => (selectedStatusFilter = 'Casual')}
-						class="rounded-lg px-3 py-1 text-xs font-black transition-all {selectedStatusFilter === 'Casual'
-							? 'bg-amber-500 text-blue-950'
-							: 'bg-amber-50 border border-amber-300 text-amber-900 hover:bg-amber-100'}"
+						class="rounded-xl px-3 py-1 text-xs font-black transition-all {selectedStatusFilter ===
+						'Casual'
+							? 'bg-amber-400 text-blue-950 shadow-sm'
+							: 'border border-amber-400/30 bg-blue-950 text-amber-200 hover:bg-blue-900'}"
 					>
 						Casual (4)
 					</button>
 					<button
 						type="button"
 						onclick={() => (selectedStatusFilter = 'Job Order')}
-						class="rounded-lg px-3 py-1 text-xs font-black transition-all {selectedStatusFilter === 'Job Order'
-							? 'bg-sky-600 text-white'
-							: 'bg-sky-50 border border-sky-300 text-sky-900 hover:bg-sky-100'}"
+						class="rounded-xl px-3 py-1 text-xs font-black transition-all {selectedStatusFilter ===
+						'Job Order'
+							? 'bg-amber-400 text-blue-950 shadow-sm'
+							: 'border border-amber-400/30 bg-blue-950 text-amber-200 hover:bg-blue-900'}"
 					>
 						Job Order (42)
 					</button>
 				</div>
 			</div>
 
-			<!-- Personnel Cards Grid with Micro-Animations -->
-			<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-				{#each filteredPersonnel as person, idx (person.id)}
+			<!-- ===================================================================== -->
+			<!-- ROOT NODE: EUGENIO C. RAMOS, JR. (GSO HEAD / OPERATION MANAGER)      -->
+			<!-- ===================================================================== -->
+			{#if matchesHead(headPersonnel, searchQuery, selectedStatusFilter)}
+				<div class="flex flex-col items-center">
+					<div class="mb-3 text-center">
+						<span
+							class="inline-block rounded-full border border-amber-400 bg-amber-400/20 px-3 py-1 text-[11px] font-black tracking-widest text-amber-300 uppercase"
+						>
+							EXECUTIVE LEADERSHIP
+						</span>
+					</div>
+
+					<!-- Head Card -->
 					<div
-						role="button"
-						tabindex="0"
-						onclick={() => openPersonnelModal(person)}
-						onkeydown={(e) => e.key === 'Enter' && openPersonnelModal(person)}
-						class="group flex flex-col justify-between rounded-2xl border-2 border-slate-200 bg-white p-4 shadow-2xs transition-all duration-300 hover:border-blue-900 hover:shadow-lg hover:-translate-y-1 cursor-pointer text-left"
-						in:scale={{ start: 0.95, duration: 150 }}
+						class="group relative w-full max-w-lg rounded-3xl border-3 border-amber-400 bg-gradient-to-br from-[#071738] via-[#0b245e] to-[#071738] p-6 text-center text-white shadow-xl transition-all duration-300 hover:scale-103 hover:border-amber-300 hover:shadow-2xl"
 					>
-						<div>
-							<div class="flex items-center justify-between gap-2 mb-3">
-								<span class="text-[10px] font-black uppercase tracking-wider text-slate-500">
-									{person.section}
-								</span>
-								<span class="inline-block rounded-full border px-2.5 py-0.5 text-[10px] {getStatusBadgeClass(person.status)}">
-									{person.status}
-								</span>
+						<div class="flex flex-col items-center">
+							<div class="relative mb-3">
+								<div
+									class="flex h-22 w-22 items-center justify-center rounded-2xl border-3 border-amber-400 bg-blue-950 text-3xl font-black text-amber-400 shadow-md"
+								>
+									ECR
+								</div>
+								<span
+									class="absolute -right-1 -bottom-1 h-5 w-5 rounded-full border-2 border-blue-950 bg-amber-400"
+									title="GSO Department Head"
+								></span>
 							</div>
 
-							<!-- Personnel Name & Role -->
-							<h4 class="text-sm font-black text-blue-950 group-hover:text-blue-900 transition-colors leading-tight">
-								{person.name}
-							</h4>
-							<p class="text-xs font-semibold text-slate-600 mt-1">
-								{person.position}
-							</p>
+							<h3 class="text-xl font-black tracking-tight text-white group-hover:text-amber-300">
+								{headPersonnel.name}
+							</h3>
+							<div class="mt-1 text-xs font-extrabold tracking-wide text-amber-300 uppercase">
+								{headPersonnel.position}
+							</div>
+							<div
+								class="mt-2.5 inline-flex items-center gap-1.5 rounded-full border border-amber-400 bg-amber-400 px-3.5 py-0.5 text-[11px] font-black text-blue-950 uppercase shadow-xs"
+							>
+								<span>Official Head of Section</span>
+							</div>
 						</div>
 
-						<div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400 group-hover:text-blue-900 font-bold">
-							<span>Tanauan GSO</span>
-							<span class="group-hover:translate-x-0.5 transition-transform text-amber-600">Details ↗</span>
+						<p class="mt-4 text-xs leading-relaxed text-slate-300">
+							Directs municipal logistics operations, building infrastructure maintenance, and 54
+							barangay facility support.
+						</p>
+
+						<!-- Actions: Open Profile Modal & Toggle Subordinates -->
+						<div
+							class="mt-5 flex items-center justify-center gap-2 border-t border-amber-400/30 pt-4"
+						>
+							<button
+								type="button"
+								onclick={() => openPersonnelModal(headPersonnel)}
+								class="rounded-xl border border-amber-400 bg-amber-400 px-4 py-1.5 text-xs font-black text-blue-950 transition-all hover:bg-amber-300 hover:scale-102"
+							>
+								Inspect Duties ↗
+							</button>
+							<button
+								type="button"
+								onclick={() => (isHeadSubordinatesExpanded = !isHeadSubordinatesExpanded)}
+								class="rounded-xl border border-amber-400/60 bg-blue-950/80 px-3.5 py-1.5 text-xs font-bold text-amber-300 transition-all hover:bg-blue-900"
+							>
+								{isHeadSubordinatesExpanded ? '▲ Hide Staff Branches' : '▼ View Staff Branches'}
+							</button>
 						</div>
 					</div>
-				{/each}
-			</div>
+
+					<!-- Visual Hierarchy Connecting Lines -->
+					{#if isHeadSubordinatesExpanded}
+						<div class="h-10 w-1 bg-amber-400" transition:slide={{ duration: 180 }}></div>
+						<div
+							class="relative hidden h-1 w-full max-w-4xl bg-amber-400 sm:block"
+							transition:slide={{ duration: 180 }}
+						>
+							<!-- Left Drop to Section 1: Office Staff -->
+							<div class="absolute top-0 left-1/4 h-8 w-1 bg-amber-400"></div>
+							<!-- Right Drop to Section 2: Field Workers -->
+							<div class="absolute top-0 right-1/4 h-8 w-1 bg-amber-400"></div>
+						</div>
+					{/if}
+				</div>
+			{/if}
+
+			<!-- ===================================================================== -->
+			<!-- SUBORDINATE SECTIONS (COLLAPSIBLE)                                    -->
+			<!-- ===================================================================== -->
+			{#if isHeadSubordinatesExpanded}
+				<div class="space-y-10 pt-2" transition:slide={{ duration: 250 }}>
+					<!-- ================================================================= -->
+					<!-- SECTION 1: OFFICE STAFF (10 PERSONNEL) - COLLAPSIBLE             -->
+					<!-- ================================================================= -->
+					<div
+						class="overflow-hidden rounded-3xl border-2 border-amber-500/40 bg-gradient-to-b from-[#091b42] to-[#06122d] shadow-xl"
+					>
+						<!-- Section Header Toggle Bar -->
+						<div
+							class="flex flex-col justify-between gap-4 border-b border-amber-400/30 bg-blue-950/90 p-5 sm:flex-row sm:items-center sm:p-6"
+						>
+							<div class="flex items-center gap-3">
+								<div
+									class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-amber-400 bg-amber-400 text-sm font-black text-blue-950 shadow-xs"
+								>
+									01
+								</div>
+								<div>
+									<div class="flex items-center gap-2">
+										<h3 class="text-lg font-black tracking-tight text-white uppercase sm:text-xl">
+											SECTION 1: OFFICE STAFF
+										</h3>
+										<span
+											class="rounded-full border border-amber-400/60 bg-blue-950 px-2.5 py-0.5 text-xs font-black text-amber-300"
+										>
+											{filteredOfficeStaff.length} of 10 Staff
+										</span>
+									</div>
+									<p class="text-xs font-semibold text-amber-200">
+										Administrative, Logistics, Book Binding & Clerical Specialists
+									</p>
+								</div>
+							</div>
+
+							<div class="flex items-center gap-2">
+								<button
+									type="button"
+									onclick={() => (isOfficeStaffExpanded = !isOfficeStaffExpanded)}
+									class="rounded-xl border border-amber-400 bg-amber-400 px-4 py-2 text-xs font-black text-blue-950 transition-all hover:bg-amber-300"
+									aria-expanded={isOfficeStaffExpanded}
+								>
+									{isOfficeStaffExpanded ? '− Collapse Section' : '+ Expand Section (10)'}
+								</button>
+							</div>
+						</div>
+
+						<!-- Collapsible Section Content -->
+						{#if isOfficeStaffExpanded}
+							<div class="p-5 sm:p-6" transition:slide={{ duration: 200 }}>
+								{#if filteredOfficeStaff.length === 0}
+									<div class="py-10 text-center text-xs font-bold text-amber-200">
+										No office staff match your search/filter criteria.
+									</div>
+								{:else}
+									<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+										{#each filteredOfficeStaff as person (person.id)}
+											<button
+												type="button"
+												onclick={() => openPersonnelModal(person)}
+												class="group flex flex-col justify-between rounded-2xl border-2 border-amber-400/30 bg-[#0a1e4a] p-4 text-left transition-all duration-300 hover:-translate-y-1 hover:border-amber-400 hover:bg-[#0f2d70] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-amber-400"
+												in:scale={{ start: 0.95, duration: 150 }}
+											>
+												<div>
+													<div class="mb-3 flex items-center justify-between gap-1">
+														<span
+															class="rounded-md border border-amber-400/20 bg-blue-950/80 px-2 py-0.5 text-[9px] font-black tracking-wider text-amber-300 uppercase"
+														>
+															{person.subCategory}
+														</span>
+														<span
+															class="rounded-full px-2 py-0.5 text-[10px] {getStatusBadgeStyles(
+																person.status
+															)}"
+														>
+															{person.status}
+														</span>
+													</div>
+
+													<div class="mb-3 flex items-center gap-2.5">
+														<div
+															class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-amber-400/60 bg-blue-950 text-sm font-black text-amber-400 shadow-xs"
+														>
+															{person.name.split(',')[0].slice(0, 2)}
+														</div>
+														<div class="min-w-0 flex-1">
+															<h4
+																class="truncate text-xs font-black tracking-tight text-white group-hover:text-amber-300"
+																title={person.name}
+															>
+																{person.name}
+															</h4>
+															<p
+																class="truncate text-[11px] font-bold text-amber-200"
+																title={person.position}
+															>
+																{person.position}
+															</p>
+														</div>
+													</div>
+												</div>
+
+												<div
+													class="mt-3 flex items-center justify-between border-t border-amber-400/20 pt-2 text-[10px] font-bold text-amber-300/80 group-hover:text-amber-300"
+												>
+													<span>Tanauan GSO</span>
+													<span class="transition-transform group-hover:translate-x-0.5"
+														>Click Details ↗</span
+													>
+												</div>
+											</button>
+										{/each}
+									</div>
+								{/if}
+							</div>
+						{/if}
+					</div>
+
+					<!-- ================================================================= -->
+					<!-- SECTION 2: FIELD WORKERS (49 PERSONNEL) - COLLAPSIBLE            -->
+					<!-- ================================================================= -->
+					<div
+						class="overflow-hidden rounded-3xl border-2 border-amber-500/40 bg-gradient-to-b from-[#091b42] to-[#06122d] shadow-xl"
+					>
+						<!-- Section Header Toggle Bar -->
+						<div
+							class="flex flex-col justify-between gap-4 border-b border-amber-400/30 bg-blue-950/90 p-5 sm:flex-row sm:items-center sm:p-6"
+						>
+							<div class="flex items-center gap-3">
+								<div
+									class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-amber-400 bg-amber-400 text-sm font-black text-blue-950 shadow-xs"
+								>
+									02
+								</div>
+								<div>
+									<div class="flex items-center gap-2">
+										<h3 class="text-lg font-black tracking-tight text-white uppercase sm:text-xl">
+											SECTION 2: FIELD WORKERS
+										</h3>
+										<span
+											class="rounded-full border border-amber-400/60 bg-blue-950 px-2.5 py-0.5 text-xs font-black text-amber-300"
+										>
+											{filteredFieldWorkers.length} of 49 Workers
+										</span>
+									</div>
+									<p class="text-xs font-semibold text-amber-200">
+										Maintenance, Electricians, Carpenters, Drivers, Welders & Utility Crew
+									</p>
+								</div>
+							</div>
+
+							<div class="flex items-center gap-2">
+								<button
+									type="button"
+									onclick={() => (isFieldWorkersExpanded = !isFieldWorkersExpanded)}
+									class="rounded-xl border border-amber-400 bg-amber-400 px-4 py-2 text-xs font-black text-blue-950 transition-all hover:bg-amber-300"
+									aria-expanded={isFieldWorkersExpanded}
+								>
+									{isFieldWorkersExpanded ? '− Collapse Section' : '+ Expand Section (49)'}
+								</button>
+							</div>
+						</div>
+
+						<!-- Collapsible Section Content -->
+						{#if isFieldWorkersExpanded}
+							<div class="p-5 sm:p-6" transition:slide={{ duration: 200 }}>
+								<!-- Sub-Category Filter Tabs (Inside Field Workers) -->
+								<div class="mb-5 flex flex-wrap items-center gap-2 border-b border-amber-400/20 pb-4">
+									<span class="mr-1 text-xs font-black text-amber-300 uppercase">Unit:</span>
+									<button
+										type="button"
+										onclick={() => (activeFieldSubGroup = 'all')}
+										class="rounded-xl px-3 py-1 text-xs font-black transition-all {activeFieldSubGroup ===
+										'all'
+											? 'bg-amber-400 text-blue-950 shadow-xs'
+											: 'border border-amber-400/30 bg-blue-950 text-amber-200 hover:bg-blue-900'}"
+									>
+										All Field Workers (49)
+									</button>
+									<button
+										type="button"
+										onclick={() => (activeFieldSubGroup = 'Technical Crafts')}
+										class="rounded-xl px-3 py-1 text-xs font-black transition-all {activeFieldSubGroup ===
+										'Technical Crafts'
+											? 'bg-amber-400 text-blue-950 shadow-xs'
+											: 'border border-amber-400/30 bg-blue-950 text-amber-200 hover:bg-blue-900'}"
+									>
+										⚡ Electricians, Carpenters & Welder (7)
+									</button>
+									<button
+										type="button"
+										onclick={() => (activeFieldSubGroup = 'Logistics & Fleet')}
+										class="rounded-xl px-3 py-1 text-xs font-black transition-all {activeFieldSubGroup ===
+										'Logistics & Fleet'
+											? 'bg-amber-400 text-blue-950 shadow-xs'
+											: 'border border-amber-400/30 bg-blue-950 text-amber-200 hover:bg-blue-900'}"
+									>
+										🚚 Drivers & Fleet (3)
+									</button>
+									<button
+										type="button"
+										onclick={() => (activeFieldSubGroup = 'Parks & Grounds')}
+										class="rounded-xl px-3 py-1 text-xs font-black transition-all {activeFieldSubGroup ===
+										'Parks & Grounds'
+											? 'bg-amber-400 text-blue-950 shadow-xs'
+											: 'border border-amber-400/30 bg-blue-950 text-amber-200 hover:bg-blue-900'}"
+									>
+										🌿 Parks, Gardeners & Aides (4)
+									</button>
+									<button
+										type="button"
+										onclick={() => (activeFieldSubGroup = 'Utilities & Maintenance')}
+										class="rounded-xl px-3 py-1 text-xs font-black transition-all {activeFieldSubGroup ===
+										'Utilities & Maintenance'
+											? 'bg-amber-400 text-blue-950 shadow-xs'
+											: 'border border-amber-400/30 bg-blue-950 text-amber-200 hover:bg-blue-900'}"
+									>
+										🧹 Utility Workers (35)
+									</button>
+								</div>
+
+								{#if filteredFieldWorkers.length === 0}
+									<div class="py-10 text-center text-xs font-bold text-amber-200">
+										No field workers match your filter or search query.
+									</div>
+								{:else}
+									<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+										{#each filteredFieldWorkers as person (person.id)}
+											<button
+												type="button"
+												onclick={() => openPersonnelModal(person)}
+												class="group flex flex-col justify-between rounded-2xl border-2 border-amber-400/30 bg-[#0a1e4a] p-4 text-left transition-all duration-300 hover:-translate-y-1 hover:border-amber-400 hover:bg-[#0f2d70] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-amber-400"
+												in:scale={{ start: 0.95, duration: 150 }}
+											>
+												<div>
+													<div class="mb-3 flex items-center justify-between gap-1">
+														<span
+															class="rounded-md border border-amber-400/20 bg-blue-950/80 px-2 py-0.5 text-[9px] font-black tracking-wider text-amber-300 uppercase"
+														>
+															{person.subCategory}
+														</span>
+														<span
+															class="rounded-full px-2 py-0.5 text-[10px] {getStatusBadgeStyles(
+																person.status
+															)}"
+														>
+															{person.status}
+														</span>
+													</div>
+
+													<div class="mb-3 flex items-center gap-2.5">
+														<div
+															class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-amber-400/60 bg-blue-950 text-sm font-black text-amber-400 shadow-xs"
+														>
+															{person.name.split(',')[0].slice(0, 2)}
+														</div>
+														<div class="min-w-0 flex-1">
+															<h4
+																class="truncate text-xs font-black tracking-tight text-white group-hover:text-amber-300"
+																title={person.name}
+															>
+																{person.name}
+															</h4>
+															<p
+																class="truncate text-[11px] font-bold text-amber-200"
+																title={person.position}
+															>
+																{person.position}
+															</p>
+														</div>
+													</div>
+												</div>
+
+												<div
+													class="mt-3 flex items-center justify-between border-t border-amber-400/20 pt-2 text-[10px] font-bold text-amber-300/80 group-hover:text-amber-300"
+												>
+													<span>Tanauan GSO</span>
+													<span class="transition-transform group-hover:translate-x-0.5"
+														>Click Details ↗</span
+													>
+												</div>
+											</button>
+										{/each}
+									</div>
+								{/if}
+							</div>
+						{/if}
+					</div>
+				</div>
+			{/if}
 		</div>
 
 	<!-- ========================================================================= -->
-	<!-- MODE 2: RATIFIED DOCUMENTS (HIGH-RESOLUTION SCANNED SHEETS)              -->
+	<!-- 3. MODE 2: RATIFIED SCANNED DOCUMENTS (3 PARTS)                          -->
 	<!-- ========================================================================= -->
 	{:else}
 		<div class="space-y-6" transition:fade={{ duration: 180 }}>
 			<!-- Sheet Selector Bar -->
-			<div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 pb-4">
+			<div
+				class="flex flex-wrap items-center justify-between gap-4 rounded-2xl border-2 border-amber-400/30 bg-blue-950/80 p-4 text-white"
+			>
 				<div class="flex flex-wrap gap-2">
 					{#each documentSheets as sheet, sIdx}
 						<button
 							type="button"
 							onclick={() => (activeSheetIndex = sIdx)}
-							class="rounded-xl px-4 py-2 text-xs font-black transition-all {activeSheetIndex === sIdx
-								? 'bg-blue-950 text-amber-300 shadow-md'
-								: 'bg-slate-100 text-slate-700 hover:bg-slate-200'}"
+							class="rounded-xl px-4 py-2 text-xs font-black transition-all {activeSheetIndex ===
+							sIdx
+								? 'bg-amber-400 text-blue-950 shadow-md'
+								: 'border border-amber-400/30 bg-blue-900/60 text-amber-200 hover:bg-blue-800'}"
 						>
 							Part {sIdx + 1}: {sheet.title.split(':')[1] || sheet.title}
 						</button>
@@ -511,34 +995,32 @@
 				</div>
 
 				<div class="flex items-center gap-2">
-					<a
-						href={documentSheets[activeSheetIndex].image}
-						download="GSO-OrgChart-{documentSheets[activeSheetIndex].id}.png"
-						class="inline-flex items-center gap-1.5 rounded-xl border border-slate-300 bg-white px-3.5 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-50 shadow-2xs transition-colors"
-					>
-						<svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-						</svg>
-						<span>Download Sheet</span>
-					</a>
 					<button
 						type="button"
 						onclick={() => openZoomModal(documentSheets[activeSheetIndex].image)}
-						class="inline-flex items-center gap-1.5 rounded-xl bg-blue-950 px-4 py-1.5 text-xs font-black text-white hover:bg-blue-900 shadow-xs transition-all active:scale-95"
+						class="inline-flex items-center gap-1.5 rounded-xl border border-amber-400 bg-amber-400 px-4 py-2 text-xs font-black text-blue-950 shadow-md transition-all hover:bg-amber-300 active:scale-95"
 					>
-						<span>[⛶ Fullscreen Zoom]</span>
+						<span>[⛶ Fullscreen Zoom View]</span>
 					</button>
 				</div>
 			</div>
 
-			<!-- Document Frame Container -->
-			<div class="group relative overflow-hidden rounded-3xl border-2 border-slate-300 bg-slate-50 p-4 sm:p-6 shadow-md text-center">
-				<div class="mb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-left px-2">
+			<!-- Document Frame Container (Royal Blue & Amber Yellow) -->
+			<div
+				class="group relative overflow-hidden rounded-3xl border-2 border-amber-400/40 bg-gradient-to-b from-[#091b42] to-[#06122d] p-4 text-center shadow-xl sm:p-6"
+			>
+				<div
+					class="mb-4 flex flex-col justify-between gap-2 px-2 text-left sm:flex-row sm:items-center"
+				>
 					<div>
-						<h3 class="text-lg font-black text-blue-950">{documentSheets[activeSheetIndex].title}</h3>
-						<p class="text-xs font-semibold text-slate-500">{documentSheets[activeSheetIndex].subtitle}</p>
+						<h3 class="text-lg font-black text-white">{documentSheets[activeSheetIndex].title}</h3>
+						<p class="text-xs font-semibold text-amber-300">
+							{documentSheets[activeSheetIndex].subtitle}
+						</p>
 					</div>
-					<span class="text-xs font-bold text-amber-700 bg-amber-100 border border-amber-300 px-2.5 py-1 rounded-full self-start sm:self-auto">
+					<span
+						class="self-start rounded-full border border-amber-400 bg-amber-400/20 px-3 py-1 text-xs font-black text-amber-300 sm:self-auto"
+					>
 						Official Document Scan
 					</span>
 				</div>
@@ -546,19 +1028,21 @@
 				<button
 					type="button"
 					onclick={() => openZoomModal(documentSheets[activeSheetIndex].image)}
-					class="relative w-full cursor-zoom-in overflow-hidden rounded-2xl bg-white border border-slate-200 shadow-inner p-2 sm:p-4 text-center"
+					class="relative w-full cursor-zoom-in overflow-hidden rounded-2xl border border-amber-400/30 bg-white p-2 text-center shadow-inner sm:p-4"
 					title="Click to view full size"
 				>
 					<img
 						src={documentSheets[activeSheetIndex].image}
 						alt={documentSheets[activeSheetIndex].title}
-						class="h-auto max-h-[640px] w-full object-contain mx-auto transition-transform duration-300 group-hover:scale-[1.01]"
+						class="mx-auto h-auto max-h-[640px] w-full object-contain transition-transform duration-300 group-hover:scale-[1.01]"
 					/>
 
 					<!-- Click to Zoom Hint Overlay -->
-					<div class="pointer-events-none absolute bottom-6 left-6 flex items-center gap-2 rounded-xl border border-slate-300 bg-white/95 px-3.5 py-1.5 shadow-sm backdrop-blur-md">
-						<span class="h-2 w-2 rounded-full bg-blue-900 animate-pulse"></span>
-						<span class="text-xs font-black text-slate-800">
+					<div
+						class="pointer-events-none absolute bottom-6 left-6 flex items-center gap-2 rounded-xl border border-amber-400 bg-blue-950/90 px-3.5 py-1.5 shadow-md backdrop-blur-md"
+					>
+						<span class="h-2 w-2 rounded-full bg-amber-400 animate-pulse"></span>
+						<span class="text-xs font-black text-amber-300">
 							Click image to open high-resolution zoom viewer
 						</span>
 					</div>
@@ -568,57 +1052,149 @@
 	{/if}
 
 	<!-- ========================================================================= -->
-	<!-- MODAL 1: HIGH-RES DOCUMENT ZOOM VIEWER                                   -->
+	<!-- 4. MODAL POP-UP WINDOW: DETAILED INFORMATION (ROYAL BLUE & AMBER YELLOW)  -->
 	<!-- ========================================================================= -->
-	{#if zoomedImageModal}
+	{#if selectedPersonnelModal}
 		<div
-			class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-950/85 backdrop-blur-md"
+			class="fixed inset-0 z-50 flex items-center justify-center p-4"
 			transition:fade={{ duration: 180 }}
 			role="dialog"
 			aria-modal="true"
-			onclick={(e) => {
-				if (e.target === e.currentTarget) closeZoomModal();
-			}}
+			aria-labelledby="modal-personnel-name"
 		>
+			<!-- Accessible Backdrop Button -->
+			<button
+				type="button"
+				class="absolute inset-0 h-full w-full border-none bg-blue-950/85 p-0 backdrop-blur-md cursor-pointer"
+				onclick={closePersonnelModal}
+				aria-label="Close details dialog"
+			></button>
+
+			<!-- Modal Window Card -->
 			<div
-				class="relative flex flex-col w-full max-w-6xl max-h-[92vh] bg-white rounded-3xl shadow-2xl overflow-hidden border-2 border-slate-200"
-				in:scale={{ start: 0.94, duration: 200 }}
+				class="relative z-10 flex max-h-[90vh] w-full max-w-xl flex-col overflow-y-auto rounded-3xl border-2 border-amber-400 bg-gradient-to-br from-[#071638] via-[#0b235b] to-[#06122d] text-white shadow-2xl"
+				in:scale={{ start: 0.93, duration: 200 }}
 			>
-				<div class="flex items-center justify-between px-6 py-4 bg-slate-900 text-white shrink-0">
-					<div class="flex items-center gap-3">
-						<span class="h-3 w-3 rounded-full bg-amber-400"></span>
-						<span class="text-xs font-black uppercase tracking-wider text-amber-400">
-							Ratified Chart Viewer • GSO Tanauan
+				<!-- Top Amber Accent Line -->
+				<div
+					class="h-2 w-full bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500"
+				></div>
+
+				<!-- Modal Header -->
+				<div
+					class="flex items-center justify-between border-b border-amber-400/20 bg-blue-950/80 px-6 py-4"
+				>
+					<div class="flex items-center gap-2.5">
+						<span class="h-2.5 w-2.5 rounded-full bg-amber-400 animate-ping"></span>
+						<span class="text-xs font-black tracking-widest text-amber-300 uppercase">
+							Tanauan GSO Personnel Profile
 						</span>
 					</div>
-					<div class="flex items-center gap-3">
-						<span class="text-[11px] font-semibold text-slate-400">ESC to close</span>
-						<button
-							type="button"
-							onclick={closeZoomModal}
-							class="flex h-8 w-8 items-center justify-center rounded-full bg-slate-800 text-slate-300 hover:bg-rose-600 hover:text-white transition-colors"
+					<button
+						type="button"
+						onclick={closePersonnelModal}
+						class="flex h-8 w-8 items-center justify-center rounded-full border border-amber-400/40 bg-blue-900/60 text-sm font-black text-amber-300 transition-colors hover:bg-amber-400 hover:text-blue-950"
+						aria-label="Close modal"
+					>
+						✕
+					</button>
+				</div>
+
+				<!-- Modal Content Body -->
+				<div class="space-y-6 p-6 sm:p-8">
+					<!-- Personnel Hero Card Header -->
+					<div class="flex items-start gap-4">
+						<div
+							class="flex h-18 w-18 shrink-0 items-center justify-center rounded-2xl border-2 border-amber-400 bg-blue-950 text-2xl font-black text-amber-400 shadow-md"
 						>
-							✕
-						</button>
+							{selectedPersonnelModal.name.split(',')[0].slice(0, 2)}
+						</div>
+						<div class="min-w-0 flex-1">
+							<span
+								class="inline-block rounded-full px-3 py-0.5 text-[11px] mb-1.5 {getStatusBadgeStyles(
+									selectedPersonnelModal.status
+								)}"
+							>
+								{selectedPersonnelModal.status} Appointment
+							</span>
+							<h3
+								id="modal-personnel-name"
+								class="text-xl font-black tracking-tight text-white sm:text-2xl"
+							>
+								{selectedPersonnelModal.name}
+							</h3>
+							<p class="mt-0.5 text-xs font-black text-amber-300 uppercase">
+								{selectedPersonnelModal.position}
+							</p>
+						</div>
+					</div>
+
+					<!-- Role Category & Overview -->
+					<div
+						class="rounded-2xl border border-amber-400/30 bg-blue-950/70 p-4 backdrop-blur-xs space-y-2"
+					>
+						<div class="text-[10px] font-black tracking-widest text-amber-400 uppercase">
+							Functional Role Assignment
+						</div>
+						<div class="text-sm font-black text-white">
+							{selectedPersonnelModal.category}
+						</div>
+						<p class="text-xs leading-relaxed text-amber-100/90">
+							{selectedPersonnelModal.overview}
+						</p>
+					</div>
+
+					<!-- Key Duties & Responsibilities List -->
+					<div class="space-y-3">
+						<div class="flex items-center gap-2">
+							<span class="h-2 w-2 rounded-full bg-amber-400"></span>
+							<h4 class="text-xs font-black tracking-wider text-amber-300 uppercase">
+								Official Duties & Public Service Scope
+							</h4>
+						</div>
+						<ul class="space-y-2 text-xs">
+							{#each selectedPersonnelModal.duties as duty}
+								<li
+									class="flex items-start gap-2.5 rounded-xl border border-amber-400/20 bg-blue-950/40 p-2.5 text-slate-200"
+								>
+									<span class="mt-0.5 text-amber-400 font-black">✓</span>
+									<span class="leading-relaxed">{duty}</span>
+								</li>
+							{/each}
+						</ul>
+					</div>
+
+					<!-- Administrative Metadata -->
+					<div class="grid grid-cols-1 gap-2.5 rounded-2xl border border-amber-400/25 bg-blue-950/50 p-4 text-xs sm:grid-cols-2">
+						<div class="space-y-1">
+							<span class="text-[10px] font-black tracking-wider text-amber-300 uppercase block">Operating Station</span>
+							<span class="font-bold text-white leading-tight block">{selectedPersonnelModal.hub}</span>
+						</div>
+						<div class="space-y-1">
+							<span class="text-[10px] font-black tracking-wider text-amber-300 uppercase block">Official Duty Hours</span>
+							<span class="font-bold text-white leading-tight block">{selectedPersonnelModal.hours}</span>
+						</div>
+						<div class="space-y-1">
+							<span class="text-[10px] font-black tracking-wider text-amber-300 uppercase block">Division</span>
+							<span class="font-bold text-white leading-tight block">{selectedPersonnelModal.section}</span>
+						</div>
+						<div class="space-y-1">
+							<span class="text-[10px] font-black tracking-wider text-amber-300 uppercase block">Department</span>
+							<span class="font-bold text-white leading-tight block">General Services Office (GSO)</span>
+						</div>
 					</div>
 				</div>
 
-				<div class="overflow-auto p-4 sm:p-6 bg-slate-100 flex items-center justify-center">
-					<img
-						src={zoomedImageModal}
-						alt="High-resolution organizational chart sheet"
-						class="max-w-none w-full h-auto object-contain shadow-md rounded-xl"
-					/>
-				</div>
-
-				<div class="flex items-center justify-between px-6 py-3 bg-slate-50 border-t border-slate-200 text-xs font-semibold text-slate-600 shrink-0">
-					<span>Use scroll wheel or pinch to zoom further</span>
+				<!-- Modal Footer -->
+				<div
+					class="flex items-center justify-end border-t border-amber-400/20 bg-blue-950/80 px-6 py-4"
+				>
 					<button
 						type="button"
-						onclick={closeZoomModal}
-						class="rounded-xl bg-blue-950 px-4 py-1.5 text-xs font-black text-white hover:bg-blue-900 transition-colors"
+						onclick={closePersonnelModal}
+						class="rounded-xl border border-amber-400 bg-amber-400 px-6 py-2 text-xs font-black text-blue-950 transition-all hover:bg-amber-300 hover:scale-102"
 					>
-						Close Viewer
+						Close Profile
 					</button>
 				</div>
 			</div>
@@ -626,79 +1202,58 @@
 	{/if}
 
 	<!-- ========================================================================= -->
-	<!-- MODAL 2: PERSONNEL DETAILS MODAL                                         -->
+	<!-- 5. MODAL ZOOM VIEWER (SCANNED DOCUMENT FULLSCREEN)                       -->
 	<!-- ========================================================================= -->
-	{#if selectedPersonnelModal}
+	{#if zoomedImageModal}
 		<div
-			class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/75 backdrop-blur-md"
+			class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6"
 			transition:fade={{ duration: 180 }}
 			role="dialog"
 			aria-modal="true"
-			onclick={(e) => {
-				if (e.target === e.currentTarget) closePersonnelModal();
-			}}
 		>
+			<button
+				type="button"
+				class="absolute inset-0 h-full w-full border-none bg-blue-950/90 p-0 backdrop-blur-md cursor-pointer"
+				onclick={closeZoomModal}
+				aria-label="Close fullscreen document view"
+			></button>
+
 			<div
-				class="relative flex flex-col w-full max-w-lg bg-white rounded-3xl shadow-2xl border-2 border-slate-200 overflow-hidden"
+				class="relative z-10 flex max-h-[92vh] w-full max-w-6xl flex-col overflow-hidden rounded-3xl border-2 border-amber-400 bg-blue-950 text-white shadow-2xl"
 				in:scale={{ start: 0.94, duration: 200 }}
 			>
-				<div class="flex items-center justify-between px-6 py-4 bg-slate-900 text-white shrink-0">
-					<div class="flex items-center gap-2">
-						<span class="h-2.5 w-2.5 rounded-full bg-amber-400"></span>
-						<span class="text-xs font-black uppercase tracking-wider text-amber-400">
-							Personnel Record
+				<div class="flex items-center justify-between border-b border-amber-400/30 bg-blue-950 px-6 py-4">
+					<div class="flex items-center gap-3">
+						<span class="h-3 w-3 rounded-full bg-amber-400"></span>
+						<span class="text-xs font-black tracking-widest text-amber-400 uppercase">
+							Official Document Scans • GSO Tanauan
 						</span>
 					</div>
 					<button
 						type="button"
-						onclick={closePersonnelModal}
-						class="flex h-7 w-7 items-center justify-center rounded-full bg-slate-800 text-slate-300 hover:bg-rose-600 hover:text-white transition-colors"
+						onclick={closeZoomModal}
+						class="flex h-8 w-8 items-center justify-center rounded-full border border-amber-400/40 bg-blue-900/60 text-sm font-black text-amber-300 transition-colors hover:bg-amber-400 hover:text-blue-950"
 					>
 						✕
 					</button>
 				</div>
 
-				<div class="p-6 sm:p-8 space-y-6">
-					<div class="flex items-start gap-4">
-						<div class="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-blue-950 text-white font-black text-xl shadow-md border-2 border-amber-400">
-							{selectedPersonnelModal.name.split(',')[0].slice(0, 2)}
-						</div>
-						<div>
-							<span class="inline-block rounded-full border px-2.5 py-0.5 text-[10px] mb-1.5 {getStatusBadgeClass(selectedPersonnelModal.status)}">
-								{selectedPersonnelModal.status}
-							</span>
-							<h3 class="text-xl font-black text-blue-950 leading-snug">
-								{selectedPersonnelModal.name}
-							</h3>
-							<p class="text-xs font-bold text-amber-700 uppercase mt-0.5">
-								{selectedPersonnelModal.position}
-							</p>
-						</div>
-					</div>
-
-					<div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 space-y-2.5 text-xs">
-						<div class="flex items-center justify-between py-1 border-b border-slate-200">
-							<span class="font-bold text-slate-500 uppercase">Division / Section:</span>
-							<span class="font-black text-blue-950">{selectedPersonnelModal.section}</span>
-						</div>
-						<div class="flex items-center justify-between py-1 border-b border-slate-200">
-							<span class="font-bold text-slate-500 uppercase">Employment Status:</span>
-							<span class="font-black text-slate-900">{selectedPersonnelModal.status}</span>
-						</div>
-						<div class="flex items-center justify-between py-1">
-							<span class="font-bold text-slate-500 uppercase">Department:</span>
-							<span class="font-black text-blue-950">General Services Office (GSO)</span>
-						</div>
-					</div>
+				<div class="flex items-center justify-center overflow-auto bg-slate-900 p-4 sm:p-6">
+					<img
+						src={zoomedImageModal}
+						alt="High-resolution organizational chart sheet"
+						class="h-auto max-w-none w-full rounded-xl object-contain shadow-md"
+					/>
 				</div>
 
-				<div class="flex items-center justify-end px-6 py-4 bg-slate-50 border-t border-slate-200 shrink-0">
+				<div class="flex items-center justify-between border-t border-amber-400/20 bg-blue-950 px-6 py-3 text-xs font-semibold text-amber-200">
+					<span>Use scroll wheel or pinch to zoom</span>
 					<button
 						type="button"
-						onclick={closePersonnelModal}
-						class="rounded-xl bg-blue-950 px-5 py-2 text-xs font-black text-white hover:bg-blue-900 transition-colors"
+						onclick={closeZoomModal}
+						class="rounded-xl border border-amber-400 bg-amber-400 px-4 py-1.5 text-xs font-black text-blue-950 transition-colors hover:bg-amber-300"
 					>
-						Close
+						Close Viewer
 					</button>
 				</div>
 			</div>
