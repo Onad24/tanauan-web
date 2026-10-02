@@ -906,14 +906,19 @@
 <!-- DETAIL MODAL WINDOW (CIVIC BLUEPRINT THEME)   -->
 <!-- ============================================== -->
 {#if selectedPerson}
+	<!-- svelte-ignore a11y_click_events_have_key_events -->
 	<div
 		class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-950/85 backdrop-blur-md overflow-y-auto"
 		transition:fade={{ duration: 200 }}
 		onclick={closeDetail}
+		onkeydown={(e) => e.key === 'Escape' && closeDetail()}
 		role="dialog"
 		aria-modal="true"
 		aria-labelledby="modal-person-title"
+		tabindex="-1"
 	>
+		<!-- svelte-ignore a11y_click_events_have_key_events -->
+		<!-- svelte-ignore a11y_no_static_element_interactions -->
 		<div
 			class="relative my-auto w-full max-w-2xl rounded-3xl border-2 border-white/20 bg-gradient-to-b from-[#0c1a33] via-[#09152b] to-[#040b17] shadow-2xl overflow-hidden text-white"
 			transition:scale={{ duration: 250, start: 0.95 }}

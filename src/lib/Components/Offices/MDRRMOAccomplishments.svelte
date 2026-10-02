@@ -632,14 +632,19 @@
 
 <!-- FULLSCREEN / INSPECTION LIGHTBOX MODAL -->
 {#if isModalOpen}
+	<!-- svelte-ignore a11y_click_events_have_key_events -->
 	<div
 		class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-950/85 backdrop-blur-md overflow-y-auto"
 		transition:fade={{ duration: 200 }}
 		onclick={closeModal}
+		onkeydown={(e) => e.key === 'Escape' && closeModal()}
 		role="dialog"
 		aria-modal="true"
 		aria-labelledby="modal-drill-title"
+		tabindex="-1"
 	>
+		<!-- svelte-ignore a11y_click_events_have_key_events -->
+		<!-- svelte-ignore a11y_no_static_element_interactions -->
 		<div
 			class="relative my-auto w-full {isFullscreen ? 'max-w-7xl' : 'max-w-5xl'} rounded-3xl border-2 border-amber-400/80 bg-white shadow-2xl overflow-hidden transition-all duration-300"
 			transition:scale={{ duration: 250, start: 0.95 }}

@@ -625,13 +625,18 @@
 
 	<!-- Modal Dialog for Form Preview -->
 	{#if formModalOpen}
+		<!-- svelte-ignore a11y_click_events_have_key_events -->
 		<div
 			class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-blue-950/80 backdrop-blur-sm"
 			role="dialog"
 			aria-modal="true"
 			aria-labelledby="modal-form-title"
+			tabindex="-1"
 			onclick={closeFormModal}
+			onkeydown={(e) => e.key === 'Escape' && closeFormModal()}
 		>
+			<!-- svelte-ignore a11y_click_events_have_key_events -->
+			<!-- svelte-ignore a11y_no_static_element_interactions -->
 			<div
 				class="relative z-10 w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden rounded-3xl border-2 border-slate-200 bg-white shadow-2xl"
 				onclick={(e) => e.stopPropagation()}

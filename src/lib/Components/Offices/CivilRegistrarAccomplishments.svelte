@@ -243,14 +243,19 @@
 
 	<!-- POPUP MODAL WINDOW (Information & Photo Showcase) -->
 	{#if isFolderOpen}
+		<!-- svelte-ignore a11y_click_events_have_key_events -->
 		<div
 			class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-950/80 backdrop-blur-md overflow-y-auto"
 			transition:fade={{ duration: 250 }}
 			onclick={closeFolder}
+			onkeydown={(e) => e.key === 'Escape' && closeFolder()}
 			role="dialog"
 			aria-modal="true"
 			aria-labelledby="modal-brap-title"
+			tabindex="-1"
 		>
+			<!-- svelte-ignore a11y_click_events_have_key_events -->
+			<!-- svelte-ignore a11y_no_static_element_interactions -->
 			<div
 				class="relative my-auto w-full max-w-5xl rounded-3xl border-2 border-amber-400/60 bg-white shadow-2xl overflow-hidden"
 				transition:scale={{ duration: 300, start: 0.95 }}
@@ -446,11 +451,15 @@
 
 	<!-- Fullscreen Lightbox View if clicked -->
 	{#if fullscreenImage}
+		<!-- svelte-ignore a11y_click_events_have_key_events -->
 		<div
 			class="fixed inset-0 z-60 flex items-center justify-center bg-black/95 p-4"
 			transition:fade={{ duration: 200 }}
 			onclick={() => (fullscreenImage = null)}
+			onkeydown={(e) => e.key === 'Escape' && (fullscreenImage = null)}
 			role="dialog"
+			aria-modal="true"
+			tabindex="-1"
 		>
 			<button
 				type="button"
@@ -459,6 +468,8 @@
 			>
 				✕
 			</button>
+			<!-- svelte-ignore a11y_click_events_have_key_events -->
+			<!-- svelte-ignore a11y_no_static_element_interactions -->
 			<div class="max-h-[90vh] max-w-5xl text-center" onclick={(e) => e.stopPropagation()}>
 				<img
 					src={fullscreenImage.src}

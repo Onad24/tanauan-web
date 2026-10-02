@@ -371,8 +371,12 @@
 		role="dialog"
 		aria-modal="true"
 		aria-labelledby="person-modal-title"
+		tabindex="-1"
+		onkeydown={(e) => e.key === 'Escape' && closeModal()}
 	>
 		<!-- Dim / Blurred Backdrop -->
+		<!-- svelte-ignore a11y_click_events_have_key_events -->
+		<!-- svelte-ignore a11y_no_static_element_interactions -->
 		<div
 			class="absolute inset-0 bg-slate-950/80 backdrop-blur-md transition-opacity"
 			onclick={closeModal}

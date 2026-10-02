@@ -1074,6 +1074,7 @@
 			<!-- ============================================== -->
 			<!-- VIEW 2: TREE HIERARCHY CANVAS VIEW             -->
 			<!-- ============================================== -->
+			<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 			<div
 				class="relative z-10 h-[560px] max-h-[600px] overflow-hidden rounded-2xl border border-white/15 bg-slate-950/80 p-6 select-none cursor-grab active:cursor-grabbing shadow-inner"
 				onmousedown={handleMouseDown}
@@ -1213,13 +1214,18 @@
 	<!-- PERSONNEL DETAIL MODAL (Pop-up Information)    -->
 	<!-- ============================================== -->
 	{#if selectedPerson}
+		<!-- svelte-ignore a11y_click_events_have_key_events -->
 		<div
 			class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md"
 			transition:fade={{ duration: 200 }}
 			onclick={closeModal}
+			onkeydown={(e) => e.key === 'Escape' && closeModal()}
 			role="dialog"
 			aria-modal="true"
+			tabindex="-1"
 		>
+			<!-- svelte-ignore a11y_click_events_have_key_events -->
+			<!-- svelte-ignore a11y_no_static_element_interactions -->
 			<div
 				class="relative my-auto w-full max-w-xl rounded-3xl border-2 bg-slate-900 p-6 sm:p-8 text-white shadow-2xl overflow-hidden"
 				style="border-color: {selectedPerson.color}; box-shadow: 0 0 35px {selectedPerson.glow};"

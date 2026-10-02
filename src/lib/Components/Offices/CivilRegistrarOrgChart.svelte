@@ -723,15 +723,17 @@
 		role="dialog"
 		aria-modal="true"
 		aria-labelledby="person-detail-title"
+		tabindex="-1"
+		onkeydown={(e) => e.key === 'Escape' && closeDetail()}
 	>
 		<!-- Dim / Blurred Backdrop -->
-		<button
-			type="button"
-			class="absolute inset-0 h-full w-full bg-blue-950/80 backdrop-blur-md transition-opacity cursor-default border-0 p-0"
+		<!-- svelte-ignore a11y_click_events_have_key_events -->
+		<!-- svelte-ignore a11y_no_static_element_interactions -->
+		<div
+			class="absolute inset-0 bg-blue-950/80 backdrop-blur-md transition-opacity"
 			onclick={closeDetail}
-			aria-label="Close details dialog"
 			transition:fade={{ duration: 200 }}
-		></button>
+		></div>
 
 		<!-- Modal Container -->
 		<div

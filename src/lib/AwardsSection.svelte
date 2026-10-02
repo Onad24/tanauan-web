@@ -203,12 +203,17 @@
 
 <!-- High-Resolution Award Plaque Modal -->
 {#if selectedAwardPhoto}
+	<!-- svelte-ignore a11y_click_events_have_key_events -->
 	<div
 		class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-blue-950/85 backdrop-blur-md transition-all duration-300"
 		onclick={closePhotoModal}
+		onkeydown={(e) => e.key === 'Escape' && closePhotoModal()}
 		role="dialog"
 		aria-modal="true"
+		tabindex="-1"
 	>
+		<!-- svelte-ignore a11y_click_events_have_key_events -->
+		<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 		<div
 			class="relative max-w-4xl w-full bg-white rounded-3xl shadow-2xl border-4 border-amber-400 overflow-hidden flex flex-col max-h-[92vh] animate-in fade-in zoom-in-95 duration-200"
 			onclick={(e) => e.stopPropagation()}

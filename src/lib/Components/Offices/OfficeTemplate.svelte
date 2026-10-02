@@ -11,6 +11,7 @@
 	import HRMOOrgChart from '$lib/Components/Offices/HRMOOrgChart.svelte';
 	import DepartmentSectionsFeed from '$lib/DepartmentSectionsFeed.svelte';
 	import HealthOfficeOrgChart from '$lib/Components/Offices/HealthOfficeOrgChart.svelte';
+	import HealthOfficeAccomplishments from '$lib/Components/Offices/HealthOfficeAccomplishments.svelte';
 	import MAOServicesPortal from '$lib/Components/Offices/MAOServicesPortal.svelte';
 	import MAOOrgChart from '$lib/Components/Offices/MAOOrgChart.svelte';
 	import MAOAccomplishmentsGallery from '$lib/Components/Offices/MAOAccomplishmentsGallery.svelte';
@@ -299,8 +300,14 @@
 		(officeName && officeName.toLowerCase().includes('engineering'))
 	);
 
-	const shouldShowPersonnel = $derived(showPersonnel && !isCivilRegistrar && !isMDRRMO && !isMENRO && !isEngineering);
-	const shouldPutFormsAtEnd = $derived(formsAtEnd || isCivilRegistrar || isMDRRMO || isMENRO || isEngineering);
+	const isHealthOffice = $derived(
+		department === 'Health Office' ||
+		officeCode === 'MHO' ||
+		(officeName && officeName.toLowerCase().includes('health'))
+	);
+
+	const shouldShowPersonnel = $derived(showPersonnel && !isCivilRegistrar && !isMDRRMO && !isMENRO && !isEngineering && !isHealthOffice);
+	const shouldPutFormsAtEnd = $derived(formsAtEnd || isCivilRegistrar || isMDRRMO || isMENRO || isEngineering || isHealthOffice);
 	const shouldShowAwards = $derived(!isMDRRMO && !isMENRO && !isEngineering);
 
 	const baseNav = $derived([
@@ -313,7 +320,7 @@
 		...(!isMAO && mandates && mandates.length > 0 ? [{ id: 'mandates', label: 'Mandates' }] : []),
 		{ id: 'leadership', label: 'Leadership' },
 		{ id: 'structure', label: 'Structure' },
-		...(showAccomplishments ? [{ id: 'accomplishments', label: isCivilRegistrar || isMDRRMO || isMENRO ? 'Accomplishments' : 'Reports' }] : []),
+		...(showAccomplishments ? [{ id: 'accomplishments', label: isCivilRegistrar || isMDRRMO || isMENRO || isHealthOffice ? 'Accomplishments' : 'Reports' }] : []),
 		...(shouldShowAwards ? [{ id: 'awards', label: 'Recognition' }] : []),
 		...(shouldShowPersonnel ? [{ id: 'personnel', label: 'Personnel' }] : []),
 		...(!isMAO && shouldPutFormsAtEnd && downloadableForms && downloadableForms.length > 0 ? [{ id: 'forms', label: isMENRO ? 'Downloadables' : 'Forms' }] : [])
@@ -460,6 +467,55 @@
 				'Request for Program of Work / Detailed Estimate',
 				'Concrete Pouring Permit & Request for Pouring Inspection',
 				'Request for Final Inspection of Completed Project'
+			]
+		},
+		'Dental Health Services': {
+			id: 'dental-health-services',
+			code: 'MHO DENTAL FORM 1',
+			icon: '🦷',
+			title: 'Oral Health & Dental Treatment Dossier',
+			badge: 'Official Oral Health Dossier',
+			stat: '1 Official Form',
+			tagline: 'Rural Health Unit Dental Clinic • Oral Health Program',
+			description: 'Official Municipal Health Office oral examination and dental monitoring record for tracking oral health status, DMFT / dft caries indices, gingival condition, dental prophylaxis, temporary/permanent restorations, and tooth extractions across 5 annual clinical monitoring cycles.',
+			keyDocs: [
+				'Individual Treatment Record (Form 1)',
+				'Oral Health Status & DMF Indices Chart',
+				'Annual Dentition Condition Map (Years 1–5)',
+				'Services Monitoring & Clinical Treatment Log'
+			]
+		},
+		'Clinical Consultation & Primary Care': {
+			id: 'clinical-consultation-primary-care',
+			code: 'RHU KONSULTA P08038120',
+			icon: '🩺',
+			title: 'Patient Clinical Evaluation Dossier',
+			badge: 'PhilHealth Konsulta Clinical Dossier',
+			stat: '1 Official Form',
+			tagline: 'Primary Care Consultations • Physical Exam • NCD Assessment',
+			description: 'Comprehensive patient encounter record utilized by RHU physicians and clinical staff for primary healthcare consultations, PhilHealth Konsulta first patient encounters, pediatric growth measurements, comprehensive physical examinations, and non-communicable disease (NCD) cardiovascular/diabetes risk assessments.',
+			keyDocs: [
+				'Patient Demographic & PhilHealth Profile',
+				'Past Medical, Surgical & Family History',
+				'Pediatric Growth & Developmental Metrics',
+				'Systematic Physical Examination Findings',
+				'NCD High-Risk Assessment & Angina Screening'
+			]
+		},
+		'PhilHealth & Universal Health Care': {
+			id: 'philhealth-universal-health-care',
+			code: 'RA 11223 UHC PMRF',
+			icon: '💳',
+			title: 'PhilHealth Registration & Enrollment Dossier',
+			badge: 'Universal Health Care Statutory Dossier',
+			stat: '1 Official Form',
+			tagline: 'Universal Health Care Act (RA 11223) • Member Registration',
+			description: 'Official statutory registration and data updating document for PhilHealth Universal Health Care coverage, declaration of qualified dependents, member classification (Direct vs. Indirect Contributors), and designation of preferred accredited RHU Konsulta primary care providers.',
+			keyDocs: [
+				'PhilHealth Member Registration Form (PMRF)',
+				'Declaration of Qualified Dependents',
+				'Direct & Indirect Contributor Classification',
+				'Member Data Amendment & Updating Record'
 			]
 		}
 	};
@@ -757,6 +813,7 @@
 
 				<!-- Right Column: Official Municipal Identity Plaque with Purposeful 3D Perspective Hover Tilt -->
 				<div class="flex items-center justify-center lg:col-span-5">
+					<!-- svelte-ignore a11y_no_static_element_interactions -->
 					<div
 						class="w-full max-w-md transition-transform duration-200 ease-out"
 						onmousemove={handlePlaqueMouseMove}
@@ -1422,19 +1479,21 @@
 						>
 							<span class="h-2 w-2 animate-pulse rounded-full bg-amber-400"></span>
 							{#if formsNavCode}
-								SECTION {formsNavCode} // {isMENRO ? 'OFFICIAL DOWNLOADABLES & CITIZEN GUIDES' : 'OFFICIAL PERMIT FOLDERS & FORMS'}
+								SECTION {formsNavCode} // {isMENRO ? 'OFFICIAL DOWNLOADABLES & CITIZEN GUIDES' : isHealthOffice ? 'OFFICIAL HEALTHCARE RECORDS & CLINICAL FORMS' : 'OFFICIAL PERMIT FOLDERS & FORMS'}
 							{:else}
-								{isMENRO ? 'OFFICIAL DOWNLOADABLES & CITIZEN GUIDES' : 'OFFICIAL PERMIT FOLDERS & FORMS'}
+								{isMENRO ? 'OFFICIAL DOWNLOADABLES & CITIZEN GUIDES' : isHealthOffice ? 'OFFICIAL HEALTHCARE RECORDS & CLINICAL FORMS' : 'OFFICIAL PERMIT FOLDERS & FORMS'}
 							{/if}
 						</div>
 						<h2
 							class="text-3xl leading-tight font-black tracking-tight text-blue-950 sm:text-4xl lg:text-5xl"
 						>
-							{isMENRO ? 'Downloadables & Citizen Guides' : 'Downloadable Office Forms'}
+							{isMENRO ? 'Downloadables & Citizen Guides' : isHealthOffice ? 'Downloadable Health Forms' : 'Downloadable Office Forms'}
 						</h2>
 						<p class="mt-4 text-base leading-relaxed font-normal text-blue-950/80 sm:text-lg">
 							{isMENRO
 								? 'Official MENRO permit checklists, Citizen’s Charters, and environmental regulatory guides available for direct download and document inspection.'
+								: isHealthOffice
+								? 'All official municipal health records, dental treatment dossiers, and PhilHealth enrollment forms are organized into dedicated official folders. Click a folder below to open and access its full collection of downloadable and printable forms.'
 								: 'All engineering permit documents are organized into dedicated official folders. Click a folder below to open and access its full collection of downloadable and printable forms.'}
 						</p>
 					</div>
@@ -1460,7 +1519,7 @@
 					<div class="mb-12">
 						<div class="mb-5 flex items-center justify-between">
 							<div class="flex flex-wrap items-center gap-2.5">
-								<span class="text-xs font-black tracking-wider text-blue-950 uppercase">OFFICIAL PERMIT DOSSIERS:</span>
+								<span class="text-xs font-black tracking-wider text-blue-950 uppercase">{isHealthOffice ? 'OFFICIAL HEALTHCARE DOSSIERS:' : 'OFFICIAL PERMIT DOSSIERS:'}</span>
 								<span class="text-xs font-bold text-amber-700">Click a folder to view its contained forms</span>
 							</div>
 							{#if selectedFolder}
@@ -2465,10 +2524,10 @@
 							class="mb-3 inline-flex items-center gap-2 rounded-md border border-amber-300 bg-amber-100 px-3.5 py-1 text-xs font-black tracking-wider text-amber-950 uppercase"
 						>
 							<span class="h-2 w-2 rounded-full bg-amber-600"></span>
-							SECTION {accomplishmentsNavCode} // {isCivilRegistrar ? 'CIVIL REGISTRY MILESTONES & SPECIAL PROJECTS' : isMDRRMO ? 'DISASTER PREPAREDNESS & DRILL OPERATIONS' : isMENRO ? 'SOLID WASTE MANAGEMENT & DIVERSION SCORECARD' : 'FISCAL PERFORMANCE & SCORECARDS'}
+							SECTION {accomplishmentsNavCode} // {isCivilRegistrar ? 'CIVIL REGISTRY MILESTONES & SPECIAL PROJECTS' : isMDRRMO ? 'DISASTER PREPAREDNESS & DRILL OPERATIONS' : isMENRO ? 'SOLID WASTE MANAGEMENT & DIVERSION SCORECARD' : isHealthOffice ? 'PUBLIC HEALTH OUTREACH & CLINICAL CARAVAN' : 'FISCAL PERFORMANCE & SCORECARDS'}
 						</div>
 						<h2 class="text-3xl leading-tight font-black tracking-tight text-blue-950 sm:text-4xl">
-							{isMDRRMO ? 'Field Operations & Accomplishments' : isMENRO ? 'Solid Waste Management & Accomplishments' : isCivilRegistrar ? 'Department Accomplishments' : 'Accomplishment Reports'}
+							{isMDRRMO ? 'Field Operations & Accomplishments' : isMENRO ? 'Solid Waste Management & Accomplishments' : isCivilRegistrar ? 'Department Accomplishments' : isHealthOffice ? 'Public Health Accomplishments & Outreach' : 'Accomplishment Reports'}
 						</h2>
 						<p class="mt-2.5 text-base leading-relaxed font-normal text-slate-800">
 							{#if isCivilRegistrar}
@@ -2477,6 +2536,8 @@
 								Official disaster preparedness operations, community resilience milestones, and simultaneous earthquake drills led by the Municipal Disaster Risk Reduction & Management Office.
 							{:else if isMENRO}
 								Official ecological solid waste management updates, waste diversion performance benchmarks, and statutory accomplishments under RA 9003 and Municipal Ordinance No. 2024-20.
+							{:else if isHealthOffice}
+								Official public health outreach missions, community TB Active Case Finding (ACF), mobile chest X-ray caravans, and primary healthcare achievements of the Municipal Health Office of Tanauan.
 							{:else}
 								Official performance scorecards, program accomplishments, and transparency disclosures
 								of the {officeName} submitted to the Sangguniang Bayan of Tanauan.
@@ -2499,6 +2560,8 @@
 						<MDRRMOAccomplishments />
 					{:else if isMENRO}
 						<MENROAccomplishments />
+					{:else if isHealthOffice}
+						<HealthOfficeAccomplishments />
 					{:else}
 						<div class="rounded-3xl border-2 border-slate-200 bg-slate-50 p-6 shadow-sm sm:p-8">
 							<AccomplishmentSection {department} limit={3} collapsible={true} cleanLayout={true} />
@@ -2689,8 +2752,12 @@
 			role="dialog"
 			aria-modal="true"
 			aria-labelledby="form-modal-title"
+			tabindex="-1"
+			onkeydown={(e) => e.key === 'Escape' && closeFormModal()}
 		>
 			<!-- Backdrop -->
+			<!-- svelte-ignore a11y_click_events_have_key_events -->
+			<!-- svelte-ignore a11y_no_static_element_interactions -->
 			<div
 				class="absolute inset-0 bg-blue-950/80 backdrop-blur-md"
 				onclick={closeFormModal}
@@ -2935,15 +3002,18 @@
 	<!-- FLOATING WINDOW MODAL (Vision, Mission, Service Offered & Procedures)     -->
 	<!-- ========================================================================= -->
 	{#if activeFloatingModal}
+		<!-- svelte-ignore a11y_click_events_have_key_events -->
 		<div
 			class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/75 p-3 backdrop-blur-md sm:p-6"
 			transition:fade={{ duration: 200 }}
 			role="dialog"
 			aria-modal="true"
 			aria-labelledby="floating-window-title"
+			tabindex="-1"
 			onclick={(e) => {
 				if (e.target === e.currentTarget) closeModal();
 			}}
+			onkeydown={(e) => e.key === 'Escape' && closeModal()}
 		>
 			<div
 				class="relative flex max-h-[90vh] w-full max-w-3xl flex-col overflow-hidden rounded-3xl border-2 border-slate-200 bg-white shadow-2xl ring-1 ring-black/10"

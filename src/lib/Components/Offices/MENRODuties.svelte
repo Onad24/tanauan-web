@@ -401,13 +401,18 @@
 
 	<!-- Detail Modal Window -->
 	{#if activeModal}
+		<!-- svelte-ignore a11y_click_events_have_key_events -->
 		<div
 			class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md overflow-y-auto"
 			transition:fade={{ duration: 200 }}
 			onclick={closeDetailModal}
+			onkeydown={(e) => e.key === 'Escape' && closeDetailModal()}
 			role="dialog"
 			aria-modal="true"
+			tabindex="-1"
 		>
+			<!-- svelte-ignore a11y_click_events_have_key_events -->
+			<!-- svelte-ignore a11y_no_static_element_interactions -->
 			<div
 				class="relative my-auto w-full max-w-2xl rounded-3xl border-2 border-amber-400 bg-white p-6 sm:p-8 shadow-2xl overflow-hidden"
 				onclick={(e) => e.stopPropagation()}

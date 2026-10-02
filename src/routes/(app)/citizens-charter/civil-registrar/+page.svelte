@@ -345,12 +345,17 @@
 
 	<!-- Modal -->
 	{#if modalOpen}
+		<!-- svelte-ignore a11y_click_events_have_key_events -->
 		<div
 			class="fixed inset-0 z-60 flex items-center justify-center bg-black/70 backdrop-blur-sm"
 			role="dialog"
 			aria-modal="true"
+			tabindex="-1"
 			on:click={closeImageModal}
+			on:keydown={(e) => e.key === 'Escape' && closeImageModal()}
 		>
+			<!-- svelte-ignore a11y_click_events_have_key_events -->
+			<!-- svelte-ignore a11y_no_static_element_interactions -->
 			<div
 				class="relative mx-4 w-full max-w-3xl scale-95 transform overflow-hidden rounded-xl bg-white shadow-2xl transition-all duration-300"
 				on:click|stopPropagation
@@ -359,6 +364,7 @@
 					class="absolute top-3 right-3 rounded-full bg-white p-1 text-2xl font-bold text-gray-700 shadow-md transition-colors hover:text-gray-900"
 					on:click={closeImageModal}>×</button
 				>
+				<!-- svelte-ignore a11y_no_static_element_interactions -->
 				<div
 					class="cursor-grab overflow-hidden"
 					on:wheel={onWheel}

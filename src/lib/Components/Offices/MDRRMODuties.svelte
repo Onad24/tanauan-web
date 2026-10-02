@@ -613,7 +613,12 @@
 			class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 md:p-6"
 			role="dialog"
 			aria-modal="true"
+			tabindex="-1"
+			onkeydown={(e) => e.key === 'Escape' && closeStepModal()}
 		>
+			<!-- Dim Backdrop -->
+			<!-- svelte-ignore a11y_click_events_have_key_events -->
+			<!-- svelte-ignore a11y_no_static_element_interactions -->
 			<div
 				class="absolute inset-0 bg-blue-950/80 backdrop-blur-md"
 				onclick={closeStepModal}
