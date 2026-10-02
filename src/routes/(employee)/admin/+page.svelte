@@ -219,7 +219,7 @@
 			<div class="mt-4">
 				<span class="text-3xl font-black text-slate-900">{officeCount}</span>
 				<p class="mt-1 text-xs text-slate-500">
-					{officeCount === 1 ? 'Office' : 'Offices, units &amp; divisions'} across {groupCount}
+					{officeCount === 1 ? 'Office' : 'Offices, units & divisions'} across {groupCount}
 					{groupCount === 1 ? 'group' : 'groups'}
 				</p>
 			</div>
