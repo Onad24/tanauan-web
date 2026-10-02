@@ -318,7 +318,7 @@
 						/>
 					</div>
 					<div class="image-card card-side">
-						<img src="/Tourism/church-2.jpg" alt="Parish interior" />
+						<img src="/Tourism/church/church-2.jpg" alt="Parish interior" />
 					</div>
 					<div class="image-card card-accent">
 						<div class="accent-content">
@@ -357,7 +357,7 @@
 						/>
 					</div>
 					<div class="image-card card-small">
-						<img src="/Tourism/" alt="Cultural performance" />
+						<img src="/Tourism/Balinsasayaw/1000033017.jpg" alt="Cultural performance" />
 					</div>
 					<div class="image-card card-accent accent-teal">
 						<div class="accent-content">
@@ -571,10 +571,10 @@
 
 				<div class="image-mosaic mosaic-municipal">
 					<div class="image-card card-main">
-						<img src="/Tourism/_MG_1774.JPG" alt="Tanauan Municipal Hall Front" />
+						<img src="/Tourism/municipyo/_MG_1774.JPG" alt="Tanauan Municipal Hall Front" />
 					</div>
 					<div class="image-card card-side">
-						<img src="/Tourism/e858fe29-3f1c-461f-8f5a-ce47be22a9b3.jpg" alt="Municipal Hall entrance" />
+						<img src="/Tourism/municipyo/e858fe29-3f1c-461f-8f5a-ce47be22a9b3.jpg" alt="Municipal Hall entrance" />
 					</div>
 					<div class="image-card card-accent accent-indigo">
 						<div class="accent-content">
@@ -775,12 +775,12 @@
 				<div class="image-mosaic mosaic-kuratsa">
 					<div class="image-card card-kuratsa-1">
 						<img
-							src="/Tourism/e858fe29-3f1c-461f-8f5a-ce47be22a9b3.jpg"
+							src="/Tourism/municipyo/e858fe29-3f1c-461f-8f5a-ce47be22a9b3.jpg"
 							alt="Hanging Bride Ceremony"
 						/>
 					</div>
 					<div class="image-card card-kuratsa-2">
-						<img src="/Tourism/pottery-2.jpg" alt="Local Participants" />
+						<img src="/Tourism/pottery/pottery-2.jpg" alt="Local Participants" />
 					</div>
 					<div class="image-card card-accent accent-fuchsia">
 						<div class="accent-content">

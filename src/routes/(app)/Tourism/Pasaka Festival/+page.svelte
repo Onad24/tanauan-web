@@ -6,31 +6,31 @@
 	let slides = [
 		{
 			type: 'image',
-			src: '/images/pasaka1.jpg',
+			src: '/Tourism/pasaka/pasaka-hero.webp',
 			caption: 'Pasaka Festival street dancers',
 			year: '2024'
 		},
 		{
 			type: 'image',
-			src: '/images/pasaka2.jpg',
+			src: '/Tourism/pasaka/pasaka-image1.webp',
 			caption: 'Colorful costumes and smiles',
 			year: '2024'
 		},
 		{
-			type: 'video',
-			src: '/videos/pasaka1.mp4',
+			type: 'image',
+			src: '/Tourism/pasaka/pasaka.jpg',
 			caption: 'Highlights of the Grand Parade',
 			year: '2023'
 		},
 		{
 			type: 'image',
-			src: '/images/pasaka3.jpg',
+			src: '/Tourism/pasaka/history_pasaka.jpg',
 			caption: 'Community celebration and unity',
 			year: '2023'
 		},
 		{
-			type: 'video',
-			src: '/videos/pasaka2.mp4',
+			type: 'image',
+			src: '/Tourism/pasaka/665342580_3134866316904724_7322023335565184051_n.jpg',
 			caption: 'Traditional dance performance',
 			year: '2022'
 		}
@@ -971,11 +971,11 @@
 									Gallery Preview
 								</p>
 								<div class="grid grid-cols-3 gap-3">
-									{#each [1, 2, 3] as _}
+									{#each ['/Tourism/pasaka/pasaka-hero.webp', '/Tourism/pasaka/pasaka-image1.webp', '/Tourism/pasaka/pasaka.jpg'] as imgSrc, idx}
 										<div class="aspect-square overflow-hidden rounded-lg bg-stone-700">
 											<img
-												src="/images/pasaka-archive-{archive.year}.jpg"
-												alt="Archive {archive.year}"
+												src={imgSrc}
+												alt="Archive {archive.year} preview {idx + 1}"
 												class="h-full w-full object-cover opacity-70 transition-opacity hover:opacity-100"
 											/>
 										</div>
