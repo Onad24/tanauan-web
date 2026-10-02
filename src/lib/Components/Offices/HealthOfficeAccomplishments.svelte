@@ -1176,15 +1176,20 @@
 <!-- ============================================== -->
 {#if isModalOpen}
 	<!-- Backdrop with Smooth Blur & Fade Animation -->
+	<!-- svelte-ignore a11y_click_events_have_key_events -->
 	<div
 		class="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-4 md:p-6 bg-slate-950/85 backdrop-blur-md overflow-y-auto"
 		transition:fade={{ duration: 220 }}
 		onclick={closeModal}
+		onkeydown={(e) => e.key === 'Escape' && closeModal()}
 		role="dialog"
 		aria-modal="true"
 		aria-labelledby="modal-folder-title"
+		tabindex="-1"
 	>
 		<!-- Modal Window with Smooth Scale & Fly Animation -->
+		<!-- svelte-ignore a11y_click_events_have_key_events -->
+		<!-- svelte-ignore a11y_no_static_element_interactions -->
 		<div
 			class="relative my-auto w-full {isFullscreen ? 'max-w-[96vw]' : 'max-w-6xl'} rounded-3xl border-2 border-amber-400/80 bg-white shadow-2xl overflow-hidden transition-all duration-300"
 			transition:scale={{ duration: 250, start: 0.95 }}

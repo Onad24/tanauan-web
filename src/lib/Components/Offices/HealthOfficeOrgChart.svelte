@@ -2151,11 +2151,16 @@
 <!-- INTERACTIVE PERSON PROFILE DETAIL MODAL        -->
 <!-- ============================================== -->
 {#if selectedPerson}
+	<!-- svelte-ignore a11y_click_events_have_key_events -->
+	<!-- svelte-ignore a11y_no_static_element_interactions -->
 	<div
 		class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
 		transition:fade={{ duration: 200 }}
 		role="dialog"
 		aria-modal="true"
+		aria-labelledby="person-detail-name"
+		tabindex="-1"
+		onkeydown={(e) => e.key === 'Escape' && closeDetail()}
 		onclick={(e) => e.target === e.currentTarget && closeDetail()}
 	>
 		<div
@@ -2216,7 +2221,7 @@
 						>
 							{selectedPerson.badge}
 						</span>
-						<h2 class="mt-1.5 text-2xl font-black text-white leading-tight">
+						<h2 id="person-detail-name" class="mt-1.5 text-2xl font-black text-white leading-tight">
 							{selectedPerson.name}
 						</h2>
 						<p class="text-sm font-bold text-cyan-300 mt-0.5">
