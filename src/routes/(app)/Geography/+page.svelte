@@ -898,10 +898,6 @@
 		color: #f59e0b;
 	}
 
-	.geo-stat-royal .geo-stat-unit {
-		color: #60a5fa;
-	}
-
 	.geo-stat-label {
 		font-size: 0.9375rem;
 		font-weight: 700;
