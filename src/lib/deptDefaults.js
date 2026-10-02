@@ -941,6 +941,7 @@ export const DEPT_DEFAULTS = {
         fileSize: '372 KB',
         url: '/forms/health-office/MHO-Individual-Treatment-Record-Dental.pdf',
         downloadUrl: '/forms/health-office/MHO-Individual-Treatment-Record-Dental.pdf',
+        htmlUrl: '/forms/health-office/individual-treatment-record-dental.html',
         requirements: [
           'Accomplished Part I: Patient Demographics, Full Name, DOB, Age, Sex, Address, Occupation & Parent/Guardian',
           'Accomplished Medical History and Allergies disclosure before any dental intervention',
@@ -961,6 +962,7 @@ export const DEPT_DEFAULTS = {
         fileSize: '882 KB',
         url: '/forms/health-office/MHO-Patient-Data-Record.pdf',
         downloadUrl: '/forms/health-office/MHO-Patient-Data-Record.pdf',
+        htmlUrl: '/forms/health-office/patient-data-record.html',
         requirements: [
           'Part I - Patient Demographics & Residence Address (Barangay, Town, Province, Zip Code)',
           'Part II - PhilHealth Information & Valid PHIC ID / Senior Citizen / PWD Identification',
@@ -983,6 +985,7 @@ export const DEPT_DEFAULTS = {
         fileSize: '712 KB',
         url: '/forms/health-office/PhilHealth-Member-Registration-Form-PMRF.pdf',
         downloadUrl: '/forms/health-office/PhilHealth-Member-Registration-Form-PMRF.pdf',
+        htmlUrl: '/forms/health-office/philhealth-member-registration-pmrf.html',
         requirements: [
           'Purpose Specification: Check appropriate box for New Registration or Updating / Amendment',
           'Designation of Preferred Accredited KonSulTa Primary Care Provider (Tanauan Municipal Health Office)',
