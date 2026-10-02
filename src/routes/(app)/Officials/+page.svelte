@@ -250,7 +250,7 @@
 					>
 						<!-- Subtle texture and glowing line for premium feel -->
 						<div
-							class="absolute inset-0 bg-[url('/Tourism/municipyo-1.jpg')] bg-cover bg-center opacity-[0.05]"
+							class="absolute inset-0 bg-[url('/Tourism/municipyo/municipyo-1.jpg')] bg-cover bg-center opacity-[0.05]"
 						></div>
 						<div
 							class="h-1/3 w-[1px] bg-gradient-to-b from-transparent via-amber-400/30 to-transparent"
@@ -266,7 +266,7 @@
 						class="relative flex h-full shrink-0 items-center justify-center overflow-hidden border-r border-slate-800 bg-slate-900"
 					>
 						<img
-							src="/Tourism/municipyo-1.jpg"
+							src="/Tourism/municipyo/municipyo-1.jpg"
 							alt="Municipyo"
 							class="absolute inset-0 h-full w-full scale-110 object-cover opacity-20 transition-transform duration-[3s] ease-out [.is-inview_&]:scale-100"
 						/>
@@ -336,7 +336,7 @@
 					>
 						<!-- Subtle background layer -->
 						<img
-							src="/Tourism/municipyo-1.jpg"
+							src="/Tourism/municipyo/municipyo-1.jpg"
 							alt="Municipyo"
 							class="absolute inset-0 h-full w-full scale-125 object-cover opacity-10 transition-transform duration-[3s] ease-out [.is-inview_&]:scale-105"
 						/>

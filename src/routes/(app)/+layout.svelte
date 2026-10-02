@@ -82,9 +82,9 @@
 	let currentImageIndex = 0;
 	const loaderImages = [
 		'/AERIAL DRONE SHOTS/Tanauan Arial View.webp',
-		'/Tourism/municipyo-1.jpg',
-		'/Tourism/chruch-1.jpg',
-		'/Tourism/plaza-1.jpg',
+		'/Tourism/municipyo/municipyo-1.jpg',
+		'/Tourism/church/chruch-1.jpg',
+		'/Tourism/plaza/plaza-1.jpg',
 		'/AERIAL DRONE SHOTS/Transpo-hub.webp'
 	];
 	let loaderInterval;
@@ -314,7 +314,7 @@
 <svelte:head>
 	<title>Tanauan, Leyte Bungto han Kamag-araman</title>
 	<link rel="preload" as="image" href="/AERIAL DRONE SHOTS/Tanauan Arial View.webp" />
-	<link rel="preload" as="image" href="/Tourism/municipyo-1.jpg" />
+	<link rel="preload" as="image" href="/Tourism/municipyo/municipyo-1.jpg" />
 </svelte:head>
 
 {#if showLoader && $isHome}

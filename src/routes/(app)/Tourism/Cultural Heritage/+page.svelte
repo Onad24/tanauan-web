@@ -193,7 +193,7 @@
 	<!-- Hero Section -->
 	<section class="hero">
 		<div class="hero-bg">
-			<img src="/Tourism/chruch-1.jpg" alt="Cultural Heritage of Tanauan" class="hero-bg-img" />
+			<img src="/Tourism/church/chruch-1.jpg" alt="Cultural Heritage of Tanauan" class="hero-bg-img" />
 			<div class="hero-overlay"></div>
 		</div>
 
@@ -327,7 +327,7 @@
 						</div>
 					</div>
 					<div class="image-card card-bottom">
-						<img src="/Tourism/chruch-1.jpg" alt="Parish details" />
+						<img src="/Tourism/church/chruch-1.jpg" alt="Parish details" />
 					</div>
 				</div>
 			</div>
@@ -501,13 +501,13 @@
 
 				<div class="plaza-images">
 					<div class="image-card plaza-main">
-						<img src="/Tourism/plaza-1.jpg" alt="Plaza with acacia trees" />
+						<img src="/Tourism/plaza/plaza-1.jpg" alt="Plaza with acacia trees" />
 					</div>
 					<div class="image-card plaza-side">
-						<img src="/Tourism/plaza-2.jpg" alt="Mini-amphitheater" />
+						<img src="/Tourism/plaza/plaza-2.jpg" alt="Mini-amphitheater" />
 					</div>
 					<div class="image-card plaza-side">
-						<img src="/Tourism/plaza-3.jpg" alt="Community event" />
+						<img src="/Tourism/plaza/plaza-3.jpg" alt="Community event" />
 					</div>
 					<div class="image-card card-accent accent-gold-glass">
 						<div class="accent-content">
@@ -595,7 +595,7 @@
 						</div>
 					</div>
 					<div class="image-card card-bottom">
-						<img src="/Tourism/municipyo-1.jpg" alt="Municipal Hall side view" />
+						<img src="/Tourism/municipyo/municipyo-1.jpg" alt="Municipal Hall side view" />
 					</div>
 				</div>
 			</div>
