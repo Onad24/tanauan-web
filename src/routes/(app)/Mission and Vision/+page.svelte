@@ -514,6 +514,7 @@
 	.mv-amber-gradient {
 		background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
 		-webkit-background-clip: text;
+		background-clip: text;
 		-webkit-text-fill-color: transparent;
 		display: inline-block;
 		text-shadow: 0 0 30px rgba(245, 158, 11, 0.3);
@@ -552,7 +553,8 @@
 		background: rgba(10, 27, 58, 0.85);
 		border: 1px solid rgba(59, 130, 246, 0.3);
 		border-radius: 9999px;
-		backdrop-blur-md: 10px;
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
 		box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
 	}
 
