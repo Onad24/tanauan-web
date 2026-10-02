@@ -324,6 +324,8 @@
 	);
 
 	// Filtered Field Workers
+	let showAllFieldWorkers = $state(false);
+
 	const filteredFieldWorkers = $derived(
 		fieldWorkers.filter((person) => {
 			if (activeFieldSubGroup !== 'all' && person.subCategory !== activeFieldSubGroup) return false;
@@ -339,6 +341,10 @@
 			}
 			return true;
 		})
+	);
+
+	const displayedFieldWorkers = $derived(
+		showAllFieldWorkers ? filteredFieldWorkers : filteredFieldWorkers.slice(0, 8)
 	);
 
 	// Total filtered count
@@ -838,7 +844,7 @@
 										<span
 											class="rounded-full border border-amber-400/60 bg-blue-950 px-2.5 py-0.5 text-xs font-black text-amber-300"
 										>
-											{filteredFieldWorkers.length} of 49 Workers
+											{showAllFieldWorkers ? filteredFieldWorkers.length : Math.min(8, filteredFieldWorkers.length)} of {filteredFieldWorkers.length} Workers Shown
 										</span>
 									</div>
 									<p class="text-xs font-semibold text-amber-200">
@@ -923,7 +929,7 @@
 									</div>
 								{:else}
 									<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-										{#each filteredFieldWorkers as person (person.id)}
+										{#each displayedFieldWorkers as person (person.id)}
 											<button
 												type="button"
 												onclick={() => openPersonnelModal(person)}
@@ -980,6 +986,27 @@
 											</button>
 										{/each}
 									</div>
+
+									{#if filteredFieldWorkers.length > 8}
+										<div class="mt-6 flex flex-col items-center justify-center gap-2 border-t border-amber-400/20 pt-5">
+											<button
+												type="button"
+												onclick={() => (showAllFieldWorkers = !showAllFieldWorkers)}
+												class="inline-flex items-center gap-2 rounded-2xl border-2 border-amber-400 bg-gradient-to-r from-amber-400 to-amber-500 px-6 py-2.5 text-xs font-black tracking-wide text-blue-950 shadow-md transition-all hover:scale-102 hover:from-amber-300 hover:to-amber-400 active:scale-98"
+											>
+												{#if showAllFieldWorkers}
+													<span>▲ Show Less (Collapse to 8 Workers)</span>
+												{:else}
+													<span>▼ Show All {filteredFieldWorkers.length} Field Workers ({filteredFieldWorkers.length - 8} More)</span>
+												{/if}
+											</button>
+											<span class="text-[11px] font-semibold text-amber-200/80">
+												{showAllFieldWorkers
+													? `Showing all ${filteredFieldWorkers.length} field personnel`
+													: `Showing 8 of ${filteredFieldWorkers.length} field workers to keep the section compact`}
+											</span>
+										</div>
+									{/if}
 								{/if}
 							</div>
 						{/if}
