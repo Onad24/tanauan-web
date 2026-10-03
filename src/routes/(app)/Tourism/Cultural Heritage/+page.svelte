@@ -808,7 +808,6 @@
 		background: #faf9f7;
 	}
 
-	.font-serif,
 	h1,
 	h2,
 	.accent-number,
@@ -1216,9 +1215,7 @@
 	.section-singers {
 		background: #f8faf8;
 	}
-	.section-kuratsa {
-		background: #fff;
-	}
+
 	.section-plaza {
 		background: linear-gradient(135deg, #1a1a2e 0%, #1e293b 100%);
 		color: #fff;
@@ -1675,19 +1672,7 @@
 		color: #fff;
 	}
 
-	.accent-emerald {
-		background: linear-gradient(135deg, rgba(16, 185, 129, 0.18), rgba(5, 150, 105, 0.18));
-		border: 1px solid rgba(16, 185, 129, 0.3);
-	}
 
-	.accent-emerald .accent-icon {
-		color: #34d399;
-	}
-
-	.accent-emerald .accent-number-small,
-	.accent-emerald .accent-label {
-		color: rgba(255, 255, 255, 0.7);
-	}
 
 	.accent-fuchsia {
 		background: linear-gradient(135deg, #c026d3, #a21caf);

@@ -200,7 +200,7 @@
 	});
 
 	// Horizontal scroll helper for hourly carousel
-	let hourlyScrollContainer;
+	let hourlyScrollContainer = $state();
 	function scrollHourly(offset) {
 		if (hourlyScrollContainer) {
 			hourlyScrollContainer.scrollBy({ left: offset, behavior: 'smooth' });

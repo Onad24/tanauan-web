@@ -2063,7 +2063,7 @@
 		transform: translateX(4px);
 	}
 
-	main {
+	:global(main) {
 		padding-top: var(--navbar-height);
 	}
 

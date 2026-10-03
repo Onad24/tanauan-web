@@ -23,8 +23,14 @@ let entries = null;
 function getEntries() {
 	if (entries) return entries;
 	entries = new Map();
-	const imageBase = (env.PUBLIC_CDN_BASE_URL || '').replace(/\/+$/, '');
-	const filesBase = (env.PUBLIC_CDN_FILES_URL || '').replace(/\/+$/, '');
+	const imageBase = (
+		env.PUBLIC_CDN_BASE_URL ||
+		'https://dqooabpikiranbzbxeoj.supabase.co/storage/v1/object/public/assets'
+	).replace(/\/+$/, '');
+	const filesBase = (
+		env.PUBLIC_CDN_FILES_URL ||
+		'https://dqooabpikiranbzbxeoj.supabase.co/storage/v1/object/public/static-files'
+	).replace(/\/+$/, '');
 	if (imageBase) {
 		for (const key of manifest.assets || []) entries.set(key, imageBase);
 	}

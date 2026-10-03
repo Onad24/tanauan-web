@@ -7,8 +7,9 @@ import { env } from '$env/dynamic/public';
  */
 export function cdn(path) {
 	if (!path) return path;
-	const base = env.PUBLIC_CDN_BASE_URL || '';
-	if (!base) return path;
+	const base =
+		env.PUBLIC_CDN_BASE_URL ||
+		'https://dqooabpikiranbzbxeoj.supabase.co/storage/v1/object/public/assets';
 	const trimmedBase = String(base).replace(/\/+$/g, '');
 	const trimmedPath = String(path).replace(/^\/+/, '');
 	return `${trimmedBase}/${encodeURI(trimmedPath)}`;

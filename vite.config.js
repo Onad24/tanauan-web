@@ -101,10 +101,11 @@ function supabaseCdnAssets(imageBase) {
 
 export default defineConfig(({ mode }) => {
 	const env = loadEnv(mode, process.cwd(), '');
-	const cdnBase = (env.PUBLIC_CDN_BASE_URL || process.env.PUBLIC_CDN_BASE_URL || '').replace(
-		/\/+$/,
-		''
-	);
+	const cdnBase = (
+		env.PUBLIC_CDN_BASE_URL ||
+		process.env.PUBLIC_CDN_BASE_URL ||
+		'https://dqooabpikiranbzbxeoj.supabase.co/storage/v1/object/public/assets'
+	).replace(/\/+$/, '');
 	return {
 		plugins: [tailwindcss(), sveltekit(), supabaseCdnAssets(cdnBase)],
 		server: {
