@@ -6,8 +6,17 @@
 
 	const defaults = getDeptDefaults('Licensing') ?? { department: 'Licensing' };
 
-	// Merge Firestore dynamic data over defaults
-	const pageData = $derived(mergeOfficeData(defaults, data?.officePageData));
+	// Merge Firestore dynamic data over defaults, ensuring forms are at the last section and personnel is removed
+	const baseData = $derived(mergeOfficeData(defaults, data?.officePageData));
+	const pageData = $derived({
+		...baseData,
+		showPersonnel: false,
+		formsAtEnd: true
+	});
 </script>
+
+<svelte:head>
+	<title>Business Permit &amp; Licensing Office (BPLO) | Municipality of Tanauan, Leyte</title>
+</svelte:head>
 
 <OfficeTemplate {...pageData} />
