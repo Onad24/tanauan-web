@@ -1110,6 +1110,7 @@ export const DEPT_DEFAULTS = {
     schedule: { hours: 'Monday – Friday | 8:00 AM – 5:00 PM', location: 'Sangguniang Bayan Building, Tanauan Municipal Hall Complex', contactNumber: '', email: '', helpline: 'Legislative Staff Office, SB Building' }
   },
   Licensing: {
+    department: 'Licensing',
     officeName: 'Business Permit & Licensing Office',
     officeCode: 'BPLO',
     category: 'Business Regulation & Licensing',
@@ -1121,7 +1122,17 @@ export const DEPT_DEFAULTS = {
       'Fair & Transparent Business Regulation',
       'Ease of Doing Business in Tanauan'
     ],
-    head: { name: '', title: 'Business Permit & Licensing Officer', term: 'Department Head', quote: 'Efficient business licensing promotes investment, creates jobs, and drives economic growth in our municipality.', credentials: ['Business Permit & Licensing Specialist', 'ARTA Compliance Officer'], room: 'Municipal Hall, Ground Floor, Tanauan, Leyte', schedule: 'Monday – Friday: 8:00 AM – 5:00 PM (No Noon Break)' },
+    head: {
+      name: 'Rodele E. Maceda',
+      title: 'BPLO - Officer-In-Charge',
+      term: 'Officer-In-Charge',
+      quote: 'Streamlining local business regulation and providing prompt, transparent, and ARTA-compliant licensing services empower entrepreneurs and promote sustainable investment in Tanauan.',
+      credentials: ['Business Permit & Licensing Specialist', 'ARTA Compliance Officer', 'Local Revenue Administration'],
+      room: 'Municipal Hall, Ground Floor, Tanauan, Leyte',
+      schedule: 'Monday – Friday: 8:00 AM – 5:00 PM (No Noon Break)'
+    },
+    orgChartPdf: '/BPLO-Organizational-Chart.pdf',
+    orgChartImage: '/bplo-logo-1.jpg',
     stats: [
       { value: '1000', suffix: '+', label: 'Registered Businesses', description: 'Active business permits issued annually in Tanauan' },
       { value: '3', suffix: 'days', label: 'Processing Time', description: 'Maximum processing time per ARTA guidelines' },
@@ -2332,7 +2343,9 @@ export function mergeOfficeData(defaults = {}, dynamic = {}) {
 		'tagline',
 		'department',
 		'vision',
-		'mission'
+		'mission',
+		'orgChartImage',
+		'orgChartPdf'
 	];
 	for (const key of stringKeys) {
 		if (typeof dynamic[key] === 'string' && dynamic[key].trim() !== '') {

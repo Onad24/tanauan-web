@@ -10,6 +10,7 @@
 	const baseData = $derived(mergeOfficeData(defaults, data?.officePageData));
 	const pageData = $derived({
 		...baseData,
+		department: 'Licensing',
 		showPersonnel: false,
 		formsAtEnd: true
 	});

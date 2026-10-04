@@ -10,6 +10,7 @@
 	import DepartmentSectionsFeed from '$lib/DepartmentSectionsFeed.svelte';
 	import MAOServicesPortal from '$lib/Components/Offices/MAOServicesPortal.svelte';
 	import MENROCollectionSchedule from '$lib/Components/Offices/MENROCollectionSchedule.svelte';
+	import BPLOAccomplishmentReport from '$lib/Components/Offices/BPLOAccomplishmentReport.svelte';
 
 	let {
 		officeName = "Municipal Treasurer's Office",
@@ -311,7 +312,7 @@
 		...(!isMAO && mandates && mandates.length > 0 ? [{ id: 'mandates', label: 'Mandates' }] : []),
 		{ id: 'leadership', label: 'Leadership' },
 		{ id: 'structure', label: 'Structure' },
-		...(showAccomplishments ? [{ id: 'accomplishments', label: isCivilRegistrar || isMDRRMO || isMENRO || isHealthOffice ? 'Accomplishments' : 'Reports' }] : []),
+		...(showAccomplishments ? [{ id: 'accomplishments', label: isCivilRegistrar || isMDRRMO || isMENRO || isHealthOffice || isLicensing ? 'Accomplishments' : 'Reports' }] : []),
 		...(shouldShowAwards ? [{ id: 'awards', label: 'Recognition' }] : []),
 		...(shouldShowPersonnel ? [{ id: 'personnel', label: 'Personnel' }] : []),
 		...(!isMAO && shouldPutFormsAtEnd && downloadableForms && downloadableForms.length > 0 ? [{ id: 'forms', label: isMENRO ? 'Downloadables' : 'Forms' }] : [])
@@ -320,6 +321,7 @@
 	// Downloadable Forms State & Folder Management
 	let activeFormModal = $state(null);
 	let selectedFolder = $state(null); // null = show folder overview; string = currently open folder
+	// svelte-ignore state_referenced_locally
 	let isFormsSectionOpen = $state(!isLicensing);
 
 	function toggleFormsSection() {
@@ -2596,13 +2598,15 @@
 							class="mb-3 inline-flex items-center gap-2 rounded-md border border-amber-300 bg-amber-100 px-3.5 py-1 text-xs font-black tracking-wider text-amber-950 uppercase"
 						>
 							<span class="h-2 w-2 rounded-full bg-amber-600"></span>
-							SECTION {accomplishmentsNavCode} // {isCivilRegistrar ? 'CIVIL REGISTRY MILESTONES & SPECIAL PROJECTS' : isMDRRMO ? 'DISASTER PREPAREDNESS & DRILL OPERATIONS' : isMENRO ? 'SOLID WASTE MANAGEMENT & DIVERSION SCORECARD' : isHealthOffice ? 'PUBLIC HEALTH OUTREACH & CLINICAL CARAVAN' : 'FISCAL PERFORMANCE & SCORECARDS'}
+							SECTION {accomplishmentsNavCode} // {isLicensing ? 'BUSINESS REGISTRATION & REVENUE SCORECARD' : isCivilRegistrar ? 'CIVIL REGISTRY MILESTONES & SPECIAL PROJECTS' : isMDRRMO ? 'DISASTER PREPAREDNESS & DRILL OPERATIONS' : isMENRO ? 'SOLID WASTE MANAGEMENT & DIVERSION SCORECARD' : isHealthOffice ? 'PUBLIC HEALTH OUTREACH & CLINICAL CARAVAN' : 'FISCAL PERFORMANCE & SCORECARDS'}
 						</div>
 						<h2 class="text-3xl leading-tight font-black tracking-tight text-blue-950 sm:text-4xl">
-							{isMDRRMO ? 'Field Operations & Accomplishments' : isMENRO ? 'Solid Waste Management & Accomplishments' : isCivilRegistrar ? 'Department Accomplishments' : isHealthOffice ? 'Public Health Accomplishments & Outreach' : 'Accomplishment Reports'}
+							{isLicensing ? 'BPLO Accomplishments & Revenue Scorecard' : isMDRRMO ? 'Field Operations & Accomplishments' : isMENRO ? 'Solid Waste Management & Accomplishments' : isCivilRegistrar ? 'Department Accomplishments' : isHealthOffice ? 'Public Health Accomplishments & Outreach' : 'Accomplishment Reports'}
 						</h2>
 						<p class="mt-2.5 text-base leading-relaxed font-normal text-slate-800">
-							{#if isCivilRegistrar}
+							{#if isLicensing}
+								Official comparative summary of business permit registration, public transport regulatory franchise assessments, and municipal local revenue collections as of August 2026.
+							{:else if isCivilRegistrar}
 								Official public service milestones, community outreach records, and flagship civil registration projects of the Municipal Civil Registrar of Tanauan.
 							{:else if isMDRRMO}
 								Official disaster preparedness operations, community resilience milestones, and simultaneous earthquake drills led by the Municipal Disaster Risk Reduction & Management Office.
@@ -2617,9 +2621,13 @@
 						</p>
 					</div>
 
-					<div class="rounded-3xl border-2 border-slate-50 p-6 shadow-sm sm:p-8">
-						<AccomplishmentSection {department} limit={3} collapsible={true} cleanLayout={true} />
-					</div>
+					{#if isLicensing}
+						<BPLOAccomplishmentReport />
+					{:else}
+						<div class="rounded-3xl border-2 border-slate-50 p-6 shadow-sm sm:p-8">
+							<AccomplishmentSection {department} limit={3} collapsible={true} cleanLayout={true} />
+						</div>
+					{/if}
 				</div>
 			</section>
 		{/if}

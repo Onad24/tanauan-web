@@ -1,6 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
 	import { officesByDepartment } from '$lib/config';
+	import BPLOOrgChart from '$lib/Components/Offices/BPLOOrgChart.svelte';
 
 	export let department = '';
 	export let cleanLayout = false;
@@ -12,7 +13,10 @@
 		Engineering: '/Engineering Office-OrgChart.webp',
 		'Engineering Office': '/Engineering Office-OrgChart.webp',
 		GSO: '/GSO-OrgChart-Part1.png',
-		'General Services Office': '/GSO-OrgChart-Part1.png'
+		'General Services Office': '/GSO-OrgChart-Part1.png',
+		Licensing: '/bplo-logo-1.jpg',
+		'Business Permit & Licensing Office': '/bplo-logo-1.jpg',
+		BPLO: '/bplo-logo-1.jpg'
 	};
 
 	let awards = [];
@@ -35,6 +39,11 @@
 	$: firestoreImage = filtered.length > 0 ? getValidImage(filtered[0]) : null;
 	$: currentImage = activeDefaultImage || firestoreImage || '';
 	$: isMarket = department === 'Market' || department === 'Municipal Market Office';
+	$: isLicensing =
+		department === 'Licensing' ||
+		department === 'BPLO' ||
+		department === 'Business Permit & Licensing Office' ||
+		(typeof department === 'string' && department.toLowerCase().includes('licensing'));
 
 	onMount(async () => {
 		if (!department) {
@@ -75,7 +84,9 @@
 		<h2 class="mb-4 text-2xl font-black text-blue-950">Organizational Chart</h2>
 	{/if}
 
-	{#if loading && !currentImage}
+	{#if isLicensing}
+		<BPLOOrgChart />
+	{:else if loading && !currentImage}
 		<div class="flex flex-col items-center justify-center py-16 text-slate-500">
 			<div class="mb-4 h-10 w-10 animate-spin rounded-full border-4 border-amber-400 border-t-blue-900"></div>
 			<p class="text-sm font-bold tracking-wide text-slate-700 uppercase">
