@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import { officesByDepartment } from '$lib/config';
 	import BPLOOrgChart from '$lib/Components/Offices/BPLOOrgChart.svelte';
+	import GSOOrgChart from '$lib/Components/Offices/GSOOrgChart.svelte';
 
 	export let department = '';
 	export let cleanLayout = false;
@@ -12,8 +13,8 @@
 		'Municipal Market Office': '/Market-OrgChart.jpg',
 		Engineering: '/Engineering Office-OrgChart.webp',
 		'Engineering Office': '/Engineering Office-OrgChart.webp',
-		GSO: '/GSO-OrgChart-Part1.png',
-		'General Services Office': '/GSO-OrgChart-Part1.png',
+		GSO: '/images/gso-personnel/ramos-eugenio.jpg',
+		'General Services Office': '/images/gso-personnel/ramos-eugenio.jpg',
 		Licensing: '/bplo-logo-1.jpg',
 		'Business Permit & Licensing Office': '/bplo-logo-1.jpg',
 		BPLO: '/bplo-logo-1.jpg'
@@ -44,6 +45,11 @@
 		department === 'BPLO' ||
 		department === 'Business Permit & Licensing Office' ||
 		(typeof department === 'string' && department.toLowerCase().includes('licensing'));
+	$: isGSO =
+		department === 'GSO' ||
+		department === 'General Services Office' ||
+		department === 'General Services Section' ||
+		(typeof department === 'string' && department.toLowerCase().includes('general services'));
 
 	onMount(async () => {
 		if (!department) {
@@ -86,6 +92,8 @@
 
 	{#if isLicensing}
 		<BPLOOrgChart />
+	{:else if isGSO}
+		<GSOOrgChart />
 	{:else if loading && !currentImage}
 		<div class="flex flex-col items-center justify-center py-16 text-slate-500">
 			<div class="mb-4 h-10 w-10 animate-spin rounded-full border-4 border-amber-400 border-t-blue-900"></div>

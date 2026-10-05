@@ -298,8 +298,16 @@
 		(officeName && officeName.toLowerCase().includes('licensing'))
 	);
 
-	const shouldShowPersonnel = $derived(showPersonnel && !isCivilRegistrar && !isMDRRMO && !isMENRO && !isEngineering && !isHealthOffice && !isLicensing);
-	const shouldPutFormsAtEnd = $derived(formsAtEnd || isCivilRegistrar || isMDRRMO || isMENRO || isEngineering || isHealthOffice || isLicensing);
+	const isGSO = $derived(
+		department === 'GSO' ||
+		officeCode === 'GSO' ||
+		department === 'General Services Section' ||
+		department === 'General Services Office' ||
+		(officeName && officeName.toLowerCase().includes('general services'))
+	);
+
+	const shouldShowPersonnel = $derived(showPersonnel && !isCivilRegistrar && !isMDRRMO && !isMENRO && !isEngineering && !isHealthOffice && !isLicensing && !isGSO);
+	const shouldPutFormsAtEnd = $derived(formsAtEnd || isCivilRegistrar || isMDRRMO || isMENRO || isEngineering || isHealthOffice || isLicensing || isGSO);
 	const shouldShowAwards = $derived(!isMDRRMO && !isMENRO && !isEngineering);
 
 	const baseNav = $derived([
@@ -565,6 +573,34 @@
 				'Checklist of Documentary Requirements for Business Application',
 				'Checklist Requirements for e-Trike and Pedicab',
 				'Checklist Requirements for MCH, Motopot & Single Motorcycle'
+			]
+		},
+		'Equipment & Logistics': {
+			id: 'equipment-logistics',
+			code: 'GSO FORM 01',
+			icon: '',
+			title: 'Equipment & Public Facilities Borrower Dossier',
+			badge: 'Official GSO Logistics Dossier',
+			stat: '1 Official Form',
+			tagline: 'Tents, Chairs, Tables & Sound System Loaning • Return Slips',
+			description: 'Official General Services Section issuance and return clearance document for borrowing municipal tents, plastic chairs, folding tables, public address sound systems, and civic event equipment.',
+			keyDocs: [
+				"Borrower's & Return Slip Form (Tents, Chairs, Sound System)",
+				'Equipment Condition & Inventory Release Verification',
+				'Return Inspection & Replacement Liability Clearance'
+			]
+		},
+		'Borrower & Return Forms': {
+			id: 'borrower-return-forms',
+			code: 'GSO SLIPS',
+			icon: '',
+			title: 'Equipment Borrower & Return Slips',
+			badge: 'Official GSO Form',
+			stat: '1 Official Form',
+			tagline: 'Municipal Equipment Custodial Clearance Form',
+			description: 'Official form required for all civic, barangay, and public event equipment loan requests and return condition checkups.',
+			keyDocs: [
+				"Borrower's & Return Slip Form"
 			]
 		}
 	};
@@ -1548,11 +1584,13 @@
 									</span>
 								</div>
 								<h2 class="text-2xl sm:text-3xl font-black text-white group-hover:text-amber-300 transition-colors">
-									{isMENRO ? 'Downloadables & Citizen Guides' : isHealthOffice ? 'Downloadable Health Forms' : isLicensing ? 'Downloadable Office Forms' : 'Downloadable Office Forms'}
+									{isMENRO ? 'Downloadables & Citizen Guides' : isHealthOffice ? 'Downloadable Health Forms' : isLicensing ? 'Downloadable Office Forms' : isGSO ? 'Downloadable Logistics & Equipment Slips' : 'Downloadable Office Forms'}
 								</h2>
 								<p class="text-xs sm:text-sm text-blue-100 max-w-2xl font-normal leading-relaxed">
 									{isLicensing
 										? 'Click to expand official business permit applications, unified ARTA forms, public transport franchising documents, and regulatory checklists.'
+										: isGSO
+										? 'Click to expand and access official GSO borrower and return slips for municipal tents, tables, chairs, and sound system units.'
 										: 'Click to expand and access official printable and downloadable municipal forms.'}
 								</p>
 							</div>
@@ -1576,15 +1614,15 @@
 							>
 								<span class="h-2 w-2 animate-pulse rounded-full bg-amber-400"></span>
 								{#if formsNavCode}
-									SECTION {formsNavCode} // {isMENRO ? 'OFFICIAL DOWNLOADABLES & CITIZEN GUIDES' : isHealthOffice ? 'OFFICIAL HEALTHCARE RECORDS & CLINICAL FORMS' : isLicensing ? 'OFFICIAL LICENSING & REGULATORY FORMS' : 'OFFICIAL PERMIT FOLDERS & FORMS'}
+									SECTION {formsNavCode} // {isMENRO ? 'OFFICIAL DOWNLOADABLES & CITIZEN GUIDES' : isHealthOffice ? 'OFFICIAL HEALTHCARE RECORDS & CLINICAL FORMS' : isLicensing ? 'OFFICIAL LICENSING & REGULATORY FORMS' : isGSO ? 'OFFICIAL GSO LOGISTICS & BORROWER FORMS' : 'OFFICIAL PERMIT FOLDERS & FORMS'}
 								{:else}
-									{isMENRO ? 'OFFICIAL DOWNLOADABLES & CITIZEN GUIDES' : isHealthOffice ? 'OFFICIAL HEALTHCARE RECORDS & CLINICAL FORMS' : isLicensing ? 'OFFICIAL LICENSING & REGULATORY FORMS' : 'OFFICIAL PERMIT FOLDERS & FORMS'}
+									{isMENRO ? 'OFFICIAL DOWNLOADABLES & CITIZEN GUIDES' : isHealthOffice ? 'OFFICIAL HEALTHCARE RECORDS & CLINICAL FORMS' : isLicensing ? 'OFFICIAL LICENSING & REGULATORY FORMS' : isGSO ? 'OFFICIAL GSO LOGISTICS & BORROWER FORMS' : 'OFFICIAL PERMIT FOLDERS & FORMS'}
 								{/if}
 							</div>
 							<h2
 								class="text-3xl leading-tight font-black tracking-tight text-blue-950 sm:text-4xl lg:text-5xl"
 							>
-								{isMENRO ? 'Downloadables & Citizen Guides' : isHealthOffice ? 'Downloadable Health Forms' : isLicensing ? 'Downloadable Office Forms' : 'Downloadable Office Forms'}
+								{isMENRO ? 'Downloadables & Citizen Guides' : isHealthOffice ? 'Downloadable Health Forms' : isLicensing ? 'Downloadable Office Forms' : isGSO ? 'Downloadable Logistics & Equipment Slips' : 'Downloadable Office Forms'}
 							</h2>
 							<p class="mt-4 text-base leading-relaxed font-normal text-blue-950/80 sm:text-lg">
 								{isMENRO
@@ -1593,6 +1631,8 @@
 									? 'All official municipal health records, dental treatment dossiers, and PhilHealth enrollment forms are organized into dedicated official folders. Click a folder below to open and access its full collection of downloadable and printable forms.'
 									: isLicensing
 									? 'Official business permit applications, unified ARTA forms, and public transport service franchise documents available for direct inspection, PDF review, and official download.'
+									: isGSO
+									? 'Official General Services Section equipment borrowing slips, return inspection records, and public venue logistical support forms available for direct digital printing and PDF download.'
 									: 'All engineering permit documents are organized into dedicated official folders. Click a folder below to open and access its full collection of downloadable and printable forms.'}
 							</p>
 						</div>
@@ -2893,8 +2933,8 @@
 						<button
 							type="button"
 							onclick={closeFormModal}
-							class="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-base font-bold text-slate-600 transition-colors hover:bg-slate-100 hover:text-blue-950"
-							aria-label="Close">✕</button
+							class="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-bold text-slate-600 transition-colors hover:bg-slate-100 hover:text-blue-950"
+							aria-label="Close">Close</button
 						>
 					</div>
 				</div>

@@ -44,7 +44,7 @@
 				equipment_covered: ['Tents', 'Tables & Chairs', 'Sound System Units'],
 				downloadable_form: {
 					title: "Official Borrower & Return Slip Form",
-					url: 'https://drive.google.com/file/d/1fS19TSJvtyiP4jMTnBwMYi1GSD8glY8G/view?usp=drive_link',
+					url: '/forms/gso/Borrower_and_Return_Slips.pdf',
 					description: 'Download the official printable GSO form for equipment borrowing applications and return inspection clearance.'
 				},
 				checklist_of_requirements: [

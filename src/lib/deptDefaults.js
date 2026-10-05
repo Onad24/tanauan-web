@@ -788,9 +788,11 @@ export const DEPT_DEFAULTS = {
       quote: 'Effective, efficient and sustainable operation of programs, projects and activities, with competent manpower and responsive to the needs of the clients with the right quality of service.',
       credentials: ['GSO Operation Manager', 'Government Property & Facilities Management', 'Logistics & Venue Operations Specialist'],
       room: 'General Services Office, Ground Floor, Tanauan Municipal Hall, Real St., Tanauan, Leyte',
-      schedule: 'Monday – Friday: 8:00 AM – 5:00 PM'
+      schedule: 'Monday – Friday: 8:00 AM – 5:00 PM',
+      image: '/images/gso-personnel/ramos-eugenio.jpg'
     },
-    orgChartImage: '/GSO-OrgChart-Part1.png',
+    orgChartPdf: '/General_Services_Section_Org_Chart.pdf',
+    orgChartImage: '/images/gso-personnel/ramos-eugenio.jpg',
     vision:
       'Effective, efficient and sustainable operation of programs, projects and activities, with competent manpower and responsive to the needs of the clients with the right quality of service to support the vision of the Municipality.',
     mission:
@@ -813,9 +815,24 @@ export const DEPT_DEFAULTS = {
     ],
     downloadableForms: [
       {
+        index: '01',
+        category: 'Equipment & Logistics',
         title: "Borrower's & Return Slip Form (Tents, Chairs, Sound System)",
-        description: 'Official downloadable form for municipal equipment borrowing and return clearance.',
-        url: 'https://drive.google.com/file/d/1fS19TSJvtyiP4jMTnBwMYi1GSD8glY8G/view?usp=drive_link'
+        type: 'Official Equipment Slip • GSO Form 01',
+        icon: '',
+        description: 'Official municipal form for requesting, releasing, and inspecting borrowed municipal event equipment including tents, plastic chairs, folding tables, sound systems, and general logistics items.',
+        format: 'Official PDF Document',
+        fileSize: '52 KB',
+        url: '/forms/gso/Borrower_and_Return_Slips.pdf',
+        downloadUrl: '/forms/gso/Borrower_and_Return_Slips.pdf',
+        htmlUrl: '/forms/gso/borrower-and-return-slips.html',
+        requirements: [
+          'Approved Letter of Request specifying borrowing date, duration, venue, and exact inventory requested',
+          'Accomplished Part I: Borrower Slip with contact details, item description, and quantity',
+          'Physical inspection and joint condition assessment prior to property release',
+          'Signed Agreement to repair or replace any items damaged or lost during the borrowing period',
+          'Accomplished Part II: Return Slip upon returning items for custodial clearance and sign-off'
+        ]
       }
     ],
     servicesOffered: [

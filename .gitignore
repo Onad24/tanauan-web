@@ -26,5 +26,14 @@ static/images/Licod.mp4
 # originals in ../tanauan-static-assets — keep the local static/ folder empty.
 static/*
 !static/.gitkeep
+!static/General_Services_Section_Org_Chart.pdf
+!static/Borrower_and_Return_Slips.pdf
+!static/forms/
+static/forms/*
+!static/forms/gso/
+!static/forms/gso/**
+!static/images/
+static/images/*
+!static/images/gso-personnel/
 .vercel
 .env*
