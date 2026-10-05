@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="war">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hangyu ha Paggamit hin Tractor — MAO Tanauan, Leyte</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --royal-blue: #0b2545;
+      --royal-blue-light: #133e87;
+      --royal-blue-dark: #07192f;
+      --amber-yellow: #f59e0b;
+      --amber-yellow-light: #fef3c7;
+      --amber-yellow-dark: #d97706;
+      --slate-border: #0b2545;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+    }
+
+    body {
+      background: #f1f5f9;
+      color: #0b2545;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1.5rem 1rem;
+    }
+
+    .toolbar {
+      width: 100%;
+      max-width: 850px;
+      margin-bottom: 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--royal-blue);
+      border: 2px solid var(--amber-yellow);
+      color: white;
+      padding: 0.85rem 1.5rem;
+      border-radius: 14px;
+      box-shadow: 0 10px 25px -5px rgba(11, 37, 69, 0.3);
+    }
+
+    .toolbar-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      color: #ffffff;
+    }
+
+    .toolbar-actions {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .btn {
+      padding: 0.5rem 1.15rem;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 0.8rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-amber {
+      background: var(--amber-yellow);
+      color: var(--royal-blue);
+      border: 1px solid var(--amber-yellow-dark);
+    }
+
+    .btn-amber:hover {
+      background: #fbbf24;
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+    }
+
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .page-container {
+      width: 100%;
+      max-width: 850px;
+      background: white;
+      padding: 2.75rem 3.25rem;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      border: 2px solid #cbd5e1;
+      position: relative;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.25rem;
+      border-bottom: 2px solid var(--royal-blue);
+      padding-bottom: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .seal {
+      width: 70px;
+      height: 70px;
+      object-fit: contain;
+    }
+
+    .header-text {
+      text-align: center;
+    }
+
+    .header-text p {
+      font-size: 0.8rem;
+      color: #475569;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .header-text h1 {
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: var(--royal-blue);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .header-text h2 {
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: var(--amber-yellow-dark);
+      text-transform: uppercase;
+    }
+
+    .letter-date {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 1.5rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--royal-blue);
+    }
+
+    .letter-addressee {
+      margin-bottom: 2rem;
+      line-height: 1.5;
+    }
+
+    .addressee-name {
+      font-size: 1rem;
+      font-weight: 900;
+      color: var(--royal-blue);
+      text-transform: uppercase;
+    }
+
+    .addressee-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #475569;
+    }
+
+    .letter-body {
+      font-size: 0.95rem;
+      line-height: 2.2;
+      color: #0b2545;
+      margin-bottom: 2.5rem;
+    }
+
+    .fill-line {
+      display: inline-block;
+      border-bottom: 1.5px solid var(--royal-blue);
+      min-width: 180px;
+      vertical-align: bottom;
+      margin: 0 4px;
+    }
+
+    .fill-line-wide {
+      display: inline-block;
+      border-bottom: 1.5px solid var(--royal-blue);
+      min-width: 260px;
+      vertical-align: bottom;
+      margin: 0 4px;
+    }
+
+    .closing {
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--royal-blue);
+    }
+
+    .farmer-sig {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-left: auto;
+      max-width: 280px;
+      text-align: center;
+    }
+
+    .farmer-line {
+      width: 100%;
+      border-bottom: 1.5px solid var(--royal-blue);
+      margin-top: 2.5rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .machinery-unit-card {
+      margin-top: 3rem;
+      border: 2px dashed #94a3b8;
+      background: #f8fafc;
+      padding: 1.25rem 1.5rem;
+      border-radius: 12px;
+    }
+
+    .machinery-title {
+      font-size: 0.8rem;
+      font-weight: 900;
+      color: var(--royal-blue);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid #cbd5e1;
+      padding-bottom: 0.5rem;
+      margin-bottom: 0.85rem;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .verification-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      font-size: 0.75rem;
+    }
+
+    .v-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .v-label {
+      font-weight: 800;
+      color: #475569;
+      text-transform: uppercase;
+      margin-bottom: 3px;
+    }
+
+    .v-input {
+      border: 1px solid #cbd5e1;
+      background: white;
+      border-radius: 4px;
+      padding: 0.35rem 0.5rem;
+      font-weight: 700;
+      color: #0b2545;
+    }
+
+    @media print {
+      body {
+        background: white;
+        padding: 0;
+      }
+      .toolbar {
+        display: none;
+      }
+      .page-container {
+        border: none;
+        box-shadow: none;
+        padding: 1rem;
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Screen Toolbar -->
+  <div class="toolbar">
+    <div class="toolbar-title">
+      <span>Hangyu ha Paggamit hin Tractor (Tractor Service Request) — MAO Tanauan, Leyte</span>
+    </div>
+    <div class="toolbar-actions">
+      <button class="btn btn-outline" onclick="window.print()">Print Letter</button>
+      <a class="btn btn-amber" href="/forms/agriculture/Hangyu_ha_Paggamit_hin_Tractor.pdf" download="Hangyu_ha_Paggamit_hin_Tractor.pdf">
+        Download Official PDF
+      </a>
+    </div>
+  </div>
+
+  <!-- Letter Container -->
+  <div class="page-container">
+    <div class="header">
+      <img src="/tanauan logo.svg" alt="Tanauan Official Seal" class="seal">
+      <div class="header-text">
+        <p>LGU Munisipyo han Tanauan • Probinsya han Leyte</p>
+        <h1>Municipal Agriculture Office (MAO)</h1>
+        <h2>Farm Mechanization &amp; Tractor Operations Unit</h2>
+      </div>
+    </div>
+
+    <div class="letter-date">
+      <span>Date: ________________________, 20____</span>
+    </div>
+
+    <div class="letter-addressee">
+      <div class="addressee-name">HON. MA. GINA E. MERILO</div>
+      <div class="addressee-title">Municipal Mayor</div>
+      <div class="addressee-title">Municipality of Tanauan, Leyte</div>
+    </div>
+
+    <div style="font-weight: 800; font-size: 0.95rem; margin-bottom: 1rem; color: var(--royal-blue);">
+      Maupay na Adlaw,
+    </div>
+
+    <div class="letter-body">
+      Ako hi <span class="fill-line-wide"></span>, nag uukoy ha Brgy. <span class="fill-line"></span>, Tanauan, Leyte. Nahangyu ako kun puydi makagamit han tractor ngadtu ha Brgy. <span class="fill-line"></span> para han pag-andam ngan pag-arado han tuna han akon uma (Area: <span class="fill-line" style="min-width: 100px;"></span> ektarya).
+    </div>
+
+    <div class="closing">
+      Damo nga Salamat.
+    </div>
+
+    <div class="farmer-sig">
+      <div class="farmer-line"></div>
+      <div style="font-weight: 800; font-size: 0.85rem; text-transform: uppercase; color: var(--royal-blue);">Parag-uma</div>
+      <div style="font-size: 0.75rem; color: #64748b; font-weight: 600;">(Pangaran, Pirma &amp; Contact Number)</div>
+    </div>
+
+    <!-- MAO Farm Machinery Unit Section -->
+    <div class="machinery-unit-card">
+      <div class="machinery-title">
+        <span>Para la han Municipal Agriculture Office (Farm Machinery Unit)</span>
+        <span style="color: var(--amber-yellow-dark);">Opisyal nga Pag-aproba</span>
+      </div>
+
+      <div class="verification-grid">
+        <div class="v-group">
+          <span class="v-label">Assigned Tractor Operator:</span>
+          <select class="v-input">
+            <option>Kenn Gene C. Avila (Tractor Operator)</option>
+            <option>Jovito De Paz (Tractor Operator)</option>
+            <option>Farm Machinery Support Crew</option>
+          </select>
+        </div>
+        <div class="v-group">
+          <span class="v-label">Scheduled Date:</span>
+          <input type="text" class="v-input" placeholder="MM / DD / YYYY">
+        </div>
+        <div class="v-group">
+          <span class="v-label">Approved By:</span>
+          <div class="v-input" style="font-weight: 800; color: var(--royal-blue);">Susana O. Miranda (Municipal Agriculturist)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

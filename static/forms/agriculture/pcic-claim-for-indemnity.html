@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PCIC Claims for Indemnity (Paghahabol Bayad) — MAO Tanauan, Leyte</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --royal-blue: #0b2545;
+      --royal-blue-light: #133e87;
+      --royal-blue-dark: #07192f;
+      --amber-yellow: #f59e0b;
+      --amber-yellow-light: #fef3c7;
+      --amber-yellow-dark: #d97706;
+      --slate-border: #0b2545;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+    }
+
+    body {
+      background: #f1f5f9;
+      color: #0b2545;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1.5rem 1rem;
+    }
+
+    .toolbar {
+      width: 100%;
+      max-width: 850px;
+      margin-bottom: 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--royal-blue);
+      border: 2px solid var(--amber-yellow);
+      color: white;
+      padding: 0.85rem 1.5rem;
+      border-radius: 14px;
+      box-shadow: 0 10px 25px -5px rgba(11, 37, 69, 0.3);
+    }
+
+    .toolbar-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      color: #ffffff;
+    }
+
+    .toolbar-actions {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .btn {
+      padding: 0.5rem 1.15rem;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 0.8rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-amber {
+      background: var(--amber-yellow);
+      color: var(--royal-blue);
+      border: 1px solid var(--amber-yellow-dark);
+    }
+
+    .btn-amber:hover {
+      background: #fbbf24;
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+    }
+
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .page-container {
+      width: 100%;
+      max-width: 850px;
+      background: white;
+      padding: 2.5rem 3rem;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      border: 2px solid #cbd5e1;
+      position: relative;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.25rem;
+      border-bottom: 2px solid var(--royal-blue);
+      padding-bottom: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .seal {
+      width: 65px;
+      height: 65px;
+      object-fit: contain;
+    }
+
+    .header-text {
+      text-align: center;
+    }
+
+    .header-text p {
+      font-size: 0.75rem;
+      color: #475569;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .header-text h1 {
+      font-size: 1.2rem;
+      font-weight: 900;
+      color: var(--royal-blue);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .header-text h2 {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--amber-yellow-dark);
+      text-transform: uppercase;
+    }
+
+    .title-banner {
+      background: #eff6ff;
+      border: 1.5px solid #bfdbfe;
+      border-radius: 8px;
+      padding: 0.65rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .title-banner h3 {
+      font-size: 0.95rem;
+      font-weight: 900;
+      color: var(--royal-blue);
+      text-transform: uppercase;
+    }
+
+    .section-title {
+      background: var(--royal-blue);
+      color: white;
+      padding: 0.35rem 0.75rem;
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-top: 1rem;
+      margin-bottom: 0.5rem;
+      border-radius: 4px;
+      border-left: 4px solid var(--amber-yellow);
+    }
+
+    .field-row {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 0.45rem;
+    }
+
+    .field-group {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .field-label {
+      font-size: 0.68rem;
+      font-weight: 800;
+      color: #475569;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+
+    .field-input {
+      border: 1px solid #94a3b8;
+      border-radius: 4px;
+      padding: 0.35rem 0.5rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #0b2545;
+      background: #f8fafc;
+    }
+
+    .sketch-box {
+      border: 2px dashed #94a3b8;
+      background: #f8fafc;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-top: 0.5rem;
+    }
+
+    .sketch-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      font-size: 0.72rem;
+    }
+
+    .sig-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .sig-block {
+      flex: 1;
+      text-align: center;
+    }
+
+    .sig-line {
+      border-bottom: 1.5px solid var(--royal-blue);
+      margin-top: 2.25rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .sig-name {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--royal-blue);
+      text-transform: uppercase;
+    }
+
+    .sig-role {
+      font-size: 0.68rem;
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    @media print {
+      body {
+        background: white;
+        padding: 0;
+      }
+      .toolbar {
+        display: none;
+      }
+      .page-container {
+        border: none;
+        box-shadow: none;
+        padding: 0.75rem;
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Screen Toolbar -->
+  <div class="toolbar">
+    <div class="toolbar-title">
+      <span>PCIC Claim for Indemnity (Paghahabol Bayad) — MAO Tanauan, Leyte</span>
+    </div>
+    <div class="toolbar-actions">
+      <button class="btn btn-outline" onclick="window.print()">Print Claim Form</button>
+      <a class="btn btn-amber" href="/forms/agriculture/PCIC_Claim_for_Indemnity_Damage.pdf" download="PCIC_Claim_for_Indemnity_Damage.pdf">
+        Download Official PDF
+      </a>
+    </div>
+  </div>
+
+  <!-- Document Container -->
+  <div class="page-container">
+    <div class="header">
+      <img src="/tanauan logo.svg" alt="Tanauan Official Seal" class="seal">
+      <div class="header-text">
+        <p>Republic of the Philippines • Department of Agriculture</p>
+        <h1>Philippine Crop Insurance Corporation (PCIC)</h1>
+        <h2>Region VIII • Municipal Agriculture Office, Tanauan, Leyte</h2>
+      </div>
+    </div>
+
+    <div class="title-banner">
+      <div>
+        <h3>CLAIMS FOR INDEMNITY (PAGHAHABOL BAYAD)</h3>
+        <span style="font-size: 0.68rem; color: #475569; font-weight: 600;">Crop Damage Notice &amp; Assessment Request</span>
+      </div>
+      <div style="font-size: 0.75rem; font-weight: 800; color: var(--royal-blue);">
+        DATE (PETSA): __________________
+      </div>
+    </div>
+
+    <div style="font-size: 0.75rem; line-height: 1.4; color: #1e3a8a; background: #eff6ff; padding: 0.6rem 0.85rem; border-radius: 6px; margin-bottom: 0.75rem;">
+      <strong>TO: The Chief CAD, Philippine Crop Insurance Corporation</strong><br>
+      Please send your Team of Adjusters to assess the damage to my insured crop. (Mungkahing magpadala kayo ng tagapagsiyasat upang tasahin ang naging pinsala ng aking pananim). Hereunder are the required details:
+    </div>
+
+    <!-- SECTION I: BASIC INFORMATION -->
+    <div class="section-title">I. PANGUNAHING IMPORMASYON (BASIC INFORMATION)</div>
+    
+    <div class="field-row">
+      <div class="field-group" style="flex: 1.5;">
+        <span class="field-label">1. Name of Farmer-Assured (Pangalan ng Magsasaka):</span>
+        <input type="text" class="field-input" placeholder="Buong Pangalan">
+      </div>
+      <div class="field-group">
+        <span class="field-label">3. Cell Phone Number:</span>
+        <input type="text" class="field-input" placeholder="09XX-XXX-XXXX">
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div class="field-group" style="flex: 1.5;">
+        <span class="field-label">2. Address (Tirahan):</span>
+        <input type="text" class="field-input" placeholder="Barangay, Tanauan, Leyte">
+      </div>
+      <div class="field-group">
+        <span class="field-label">4. Location of Farm (Lugar ng Saka):</span>
+        <input type="text" class="field-input" placeholder="Barangay kung saan naroroon ang bukid">
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div class="field-group">
+        <span class="field-label">5. Insured Crop:</span>
+        <select class="field-input">
+          <option>Palay (Rice)</option>
+          <option>Corn (Mais)</option>
+          <option>High-Value Crop</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <span class="field-label">6. Area Insured (Luwang):</span>
+        <input type="text" class="field-input" placeholder="e.g. 1.25 ha">
+      </div>
+      <div class="field-group">
+        <span class="field-label">7. Variety Planted (Binhi):</span>
+        <input type="text" class="field-input" placeholder="e.g. NSIC Rc 222">
+      </div>
+      <div class="field-group">
+        <span class="field-label">9. CIC Number:</span>
+        <input type="text" class="field-input" placeholder="Certificate of Insurance No.">
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div class="field-group">
+        <span class="field-label">8. Actual Date of Sowing:</span>
+        <input type="text" class="field-input" placeholder="MM / DD / YYYY">
+      </div>
+      <div class="field-group">
+        <span class="field-label">Actual Date of Planting:</span>
+        <input type="text" class="field-input" placeholder="MM / DD / YYYY">
+      </div>
+      <div class="field-group">
+        <span class="field-label">11. Program:</span>
+        <select class="field-input">
+          <option>RSBSA Subsidized</option>
+          <option>Regular PCIC Program</option>
+          <option>Sikat-Saka</option>
+          <option>ACP-CAP-PBD</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- SECTION II: DAMAGE INDICATORS -->
+    <div class="section-title">II. IMPORMASYON TUNGKOL SA PINSALA (DAMAGE INDICATORS)</div>
+    
+    <div class="field-row">
+      <div class="field-group">
+        <span class="field-label">1. Cause of Loss (Sanhi ng Pinsala):</span>
+        <select class="field-input">
+          <option>Typhoon / Bagyo</option>
+          <option>Flood / Baha</option>
+          <option>Drought / Tagtuyot</option>
+          <option>Pest / Disease (Peste / Sakit)</option>
+          <option>Rat Infestation (Daga)</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <span class="field-label">2. Date of Loss Occurrence:</span>
+        <input type="text" class="field-input" placeholder="MM / DD / YYYY">
+      </div>
+      <div class="field-group">
+        <span class="field-label">3. Stage of Cultivation at Loss:</span>
+        <input type="text" class="field-input" placeholder="Vegetative / Reproductive / Maturity">
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div class="field-group">
+        <span class="field-label">4. Area Damaged (Napinsalang Bahagi):</span>
+        <input type="text" class="field-input" placeholder="e.g. 1.0 ha">
+      </div>
+      <div class="field-group">
+        <span class="field-label">5. Degree of Damage (%):</span>
+        <input type="text" class="field-input" placeholder="e.g. 80% to 100%">
+      </div>
+      <div class="field-group">
+        <span class="field-label">6. Expected Date of Harvest:</span>
+        <input type="text" class="field-input" placeholder="MM / DD / YYYY">
+      </div>
+    </div>
+
+    <!-- SECTION III: LOCATION SKETCH PLAN -->
+    <div class="section-title">III. KROKIS NG BUKID NA NASALANTA (LOCATION SKETCH PLAN)</div>
+    <div class="sketch-box">
+      <div class="sketch-grid">
+        <div class="field-group">
+          <span class="field-label">1. North (Hilaga): Katabing Bukid / May-ari:</span>
+          <input type="text" class="field-input" placeholder="Katabing lupa sa Hilaga">
+        </div>
+        <div class="field-group">
+          <span class="field-label">2. South (Timog): Katabing Bukid / May-ari:</span>
+          <input type="text" class="field-input" placeholder="Katabing lupa sa Timog">
+        </div>
+        <div class="field-group">
+          <span class="field-label">3. East (Silangan): Katabing Bukid / May-ari:</span>
+          <input type="text" class="field-input" placeholder="Katabing lupa sa Silangan">
+        </div>
+        <div class="field-group">
+          <span class="field-label">4. West (Kanluran): Katabing Bukid / May-ari:</span>
+          <input type="text" class="field-input" placeholder="Katabing lupa sa Kanluran">
+        </div>
+      </div>
+    </div>
+
+    <!-- SIGNATURES -->
+    <div class="sig-row">
+      <div class="sig-block">
+        <div class="sig-line"></div>
+        <div class="sig-name">Assured Farmer-Claimant</div>
+        <div class="sig-role">Lagda sa ibabaw ng Pangalan ng Magsasaka</div>
+      </div>
+      <div class="sig-block">
+        <div class="sig-line"></div>
+        <div class="sig-name">Willy Moralina / Lenneth Soyosa</div>
+        <div class="sig-role">PCIC Focal Persons / Agriculture Office</div>
+      </div>
+      <div class="sig-block">
+        <div class="sig-line"></div>
+        <div class="sig-name">Susana O. Miranda</div>
+        <div class="sig-role">Municipal Agriculturist</div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

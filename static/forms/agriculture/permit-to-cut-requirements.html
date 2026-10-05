@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Permit to Cut Coconut Trees (PTC) Requirements — PCA & MAO Tanauan, Leyte</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --royal-blue: #0b2545;
+      --royal-blue-light: #133e87;
+      --royal-blue-dark: #07192f;
+      --amber-yellow: #f59e0b;
+      --amber-yellow-light: #fef3c7;
+      --amber-yellow-dark: #d97706;
+      --slate-border: #0b2545;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+    }
+
+    body {
+      background: #f1f5f9;
+      color: #0b2545;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1.5rem 1rem;
+    }
+
+    .toolbar {
+      width: 100%;
+      max-width: 850px;
+      margin-bottom: 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--royal-blue);
+      border: 2px solid var(--amber-yellow);
+      color: white;
+      padding: 0.85rem 1.5rem;
+      border-radius: 14px;
+      box-shadow: 0 10px 25px -5px rgba(11, 37, 69, 0.3);
+    }
+
+    .toolbar-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      color: #ffffff;
+    }
+
+    .toolbar-actions {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .btn {
+      padding: 0.5rem 1.15rem;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 0.8rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-amber {
+      background: var(--amber-yellow);
+      color: var(--royal-blue);
+      border: 1px solid var(--amber-yellow-dark);
+    }
+
+    .btn-amber:hover {
+      background: #fbbf24;
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+    }
+
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .page-container {
+      width: 100%;
+      max-width: 850px;
+      background: white;
+      padding: 2.5rem 3rem;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      border: 2px solid #cbd5e1;
+      position: relative;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.25rem;
+      border-bottom: 2px solid var(--royal-blue);
+      padding-bottom: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .seal {
+      width: 70px;
+      height: 70px;
+      object-fit: contain;
+    }
+
+    .header-text {
+      text-align: center;
+    }
+
+    .header-text p {
+      font-size: 0.8rem;
+      color: #475569;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .header-text h1 {
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: var(--royal-blue);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin: 2px 0;
+    }
+
+    .header-text h2 {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--amber-yellow-dark);
+      text-transform: uppercase;
+    }
+
+    .law-reference {
+      background: #eff6ff;
+      border-left: 4px solid var(--royal-blue);
+      padding: 0.75rem 1rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      color: #1e3a8a;
+      line-height: 1.4;
+      margin-bottom: 1.5rem;
+    }
+
+    .checklist-card {
+      border: 2px solid var(--royal-blue);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+
+    .checklist-header {
+      background: var(--royal-blue);
+      color: white;
+      padding: 0.65rem 1.25rem;
+      font-size: 0.85rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .checklist-list {
+      list-style: none;
+      padding: 0.5rem 0;
+    }
+
+    .checklist-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.85rem;
+      padding: 0.65rem 1.25rem;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .checklist-item:last-child {
+      border-bottom: none;
+    }
+
+    .check-box {
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--royal-blue);
+      border-radius: 4px;
+      margin-top: 1px;
+      flex-shrink: 0;
+    }
+
+    .item-content {
+      flex: 1;
+    }
+
+    .item-title {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--royal-blue);
+    }
+
+    .item-desc {
+      font-size: 0.75rem;
+      color: #64748b;
+      margin-top: 2px;
+      font-weight: 500;
+    }
+
+    .item-tag {
+      font-size: 0.7rem;
+      font-weight: 800;
+      color: var(--amber-yellow-dark);
+      background: var(--amber-yellow-light);
+      padding: 2px 6px;
+      border-radius: 4px;
+      align-self: flex-start;
+      text-transform: uppercase;
+    }
+
+    .contact-box {
+      background: #f8fafc;
+      border: 2px dashed #94a3b8;
+      border-radius: 12px;
+      padding: 1rem 1.5rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .contact-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+    }
+
+    .contact-label {
+      font-weight: 800;
+      color: var(--royal-blue);
+      text-transform: uppercase;
+    }
+
+    .contact-value {
+      font-weight: 700;
+      color: #334155;
+    }
+
+    .sig-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .sig-block {
+      flex: 1;
+      text-align: center;
+    }
+
+    .sig-line {
+      border-bottom: 1.5px solid var(--royal-blue);
+      margin-top: 2.25rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .sig-name {
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: var(--royal-blue);
+      text-transform: uppercase;
+    }
+
+    .sig-role {
+      font-size: 0.7rem;
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    @media print {
+      body {
+        background: white;
+        padding: 0;
+      }
+      .toolbar {
+        display: none;
+      }
+      .page-container {
+        border: none;
+        box-shadow: none;
+        padding: 1rem;
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Screen Toolbar -->
+  <div class="toolbar">
+    <div class="toolbar-title">
+      <span>Permit to Cut (PTC) Coconut Trees Checklist — PCA &amp; MAO Tanauan, Leyte</span>
+    </div>
+    <div class="toolbar-actions">
+      <button class="btn btn-outline" onclick="window.print()">Print Checklist</button>
+      <a class="btn btn-amber" href="/forms/agriculture/Permit_to_Cut_Requirements.pdf" download="Permit_to_Cut_Requirements.pdf">
+        Download Official PDF
+      </a>
+    </div>
+  </div>
+
+  <!-- Document Container -->
+  <div class="page-container">
+    <div class="header">
+      <img src="/tanauan logo.svg" alt="Tanauan Official Seal" class="seal">
+      <div class="header-text">
+        <p>Republic of the Philippines • Department of Agriculture</p>
+        <h1>Philippine Coconut Authority (PCA)</h1>
+        <h2>Municipal Agriculture Office • Tanauan, Leyte</h2>
+      </div>
+    </div>
+
+    <div class="law-reference">
+      <strong>STATUTORY AUTHORITY &amp; LEGAL BASIS:</strong> Pursuant to Republic Act No. 8048 (Coconut Preservation Act of 1995) as amended by Republic Act No. 10593, no coconut tree shall be cut unless a valid Permit to Cut (PTC) is issued by the Philippine Coconut Authority (PCA) through the Coconut Development Officer (CDO) and the Municipal Agriculture Office.
+    </div>
+
+    <!-- CHECKLIST SECTION -->
+    <div class="checklist-card">
+      <div class="checklist-header">
+        <span>PERMIT TO CUT (PTC) REQUIREMENTS CHECKLIST</span>
+        <span style="font-size: 0.75rem; color: var(--amber-yellow); font-weight: 900;">11 MANDATORY ITEMS</span>
+      </div>
+
+      <ul class="checklist-list">
+        <li class="checklist-item">
+          <div class="check-box"></div>
+          <div class="item-content">
+            <div class="item-title">1. Fully Accomplished PTC Application Form</div>
+            <div class="item-desc">Official PCA Application form stating reason for cutting (senile, diseased, storm-damaged, or conversion).</div>
+          </div>
+          <span class="item-tag">Required</span>
+        </li>
+
+        <li class="checklist-item">
+          <div class="check-box"></div>
+          <div class="item-content">
+            <div class="item-title">2. Latest Land Title / Tax Declaration (Photocopy)</div>
+            <div class="item-desc">Proof of real property ownership for the land parcel where the coconut trees are located.</div>
+          </div>
+          <span class="item-tag">Required</span>
+        </li>
+
+        <li class="checklist-item">
+          <div class="check-box"></div>
+          <div class="item-content">
+            <div class="item-title">3. Government-Issued ID (*ID Card Photocopy)</div>
+            <div class="item-desc">Valid identification of the landowner/applicant (PhilID, Driver's License, Voter's ID, PRC).</div>
+          </div>
+          <span class="item-tag">Required</span>
+        </li>
+
+        <li class="checklist-item">
+          <div class="check-box"></div>
+          <div class="item-content">
+            <div class="item-title">4. Barangay Certification</div>
+            <div class="item-desc">Official certification issued by the Punong Barangay certifying ownership and location of trees.</div>
+          </div>
+          <span class="item-tag">Required</span>
+        </li>
+
+        <li class="checklist-item">
+          <div class="check-box"></div>
+          <div class="item-content">
+            <div class="item-title">5. Authorization from the Applicant</div>
+            <div class="item-desc">Required if the application is submitted by an authorized family representative.</div>
+          </div>
+          <span class="item-tag">Conditional</span>
+        </li>
+
+        <li class="checklist-item">
+          <div class="check-box"></div>
+          <div class="item-content">
+            <div class="item-title">6. Special Power of Attorney (SPA)</div>
+            <div class="item-desc">Notarized SPA required if representative is transacting on behalf of an absentee landowner.</div>
+          </div>
+          <span class="item-tag">Conditional</span>
+        </li>
+
+        <li class="checklist-item">
+          <div class="check-box"></div>
+          <div class="item-content">
+            <div class="item-title">7. Inspection Report (*from CDO)</div>
+            <div class="item-desc">On-site verification report conducted by the PCA Coconut Development Officer (CDO) confirming tree condition.</div>
+          </div>
+          <span class="item-tag">Required</span>
+        </li>
+
+        <li class="checklist-item">
+          <div class="check-box"></div>
+          <div class="item-content">
+            <div class="item-title">8. Certificate of Chainsaw Registration (*Photocopy)</div>
+            <div class="item-desc">Legally registered chainsaw documentation under DENR/LGU pursuant to RA 9175.</div>
+          </div>
+          <span class="item-tag">Required</span>
+        </li>
+
+        <li class="checklist-item">
+          <div class="check-box"></div>
+          <div class="item-content">
+            <div class="item-title">9. Program of Work/s</div>
+            <div class="item-desc">Detailed work plan showing replacement replanting schedule (1:1 replanting ratio pursuant to law).</div>
+          </div>
+          <span class="item-tag">Required</span>
+        </li>
+
+        <li class="checklist-item">
+          <div class="check-box"></div>
+          <div class="item-content">
+            <div class="item-title">10. Notice to Proceed</div>
+            <div class="item-desc">Official clearance to commence approved cutting operations following fee settlement.</div>
+          </div>
+          <span class="item-tag">Required</span>
+        </li>
+
+        <li class="checklist-item">
+          <div class="check-box"></div>
+          <div class="item-content">
+            <div class="item-title">11. Birth Certificate (*if son / daughter)</div>
+            <div class="item-desc">PSA birth certificate verifying filial relationship if applicant is the legitimate offspring of landowner.</div>
+          </div>
+          <span class="item-tag">Conditional</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- OFFICER CONTACT & SUBMISSION INFORMATION -->
+    <div class="contact-box">
+      <div class="contact-row">
+        <span class="contact-label">Coconut Development Officer (CDO) Hotline:</span>
+        <span class="contact-value" style="font-family: monospace; font-size: 0.9rem; font-weight: 800; color: var(--royal-blue);">
+          (09__) ___ - ____ / PCA Tanauan Unit
+        </span>
+      </div>
+      <div class="contact-row">
+        <span class="contact-label">Office Location:</span>
+        <span class="contact-value">PCA Desk, Municipal Agriculture Office, Ground Floor, Municipal Hall, Tanauan, Leyte</span>
+      </div>
+      <div class="contact-row">
+        <span class="contact-label">Processing Schedule:</span>
+        <span class="contact-value">Monday to Friday | 8:00 AM – 5:00 PM</span>
+      </div>
+    </div>
+
+    <!-- SIGNATURES -->
+    <div class="sig-row">
+      <div class="sig-block">
+        <div class="sig-line"></div>
+        <div class="sig-name">Applicant / Permittee</div>
+        <div class="sig-role">Printed Name &amp; Contact Number</div>
+      </div>
+      <div class="sig-block">
+        <div class="sig-line"></div>
+        <div class="sig-name">Hospicio Cesar</div>
+        <div class="sig-role">PCA Personnel / CDO Liaison</div>
+      </div>
+      <div class="sig-block">
+        <div class="sig-line"></div>
+        <div class="sig-name">Susana O. Miranda</div>
+        <div class="sig-role">Municipal Agriculturist</div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

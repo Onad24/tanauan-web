@@ -11,6 +11,7 @@
 	import MAOServicesPortal from '$lib/Components/Offices/MAOServicesPortal.svelte';
 	import MENROCollectionSchedule from '$lib/Components/Offices/MENROCollectionSchedule.svelte';
 	import BPLOAccomplishmentReport from '$lib/Components/Offices/BPLOAccomplishmentReport.svelte';
+	import MAOAccomplishmentGallery from '$lib/Components/Offices/MAOAccomplishmentGallery.svelte';
 
 	let {
 		officeName = "Municipal Treasurer's Office",
@@ -154,6 +155,7 @@
 		},
 		department = 'Treasurer',
 		showAccomplishments = true,
+		accomplishments = null,
 		showPersonnel = true,
 		formsAtEnd = false,
 		orgChartImage = '',
@@ -306,8 +308,8 @@
 		(officeName && officeName.toLowerCase().includes('general services'))
 	);
 
-	const shouldShowPersonnel = $derived(showPersonnel && !isCivilRegistrar && !isMDRRMO && !isMENRO && !isEngineering && !isHealthOffice && !isLicensing && !isGSO);
-	const shouldPutFormsAtEnd = $derived(formsAtEnd || isCivilRegistrar || isMDRRMO || isMENRO || isEngineering || isHealthOffice || isLicensing || isGSO);
+	const shouldShowPersonnel = $derived(showPersonnel && !isCivilRegistrar && !isMDRRMO && !isMENRO && !isEngineering && !isHealthOffice && !isLicensing && !isGSO && !isMAO);
+	const shouldPutFormsAtEnd = $derived(formsAtEnd || isCivilRegistrar || isMDRRMO || isMENRO || isEngineering || isHealthOffice || isLicensing || isGSO || isMAO);
 	const shouldShowAwards = $derived(!isMDRRMO && !isMENRO && !isEngineering);
 
 	const baseNav = $derived([
@@ -320,10 +322,10 @@
 		...(!isMAO && mandates && mandates.length > 0 ? [{ id: 'mandates', label: 'Mandates' }] : []),
 		{ id: 'leadership', label: 'Leadership' },
 		{ id: 'structure', label: 'Structure' },
-		...(showAccomplishments ? [{ id: 'accomplishments', label: isCivilRegistrar || isMDRRMO || isMENRO || isHealthOffice || isLicensing ? 'Accomplishments' : 'Reports' }] : []),
+		...(showAccomplishments ? [{ id: 'accomplishments', label: isCivilRegistrar || isMDRRMO || isMENRO || isHealthOffice || isLicensing || isMAO ? 'Accomplishments' : 'Reports' }] : []),
 		...(shouldShowAwards ? [{ id: 'awards', label: 'Recognition' }] : []),
 		...(shouldShowPersonnel ? [{ id: 'personnel', label: 'Personnel' }] : []),
-		...(!isMAO && shouldPutFormsAtEnd && downloadableForms && downloadableForms.length > 0 ? [{ id: 'forms', label: isMENRO ? 'Downloadables' : 'Forms' }] : [])
+		...(shouldPutFormsAtEnd && downloadableForms && downloadableForms.length > 0 ? [{ id: 'forms', label: isMENRO || isMAO ? 'Downloadables' : 'Forms' }] : [])
 	]);
 
 	// Downloadable Forms State & Folder Management
@@ -601,6 +603,72 @@
 			description: 'Official form required for all civic, barangay, and public event equipment loan requests and return condition checkups.',
 			keyDocs: [
 				"Borrower's & Return Slip Form"
+			]
+		},
+		'Farmer Registry & Subsidies': {
+			id: 'farmer-registry-subsidies',
+			code: 'DA-RSBSA',
+			icon: '',
+			title: 'Farmer Registry & Subsidies Dossier',
+			badge: 'Official DA-RSBSA',
+			stat: '1 Official Form',
+			tagline: 'RSBSA Registration • Government Subsidies & Benefits',
+			description: 'Official enrollment application in the Registry System for Basic Sectors in Agriculture (RSBSA) for farmers, farm workers, fishers, and agri-youth in Tanauan, Leyte.',
+			keyDocs: [
+				'Registry System for Basic Sectors in Agriculture (RSBSA) Enrollment Form'
+			]
+		},
+		'Coconut Development & Permitting': {
+			id: 'coconut-development-permitting',
+			code: 'PCA-PTC',
+			icon: '',
+			title: 'Coconut Permitting & Development Dossier',
+			badge: 'Official PCA Clearance',
+			stat: '1 Official Checklist',
+			tagline: 'Permit to Cut Coconut Trees • Documentary Checklist',
+			description: 'Official checklist of documentary requirements and procedures for filing a Permit to Cut (PTC) coconut trees with the Philippine Coconut Authority and Tanauan CDO.',
+			keyDocs: [
+				'Permit to Cut Coconut Trees (PTC) Requirements & Checklist'
+			]
+		},
+		'Fisheries & Aquaculture': {
+			id: 'fisheries-aquaculture',
+			code: 'BFAR-R8',
+			icon: '',
+			title: 'Fisheries & Aquaculture Assistance Dossier',
+			badge: 'Official BFAR Form',
+			stat: '1 Official Form',
+			tagline: 'Grow-Out Request • Fish Fingerlings Dispersal & Allocation',
+			description: 'Official BFAR Region 8 application for fish fingerlings assistance, freshwater aquaculture validation, and association member roster attachment.',
+			keyDocs: [
+				'BFAR Request for Grow Out & Fingerlings Dispersal Form'
+			]
+		},
+		'Farm Mechanization & Machinery': {
+			id: 'farm-mechanization-machinery',
+			code: 'MAO-MECH',
+			icon: '',
+			title: 'Farm Mechanization & Tractor Services',
+			badge: 'Official MAO Service',
+			stat: '1 Official Letter Template',
+			tagline: 'Heavy Tractor Plowing & Harrowing Service Request',
+			description: 'Official letter request form in Waray for local farmers (parag-uma) to request municipal tractor operations for land preparation and plowing in their barangay.',
+			keyDocs: [
+				'Hangyu ha Paggamit hin Tractor (Tractor Service Request Form)'
+			]
+		},
+		'Crop Insurance & Indemnity': {
+			id: 'crop-insurance-indemnity',
+			code: 'PCIC-R8',
+			icon: '',
+			title: 'Crop Insurance & Indemnity Dossier',
+			badge: 'Official PCIC Forms',
+			stat: '2 Official Documents',
+			tagline: 'Rice & Corn Insurance Applications • Claims for Indemnity',
+			description: 'Official Philippine Crop Insurance Corporation forms for insuring rice and corn crops against weather and pest damage, and filing claims for indemnity.',
+			keyDocs: [
+				'Application for Rice/Corn Crop Insurance (Individual Application)',
+				'Claims for Indemnity (Paghahabol Bayad) Damage Assessment Form'
 			]
 		}
 	};
@@ -1584,13 +1652,15 @@
 									</span>
 								</div>
 								<h2 class="text-2xl sm:text-3xl font-black text-white group-hover:text-amber-300 transition-colors">
-									{isMENRO ? 'Downloadables & Citizen Guides' : isHealthOffice ? 'Downloadable Health Forms' : isLicensing ? 'Downloadable Office Forms' : isGSO ? 'Downloadable Logistics & Equipment Slips' : 'Downloadable Office Forms'}
+									{isMENRO ? 'Downloadables & Citizen Guides' : isHealthOffice ? 'Downloadable Health Forms' : isLicensing ? 'Downloadable Office Forms' : isGSO ? 'Downloadable Logistics & Equipment Slips' : isMAO ? 'Downloadable Agriculture Forms & Checklists' : 'Downloadable Office Forms'}
 								</h2>
 								<p class="text-xs sm:text-sm text-blue-100 max-w-2xl font-normal leading-relaxed">
 									{isLicensing
 										? 'Click to expand official business permit applications, unified ARTA forms, public transport franchising documents, and regulatory checklists.'
 										: isGSO
 										? 'Click to expand and access official GSO borrower and return slips for municipal tents, tables, chairs, and sound system units.'
+										: isMAO
+										? 'Click to expand and access official RSBSA farmer enrollment forms, PCA permit to cut checklists, BFAR fingerlings applications, and farm tractor service requests.'
 										: 'Click to expand and access official printable and downloadable municipal forms.'}
 								</p>
 							</div>
@@ -1614,15 +1684,15 @@
 							>
 								<span class="h-2 w-2 animate-pulse rounded-full bg-amber-400"></span>
 								{#if formsNavCode}
-									SECTION {formsNavCode} // {isMENRO ? 'OFFICIAL DOWNLOADABLES & CITIZEN GUIDES' : isHealthOffice ? 'OFFICIAL HEALTHCARE RECORDS & CLINICAL FORMS' : isLicensing ? 'OFFICIAL LICENSING & REGULATORY FORMS' : isGSO ? 'OFFICIAL GSO LOGISTICS & BORROWER FORMS' : 'OFFICIAL PERMIT FOLDERS & FORMS'}
+									SECTION {formsNavCode} // {isMENRO ? 'OFFICIAL DOWNLOADABLES & CITIZEN GUIDES' : isHealthOffice ? 'OFFICIAL HEALTHCARE RECORDS & CLINICAL FORMS' : isLicensing ? 'OFFICIAL LICENSING & REGULATORY FORMS' : isGSO ? 'OFFICIAL GSO LOGISTICS & BORROWER FORMS' : isMAO ? 'OFFICIAL AGRICULTURE DOSSIERS & DOWNLOADABLE FORMS' : 'OFFICIAL PERMIT FOLDERS & FORMS'}
 								{:else}
-									{isMENRO ? 'OFFICIAL DOWNLOADABLES & CITIZEN GUIDES' : isHealthOffice ? 'OFFICIAL HEALTHCARE RECORDS & CLINICAL FORMS' : isLicensing ? 'OFFICIAL LICENSING & REGULATORY FORMS' : isGSO ? 'OFFICIAL GSO LOGISTICS & BORROWER FORMS' : 'OFFICIAL PERMIT FOLDERS & FORMS'}
+									{isMENRO ? 'OFFICIAL DOWNLOADABLES & CITIZEN GUIDES' : isHealthOffice ? 'OFFICIAL HEALTHCARE RECORDS & CLINICAL FORMS' : isLicensing ? 'OFFICIAL LICENSING & REGULATORY FORMS' : isGSO ? 'OFFICIAL GSO LOGISTICS & BORROWER FORMS' : isMAO ? 'OFFICIAL AGRICULTURE DOSSIERS & DOWNLOADABLE FORMS' : 'OFFICIAL PERMIT FOLDERS & FORMS'}
 								{/if}
 							</div>
 							<h2
 								class="text-3xl leading-tight font-black tracking-tight text-blue-950 sm:text-4xl lg:text-5xl"
 							>
-								{isMENRO ? 'Downloadables & Citizen Guides' : isHealthOffice ? 'Downloadable Health Forms' : isLicensing ? 'Downloadable Office Forms' : isGSO ? 'Downloadable Logistics & Equipment Slips' : 'Downloadable Office Forms'}
+								{isMENRO ? 'Downloadables & Citizen Guides' : isHealthOffice ? 'Downloadable Health Forms' : isLicensing ? 'Downloadable Office Forms' : isGSO ? 'Downloadable Logistics & Equipment Slips' : isMAO ? 'Downloadable Agriculture Forms & Checklists' : 'Downloadable Office Forms'}
 							</h2>
 							<p class="mt-4 text-base leading-relaxed font-normal text-blue-950/80 sm:text-lg">
 								{isMENRO
@@ -1633,6 +1703,8 @@
 									? 'Official business permit applications, unified ARTA forms, and public transport service franchise documents available for direct inspection, PDF review, and official download.'
 									: isGSO
 									? 'Official General Services Section equipment borrowing slips, return inspection records, and public venue logistical support forms available for direct digital printing and PDF download.'
+									: isMAO
+									? 'Official Registry System for Basic Sectors in Agriculture (RSBSA) registration forms, Philippine Coconut Authority permit checklists, BFAR grow-out applications, and farm tractor service requests available for inspection, printing, and PDF download.'
 									: 'All engineering permit documents are organized into dedicated official folders. Click a folder below to open and access its full collection of downloadable and printable forms.'}
 							</p>
 						</div>
@@ -2638,10 +2710,10 @@
 							class="mb-3 inline-flex items-center gap-2 rounded-md border border-amber-300 bg-amber-100 px-3.5 py-1 text-xs font-black tracking-wider text-amber-950 uppercase"
 						>
 							<span class="h-2 w-2 rounded-full bg-amber-600"></span>
-							SECTION {accomplishmentsNavCode} // {isLicensing ? 'BUSINESS REGISTRATION & REVENUE SCORECARD' : isCivilRegistrar ? 'CIVIL REGISTRY MILESTONES & SPECIAL PROJECTS' : isMDRRMO ? 'DISASTER PREPAREDNESS & DRILL OPERATIONS' : isMENRO ? 'SOLID WASTE MANAGEMENT & DIVERSION SCORECARD' : isHealthOffice ? 'PUBLIC HEALTH OUTREACH & CLINICAL CARAVAN' : 'FISCAL PERFORMANCE & SCORECARDS'}
+							SECTION {accomplishmentsNavCode} // {isLicensing ? 'BUSINESS REGISTRATION & REVENUE SCORECARD' : isCivilRegistrar ? 'CIVIL REGISTRY MILESTONES & SPECIAL PROJECTS' : isMDRRMO ? 'DISASTER PREPAREDNESS & DRILL OPERATIONS' : isMENRO ? 'SOLID WASTE MANAGEMENT & DIVERSION SCORECARD' : isHealthOffice ? 'PUBLIC HEALTH OUTREACH & CLINICAL CARAVAN' : isMAO ? 'AGRI-TRADE FAIR & GULAYAN SA PAARALAN HARVEST SHOWCASE' : 'FISCAL PERFORMANCE & SCORECARDS'}
 						</div>
 						<h2 class="text-3xl leading-tight font-black tracking-tight text-blue-950 sm:text-4xl">
-							{isLicensing ? 'BPLO Accomplishments & Revenue Scorecard' : isMDRRMO ? 'Field Operations & Accomplishments' : isMENRO ? 'Solid Waste Management & Accomplishments' : isCivilRegistrar ? 'Department Accomplishments' : isHealthOffice ? 'Public Health Accomplishments & Outreach' : 'Accomplishment Reports'}
+							{isLicensing ? 'BPLO Accomplishments & Revenue Scorecard' : isMDRRMO ? 'Field Operations & Accomplishments' : isMENRO ? 'Solid Waste Management & Accomplishments' : isCivilRegistrar ? 'Department Accomplishments' : isHealthOffice ? 'Public Health Accomplishments & Outreach' : isMAO ? 'Agricultural Programs & Community Harvest Milestones' : 'Accomplishment Reports'}
 						</h2>
 						<p class="mt-2.5 text-base leading-relaxed font-normal text-slate-800">
 							{#if isLicensing}
@@ -2654,6 +2726,8 @@
 								Official ecological solid waste management updates, waste diversion performance benchmarks, and statutory accomplishments under RA 9003 and Municipal Ordinance No. 2024-20.
 							{:else if isHealthOffice}
 								Official public health outreach missions, community TB Active Case Finding (ACF), mobile chest X-ray caravans, and primary healthcare achievements of the Municipal Health Office of Tanauan.
+							{:else if isMAO}
+								Official field documentation and photographic exhibits of the 2026 Tanauan Agri-Trade Fair, Gulayan sa Paaralan school nutrition pavilions, and rural women agricultural enterprise showcases led by the Municipal Agriculture Office.
 							{:else}
 								Official performance scorecards, program accomplishments, and transparency disclosures
 								of the {officeName} submitted to the Sangguniang Bayan of Tanauan.
@@ -2663,6 +2737,8 @@
 
 					{#if isLicensing}
 						<BPLOAccomplishmentReport />
+					{:else if isMAO}
+						<MAOAccomplishmentGallery {accomplishments} />
 					{:else}
 						<div class="rounded-3xl border-2 border-slate-50 p-6 shadow-sm sm:p-8">
 							<AccomplishmentSection {department} limit={3} collapsible={true} cleanLayout={true} />
@@ -2734,7 +2810,7 @@
 			</section>
 		{/if}
 
-		{#if !isMAO && shouldPutFormsAtEnd && downloadableForms && downloadableForms.length > 0}
+		{#if shouldPutFormsAtEnd && downloadableForms && downloadableForms.length > 0}
 			{@render formsSection()}
 		{/if}
 	</main>

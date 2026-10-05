@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PCIC Application for Rice/Corn Crop Insurance — MAO Tanauan, Leyte</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --royal-blue: #0b2545;
+      --royal-blue-light: #133e87;
+      --royal-blue-dark: #07192f;
+      --amber-yellow: #f59e0b;
+      --amber-yellow-light: #fef3c7;
+      --amber-yellow-dark: #d97706;
+      --slate-border: #0b2545;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+    }
+
+    body {
+      background: #f1f5f9;
+      color: #0b2545;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1.5rem 1rem;
+    }
+
+    .toolbar {
+      width: 100%;
+      max-width: 900px;
+      margin-bottom: 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--royal-blue);
+      border: 2px solid var(--amber-yellow);
+      color: white;
+      padding: 0.85rem 1.5rem;
+      border-radius: 14px;
+      box-shadow: 0 10px 25px -5px rgba(11, 37, 69, 0.3);
+    }
+
+    .toolbar-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      color: #ffffff;
+    }
+
+    .toolbar-actions {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .btn {
+      padding: 0.5rem 1.15rem;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 0.8rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-amber {
+      background: var(--amber-yellow);
+      color: var(--royal-blue);
+      border: 1px solid var(--amber-yellow-dark);
+    }
+
+    .btn-amber:hover {
+      background: #fbbf24;
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+    }
+
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .page-container {
+      width: 100%;
+      max-width: 900px;
+      background: white;
+      padding: 2.25rem 2.5rem;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      border: 2px solid #cbd5e1;
+      position: relative;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      border-bottom: 2px solid var(--royal-blue);
+      padding-bottom: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .seal {
+      width: 65px;
+      height: 65px;
+      object-fit: contain;
+    }
+
+    .header-text h3 {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #475569;
+      font-weight: 700;
+    }
+
+    .header-text h1 {
+      font-size: 1.2rem;
+      font-weight: 900;
+      color: var(--royal-blue);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .header-text h2 {
+      font-size: 0.85rem;
+      color: var(--amber-yellow-dark);
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .form-code-badge {
+      font-family: monospace;
+      font-size: 0.7rem;
+      font-weight: 900;
+      color: var(--royal-blue);
+      border: 1.5px solid var(--royal-blue);
+      padding: 4px 8px;
+      border-radius: 6px;
+      background: #f8fafc;
+      text-align: right;
+    }
+
+    .section-title {
+      background: var(--royal-blue);
+      color: white;
+      padding: 0.35rem 0.75rem;
+      font-size: 0.8rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-top: 1rem;
+      margin-bottom: 0.6rem;
+      border-radius: 4px;
+      border-left: 4px solid var(--amber-yellow);
+    }
+
+    .field-row {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .field-group {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .field-label {
+      font-size: 0.68rem;
+      font-weight: 800;
+      color: #475569;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+
+    .field-input {
+      border: 1px solid #94a3b8;
+      border-radius: 4px;
+      padding: 0.35rem 0.5rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #0b2545;
+      background: #f8fafc;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 0.5rem;
+      margin-bottom: 0.75rem;
+      font-size: 0.7rem;
+    }
+
+    .data-table th, .data-table td {
+      border: 1px solid #94a3b8;
+      padding: 0.35rem 0.45rem;
+      text-align: left;
+    }
+
+    .data-table th {
+      background: #f1f5f9;
+      font-weight: 800;
+      color: var(--royal-blue);
+      text-transform: uppercase;
+      font-size: 0.65rem;
+    }
+
+    .data-table td {
+      height: 24px;
+    }
+
+    .consent-box {
+      border: 1px solid #cbd5e1;
+      background: #f8fafc;
+      padding: 0.65rem 0.85rem;
+      border-radius: 6px;
+      font-size: 0.68rem;
+      line-height: 1.4;
+      color: #334155;
+      margin-top: 0.75rem;
+    }
+
+    .sig-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 1.5rem;
+      margin-top: 1.25rem;
+    }
+
+    .sig-block {
+      flex: 1;
+      text-align: center;
+    }
+
+    .sig-line {
+      border-bottom: 1.5px solid var(--royal-blue);
+      margin-top: 2rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .sig-name {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--royal-blue);
+      text-transform: uppercase;
+    }
+
+    .sig-role {
+      font-size: 0.65rem;
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    @media print {
+      body {
+        background: white;
+        padding: 0;
+      }
+      .toolbar {
+        display: none;
+      }
+      .page-container {
+        border: none;
+        box-shadow: none;
+        padding: 0.75rem;
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Screen Toolbar -->
+  <div class="toolbar">
+    <div class="toolbar-title">
+      <span>Application for Rice/Corn Crop Insurance — PCIC &amp; MAO Tanauan, Leyte</span>
+    </div>
+    <div class="toolbar-actions">
+      <button class="btn btn-outline" onclick="window.print()">Print Application</button>
+      <a class="btn btn-amber" href="/forms/agriculture/PCIC_Application_Rice_Corn_Insurance.pdf" download="PCIC_Application_Rice_Corn_Insurance.pdf">
+        Download Official PDF
+      </a>
+    </div>
+  </div>
+
+  <!-- Document Container -->
+  <div class="page-container">
+    <div class="header">
+      <div class="header-left">
+        <img src="/tanauan logo.svg" alt="Tanauan Official Seal" class="seal">
+        <div class="header-text">
+          <h3>Republic of the Philippines • Philippine Crop Insurance Corporation</h3>
+          <h1>Application for Rice/Corn Crop Insurance</h1>
+          <h2>Regional Office No. 8 • Municipal Agriculture Office, Tanauan, Leyte</h2>
+        </div>
+      </div>
+      <div class="form-code-badge">
+        <div>FORM RC-UPI-0</div>
+        <div style="font-size: 0.6rem; color: #64748b;">Individual Application</div>
+      </div>
+    </div>
+
+    <!-- PRE-APPLICATION METADATA -->
+    <div class="field-row" style="background: #eff6ff; padding: 0.5rem; border-radius: 6px; border: 1px solid #bfdbfe;">
+      <div class="field-group">
+        <span class="field-label">Crop Covered:</span>
+        <select class="field-input">
+          <option>Rice (Palay)</option>
+          <option>Corn (Mais)</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <span class="field-label">Application Type:</span>
+        <select class="field-input">
+          <option>New Application</option>
+          <option>Renewal</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <span class="field-label">Total Farm Area (Hectares):</span>
+        <input type="text" class="field-input" placeholder="e.g. 1.5 ha">
+      </div>
+      <div class="field-group">
+        <span class="field-label">Farmer Category:</span>
+        <select class="field-input">
+          <option>Self-Financed</option>
+          <option>Borrowing / Lender</option>
+          <option>Government-Subsidized (RSBSA)</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- PART A: BASIC FARMER INFORMATION -->
+    <div class="section-title">SECTION A: BASIC FARMER INFORMATION</div>
+    <div class="field-row">
+      <div class="field-group" style="flex: 1.2;">
+        <span class="field-label">Last Name:</span>
+        <input type="text" class="field-input" placeholder="Apelyido">
+      </div>
+      <div class="field-group" style="flex: 1.2;">
+        <span class="field-label">First Name:</span>
+        <input type="text" class="field-input" placeholder="Pangalan">
+      </div>
+      <div class="field-group">
+        <span class="field-label">Middle Name:</span>
+        <input type="text" class="field-input">
+      </div>
+      <div class="field-group" style="flex: 0.5;">
+        <span class="field-label">Suffix:</span>
+        <input type="text" class="field-input" placeholder="Jr/III">
+      </div>
+      <div class="field-group" style="flex: 1.1;">
+        <span class="field-label">Contact Number:</span>
+        <input type="text" class="field-input" placeholder="09XX-XXX-XXXX">
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div class="field-group" style="flex: 1.8;">
+        <span class="field-label">Address (Barangay, Tanauan, Leyte):</span>
+        <input type="text" class="field-input" placeholder="Street / Purok, Barangay">
+      </div>
+      <div class="field-group">
+        <span class="field-label">Date of Birth:</span>
+        <input type="text" class="field-input" placeholder="MM / DD / YYYY">
+      </div>
+      <div class="field-group" style="flex: 0.7;">
+        <span class="field-label">Sex:</span>
+        <select class="field-input"><option>Male</option><option>Female</option></select>
+      </div>
+      <div class="field-group">
+        <span class="field-label">Civil Status:</span>
+        <select class="field-input">
+          <option>Single</option>
+          <option>Married</option>
+          <option>Widow/er</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div class="field-group" style="flex: 1.5;">
+        <span class="field-label">Primary Legal Beneficiary (In case of death):</span>
+        <input type="text" class="field-input" placeholder="Full Name of Beneficiary">
+      </div>
+      <div class="field-group">
+        <span class="field-label">Relationship to Applicant:</span>
+        <input type="text" class="field-input" placeholder="Spouse / Son / Daughter">
+      </div>
+      <div class="field-group">
+        <span class="field-label">Preferred Indemnity Channel:</span>
+        <select class="field-input">
+          <option>LandBank / DBP Account</option>
+          <option>GCash</option>
+          <option>Palawan Express</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- PART B: FARM PARCEL DETAILS -->
+    <div class="section-title">SECTION B: FARM PARCEL &amp; CROPPING INFORMATION</div>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Particulars</th>
+          <th>Lot 1 (Area: ______ ha)</th>
+          <th>Lot 2 (Area: ______ ha)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Farm Location (Barangay)</strong></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><strong>Boundaries (North / East / South / West)</strong></td>
+          <td>N: ____ E: ____ S: ____ W: ____</td>
+          <td>N: ____ E: ____ S: ____ W: ____</td>
+        </tr>
+        <tr>
+          <td><strong>GeoRef ID / DA-RSBSA Number</strong></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><strong>Variety Planted</strong></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><strong>Planting Method</strong></td>
+          <td>Direct Seeded / Transplanted</td>
+          <td>Direct Seeded / Transplanted</td>
+        </tr>
+        <tr>
+          <td><strong>Dates (Sowing / Planting / Harvest)</strong></td>
+          <td>Sow: ____ Plant: ____ Har: ____</td>
+          <td>Sow: ____ Plant: ____ Har: ____</td>
+        </tr>
+        <tr>
+          <td><strong>Land Category &amp; Tenure</strong></td>
+          <td>Irrigated / Rainfed • Owner / Lessee</td>
+          <td>Irrigated / Rainfed • Owner / Lessee</td>
+        </tr>
+        <tr>
+          <td><strong>Desired Amount of Cover (PhP)</strong></td>
+          <td>PhP ________________________</td>
+          <td>PhP ________________________</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- PART C: CONSENT AND SIGNATURES -->
+    <div class="consent-box">
+      <strong>CERTIFICATION &amp; DATA PRIVACY CONSENT:</strong> I hereby certify that the foregoing answers and statements are complete, true, and correct. If this application is approved, the insurance shall be deemed based upon the statements contained herein. I authorize PCIC and the Municipal Agriculture Office to collect and process my personal data pursuant to RA 10173 (Data Privacy Act).
+    </div>
+
+    <div class="sig-row">
+      <div class="sig-block">
+        <div class="sig-line"></div>
+        <div class="sig-name">Farmer — Applicant</div>
+        <div class="sig-role">Signature / Thumb Mark over Printed Name</div>
+      </div>
+      <div class="sig-block">
+        <div class="sig-line"></div>
+        <div class="sig-name">Willy Moralina / Lenneth Soyosa</div>
+        <div class="sig-role">PCIC Focal Persons / Agriculture Office</div>
+      </div>
+      <div class="sig-block">
+        <div class="sig-line"></div>
+        <div class="sig-name">Susana O. Miranda</div>
+        <div class="sig-role">Municipal Agriculturist</div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

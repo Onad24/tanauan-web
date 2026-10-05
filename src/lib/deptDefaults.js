@@ -39,6 +39,8 @@ export const DEPT_DEFAULTS = {
       'Food Security & Livelihood Development',
       'Modern Farming for Rural Progress'
     ],
+    showPersonnel: false,
+    orgChartPdf: '/Municipal_Agriculture_Office_Org_Chart.pdf',
     head: {
       name: 'Susana O. Miranda',
       title: 'Municipal Agriculturist',
@@ -72,6 +74,130 @@ export const DEPT_DEFAULTS = {
       { index: '01', code: 'EXT-SVC', title: 'Agricultural Extension Services', description: 'Provides technical assistance, training, and guidance to farmers and fisherfolk in the municipality.', tag: 'Core Function', details: ['Farm Visits & Technical Guidance', 'Farmer Training & Seminars', 'Demonstration Farm Operations'] },
       { index: '02', code: 'PROG-IMPL', title: 'Program Implementation', description: 'Implements national and local agricultural programs for crop production, livestock, and fisheries.', tag: 'Program Implementation', details: ['Seed & Fertilizer Distribution', 'Livestock Dispersal Programs', 'Fisheries Development Assistance'] },
       { index: '03', code: 'DATA-MGT', title: 'Agricultural Data Management', description: 'Maintains updated records of agricultural production, farmer registry, and land use data.', tag: 'Data & Records', details: ['Farmer Registry Maintenance', 'Crop Production Monitoring', 'Agricultural Statistics Reporting'] }
+    ],
+    formsAtEnd: true,
+    downloadableForms: [
+      {
+        index: '01',
+        category: 'Farmer Registry & Subsidies',
+        title: 'Registry System for Basic Sectors in Agriculture (RSBSA) Enrollment Form',
+        type: 'Official Registry Application • DA-RSBSA 2024',
+        icon: '',
+        description: 'Official government registration form required for all farmers, farm workers, fishers, and agri-youth to access agricultural subsidies, certified seeds, fertilizer vouchers, fuel subsidies, and PCIC crop insurance in Tanauan.',
+        format: 'Official 2-Page PDF Document',
+        fileSize: '833 KB',
+        url: '/forms/agriculture/RSBSA_Enrollment_Form.pdf',
+        downloadUrl: '/forms/agriculture/RSBSA_Enrollment_Form.pdf',
+        htmlUrl: '/forms/agriculture/rsbsa-enrollment-form.html',
+        requirements: [
+          '1 Recent 2x2 colored ID photo taken within 6 months',
+          'Valid Government-Issued ID (PhilID, Driver\'s License, Voter\'s ID, Postal ID)',
+          'Proof of Land Ownership or Farm Parcel Tenure (Land Title, Tax Declaration, Certificate of Land Transfer, or Tenant Lease Agreement)',
+          'Accomplished Part 1 to Part 4 detailing personal info, livelihood profile, and farm parcel area',
+          'Barangay Certification and Farmers Association / Cooperative endorsement'
+        ]
+      },
+      {
+        index: '02',
+        category: 'Coconut Development & Permitting',
+        title: 'Permit to Cut Coconut Trees (PTC) Requirements & Checklist',
+        type: 'Official PCA Regulatory Checklist',
+        icon: '',
+        description: 'Official documentary prerequisites, application form, and inspection clearance required by the Philippine Coconut Authority (PCA) and MAO Coconut Development Officer (CDO) for lawful coconut tree cutting and replacement replanting under RA 8048 / RA 10593.',
+        format: 'Official PDF Document',
+        fileSize: '539 KB',
+        url: '/forms/agriculture/Permit_to_Cut_Requirements.pdf',
+        downloadUrl: '/forms/agriculture/Permit_to_Cut_Requirements.pdf',
+        htmlUrl: '/forms/agriculture/permit-to-cut-requirements.html',
+        requirements: [
+          'Fully Accomplished PTC Application Form stating valid ground for cutting',
+          'Latest Real Property Land Title or Tax Declaration (Photocopy)',
+          'Valid Government-Issued ID of Landowner/Applicant (Photocopy)',
+          'Barangay Certification from the Punong Barangay',
+          'On-site Inspection Report from PCA Coconut Development Officer (CDO)',
+          'Certificate of Chainsaw Registration from DENR/LGU (Photocopy)',
+          'Replanting Program of Work/s (1:1 replacement ratio commitment)'
+        ]
+      },
+      {
+        index: '03',
+        category: 'Fisheries & Aquaculture',
+        title: 'BFAR Request for Grow Out & Fingerlings Dispersal Form',
+        type: 'Official Aquaculture Application • BFAR-R8',
+        icon: '',
+        description: 'Official Bureau of Fisheries and Aquatic Resources (BFAR Region 8) request form for fish fingerlings allocation (Tilapia, Bangus, Carp), aquaculture pond/cage site validation, culture technical clearance, and association member roster schedules.',
+        format: 'Official 3-Page PDF Document',
+        fileSize: '403 KB',
+        url: '/forms/agriculture/BFAR_Request_for_Grow_Out_Form.pdf',
+        downloadUrl: '/forms/agriculture/BFAR_Request_for_Grow_Out_Form.pdf',
+        htmlUrl: '/forms/agriculture/bfar-request-for-grow-out.html',
+        requirements: [
+          'Registered Fisherfolk under FishR / Certificate of Fisherfolk Registration',
+          'On-site technical evaluation and water source validation by MAO/BFAR Fisheries Technician',
+          'Specification of culture structure dimensions (earthen pond, concrete tank, or fish cage)',
+          'Signed Acknowledgement Receipt and commitment to submit harvest production reports',
+          'For Organizations: Accomplished Association / PO Member Roster attachment sheet'
+        ]
+      },
+      {
+        index: '04',
+        category: 'Farm Mechanization & Machinery',
+        title: 'Hangyu ha Paggamit hin Tractor (Tractor Service Request Form)',
+        type: 'Official Waray Service Request Letter',
+        icon: '',
+        description: 'Official letter request template in Waray addressed to Hon. Ma. Gina E. Merilo (Municipal Mayor) for local farmers (parag-uma) to request municipal tractor plowing and harrowing land preparation services for their farm parcels.',
+        format: 'Official PDF Document',
+        fileSize: '235 KB',
+        url: '/forms/agriculture/Hangyu_ha_Paggamit_hin_Tractor.pdf',
+        downloadUrl: '/forms/agriculture/Hangyu_ha_Paggamit_hin_Tractor.pdf',
+        htmlUrl: '/forms/agriculture/hangyu-ha-paggamit-hin-tractor.html',
+        requirements: [
+          'Accomplished letter stating farmer name, residential barangay, and farm lot barangay location',
+          'Indication of total farm area in hectares for plowing/harrowing schedule calculation',
+          'Scheduling and field route verification by MAO Farm Machinery Operations Unit',
+          'Assignment of authorized municipal tractor operator and approval by Municipal Agriculturist'
+        ]
+      },
+      {
+        index: '05',
+        category: 'Crop Insurance & Indemnity',
+        title: 'Application for Rice/Corn Crop Insurance (Individual Application)',
+        type: 'Official PCIC Application • Form RC-UPI-0',
+        icon: '',
+        description: 'Official Philippine Crop Insurance Corporation (PCIC Region 8) individual application form for insuring rice and corn crops against typhoon, flood, drought, and pest damages with subsidized government premiums under RSBSA.',
+        format: 'Official PDF Application',
+        fileSize: '908 KB',
+        url: '/forms/agriculture/PCIC_Application_Rice_Corn_Insurance.pdf',
+        downloadUrl: '/forms/agriculture/PCIC_Application_Rice_Corn_Insurance.pdf',
+        htmlUrl: '/forms/agriculture/pcic-application-rice-corn-insurance.html',
+        requirements: [
+          'Proof of enrollment under DA-RSBSA / Farmer GeoRef ID',
+          'Farm lot boundaries (North, East, South, West adjacent lots)',
+          'Cropping details (variety planted, sowing date, planting date, and harvest date)',
+          'Valid Government-issued ID and contact details of farmer applicant',
+          'Endorsement from MAO PCIC Focal Persons (Willy Moralina / Lenneth Soyosa)'
+        ]
+      },
+      {
+        index: '06',
+        category: 'Crop Insurance & Indemnity',
+        title: 'Claims for Indemnity (Paghahabol Bayad) Damage Assessment Form',
+        type: 'Official PCIC Claim Form',
+        icon: '',
+        description: 'Official notice of loss and claim for indemnity submitted by insured farmers to the PCIC and MAO to request a field adjuster damage assessment for insured crops affected by calamity, pests, or disease.',
+        format: 'Official PDF Form',
+        fileSize: '827 KB',
+        url: '/forms/agriculture/PCIC_Claim_for_Indemnity_Damage.pdf',
+        downloadUrl: '/forms/agriculture/PCIC_Claim_for_Indemnity_Damage.pdf',
+        htmlUrl: '/forms/agriculture/pcic-claim-for-indemnity.html',
+        requirements: [
+          'Certificate of Insurance Cover (CIC Number)',
+          'Detailed cause of loss description (typhoon, flood, drought, or pest/disease)',
+          'Estimated area damaged in hectares and degree/percentage of crop damage',
+          'Location Sketch Plan (LSP / Krokis ng Bukid na Nasalanta) indicating adjacent boundaries',
+          'Filing within the required notice of loss window (within days of occurrence) with MAO PCIC Desk'
+        ]
+      }
     ],
     schedule: { hours: 'Monday – Friday | 8:00 AM – 5:00 PM (No Noon Break)', location: 'Ground Floor, Agricultural Extension Office, Tanauan Municipal Hall, Real St., Tanauan, Leyte', contactNumber: '(053) 321-2045 / +63 917 842 6110', email: 'agriculture@tanauanleyte.gov.ph', helpline: 'Agriculture Helpdesk Windows 1 & 2' }
   },
