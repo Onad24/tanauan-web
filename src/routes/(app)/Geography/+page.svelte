@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 
 	let visible = $state(false);
-	let activeTab = $state('all'); // 'all' | 'overview' | 'maps' | 'transport'
+	let activeTab = $state('all'); // 'all' | 'maps' | 'transport'
 
 	onMount(() => {
 		visible = true;
@@ -47,19 +47,6 @@
 		<div class="geo-ambient geo-ambient-bottom"></div>
 
 		<div class="geo-hero-inner" class:is-visible={visible}>
-			<nav class="geo-breadcrumb" aria-label="Breadcrumb">
-				<a href="/" class="geo-crumb-link">Home</a>
-				<span class="geo-crumb-sep">/</span>
-				<span class="geo-crumb-parent">Our Municipality</span>
-				<span class="geo-crumb-sep">/</span>
-				<span class="geo-crumb-current">Geography</span>
-			</nav>
-
-			<div class="geo-pill-badge">
-				<span class="geo-badge-dot"></span>
-				<span class="geo-badge-text">Eastern Leyte Coastal Gateway</span>
-			</div>
-
 			<h1 class="geo-hero-title">
 				Geographic <span class="geo-amber-gradient">Profile</span>
 			</h1>
@@ -89,16 +76,6 @@
 				<button
 					type="button"
 					role="tab"
-					aria-selected={activeTab === 'overview'}
-					class="geo-filter-btn"
-					class:is-active={activeTab === 'overview'}
-					onclick={() => (activeTab = 'overview')}
-				>
-					Location &amp; Stats
-				</button>
-				<button
-					type="button"
-					role="tab"
 					aria-selected={activeTab === 'maps'}
 					class="geo-filter-btn"
 					class:is-active={activeTab === 'maps'}
@@ -123,95 +100,6 @@
 	<!-- Main Body Container -->
 	<main class="geo-main">
 		<div class="geo-container">
-			<!-- SECTION 1: Overview & Key Metrics -->
-			{#if activeTab === 'all' || activeTab === 'overview'}
-				<section class="geo-section-block" class:is-visible={visible}>
-					<div class="geo-overview-grid">
-						<!-- Location Overview Card -->
-						<article class="geo-card geo-overview-card">
-							<div class="geo-card-sheen"></div>
-							<div class="geo-card-head">
-								<div>
-									<span class="geo-tag geo-tag-royal">Territorial Setting</span>
-									<h2 class="geo-card-title">Location Overview</h2>
-								</div>
-								<span class="geo-num-badge">01</span>
-							</div>
-
-							<div class="geo-divider-amber"></div>
-
-							<div class="geo-prose">
-								<p>
-									Tanauan is strategically situated in the <strong class="geo-highlight-amber"
-										>eastern part of Leyte</strong
-									>, facing the rich aquatic expanse of the Leyte Gulf. The municipality serves as a
-									vital demographic and trade link, bordered by <strong class="geo-highlight-royal"
-										>Palo</strong
-									>
-									to the north and
-									<strong class="geo-highlight-royal">Tolosa</strong> to the south.
-								</p>
-								<p>
-									The territorial terrain is characteristically flat alluvial coastal plains that
-									gently transition into undulating rolling hills in its western interior. In total,
-									the municipality encompasses a registered land area of <strong
-										class="geo-highlight-amber">78.63 square kilometers</strong
-									>.
-								</p>
-								<p>
-									Direct regional accessibility is anchored by the <strong
-										class="geo-highlight-royal">Pan-Philippine (Maharlika) Highway</strong
-									>, situating the town center approximately 18 kilometers south of Tacloban City, the
-									regional capital of Eastern Visayas.
-								</p>
-							</div>
-
-							<div class="geo-card-chips">
-								<span class="geo-chip">Eastern Coastline</span>
-								<span class="geo-chip">Leyte Gulf Basin</span>
-								<span class="geo-chip">Maharlika Highway</span>
-								<span class="geo-chip">Urban-Rural Interface</span>
-							</div>
-						</article>
-
-						<!-- Key Geographic Stats Column -->
-						<aside class="geo-stats-col">
-							<!-- Stat 1: Land Area -->
-							<div class="geo-stat-card">
-								<div class="geo-stat-top">
-									<span class="geo-stat-tag geo-tag-amber">Territory</span>
-									<span class="geo-stat-symbol">&empty;</span>
-								</div>
-								<div class="geo-stat-val">78.63 <span class="geo-stat-unit">km²</span></div>
-								<h3 class="geo-stat-label">Total Land Area</h3>
-								<p class="geo-stat-desc">Encompassing diverse coastal, riparian, and inland farming zones</p>
-							</div>
-
-							<!-- Stat 2: Barangays -->
-							<div class="geo-stat-card geo-stat-royal">
-								<div class="geo-stat-top">
-									<span class="geo-stat-tag geo-tag-royal">Administration</span>
-									<span class="geo-stat-symbol">#</span>
-								</div>
-								<div class="geo-stat-val">54</div>
-								<h3 class="geo-stat-label">Barangays</h3>
-								<p class="geo-stat-desc">Autonomous local subdivisions working in synchronized civic unity</p>
-							</div>
-
-							<!-- Stat 3: Distance -->
-							<div class="geo-stat-card">
-								<div class="geo-stat-top">
-									<span class="geo-stat-tag geo-tag-amber">Proximity</span>
-									<span class="geo-stat-symbol">&Delta;</span>
-								</div>
-								<div class="geo-stat-val">~18 <span class="geo-stat-unit">km</span></div>
-								<h3 class="geo-stat-label">Tacloban City Distance</h3>
-								<p class="geo-stat-desc">Approximate drive time of under 30 minutes to regional hub</p>
-							</div>
-						</aside>
-					</div>
-				</section>
-			{/if}
 
 			<!-- SECTION 2: Topographic Map & Geographic Visualization -->
 			{#if activeTab === 'all' || activeTab === 'maps'}
@@ -220,13 +108,11 @@
 						<div class="geo-card-sheen"></div>
 						<div class="geo-card-head">
 							<div>
-								<span class="geo-tag geo-tag-amber">Cartographic Profile</span>
 								<h2 class="geo-card-title">Topographic Map</h2>
 								<p class="geo-card-subtitle">
 									High-resolution terrain elevation and geographical boundary breakdown
 								</p>
 							</div>
-							<span class="geo-num-badge geo-num-amber">02</span>
 						</div>
 
 						<div class="geo-divider-royal"></div>
@@ -265,13 +151,11 @@
 						<div class="geo-card-sheen"></div>
 						<div class="geo-card-head">
 							<div>
-								<span class="geo-tag geo-tag-royal">Connectivity Corridor</span>
 								<h2 class="geo-card-title">Transportation &amp; Regional Access</h2>
 								<p class="geo-card-subtitle">
 									Comprehensive route timelines, vehicle modes, and municipal transit hub operations
 								</p>
 							</div>
-							<span class="geo-num-badge">03</span>
 						</div>
 
 						<div class="geo-divider-amber"></div>
@@ -285,10 +169,9 @@
 								</div>
 
 								<div class="geo-routes-list">
-									{#each routes as route, idx}
+									{#each routes as route}
 										<div class="geo-route-item">
 											<div class="geo-route-info">
-												<div class="geo-route-num">0{idx + 1}</div>
 												<div>
 													<h4 class="geo-route-from">From {route.from}</h4>
 													<p class="geo-route-meta">{route.mode} &bull; {route.distance}</p>
@@ -327,7 +210,6 @@
 									{#each transportModes as mode}
 										<div class="geo-mode-item">
 											<div class="geo-mode-header">
-												<span class="geo-mode-indicator"></span>
 												<h4 class="geo-mode-name">{mode.name}</h4>
 											</div>
 											<p class="geo-mode-desc">{mode.desc}</p>
@@ -347,13 +229,11 @@
 						<div class="geo-card-sheen"></div>
 						<div class="geo-card-head">
 							<div>
-								<span class="geo-tag geo-tag-amber">Satellite &amp; Street GIS</span>
 								<h2 class="geo-card-title">Interactive Map</h2>
 								<p class="geo-card-subtitle">
 									Explore territorial boundaries, waterways, road networks, and municipal landmarks
 								</p>
 							</div>
-							<span class="geo-num-badge geo-num-amber">04</span>
 						</div>
 
 						<div class="geo-divider-amber"></div>
@@ -372,16 +252,6 @@
 				</section>
 			{/if}
 
-			<!-- Municipal Verification Footer -->
-			<footer class="geo-footer">
-				<div class="geo-footer-accent"></div>
-				<p class="geo-footer-text">
-					Republic of the Philippines &bull; Province of Leyte &bull; Municipality of Tanauan
-				</p>
-				<p class="geo-footer-sub">
-					Geographical profile verified by the Municipal Planning &amp; Development Office (MPDC).
-				</p>
-			</footer>
 		</div>
 	</main>
 </div>
@@ -478,81 +348,6 @@
 		transform: translateY(0);
 	}
 
-	/* Breadcrumb */
-	.geo-breadcrumb {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.5rem;
-		font-size: 0.8125rem;
-		color: #93c5fd;
-		margin-bottom: 1.75rem;
-		letter-spacing: 0.025em;
-	}
-
-	.geo-crumb-link {
-		color: #93c5fd;
-		text-decoration: none;
-		transition: color 0.2s ease;
-	}
-
-	.geo-crumb-link:hover {
-		color: #fbbf24;
-	}
-
-	.geo-crumb-sep {
-		color: rgba(245, 158, 11, 0.45);
-	}
-
-	.geo-crumb-parent {
-		color: #bfdbfe;
-	}
-
-	.geo-crumb-current {
-		color: #f59e0b;
-		font-weight: 600;
-	}
-
-	/* Badge */
-	.geo-pill-badge {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.5rem;
-		padding: 0.375rem 1rem;
-		border-radius: 9999px;
-		background: rgba(245, 158, 11, 0.12);
-		border: 1px solid rgba(245, 158, 11, 0.35);
-		margin-bottom: 1.25rem;
-		box-shadow: 0 0 20px rgba(245, 158, 11, 0.15);
-	}
-
-	.geo-badge-dot {
-		width: 0.5rem;
-		height: 0.5rem;
-		border-radius: 9999px;
-		background-color: #f59e0b;
-		box-shadow: 0 0 10px #f59e0b;
-		animation: pulseDot 2s ease-in-out infinite;
-	}
-
-	@keyframes pulseDot {
-		0%,
-		100% {
-			opacity: 1;
-			transform: scale(1);
-		}
-		50% {
-			opacity: 0.5;
-			transform: scale(0.85);
-		}
-	}
-
-	.geo-badge-text {
-		font-size: 0.75rem;
-		font-weight: 700;
-		text-transform: uppercase;
-		letter-spacing: 0.1em;
-		color: #fbbf24;
-	}
 
 	/* Hero Titles */
 	.geo-hero-title {
@@ -725,7 +520,7 @@
 		font-weight: 800;
 		letter-spacing: -0.02em;
 		color: #ffffff;
-		margin: 0.35rem 0 0;
+		margin: 0;
 	}
 
 	.geo-card-subtitle {
@@ -734,40 +529,6 @@
 		margin: 0.25rem 0 0;
 	}
 
-	.geo-num-badge {
-		font-size: 2.25rem;
-		font-weight: 900;
-		color: #3b82f6;
-		opacity: 0.75;
-		line-height: 1;
-		letter-spacing: -0.05em;
-	}
-
-	.geo-num-amber {
-		color: #f59e0b;
-	}
-
-	.geo-tag {
-		display: inline-block;
-		font-size: 0.6875rem;
-		font-weight: 700;
-		text-transform: uppercase;
-		letter-spacing: 0.12em;
-		padding: 0.25rem 0.75rem;
-		border-radius: 9999px;
-	}
-
-	.geo-tag-royal {
-		background: rgba(37, 99, 235, 0.2);
-		color: #93c5fd;
-		border: 1px solid rgba(59, 130, 246, 0.4);
-	}
-
-	.geo-tag-amber {
-		background: rgba(245, 158, 11, 0.18);
-		color: #fde68a;
-		border: 1px solid rgba(245, 158, 11, 0.45);
-	}
 
 	/* Gradient Dividers */
 	.geo-divider-amber {
@@ -786,131 +547,6 @@
 		margin-bottom: 1.75rem;
 	}
 
-	/* ==========================================================
-	   SECTION 1: OVERVIEW & STATS
-	   ========================================================== */
-	.geo-overview-grid {
-		display: grid;
-		grid-template-columns: 1fr;
-		gap: 2rem;
-	}
-
-	@media (min-width: 1024px) {
-		.geo-overview-grid {
-			grid-template-columns: 2fr 1fr;
-		}
-	}
-
-	.geo-prose p {
-		font-size: 1rem;
-		line-height: 1.8;
-		color: #cbd5e1;
-		margin: 0 0 1.25rem;
-	}
-
-	.geo-prose p:last-child {
-		margin-bottom: 1.5rem;
-	}
-
-	.geo-highlight-amber {
-		color: #fbbf24;
-		font-weight: 700;
-	}
-
-	.geo-highlight-royal {
-		color: #93c5fd;
-		font-weight: 700;
-	}
-
-	.geo-card-chips {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.5rem;
-		padding-top: 1.25rem;
-		border-top: 1px solid rgba(255, 255, 255, 0.08);
-	}
-
-	.geo-chip {
-		font-size: 0.6875rem;
-		font-weight: 600;
-		color: #94a3b8;
-		background: rgba(10, 27, 58, 0.6);
-		border: 1px solid rgba(59, 130, 246, 0.25);
-		padding: 0.25rem 0.75rem;
-		border-radius: 9999px;
-	}
-
-	/* Stats Column */
-	.geo-stats-col {
-		display: flex;
-		flex-direction: column;
-		gap: 1.25rem;
-	}
-
-	.geo-stat-card {
-		background: linear-gradient(155deg, #0b1c3a 0%, #071329 100%);
-		border: 1.5px solid rgba(245, 158, 11, 0.3);
-		border-radius: 1.25rem;
-		padding: 1.5rem;
-		transition: all 0.35s ease;
-	}
-
-	.geo-stat-card:hover {
-		transform: translateY(-4px);
-		border-color: #f59e0b;
-		box-shadow: 0 15px 35px -10px rgba(245, 158, 11, 0.3);
-	}
-
-	.geo-stat-royal {
-		border-color: rgba(59, 130, 246, 0.3);
-	}
-
-	.geo-stat-royal:hover {
-		border-color: #2563eb;
-		box-shadow: 0 15px 35px -10px rgba(37, 99, 235, 0.3);
-	}
-
-	.geo-stat-top {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		margin-bottom: 0.75rem;
-	}
-
-	.geo-stat-symbol {
-		font-size: 1.125rem;
-		font-weight: 800;
-		color: #64748b;
-	}
-
-	.geo-stat-val {
-		font-size: 2.25rem;
-		font-weight: 900;
-		line-height: 1.1;
-		color: #ffffff;
-		letter-spacing: -0.03em;
-		margin-bottom: 0.25rem;
-	}
-
-	.geo-stat-unit {
-		font-size: 1.25rem;
-		font-weight: 600;
-		color: #f59e0b;
-	}
-
-	.geo-stat-label {
-		font-size: 0.9375rem;
-		font-weight: 700;
-		color: #e2e8f0;
-		margin: 0 0 0.35rem;
-	}
-
-	.geo-stat-desc {
-		font-size: 0.8125rem;
-		line-height: 1.5;
-		color: #94a3b8;
-		margin: 0;
-	}
 
 	/* ==========================================================
 	   SECTION 2 & 3: MAPS & TRANSIT
@@ -1031,19 +667,6 @@
 		gap: 1rem;
 	}
 
-	.geo-route-num {
-		font-size: 0.8125rem;
-		font-weight: 800;
-		color: #f59e0b;
-		background: rgba(245, 158, 11, 0.12);
-		border: 1px solid rgba(245, 158, 11, 0.35);
-		width: 2rem;
-		height: 2rem;
-		border-radius: 0.5rem;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
 
 	.geo-route-from {
 		font-size: 0.9375rem;
@@ -1102,12 +725,6 @@
 		margin-bottom: 0.25rem;
 	}
 
-	.geo-mode-indicator {
-		width: 0.4rem;
-		height: 0.4rem;
-		border-radius: 9999px;
-		background-color: #f59e0b;
-	}
 
 	.geo-mode-name {
 		font-size: 0.875rem;
@@ -1146,34 +763,4 @@
 		}
 	}
 
-	/* ==========================================================
-	   FOOTER COMPLIANCE
-	   ========================================================== */
-	.geo-footer {
-		text-align: center;
-		padding-top: 2rem;
-		border-top: 1px solid rgba(255, 255, 255, 0.08);
-	}
-
-	.geo-footer-accent {
-		width: 4rem;
-		height: 3px;
-		background: linear-gradient(90deg, #1d4ed8 0%, #f59e0b 100%);
-		border-radius: 9999px;
-		margin: 0 auto 1.5rem;
-	}
-
-	.geo-footer-text {
-		font-size: 0.8125rem;
-		font-weight: 600;
-		color: #94a3b8;
-		margin: 0 0 0.35rem;
-		letter-spacing: 0.04em;
-	}
-
-	.geo-footer-sub {
-		font-size: 0.75rem;
-		color: #64748b;
-		margin: 0;
-	}
 </style>

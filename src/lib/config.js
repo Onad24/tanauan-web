@@ -824,11 +824,11 @@ export const barangayData = {
 		population: 'Approx. 2,800',
 		captain: 'Rolando P. Palo',
 		contact: 'licod.captain@tanauan-leyte.gov.ph',
+		logo: '/images/barangays/brgy-licod-seal.png',
 		images: [
-			'https://via.placeholder.com/400x300?text=Licod+Festival',
-			'https://via.placeholder.com/400x300?text=Licod+Market'
+			'/images/barangays/brgy-licod-seal.png'
 		],
-		bgImage: 'https://via.placeholder.com/800x300?text=Licod+Coast',
+		bgImage: '',
 		website: 'https://licod-tanauan-leyte.gov.ph',
 		facebook: 'https://facebook.com/LicodTanauan'
 	},

@@ -576,11 +576,6 @@
 		margin-bottom: 0.35rem;
 	}
 
-	.mv-tag-royal {
-		background: rgba(37, 99, 235, 0.2);
-		color: #93c5fd;
-		border: 1px solid rgba(59, 130, 246, 0.4);
-	}
 
 	.mv-tag-amber {
 		background: rgba(245, 158, 11, 0.18);

@@ -42,6 +42,8 @@ static/images/*
 !static/images/agriculture/**
 !static/images/accomplishments/
 !static/images/accomplishments/**
+!static/images/barangays/
+!static/images/barangays/**
 
 .vercel
 .env*

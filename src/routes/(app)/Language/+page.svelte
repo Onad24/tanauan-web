@@ -1,15 +1,13 @@
 <script>
 	import { onMount } from 'svelte';
-	import PageHero from '$lib/Components/PageHero.svelte';
 
 	let visible = $state(false);
+	let activeTab = $state('all'); // 'all' | 'profile' | 'phrasebook' | 'education'
 	let searchQuery = $state('');
 	let selectedCategory = $state('All');
 
 	onMount(() => {
-		setTimeout(() => {
-			visible = true;
-		}, 100);
+		visible = true;
 	});
 
 	const categories = ['All', 'Greetings', 'Dining & Shopping', 'Directions', 'Useful Expressions'];
@@ -69,9 +67,24 @@
 			waray: 'Hain an munisipyo?',
 			category: 'Directions'
 		},
-		{ english: 'Delicious', tagalog: 'Masarap', waray: 'Makarasa', category: 'Dining & Shopping' },
-		{ english: 'Yes', tagalog: 'Oo', waray: 'Oo', category: 'Useful Expressions' },
-		{ english: 'No', tagalog: 'Hindi', waray: 'Dire', category: 'Useful Expressions' },
+		{
+			english: 'Delicious',
+			tagalog: 'Masarap',
+			waray: 'Makarasa',
+			category: 'Dining & Shopping'
+		},
+		{
+			english: 'Yes',
+			tagalog: 'Oo',
+			waray: 'Oo',
+			category: 'Useful Expressions'
+		},
+		{
+			english: 'No',
+			tagalog: 'Hindi',
+			waray: 'Dire',
+			category: 'Useful Expressions'
+		},
 		{
 			english: 'Goodbye',
 			tagalog: 'Paalam',
@@ -99,319 +112,932 @@
 		name="description"
 		content="Linguistic profile of Tanauan, Leyte. Learn about Waray-Waray, Filipino, and English usage, including an interactive language phrasebook."
 	/>
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+	<link
+		href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap"
+		rel="stylesheet"
+	/>
 </svelte:head>
 
-<PageHero
-	title="Language & Communication"
-	subtitle="Linguistic heritage and communication landscape of Tanauan, Leyte"
-	icon="<svg class='h-6 w-6 sm:h-7 sm:w-7' fill='none' stroke='currentColor' stroke-width='1.5' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' d='M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01h18c.621 0 1.125-.504 1.125-1.125V5.625c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v7.01c0 .621.504 1.125 1.125 1.125zm.42 4.76c-.081-.27-.315-.49-.598-.54g.5-5.112v-2.025a1.125 1.125 0 011.64-1l3.58 2.149c.258.156.258.532 0 .688L5.14 17.51c-.267.16-.62.068-.7-.24z' /></svg>"
-/>
+<div class="lang-root">
+	<!-- Hero Section with Royal Blue & Amber Ambient Atmosphere -->
+	<header class="lang-hero">
+		<div class="lang-ambient lang-ambient-royal"></div>
+		<div class="lang-ambient lang-ambient-amber"></div>
+		<div class="lang-ambient lang-ambient-bottom"></div>
 
-<section class="relative bg-slate-50 pt-8 pb-20">
-	<div class="mx-auto max-w-6xl px-6 sm:px-10">
-		<!-- Introduction & Distribution Matrix -->
-		<div
-			class="grid gap-8 lg:grid-cols-12"
-			class:opacity-0={!visible}
-			class:translate-y-6={!visible}
-			class:opacity-100={visible}
-			class:translate-y-0={visible}
-			style="transition: all 500ms ease;"
-		>
-			<!-- Description -->
-			<div
-				class="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm sm:p-8 lg:col-span-7"
-			>
-				<div class="mb-5 flex items-center gap-3">
-					<div
-						class="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-50 text-blue-600"
-					>
-						<svg
-							class="h-5 w-5"
-							fill="none"
-							stroke="currentColor"
-							stroke-width="1.5"
-							viewBox="0 0 24 24"
-							><path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								d="M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 006-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 01-3.827-5.802"
-							/></svg
-						>
-					</div>
-					<h2 class="text-xl font-bold text-slate-900">Waray-Waray: The Soul of Tanauan</h2>
-				</div>
-				<div class="space-y-4 text-base leading-relaxed text-slate-600">
-					<p>
-						<strong class="font-semibold text-slate-900">Waray-Waray</strong> (specifically the Leyte-Waray
-						dialect variant) is the primary native language spoken by nearly the entire population of
-						Tanauan. It serves as the bedrock of everyday social interaction, trade, folk culture, and
-						family life.
-					</p>
-					<p>
-						Known for its phonetic expressive strength and rich vocabulary, Waray-Waray links
-						contemporary Tanauanons directly to their ancestral roots in Eastern Visayas. It is
-						widely spoken at home, in schools, and in community-level administration.
-					</p>
-				</div>
-			</div>
+		<div class="lang-hero-inner" class:is-visible={visible}>
+			<h1 class="lang-hero-title">
+				Language &amp; <span class="lang-amber-gradient">Communication</span>
+			</h1>
 
-			<!-- Literacy & Language Distribution Stats -->
-			<div
-				class="flex flex-col justify-between rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm sm:p-8 lg:col-span-5"
-			>
-				<div>
-					<h3 class="mb-4 text-lg font-bold text-slate-900">Linguistic Adaptability</h3>
-					<div class="space-y-5">
-						<!-- Waray-Waray Stat -->
-						<div>
-							<div class="mb-1.5 flex justify-between text-sm font-medium">
-								<span class="text-slate-700">Waray-Waray (Native Language)</span>
-								<span class="font-semibold text-blue-600">98.5%</span>
-							</div>
-							<div class="h-2.5 w-full rounded-full bg-slate-100">
-								<div class="h-2.5 rounded-full bg-blue-600" style="width: 98.5%"></div>
-							</div>
-						</div>
+			<p class="lang-hero-subtitle">
+				Municipality of Tanauan, Leyte &bull; Bungto han Kamag-araman
+			</p>
 
-						<!-- Tagalog/Filipino Stat -->
-						<div>
-							<div class="mb-1.5 flex justify-between text-sm font-medium">
-								<span class="text-slate-700">Filipino / Tagalog (Bilingual)</span>
-								<span class="font-semibold text-yellow-600">92.0%</span>
-							</div>
-							<div class="h-2.5 w-full rounded-full bg-slate-100">
-								<div class="h-2.5 rounded-full bg-yellow-500" style="width: 92%"></div>
-							</div>
-						</div>
+			<p class="lang-hero-description">
+				Discover Tanauan's rich linguistic heritage, widespread multilingual literacy, and interactive
+				Waray-Waray phrasebook celebrating the cultural voice of our people.
+			</p>
 
-						<!-- English Stat -->
-						<div>
-							<div class="mb-1.5 flex justify-between text-sm font-medium">
-								<span class="text-slate-700">English (Business & Education)</span>
-								<span class="font-semibold text-emerald-600">85.5%</span>
-							</div>
-							<div class="h-2.5 w-full rounded-full bg-slate-100">
-								<div class="h-2.5 rounded-full bg-emerald-600" style="width: 85.5%"></div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="mt-6 border-t border-slate-100 pt-4 text-xs text-slate-500">
-					* Estimates based on school registrations and regional demographic profiles indicating
-					high levels of functional multilingual literacy.
-				</div>
+			<!-- Interactive Section Selector -->
+			<div class="lang-filter-group" role="tablist" aria-label="Language sections">
+				<button
+					type="button"
+					role="tab"
+					aria-selected={activeTab === 'all'}
+					class="lang-filter-btn"
+					class:is-active={activeTab === 'all'}
+					onclick={() => (activeTab = 'all')}
+				>
+					Complete Overview
+				</button>
+				<button
+					type="button"
+					role="tab"
+					aria-selected={activeTab === 'profile'}
+					class="lang-filter-btn"
+					class:is-active={activeTab === 'profile'}
+					onclick={() => (activeTab = 'profile')}
+				>
+					Linguistic Profile
+				</button>
+				<button
+					type="button"
+					role="tab"
+					aria-selected={activeTab === 'phrasebook'}
+					class="lang-filter-btn"
+					class:is-active={activeTab === 'phrasebook'}
+					onclick={() => (activeTab = 'phrasebook')}
+				>
+					Phrasebook
+				</button>
+				<button
+					type="button"
+					role="tab"
+					aria-selected={activeTab === 'education'}
+					class="lang-filter-btn"
+					class:is-active={activeTab === 'education'}
+					onclick={() => (activeTab = 'education')}
+				>
+					Education &amp; Media
+				</button>
 			</div>
 		</div>
+	</header>
 
-		<!-- Interactive Phrasebook -->
-		<div
-			class="mt-8 rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm sm:p-8"
-			class:opacity-0={!visible}
-			class:translate-y-6={!visible}
-			class:opacity-100={visible}
-			class:translate-y-0={visible}
-			style="transition: all 500ms ease; transition-delay: 100ms;"
-		>
-			<div class="mb-6 flex flex-col justify-between gap-4 md:flex-row md:items-center">
-				<div class="flex items-center gap-3">
-					<div
-						class="flex h-10 w-10 items-center justify-center rounded-lg bg-yellow-50 text-yellow-600"
-					>
-						<svg
-							class="h-5 w-5"
-							fill="none"
-							stroke="currentColor"
-							stroke-width="1.5"
-							viewBox="0 0 24 24"
-							><path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18V6a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 6v12a2.25 2.25 0 01-2.25 2.25H15M9 15.5h.008v.008H9v-.008z"
-							/></svg
-						>
+	<!-- Main Body Container -->
+	<main class="lang-main">
+		<div class="lang-container">
+
+			<!-- SECTION 1: Waray-Waray & Linguistic Distribution -->
+			{#if activeTab === 'all' || activeTab === 'profile'}
+				<section class="lang-section-block" class:is-visible={visible}>
+					<div class="lang-grid-dual">
+
+						<!-- Narrative Card -->
+						<div class="lang-card lang-narrative-card">
+							<div class="lang-card-sheen"></div>
+							<div class="lang-card-head">
+								<div>
+									<h2 class="lang-card-title">Waray-Waray: The Soul of Tanauan</h2>
+									<p class="lang-card-subtitle">Cultural bedrock of communal life and oral heritage</p>
+								</div>
+							</div>
+
+							<div class="lang-divider-amber"></div>
+
+							<div class="lang-prose">
+								<p>
+									<strong class="lang-highlight-amber">Waray-Waray</strong> (specifically the Leyte-Waray
+									dialect variant) is the native mother tongue spoken by virtually the entire population of
+									Tanauan. It serves as the bedrock of everyday social interaction, commerce, folk culture,
+									and familial bonds.
+								</p>
+								<p>
+									Known for its expressive phonetic cadence and extensive vocabulary, Waray-Waray connects
+									contemporary Tanauanons directly to their ancestral roots across Eastern Visayas. It is
+									spoken in homes, primary school classrooms, and community civic assemblies.
+								</p>
+							</div>
+
+							<div class="lang-chips-row">
+								<div class="lang-chip-box">
+									<span class="lang-chip-label">Language Family</span>
+									<span class="lang-chip-val">Austronesian (Malayo-Polynesian)</span>
+								</div>
+								<div class="lang-chip-box">
+									<span class="lang-chip-label">Local Subgroup</span>
+									<span class="lang-chip-val lang-val-amber">Leyte-Waray Dialect</span>
+								</div>
+							</div>
+						</div>
+
+						<!-- Literacy Distribution Card -->
+						<div class="lang-card lang-stats-card">
+							<div class="lang-card-sheen"></div>
+							<div class="lang-card-head">
+								<div>
+									<h2 class="lang-card-title">Linguistic Adaptability</h2>
+									<p class="lang-card-subtitle">Functional multilingual literacy across Tanauan</p>
+								</div>
+							</div>
+
+							<div class="lang-divider-royal"></div>
+
+							<div class="lang-bars-list">
+								<!-- Waray-Waray -->
+								<div class="lang-bar-item">
+									<div class="lang-bar-header">
+										<span class="lang-bar-name">Waray-Waray (Native Language)</span>
+										<span class="lang-bar-pct lang-val-royal">98.5%</span>
+									</div>
+									<div class="lang-track">
+										<div class="lang-fill lang-fill-royal" style="width: 98.5%;"></div>
+									</div>
+								</div>
+
+								<!-- Filipino/Tagalog -->
+								<div class="lang-bar-item">
+									<div class="lang-bar-header">
+										<span class="lang-bar-name">Filipino / Tagalog (National Bilingual)</span>
+										<span class="lang-bar-pct lang-val-amber">92.0%</span>
+									</div>
+									<div class="lang-track">
+										<div class="lang-fill lang-fill-amber" style="width: 92%;"></div>
+									</div>
+								</div>
+
+								<!-- English -->
+								<div class="lang-bar-item">
+									<div class="lang-bar-header">
+										<span class="lang-bar-name">English (Commerce &amp; Higher Education)</span>
+										<span class="lang-bar-pct lang-val-emerald">85.5%</span>
+									</div>
+									<div class="lang-track">
+										<div class="lang-fill lang-fill-emerald" style="width: 85.5%;"></div>
+									</div>
+								</div>
+							</div>
+
+							<p class="lang-note">
+								* Statistical estimates derived from municipal educational records and regional demographic profiles indicating exceptionally high levels of functional multilingual literacy.
+							</p>
+						</div>
+
 					</div>
-					<div>
-						<h2 class="text-xl font-bold text-slate-900">Interactive Waray-Waray Phrasebook</h2>
-						<p class="text-xs text-slate-500">
-							Learn basic phrases used in daily conversations in Tanauan
-						</p>
-					</div>
-				</div>
+				</section>
+			{/if}
 
-				<!-- Search Input -->
-				<div class="relative w-full max-w-xs">
-					<span class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-						<svg
-							class="h-4 w-4 text-slate-400"
-							fill="none"
-							stroke="currentColor"
-							viewBox="0 0 24 24"
-							><path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								stroke-width="2"
-								d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-							/></svg
-						>
-					</span>
-					<input
-						type="text"
-						bind:value={searchQuery}
-						placeholder="Search translations..."
-						class="w-full rounded-lg border border-slate-200 bg-slate-50 py-2 pr-4 pl-9 text-sm text-slate-800 placeholder-slate-400 transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-					/>
-				</div>
-			</div>
+			<!-- SECTION 2: Interactive Phrasebook -->
+			{#if activeTab === 'all' || activeTab === 'phrasebook'}
+				<section class="lang-section-block" class:is-visible={visible}>
+					<div class="lang-card">
+						<div class="lang-card-sheen"></div>
+						<div class="lang-card-head">
+							<div>
+								<h2 class="lang-card-title">Interactive Waray-Waray Phrasebook</h2>
+								<p class="lang-card-subtitle">
+									Everyday vocabulary, practical greetings, and useful conversational expressions
+								</p>
+							</div>
+						</div>
 
-			<!-- Categories tabs -->
-			<div class="mb-6 flex flex-wrap gap-2 border-b border-slate-100 pb-2">
-				{#each categories as category}
-					<button
-						onclick={() => (selectedCategory = category)}
-						class="rounded-full border px-4 py-1.5 text-xs font-semibold transition-all duration-200 {selectedCategory ===
-						category
-							? 'border-blue-900 bg-blue-900 text-white shadow-sm'
-							: 'border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-100'}"
-					>
-						{category}
-					</button>
-				{/each}
-			</div>
+						<div class="lang-divider-amber"></div>
 
-			<!-- Phrase Grid / Table -->
-			<div class="border-slate-150 overflow-x-auto rounded-xl border">
-				<table class="divide-slate-150 min-w-full divide-y text-left">
-					<thead class="bg-slate-50">
-						<tr>
-							<th class="px-6 py-3 text-xs font-semibold tracking-wider text-slate-500 uppercase"
-								>English</th
-							>
-							<th class="px-6 py-3 text-xs font-semibold tracking-wider text-slate-500 uppercase"
-								>Tagalog / Filipino</th
-							>
-							<th
-								class="bg-blue-50/50 px-6 py-3 text-xs font-semibold tracking-wider text-slate-700 uppercase"
-								>Waray-Waray</th
-							>
-							<th class="px-6 py-3 text-xs font-semibold tracking-wider text-slate-500 uppercase"
-								>Category</th
-							>
-						</tr>
-					</thead>
-					<tbody class="divide-y divide-slate-100 bg-white">
-						{#if filteredPhrases.length > 0}
-							{#each filteredPhrases as phrase}
-								<tr class="transition-colors hover:bg-slate-50/50">
-									<td class="px-6 py-4 text-sm font-medium text-slate-900">{phrase.english}</td>
-									<td class="px-6 py-4 text-sm text-slate-600">{phrase.tagalog}</td>
-									<td class="bg-blue-50/20 px-6 py-4 text-sm font-bold text-blue-900"
-										>{phrase.waray}</td
+						<!-- Filter & Search Controls -->
+						<div class="lang-controls">
+							<div class="lang-cats-pills">
+								{#each categories as category}
+									<button
+										type="button"
+										onclick={() => (selectedCategory = category)}
+										class="lang-cat-btn"
+										class:is-active={selectedCategory === category}
 									>
-									<td class="px-6 py-4 text-xs text-slate-500">
-										<span
-											class="inline-flex items-center rounded-full bg-slate-100 px-2 py-0.5 font-medium text-slate-800"
-										>
-											{phrase.category}
-										</span>
-									</td>
-								</tr>
-							{/each}
-						{:else}
-							<tr>
-								<td colspan="4" class="px-6 py-10 text-center text-sm text-slate-400">
-									No phrases found matching "{searchQuery}"
-								</td>
-							</tr>
-						{/if}
-					</tbody>
-				</table>
-			</div>
-		</div>
+										{category}
+									</button>
+								{/each}
+							</div>
 
-		<!-- Educational and Cultural Sections -->
-		<div
-			class="mt-8 grid gap-8 lg:grid-cols-2"
-			class:opacity-0={!visible}
-			class:translate-y-6={!visible}
-			class:opacity-100={visible}
-			class:translate-y-0={visible}
-			style="transition: all 500ms ease; transition-delay: 200ms;"
-		>
-			<!-- Mother Tongue-Based Multilingual Education (MTB-MLE) -->
-			<div class="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm sm:p-8">
-				<div class="mb-5 flex items-center gap-3">
-					<div
-						class="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600"
-					>
-						<svg
-							class="h-5 w-5"
-							fill="none"
-							stroke="currentColor"
-							stroke-width="1.5"
-							viewBox="0 0 24 24"
-							><path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.62 48.62 0 0112 20.9c2.785 0 5.5-.468 8.231-1.377.3-.1.492-.37.492-.697 0-2.113-.19-4.22-.57-6.28A18.518 18.518 0 0012 5.822c-2.916 0-5.717.678-8.21 1.956L12 12l7.95-4.225"
-							/></svg
-						>
-					</div>
-					<h3 class="text-lg font-bold text-slate-900">MTB-MLE Program in Schools</h3>
-				</div>
-				<div class="space-y-4 text-base leading-relaxed text-slate-600">
-					<p>
-						In alignment with the Philippine Department of Education (DepEd), Tanauan's elementary
-						schools implement the <strong class="text-slate-800"
-							>Mother Tongue-Based Multilingual Education (MTB-MLE)</strong
-						> framework.
-					</p>
-					<p>
-						In the early stages of primary education (Kindergarten to Grade 3), Waray-Waray is the
-						primary medium of instruction. This helps young learners develop solid literacy
-						foundations in their native tongue before gradually transitioning to Filipino and
-						English. This bilingual policy is proven to yield stronger comprehension and respect for
-						heritage.
-					</p>
-				</div>
-			</div>
+							<div class="lang-search-wrapper">
+								<input
+									type="text"
+									bind:value={searchQuery}
+									placeholder="Search translations in English, Tagalog, or Waray..."
+									class="lang-search-input"
+								/>
+							</div>
+						</div>
 
-			<!-- Language in Governance & Communication -->
-			<div class="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm sm:p-8">
-				<div class="mb-5 flex items-center gap-3">
-					<div
-						class="flex h-10 w-10 items-center justify-center rounded-lg bg-rose-50 text-rose-600"
-					>
-						<svg
-							class="h-5 w-5"
-							fill="none"
-							stroke="currentColor"
-							stroke-width="1.5"
-							viewBox="0 0 24 24"
-							><path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z"
-							/></svg
-						>
+						<!-- Phrase Table -->
+						<div class="lang-table-wrapper">
+							<table class="lang-table">
+								<thead>
+									<tr>
+										<th>English</th>
+										<th>Tagalog / Filipino</th>
+										<th class="lang-th-waray">Waray-Waray</th>
+										<th>Category</th>
+									</tr>
+								</thead>
+								<tbody>
+									{#if filteredPhrases.length > 0}
+										{#each filteredPhrases as phrase}
+											<tr>
+												<td class="lang-td-english">{phrase.english}</td>
+												<td class="lang-td-tagalog">{phrase.tagalog}</td>
+												<td class="lang-td-waray">{phrase.waray}</td>
+												<td>
+													<span class="lang-category-pill">{phrase.category}</span>
+												</td>
+											</tr>
+										{/each}
+									{:else}
+										<tr>
+											<td colspan="4" class="lang-empty-row">
+												No phrases found matching "{searchQuery}".
+											</td>
+										</tr>
+									{/if}
+								</tbody>
+							</table>
+						</div>
 					</div>
-					<h3 class="text-lg font-bold text-slate-900">Governance & Media Reach</h3>
-				</div>
-				<div class="space-y-4 text-base leading-relaxed text-slate-600">
-					<p>
-						Local announcements, public health campaigns, and community forums are typically
-						conducted in <strong class="text-slate-800">Waray-Waray</strong> to maximize accessibility
-						and engagement across all 54 barangays.
-					</p>
-					<p>
-						Official municipal documentation, legal ordinances, and business licenses are formulated
-						in <strong class="text-slate-800">English</strong>, with Filipino often used in
-						ceremonial events. Regional media, including local FM radio channels and newspapers,
-						operate in a hybrid format, ensuring clear communication reaches everyone.
-					</p>
-				</div>
-			</div>
+				</section>
+			{/if}
+
+			<!-- SECTION 3: Educational and Cultural Sections -->
+			{#if activeTab === 'all' || activeTab === 'education'}
+				<section class="lang-section-block" class:is-visible={visible}>
+					<div class="lang-grid-dual">
+						<!-- MTB-MLE in Schools -->
+						<div class="lang-card">
+							<div class="lang-card-sheen"></div>
+							<div class="lang-card-head">
+								<div>
+									<h2 class="lang-card-title">MTB-MLE Program in Schools</h2>
+									<p class="lang-card-subtitle">Mother Tongue-Based Multilingual Education</p>
+								</div>
+							</div>
+
+							<div class="lang-divider-royal"></div>
+
+							<div class="lang-prose">
+								<p>
+									In strict alignment with the Department of Education (DepEd), Tanauan elementary schools
+									systematically implement the <strong class="lang-highlight-royal">Mother Tongue-Based Multilingual Education (MTB-MLE)</strong>
+									curriculum framework.
+								</p>
+								<p>
+									From Kindergarten through Grade 3, Waray-Waray is utilized as the primary medium of instruction,
+									enabling young learners to build solid literacy, cognitive foundations, and cultural pride before
+									gradually transitioning to Filipino and English in intermediate grades.
+								</p>
+							</div>
+						</div>
+
+						<!-- Governance & Media Reach -->
+						<div class="lang-card">
+							<div class="lang-card-sheen"></div>
+							<div class="lang-card-head">
+								<div>
+									<h2 class="lang-card-title">Governance &amp; Media Reach</h2>
+									<p class="lang-card-subtitle">Bilingual administration &amp; community engagement</p>
+								</div>
+							</div>
+
+							<div class="lang-divider-amber"></div>
+
+							<div class="lang-prose">
+								<p>
+									Local public consultations, health advisories, and disaster alerts are widely communicated in
+									<strong class="lang-highlight-amber">Waray-Waray</strong> to guarantee seamless comprehension across
+									all 54 barangays.
+								</p>
+								<p>
+									Official municipal documentation, municipal ordinances, and inter-agency correspondences are maintained
+									in <strong class="lang-highlight-royal">English</strong>, with regional media utilizing bilingual broadcasts
+									for accessible civic information.
+								</p>
+							</div>
+						</div>
+					</div>
+				</section>
+			{/if}
+
 		</div>
-	</div>
-</section>
+	</main>
+</div>
+
+<style>
+	/* ==========================================================
+	   POPPINS TYPOGRAPHY & ROYAL/AMBER DESIGN SYSTEM
+	   ========================================================== */
+	.lang-root {
+		font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+		background-color: #061124;
+		color: #e2e8f0;
+		min-height: 100vh;
+		position: relative;
+		overflow-x: hidden;
+	}
+
+	/* ==========================================================
+	   HERO SECTION
+	   ========================================================== */
+	.lang-hero {
+		position: relative;
+		background: linear-gradient(135deg, #040b17 0%, #0a1b3a 45%, #102a5c 100%);
+		padding: 5rem 1.5rem 6.5rem;
+		border-bottom: 2px solid rgba(245, 158, 11, 0.25);
+		overflow: hidden;
+		text-align: center;
+	}
+
+	/* Ambient Floating Glows */
+	.lang-ambient {
+		position: absolute;
+		border-radius: 50%;
+		filter: blur(80px);
+		pointer-events: none;
+		opacity: 0.45;
+		animation: floatOrb 14s ease-in-out infinite alternate;
+	}
+
+	.lang-ambient-royal {
+		width: 480px;
+		height: 480px;
+		background: radial-gradient(circle, #1d4ed8 0%, transparent 70%);
+		top: -100px;
+		left: -80px;
+	}
+
+	.lang-ambient-amber {
+		width: 420px;
+		height: 420px;
+		background: radial-gradient(circle, #f59e0b 0%, transparent 70%);
+		top: 40px;
+		right: -80px;
+		animation-duration: 16s;
+		animation-delay: -4s;
+	}
+
+	.lang-ambient-bottom {
+		width: 600px;
+		height: 300px;
+		background: radial-gradient(circle, #1e40af 0%, transparent 70%);
+		bottom: -100px;
+		left: 50%;
+		transform: translateX(-50%);
+		animation-duration: 18s;
+		animation-delay: -8s;
+	}
+
+	@keyframes floatOrb {
+		0% {
+			transform: translate(0, 0) scale(1);
+		}
+		50% {
+			transform: translate(30px, -40px) scale(1.08);
+		}
+		100% {
+			transform: translate(-25px, 25px) scale(0.95);
+		}
+	}
+
+	.lang-hero-inner {
+		position: relative;
+		z-index: 10;
+		max-width: 56rem;
+		margin: 0 auto;
+		opacity: 0;
+		transform: translateY(24px);
+		transition:
+			opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+			transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+	}
+
+	.lang-hero-inner.is-visible {
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+	/* Hero Titles */
+	.lang-hero-title {
+		font-size: 2.75rem;
+		font-weight: 900;
+		letter-spacing: -0.03em;
+		line-height: 1.15;
+		color: #ffffff;
+		margin: 0 0 0.75rem;
+	}
+
+	@media (min-width: 640px) {
+		.lang-hero-title {
+			font-size: 3.75rem;
+		}
+	}
+
+	@media (min-width: 1024px) {
+		.lang-hero-title {
+			font-size: 4.5rem;
+		}
+	}
+
+	.lang-amber-gradient {
+		background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
+		-webkit-background-clip: text;
+		background-clip: text;
+		-webkit-text-fill-color: transparent;
+		display: inline-block;
+		text-shadow: 0 0 30px rgba(245, 158, 11, 0.3);
+	}
+
+	.lang-hero-subtitle {
+		font-size: 1rem;
+		font-weight: 600;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: #60a5fa;
+		margin-bottom: 1.25rem;
+	}
+
+	.lang-hero-description {
+		font-size: 1rem;
+		line-height: 1.7;
+		color: #cbd5e1;
+		max-width: 44rem;
+		margin: 0 auto 2.25rem;
+		font-weight: 300;
+	}
+
+	@media (min-width: 640px) {
+		.lang-hero-description {
+			font-size: 1.125rem;
+		}
+	}
+
+	/* Filter Group Buttons */
+	.lang-filter-group {
+		display: inline-flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 0.375rem;
+		padding: 0.375rem;
+		background: rgba(10, 27, 58, 0.85);
+		border: 1px solid rgba(59, 130, 246, 0.3);
+		border-radius: 9999px;
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
+		box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+	}
+
+	.lang-filter-btn {
+		font-family: 'Poppins', sans-serif;
+		font-size: 0.8125rem;
+		font-weight: 600;
+		letter-spacing: 0.04em;
+		padding: 0.5rem 1.25rem;
+		border-radius: 9999px;
+		border: none;
+		background: transparent;
+		color: #94a3b8;
+		cursor: pointer;
+		transition: all 0.25s ease;
+	}
+
+	.lang-filter-btn:hover {
+		color: #fbbf24;
+	}
+
+	.lang-filter-btn.is-active {
+		background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+		color: #ffffff;
+		box-shadow:
+			0 4px 15px rgba(29, 78, 216, 0.45),
+			0 0 0 1px rgba(245, 158, 11, 0.5);
+	}
+
+	/* ==========================================================
+	   MAIN LAYOUT & CARDS
+	   ========================================================== */
+	.lang-main {
+		position: relative;
+		padding: 3.5rem 1.25rem 6rem;
+		z-index: 20;
+	}
+
+	.lang-container {
+		max-width: 76rem;
+		margin: 0 auto;
+	}
+
+	.lang-section-block {
+		margin-bottom: 3.5rem;
+		opacity: 0;
+		transform: translateY(28px);
+		transition:
+			opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s,
+			transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s;
+	}
+
+	.lang-section-block.is-visible {
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+	/* General Card Styling */
+	.lang-card {
+		position: relative;
+		background: linear-gradient(165deg, #0e2246 0%, #091733 60%, #061127 100%);
+		border: 2px solid rgba(59, 130, 246, 0.25);
+		border-radius: 1.75rem;
+		padding: 2.25rem 2rem;
+		box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
+		transition:
+			transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+			border-color 0.35s ease,
+			box-shadow 0.35s ease;
+		overflow: hidden;
+	}
+
+	.lang-card:hover {
+		transform: translateY(-4px);
+		border-color: rgba(59, 130, 246, 0.45);
+		box-shadow: 0 25px 50px -15px rgba(0, 0, 0, 0.8);
+	}
+
+	/* Sheen sweeping light effect */
+	.lang-card-sheen {
+		position: absolute;
+		top: 0;
+		left: -150%;
+		width: 100%;
+		height: 100%;
+		background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.04), transparent);
+		transform: skewX(-20deg);
+		transition: left 0.8s ease;
+		pointer-events: none;
+	}
+
+	.lang-card:hover .lang-card-sheen {
+		left: 150%;
+	}
+
+	.lang-card-head {
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+		gap: 1rem;
+		margin-bottom: 1.25rem;
+	}
+
+	.lang-card-title {
+		font-size: 1.75rem;
+		font-weight: 800;
+		letter-spacing: -0.02em;
+		color: #ffffff;
+		margin: 0;
+	}
+
+	.lang-card-subtitle {
+		font-size: 0.875rem;
+		color: #94a3b8;
+		margin: 0.25rem 0 0;
+	}
+
+	/* Gradient Dividers */
+	.lang-divider-amber {
+		height: 3px;
+		width: 100%;
+		background: linear-gradient(90deg, #f59e0b 0%, #fbbf24 60%, transparent 100%);
+		border-radius: 9999px;
+		margin-bottom: 1.75rem;
+	}
+
+	.lang-divider-royal {
+		height: 3px;
+		width: 100%;
+		background: linear-gradient(90deg, #2563eb 0%, #60a5fa 60%, transparent 100%);
+		border-radius: 9999px;
+		margin-bottom: 1.75rem;
+	}
+
+	/* Dual Grid Layout */
+	.lang-grid-dual {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 2rem;
+	}
+
+	@media (min-width: 1024px) {
+		.lang-grid-dual {
+			grid-template-columns: 1.2fr 1fr;
+		}
+	}
+
+	/* Prose & Highlights */
+	.lang-prose p {
+		font-size: 1rem;
+		line-height: 1.85;
+		color: #cbd5e1;
+		margin: 0 0 1.25rem;
+		text-align: justify;
+	}
+
+	.lang-prose p:last-child {
+		margin-bottom: 0;
+	}
+
+	.lang-highlight-amber {
+		color: #fbbf24;
+		font-weight: 700;
+	}
+
+	.lang-highlight-royal {
+		color: #93c5fd;
+		font-weight: 700;
+	}
+
+	/* Chips Row */
+	.lang-chips-row {
+		display: grid;
+		grid-template-columns: repeat(1, 1fr);
+		gap: 1rem;
+		margin-top: 1.75rem;
+		padding-top: 1.5rem;
+		border-top: 1px solid rgba(255, 255, 255, 0.08);
+	}
+
+	@media (min-width: 640px) {
+		.lang-chips-row {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
+	.lang-chip-box {
+		background: linear-gradient(155deg, #0b1c3a 0%, #071329 100%);
+		border: 1.5px solid rgba(59, 130, 246, 0.3);
+		border-radius: 1rem;
+		padding: 1rem;
+		text-align: center;
+		transition: all 0.3s ease;
+	}
+
+	.lang-chip-box:hover {
+		border-color: #f59e0b;
+		transform: translateY(-2px);
+	}
+
+	.lang-chip-label {
+		display: block;
+		font-size: 0.6875rem;
+		font-weight: 700;
+		color: #94a3b8;
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		margin-bottom: 0.25rem;
+	}
+
+	.lang-chip-val {
+		font-size: 0.9375rem;
+		font-weight: 800;
+		color: #ffffff;
+	}
+
+	.lang-val-amber {
+		color: #fbbf24;
+	}
+
+	.lang-val-royal {
+		color: #60a5fa;
+	}
+
+	.lang-val-emerald {
+		color: #34d399;
+	}
+
+	/* Progress Bars */
+	.lang-bars-list {
+		display: flex;
+		flex-direction: column;
+		gap: 1.25rem;
+	}
+
+	.lang-bar-item {
+		display: flex;
+		flex-direction: column;
+		gap: 0.4rem;
+	}
+
+	.lang-bar-header {
+		display: flex;
+		justify-content: space-between;
+		font-size: 0.875rem;
+		font-weight: 600;
+	}
+
+	.lang-bar-name {
+		color: #cbd5e1;
+	}
+
+	.lang-bar-pct {
+		font-weight: 800;
+		font-variant-numeric: tabular-nums;
+	}
+
+	.lang-track {
+		width: 100%;
+		height: 0.625rem;
+		background: rgba(14, 34, 70, 0.8);
+		border-radius: 9999px;
+		overflow: hidden;
+		border: 1px solid rgba(255, 255, 255, 0.08);
+	}
+
+	.lang-fill {
+		height: 100%;
+		border-radius: 9999px;
+		transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+	}
+
+	.lang-fill-royal {
+		background: linear-gradient(90deg, #2563eb 0%, #60a5fa 100%);
+		box-shadow: 0 0 10px rgba(37, 99, 235, 0.4);
+	}
+
+	.lang-fill-amber {
+		background: linear-gradient(90deg, #d97706 0%, #fbbf24 100%);
+		box-shadow: 0 0 10px rgba(245, 158, 11, 0.4);
+	}
+
+	.lang-fill-emerald {
+		background: linear-gradient(90deg, #059669 0%, #34d399 100%);
+		box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+	}
+
+	.lang-note {
+		font-size: 0.75rem;
+		font-style: italic;
+		color: #94a3b8;
+		margin-top: 1.5rem;
+		line-height: 1.5;
+	}
+
+	/* ==========================================================
+	   SECTION 2: PHRASEBOOK STYLES
+	   ========================================================== */
+	.lang-controls {
+		display: flex;
+		flex-direction: column;
+		gap: 1.25rem;
+		margin-bottom: 1.75rem;
+	}
+
+	@media (min-width: 1024px) {
+		.lang-controls {
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-between;
+		}
+	}
+
+	.lang-cats-pills {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+	}
+
+	.lang-cat-btn {
+		font-family: 'Poppins', sans-serif;
+		font-size: 0.75rem;
+		font-weight: 700;
+		padding: 0.4rem 1rem;
+		border-radius: 9999px;
+		border: 1px solid rgba(59, 130, 246, 0.3);
+		background: rgba(10, 27, 58, 0.6);
+		color: #94a3b8;
+		cursor: pointer;
+		transition: all 0.25s ease;
+	}
+
+	.lang-cat-btn:hover {
+		color: #ffffff;
+		border-color: #60a5fa;
+	}
+
+	.lang-cat-btn.is-active {
+		background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+		color: #ffffff;
+		border-color: rgba(245, 158, 11, 0.5);
+		box-shadow: 0 4px 15px rgba(29, 78, 216, 0.4);
+	}
+
+	.lang-search-wrapper {
+		width: 100%;
+		max-width: 24rem;
+	}
+
+	.lang-search-input {
+		width: 100%;
+		font-family: 'Poppins', sans-serif;
+		font-size: 0.875rem;
+		padding: 0.6rem 1.15rem;
+		background: rgba(6, 17, 36, 0.7);
+		border: 1.5px solid rgba(59, 130, 246, 0.35);
+		border-radius: 9999px;
+		color: #ffffff;
+		outline: none;
+		transition: border-color 0.25s ease, box-shadow 0.25s ease;
+	}
+
+	.lang-search-input:focus {
+		border-color: #f59e0b;
+		box-shadow: 0 0 15px rgba(245, 158, 11, 0.25);
+	}
+
+	.lang-search-input::placeholder {
+		color: #64748b;
+	}
+
+	/* Phrasebook Table */
+	.lang-table-wrapper {
+		overflow-x: auto;
+		border-radius: 1rem;
+		border: 1px solid rgba(255, 255, 255, 0.08);
+		background: rgba(6, 17, 36, 0.6);
+	}
+
+	.lang-table {
+		width: 100%;
+		border-collapse: collapse;
+		font-size: 0.9375rem;
+		text-align: left;
+	}
+
+	.lang-table thead th {
+		padding: 1rem 1.25rem;
+		font-size: 0.75rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		color: #93c5fd;
+		background: rgba(14, 34, 70, 0.6);
+		border-bottom: 1px solid rgba(59, 130, 246, 0.25);
+	}
+
+	.lang-table thead .lang-th-waray {
+		color: #fbbf24;
+		background: rgba(245, 158, 11, 0.12);
+	}
+
+	.lang-table tbody td {
+		padding: 1rem 1.25rem;
+		color: #cbd5e1;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+		transition: background 0.2s ease;
+	}
+
+	.lang-table tbody tr:last-child td {
+		border-bottom: none;
+	}
+
+	.lang-table tbody tr:hover td {
+		background: rgba(37, 99, 235, 0.08);
+	}
+
+	.lang-td-english {
+		font-weight: 600;
+		color: #ffffff;
+	}
+
+	.lang-td-tagalog {
+		color: #94a3b8;
+	}
+
+	.lang-td-waray {
+		font-weight: 800;
+		color: #fbbf24;
+		background: rgba(245, 158, 11, 0.06);
+	}
+
+	.lang-category-pill {
+		display: inline-block;
+		font-size: 0.75rem;
+		font-weight: 700;
+		padding: 0.2rem 0.65rem;
+		border-radius: 9999px;
+		background: rgba(37, 99, 235, 0.16);
+		color: #93c5fd;
+		border: 1px solid rgba(59, 130, 246, 0.35);
+	}
+
+	.lang-empty-row {
+		padding: 2.5rem;
+		text-align: center;
+		color: #94a3b8;
+		font-style: italic;
+	}
+</style>
