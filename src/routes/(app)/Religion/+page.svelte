@@ -37,6 +37,18 @@
 			pct: '',
 			desc: 'Congregations maintaining regular Christian meetings and community Bible education across barangays.',
 			theme: 'royal'
+		},
+		{
+			name: 'The Church of Jesus Christ of Latter-day Saints',
+			pct: '',
+			desc: 'Active congregation in Tanauan with regional roots since 1968, dedicated to Christian worship, family life, and community service.',
+			theme: 'royal'
+		},
+		{
+			name: 'Islam',
+			pct: '',
+			desc: 'A growing Muslim community actively participating in local commerce, cultural diversity, and peaceful interfaith harmony.',
+			theme: 'royal'
 		}
 	];
 
