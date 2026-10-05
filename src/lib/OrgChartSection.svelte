@@ -4,6 +4,7 @@
 	import BPLOOrgChart from '$lib/Components/Offices/BPLOOrgChart.svelte';
 	import GSOOrgChart from '$lib/Components/Offices/GSOOrgChart.svelte';
 	import AgricultureOrgChart from '$lib/Components/Offices/AgricultureOrgChart.svelte';
+	import HRMOOrgChart from '$lib/Components/Offices/HRMOOrgChart.svelte';
 
 	export let department = '';
 	export let cleanLayout = false;
@@ -56,6 +57,12 @@
 		department === 'MAO' ||
 		department === 'Municipal Agriculture Office' ||
 		(typeof department === 'string' && department.toLowerCase().includes('agriculture'));
+	$: isHRMO =
+		department === 'HRMO' ||
+		department === 'Human Resource Management Office' ||
+		department === 'Human Resources' ||
+		(typeof department === 'string' && department.toLowerCase().includes('hrmo')) ||
+		(typeof department === 'string' && department.toLowerCase().includes('human resource'));
 
 	onMount(async () => {
 		if (!department) {
@@ -102,6 +109,8 @@
 		<GSOOrgChart />
 	{:else if isAgriculture}
 		<AgricultureOrgChart />
+	{:else if isHRMO}
+		<HRMOOrgChart />
 	{:else if loading && !currentImage}
 		<div class="flex flex-col items-center justify-center py-16 text-slate-500">
 			<div class="mb-4 h-10 w-10 animate-spin rounded-full border-4 border-amber-400 border-t-blue-900"></div>

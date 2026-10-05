@@ -1143,6 +1143,7 @@ export const DEPT_DEFAULTS = {
     ]
   },
   HRMO: {
+    department: 'HRMO',
     officeName: 'Human Resource Management Office',
     officeCode: 'HRMO',
     category: 'Human Resource Management',
