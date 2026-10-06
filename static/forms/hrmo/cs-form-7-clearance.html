@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CS Form No. 7 (Revised 2018) — Clearance Form | LGU Tanauan, Leyte</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --royal-blue: #0b2545;
+      --royal-blue-light: #1e3a8a;
+      --royal-blue-dark: #07192f;
+      --royal-blue-subtle: #eff6ff;
+      --amber-yellow: #f59e0b;
+      --amber-yellow-light: #fef3c7;
+      --amber-yellow-dark: #d97706;
+      --border-dark: #0b2545;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+    }
+
+    body {
+      background: #f8fafc;
+      color: #0b2545;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1.5rem 1rem;
+    }
+
+    /* Print toolbar */
+    .toolbar {
+      width: 100%;
+      max-width: 860px;
+      margin-bottom: 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--royal-blue);
+      border: 2px solid var(--amber-yellow);
+      color: white;
+      padding: 0.85rem 1.5rem;
+      border-radius: 14px;
+      box-shadow: 0 10px 25px -5px rgba(11, 37, 69, 0.4);
+    }
+
+    .toolbar-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .toolbar-badge {
+      background: var(--amber-yellow);
+      color: var(--royal-blue);
+      font-size: 0.7rem;
+      font-weight: 900;
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .toolbar-actions {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .btn {
+      font-size: 0.8rem;
+      font-weight: 800;
+      padding: 0.5rem 1.1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s ease;
+      border: none;
+    }
+
+    .btn-amber {
+      background: var(--amber-yellow);
+      color: var(--royal-blue);
+      border: 1px solid var(--amber-yellow-dark);
+    }
+
+    .btn-amber:hover {
+      background: #fbbf24;
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: #fef3c7;
+      border: 1.5px solid var(--amber-yellow);
+    }
+
+    .btn-outline:hover {
+      background: rgba(245, 158, 11, 0.15);
+    }
+
+    .page-sheet {
+      width: 100%;
+      max-width: 860px;
+      background: white;
+      padding: 2.2rem 2.8rem;
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(11, 37, 69, 0.1);
+      border: 2px solid #cbd5e1;
+      position: relative;
+      margin-bottom: 2rem;
+    }
+
+    .form-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid var(--royal-blue);
+      padding-bottom: 0.85rem;
+      margin-bottom: 1rem;
+    }
+
+    .form-header-meta {
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: var(--royal-blue);
+      line-height: 1.3;
+    }
+
+    .form-header-center {
+      text-align: center;
+      flex: 1;
+    }
+
+    .form-header-center .sub {
+      font-size: 0.85rem;
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      color: var(--royal-blue);
+      text-transform: uppercase;
+    }
+
+    .form-header-center .main-title {
+      font-size: 1.5rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      color: var(--royal-blue);
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    .form-header-center .inst-note {
+      font-size: 0.75rem;
+      font-style: italic;
+      color: var(--amber-yellow-dark);
+      font-weight: 700;
+    }
+
+    .form-header-seal {
+      width: 58px;
+      height: 58px;
+      object-fit: contain;
+    }
+
+    .section-bar {
+      background: var(--royal-blue);
+      color: white;
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      padding: 0.35rem 0.75rem;
+      border-left: 5px solid var(--amber-yellow);
+      margin-top: 1rem;
+      margin-bottom: 0.6rem;
+      text-transform: uppercase;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .section-bar span.accent {
+      color: var(--amber-yellow);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+    }
+
+    .field-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .field-full {
+      grid-column: 1 / -1;
+    }
+
+    .field-label {
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: var(--royal-blue);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.2rem;
+    }
+
+    .field-input-box {
+      border: 1px solid #94a3b8;
+      border-radius: 4px;
+      background: #fafafa;
+      padding: 0.4rem 0.6rem;
+      font-size: 0.8rem;
+      color: var(--royal-blue);
+      min-height: 28px;
+    }
+
+    .field-underline {
+      display: flex;
+      align-items: flex-end;
+      gap: 0.4rem;
+      margin-bottom: 0.45rem;
+    }
+
+    .field-underline .lbl {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--royal-blue);
+      white-space: nowrap;
+    }
+
+    .field-underline .line {
+      flex: 1;
+      border-bottom: 1.5px solid var(--royal-blue);
+      min-height: 18px;
+    }
+
+    .checkbox-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem 1.25rem;
+      margin: 0.5rem 0;
+      background: var(--royal-blue-subtle);
+      border: 1px solid #bfdbfe;
+      padding: 0.6rem 0.85rem;
+      border-radius: 6px;
+    }
+
+    .chk-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--royal-blue);
+    }
+
+    .chk-box {
+      width: 14px;
+      height: 14px;
+      border: 1.5px solid var(--royal-blue);
+      border-radius: 2px;
+      background: white;
+      display: inline-block;
+    }
+
+    /* Table styling */
+    .clearance-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.5rem 0 1rem 0;
+      font-size: 0.75rem;
+    }
+
+    .clearance-table th,
+    .clearance-table td {
+      border: 1px solid var(--royal-blue);
+      padding: 0.42rem 0.55rem;
+      vertical-align: middle;
+    }
+
+    .clearance-table th {
+      background: var(--royal-blue);
+      color: white;
+      font-weight: 800;
+      text-align: center;
+      letter-spacing: 0.03em;
+      font-size: 0.72rem;
+    }
+
+    .clearance-table th.amber-accent {
+      background: #0f305c;
+      color: var(--amber-yellow);
+    }
+
+    .clearance-table tr.dept-head {
+      background: #f1f5f9;
+      font-weight: 800;
+      color: var(--royal-blue);
+    }
+
+    .clearance-table td.officer-name {
+      font-weight: 800;
+      color: var(--royal-blue);
+      text-align: center;
+      font-size: 0.76rem;
+    }
+
+    .clearance-table td.center {
+      text-align: center;
+    }
+
+    .sign-box-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 1.5rem;
+      padding-top: 0.5rem;
+    }
+
+    .sign-box {
+      text-align: center;
+    }
+
+    .sign-line {
+      border-bottom: 1.5px solid var(--royal-blue);
+      min-height: 28px;
+      margin-bottom: 0.35rem;
+    }
+
+    .sign-title {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--royal-blue);
+      text-transform: uppercase;
+    }
+
+    .sign-subtitle {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #64748b;
+    }
+
+    .instructions-list {
+      list-style-type: decimal;
+      padding-left: 1.5rem;
+      margin: 1rem 0;
+      font-size: 0.8rem;
+      line-height: 1.6;
+      color: #1e293b;
+    }
+
+    .instructions-list li {
+      margin-bottom: 0.85rem;
+      font-weight: 500;
+    }
+
+    .instructions-list li strong {
+      color: var(--royal-blue);
+      font-weight: 800;
+    }
+
+    .footer-note {
+      display: flex;
+      justify-content: space-between;
+      border-top: 1.5px solid #cbd5e1;
+      padding-top: 0.5rem;
+      margin-top: 1.25rem;
+      font-size: 0.7rem;
+      font-weight: 800;
+      color: #64748b;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    @media print {
+      body {
+        background: white;
+        padding: 0;
+      }
+      .toolbar {
+        display: none !important;
+      }
+      .page-sheet {
+        box-shadow: none;
+        border: none;
+        padding: 1.5rem 1.8rem;
+        page-break-after: always;
+        max-width: 100%;
+      }
+      .page-sheet:last-child {
+        page-break-after: auto;
+      }
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Action Toolbar -->
+  <div class="toolbar">
+    <div class="toolbar-title">
+      <span>CS Form No. 7 (Revised 2018)</span>
+      <span class="toolbar-badge">Clearance Form</span>
+    </div>
+    <div class="toolbar-actions">
+      <button class="btn btn-amber" onclick="window.print()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
+        Print / Save as PDF
+      </button>
+      <a class="btn btn-outline" href="/forms/hrmo/CS_Form_No_7_Clearance_Form.pdf" download="CS_Form_No_7_Clearance_Form.pdf">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download Official PDF
+      </a>
+    </div>
+  </div>
+
+  <!-- PAGE 1: CLEARANCE APPLICATION & SIGNATURE GRID -->
+  <div class="page-sheet">
+    <div class="form-header">
+      <div class="form-header-meta">
+        <div>CS Form No. 7</div>
+        <div>Revised 2018</div>
+      </div>
+      <div class="form-header-center">
+        <div class="sub">LGU - TANAUAN, LEYTE</div>
+        <div class="main-title">CLEARANCE FORM</div>
+        <div class="inst-note">(Instructions at the back)</div>
+      </div>
+      <img src="/tanauan logo.svg" alt="Seal of Tanauan" class="form-header-seal" />
+    </div>
+
+    <!-- SECTION I: PURPOSE -->
+    <div class="section-bar">
+      <span>I. PURPOSE</span>
+      <span class="accent">SEC-01 // APPLICATION</span>
+    </div>
+
+    <div class="field-underline" style="margin-top: 0.4rem;">
+      <span class="lbl">TO:</span>
+      <span class="line" style="font-weight: 800; font-size: 0.8rem; padding-left: 0.5rem;">LGU - TANAUAN, LEYTE</span>
+      <span class="lbl" style="margin-left: 1rem;">Date of Application:</span>
+      <span class="line" style="flex: 0 0 180px;"></span>
+    </div>
+
+    <p style="font-size: 0.76rem; color: var(--royal-blue); margin: 0.4rem 0; font-weight: 600;">
+      I hereby apply for clearance from money, property and work-related accountabilities for:
+    </p>
+
+    <div class="checkbox-group">
+      <div class="chk-item"><span class="chk-box"></span> Transfer</div>
+      <div class="chk-item"><span class="chk-box"></span> Resignation</div>
+      <div class="chk-item"><span class="chk-box"></span> Retirement</div>
+      <div class="chk-item"><span class="chk-box"></span> Leave</div>
+      <div class="chk-item" style="flex: 1 1 100%;">
+        <span class="chk-box"></span> Other Mode of Separation (Please specify):
+        <span style="flex: 1; border-bottom: 1.5px solid var(--royal-blue); display: inline-block; height: 14px; margin-left: 0.4rem;"></span>
+      </div>
+    </div>
+
+    <div class="field-grid">
+      <div class="field-underline">
+        <span class="lbl">Date of Effectivity:</span>
+        <span class="line"></span>
+      </div>
+      <div class="field-underline">
+        <span class="lbl">Office of Assignment:</span>
+        <span class="line"></span>
+      </div>
+      <div class="field-underline">
+        <span class="lbl">Position/SG/Step:</span>
+        <span class="line"></span>
+      </div>
+      <div class="field-underline">
+        <span class="lbl">Signature of Employee:</span>
+        <span class="line"></span>
+      </div>
+    </div>
+
+    <!-- SECTION II: CLEARANCE FROM WORK-RELATED ACCOUNTABILITIES -->
+    <div class="section-bar">
+      <span>II. CLEARANCE FROM WORK-RELATED ACCOUNTABILITIES</span>
+      <span class="accent">SEC-02 // WORK ACCOUNTABILITIES</span>
+    </div>
+
+    <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 0.6rem 0.8rem; margin-bottom: 0.6rem;">
+      <p style="font-size: 0.76rem; font-weight: 700; color: var(--royal-blue); margin-bottom: 0.4rem;">
+        We hereby certify that this employee
+        <span class="chk-item" style="margin: 0 0.4rem;"><span class="chk-box"></span> cleared</span> /
+        <span class="chk-item" style="margin: 0 0.4rem;"><span class="chk-box"></span> not cleared</span>
+        of work-related accountabilities from this Unit/Office/Dept.
+      </p>
+
+      <div class="sign-box-row" style="margin-top: 0.8rem;">
+        <div class="sign-box">
+          <div class="sign-line"></div>
+          <div class="sign-title">Immediate Supervisor</div>
+          <div class="sign-subtitle">Signature over Printed Name</div>
+        </div>
+        <div class="sign-box">
+          <div class="sign-line"></div>
+          <div class="sign-title">Head of Office</div>
+          <div class="sign-subtitle">Signature over Printed Name</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION III: CLEARANCE FROM MONEY AND PROPERTY ACCOUNTABILITIES -->
+    <div class="section-bar">
+      <span>III. CLEARANCE FROM MONEY AND PROPERTY ACCOUNTABILITIES</span>
+      <span class="accent">SEC-03 // PROPERTY & FINANCE</span>
+    </div>
+
+    <table class="clearance-table">
+      <thead>
+        <tr>
+          <th style="width: 44%;">Name of Unit/Office/Department</th>
+          <th style="width: 8%;">Cleared</th>
+          <th style="width: 8%;">Not Cleared</th>
+          <th style="width: 25%;" class="amber-accent">Name of Clearing Officer/Official</th>
+          <th style="width: 15%;">Signature</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- 1. Administrative Services -->
+        <tr class="dept-head">
+          <td colspan="5"><strong>1. Administrative Services</strong></td>
+        </tr>
+        <tr>
+          <td style="padding-left: 1.2rem;">a. Supply and Property Procurement and Management Services</td>
+          <td class="center"><span class="chk-box"></span></td>
+          <td class="center"><span class="chk-box"></span></td>
+          <td class="officer-name">GRACE S. FIEL</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td style="padding-left: 1.2rem;">b. Human Resource Welfare & Assistance</td>
+          <td class="center"><span class="chk-box"></span></td>
+          <td class="center"><span class="chk-box"></span></td>
+          <td class="officer-name">ATTY. FEDERICO C. TIZON</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td style="padding-left: 1.2rem;">c. Agency-accredited Union/Cooperative</td>
+          <td class="center"><span class="chk-box"></span></td>
+          <td class="center"><span class="chk-box"></span></td>
+          <td class="officer-name">MARK L. VILLERO</td>
+          <td></td>
+        </tr>
+
+        <!-- 2. Library -->
+        <tr class="dept-head">
+          <td colspan="5"><strong>2. Library</strong></td>
+        </tr>
+        <tr>
+          <td style="padding-left: 1.2rem;">a. Legal Office Library</td>
+          <td class="center"><span class="chk-box"></span></td>
+          <td class="center"><span class="chk-box"></span></td>
+          <td class="officer-name" style="color: #64748b;">N/A</td>
+          <td class="center" style="color: #64748b; font-size: 0.7rem;">N/A</td>
+        </tr>
+        <tr>
+          <td style="padding-left: 1.2rem;">b. Library Services</td>
+          <td class="center"><span class="chk-box"></span></td>
+          <td class="center"><span class="chk-box"></span></td>
+          <td class="officer-name" style="color: #64748b;">N/A</td>
+          <td class="center" style="color: #64748b; font-size: 0.7rem;">N/A</td>
+        </tr>
+
+        <!-- 3. Finance and Assets Management -->
+        <tr class="dept-head">
+          <td colspan="5"><strong>3. Finance and Assets Management</strong></td>
+        </tr>
+        <tr>
+          <td style="padding-left: 1.2rem;">a. Financial Services</td>
+          <td class="center"><span class="chk-box"></span></td>
+          <td class="center"><span class="chk-box"></span></td>
+          <td class="officer-name">MAR P. VILLEGAS</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td style="padding-left: 1.2rem;">b. Transaction, Processing & Billing Services</td>
+          <td class="center"><span class="chk-box"></span></td>
+          <td class="center"><span class="chk-box"></span></td>
+          <td class="officer-name">RESTITUTA C. CAVITE</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td style="padding-left: 1.2rem;">c. Payroll & Remittance Services</td>
+          <td class="center"><span class="chk-box"></span></td>
+          <td class="center"><span class="chk-box"></span></td>
+          <td class="officer-name">MAR P. VILLEGAS</td>
+          <td></td>
+        </tr>
+
+        <!-- 4. Professional and Institutional Development -->
+        <tr class="dept-head">
+          <td colspan="5"><strong>4. Professional and Institutional Development</strong></td>
+        </tr>
+        <tr>
+          <td style="padding-left: 1.2rem;">a. Scholarship Services</td>
+          <td class="center"><span class="chk-box"></span></td>
+          <td class="center"><span class="chk-box"></span></td>
+          <td class="officer-name" style="color: #64748b;">N/A</td>
+          <td class="center" style="color: #64748b; font-size: 0.7rem;">N/A</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- SECTION IV: CERTIFICATION OF NO PENDING ADMINISTRATIVE CASE -->
+    <div class="section-bar">
+      <span>IV. CERTIFICATION OF NO PENDING ADMINISTRATIVE CASE</span>
+      <span class="accent">SEC-04 // LEGAL</span>
+    </div>
+
+    <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 0.5rem 0.8rem; margin-bottom: 0.6rem; font-size: 0.75rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+        <span style="font-weight: 800; color: var(--royal-blue);">a. Internal Affairs Office / Legal Affairs Office:</span>
+        <span style="font-weight: 800; color: #64748b; font-family: 'JetBrains Mono', monospace;">N/A</span>
+      </div>
+      <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
+        <div class="chk-item"><span class="chk-box"></span> with pending administrative case</div>
+        <div class="chk-item"><span class="chk-box"></span> with ongoing investigation (no formal charge yet)</div>
+      </div>
+    </div>
+
+    <!-- SECTION V: CERTIFICATION -->
+    <div class="section-bar">
+      <span>V. CERTIFICATION</span>
+      <span class="accent">SEC-05 // FINAL AGENCY SIGN-OFF</span>
+    </div>
+
+    <p style="font-size: 0.76rem; color: var(--royal-blue); margin: 0.5rem 0 1.5rem 0; font-weight: 600; text-align: justify; line-height: 1.5;">
+      I hereby certify that this employee is cleared of work-related, money and property accountabilities from this agency. 
+      This certification includes no pending administrative case from this agency.
+    </p>
+
+    <div style="text-align: center; max-width: 380px; margin: 0 auto 0.5rem auto;">
+      <div style="font-size: 1rem; font-weight: 900; color: var(--royal-blue); letter-spacing: 0.05em; border-bottom: 2px solid var(--royal-blue); padding-bottom: 0.2rem;">
+        HON. MA. GINA E. MERILO
+      </div>
+      <div style="font-size: 0.75rem; font-weight: 800; color: var(--amber-yellow-dark); text-transform: uppercase; margin-top: 0.25rem;">
+        Head of the Agency / Municipal Mayor
+      </div>
+    </div>
+
+    <div class="footer-note">
+      <span>LGU-TANAUAN • HUMAN RESOURCE MANAGEMENT OFFICE</span>
+      <span>PAGE 1 OF 2</span>
+    </div>
+  </div>
+
+  <!-- PAGE 2: INSTRUCTIONS -->
+  <div class="page-sheet">
+    <div class="form-header">
+      <div class="form-header-meta">
+        <div>CS Form No. 7</div>
+        <div>Revised 2018</div>
+      </div>
+      <div class="form-header-center">
+        <div class="sub">LGU - TANAUAN, LEYTE</div>
+        <div class="main-title">CLEARANCE FORM</div>
+        <div class="inst-note">General Instructions &amp; Administrative Processing Rules</div>
+      </div>
+      <img src="/tanauan logo.svg" alt="Seal of Tanauan" class="form-header-seal" />
+    </div>
+
+    <div class="section-bar">
+      <span>INSTRUCTIONS</span>
+      <span class="accent">GUIDELINES &amp; WORKFLOW</span>
+    </div>
+
+    <ol class="instructions-list">
+      <li>
+        <strong>Quadruplicate Preparation:</strong> Employees who are retiring, being separated, transferring to other agencies, leaving the Philippines and going on maternity leave of absence shall prepare this form in quadruplicate.
+      </li>
+      <li>
+        <strong>Pre-requisite for Final Settlement:</strong> This clearance should be duly accomplished before paying the last salary or any money due the employees. (Specify which type of clearance: maternity leave, retirement, transfer, etc.)
+      </li>
+      <li>
+        <strong>Cleared Accounts Documentation:</strong> If the employees are cleared from a unit/office/department, the clearing/authorized official may attach to this clearance the pertinent document/s that shall prove that the employees are cleared of any obligation or accountability from their office, if any, and tick the box under the "Cleared" column before affixing their signatures.
+      </li>
+      <li>
+        <strong>Uncleared Accountabilities Compliance:</strong> If the employees appear to have uncleared accountability/ies from a unit/office/department, the clearing/authorized official shall attach to this clearance the pertinent document/s that shall prove that the employees have remaining obligation or accountability from their office further indicating the necessary action/s that the employee must satisfy in order to be cleared, and tick the box under the "Uncleared" column. The clearing/authorized official must only sign this clearance corresponding to their name once the employee have complied the necessary requirements and cleared of all the obligation/s and accountability/ies from their office. They must also tick the box under the "Cleared" column.
+      </li>
+      <li>
+        <strong>Official Copy Distribution by HRMO:</strong> The HRMO shall distribute copies of approved clearance as follows:
+        <ul style="list-style-type: disc; margin: 0.4rem 0 0.4rem 1.5rem; font-size: 0.78rem;">
+          <li><strong>Original:</strong> to the employee;</li>
+          <li><strong>Duplicate:</strong> to be attached to the payroll or voucher;</li>
+          <li><strong>Triplicate:</strong> to human resource unit file; and</li>
+          <li><strong>Fourth copy:</strong> to accounting/auditing office.</li>
+        </ul>
+      </li>
+      <li>
+        <strong>Sequential Routing:</strong> Processing of clearance certificate shall follow the order of number indicated.
+      </li>
+    </ol>
+
+    <div style="margin-top: 2.5rem; border: 2px dashed var(--amber-yellow); background: var(--amber-yellow-light); border-radius: 8px; padding: 1.25rem;">
+      <div style="font-weight: 800; color: var(--royal-blue); font-size: 0.85rem; margin-bottom: 0.35rem; display: flex; align-items: center; gap: 0.5rem;">
+        <span style="background: var(--amber-yellow); color: var(--royal-blue); font-size: 0.7rem; font-weight: 900; padding: 0.15rem 0.5rem; border-radius: 4px;">NOTE</span>
+        HRMO PROCESSING REMINDER
+      </div>
+      <p style="font-size: 0.76rem; color: #78350f; line-height: 1.5;">
+        All clearing officers are strictly reminded to verify property passes, vehicle trip tickets, tool custodian slips, cash advances, and municipal inventory accounts before signing. Inquiries may be directed to the Human Resource Management Office (HRMO), 2nd Floor, Tanauan Municipal Hall.
+      </p>
+    </div>
+
+    <div class="footer-note" style="margin-top: 6rem;">
+      <span>LGU-TANAUAN • HUMAN RESOURCE MANAGEMENT OFFICE</span>
+      <span>PAGE 2 OF 2</span>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -35,6 +35,8 @@ static/forms/*
 !static/forms/gso/**
 !static/forms/agriculture/
 !static/forms/agriculture/**
+!static/forms/hrmo/
+!static/forms/hrmo/**
 !static/images/
 static/images/*
 !static/images/gso-personnel/
@@ -44,6 +46,8 @@ static/images/*
 !static/images/accomplishments/**
 !static/images/barangays/
 !static/images/barangays/**
+!static/HRMO/
+!static/HRMO/**
 
 .vercel
 .env*

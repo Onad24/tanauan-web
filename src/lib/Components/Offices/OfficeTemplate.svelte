@@ -361,6 +361,13 @@
 			(officeName && officeName.toLowerCase().includes('general services'))
 	);
 
+	const isHRMO = $derived(
+		department === 'HRMO' ||
+			officeCode === 'HRMO' ||
+			department === 'Human Resource Management Office' ||
+			(officeName && officeName.toLowerCase().includes('human resource'))
+	);
+
 	const shouldShowPersonnel = $derived(
 		showPersonnel &&
 			!isCivilRegistrar &&
@@ -370,10 +377,12 @@
 			!isHealthOffice &&
 			!isLicensing &&
 			!isGSO &&
-			!isMAO
+			!isMAO &&
+			!isHRMO
 	);
 	const shouldPutFormsAtEnd = $derived(
 		formsAtEnd ||
+			isHRMO ||
 			isCivilRegistrar ||
 			isMDRRMO ||
 			isMENRO ||
@@ -416,7 +425,7 @@
 		...(shouldShowAwards ? [{ id: 'awards', label: 'Recognition' }] : []),
 		...(shouldShowPersonnel ? [{ id: 'personnel', label: 'Personnel' }] : []),
 		...(shouldPutFormsAtEnd && downloadableForms && downloadableForms.length > 0
-			? [{ id: 'forms', label: isMENRO || isMAO ? 'Downloadables' : 'Forms' }]
+			? [{ id: 'forms', label: isMENRO || isMAO || isHRMO ? 'Downloadables' : 'Forms' }]
 			: [])
 	]);
 
@@ -762,6 +771,30 @@
 				'Application for Rice/Corn Crop Insurance (Individual Application)',
 				'Claims for Indemnity (Paghahabol Bayad) Damage Assessment Form'
 			]
+		},
+		'Employee Clearance & Separation': {
+			id: 'employee-clearance-separation',
+			code: 'CSC FORM 7',
+			icon: '',
+			title: 'Employee Clearance & Separation Dossier',
+			badge: 'Official Civil Service Dossier',
+			stat: '1 Official Form',
+			tagline: 'Accountabilities Clearance • Resignation, Retirement & Leave',
+			description:
+				'Official clearance certificate from money, property, and work-related accountabilities across municipal administration, property procurement, human resource, cooperative, and finance divisions under CSC guidelines.',
+			keyDocs: ['CS Form No. 7 (Revised 2018) Clearance Form']
+		},
+		'Leave Benefits & Applications': {
+			id: 'leave-benefits-applications',
+			code: 'CSC FORM 6',
+			icon: '',
+			title: 'Leave Benefits & Applications Dossier',
+			badge: 'Official Statutory Dossier',
+			stat: '1 Official Form',
+			tagline: 'Omnibus Civil Service Leave Rules • 15 Statutory Leave Types',
+			description:
+				'Prescribed CSC Form No. 6 (Annex A) application covering Vacation, Mandatory/Forced, Sick, Maternity (105 days), Paternity, Solo Parent, Study, VAWC, Rehabilitation, Calamity, and Special Leave benefits.',
+			keyDocs: ['Civil Service Form No. 6 (Revised 2020) Application for Leave']
 		}
 	};
 
@@ -1802,7 +1835,9 @@
 											{#if formsNavCode}
 												SECTION {formsNavCode} // {isLicensing
 													? 'OFFICIAL LICENSING & REGULATORY FORMS'
-													: 'DOWNLOADABLE FORMS'}
+													: isHRMO
+														? 'OFFICIAL CIVIL SERVICE & HRMO PERSONNEL FORMS'
+														: 'DOWNLOADABLE FORMS'}
 											{:else}
 												OFFICIAL DOWNLOADABLES
 											{/if}
@@ -1826,7 +1861,9 @@
 														? 'Downloadable Logistics & Equipment Slips'
 														: isMAO
 															? 'Downloadable Agriculture Forms & Checklists'
-															: 'Downloadable Office Forms'}
+															: isHRMO
+																? 'Downloadable Personnel & Civil Service Forms'
+																: 'Downloadable Office Forms'}
 									</h2>
 									<p class="max-w-2xl text-xs leading-relaxed font-normal text-blue-100 sm:text-sm">
 										{isLicensing
@@ -1835,7 +1872,9 @@
 												? 'Click to expand and access official GSO borrower and return slips for municipal tents, tables, chairs, and sound system units.'
 												: isMAO
 													? 'Click to expand and access official RSBSA farmer enrollment forms, PCA permit to cut checklists, BFAR fingerlings applications, and farm tractor service requests.'
-													: 'Click to expand and access official printable and downloadable municipal forms.'}
+													: isHRMO
+														? 'Click to expand and access official Civil Service Commission (CSC) clearance forms, statutory leave applications, and personnel dossiers.'
+														: 'Click to expand and access official printable and downloadable municipal forms.'}
 									</p>
 								</div>
 
@@ -1873,7 +1912,9 @@
 														? 'OFFICIAL GSO LOGISTICS & BORROWER FORMS'
 														: isMAO
 															? 'OFFICIAL AGRICULTURE DOSSIERS & DOWNLOADABLE FORMS'
-															: 'OFFICIAL PERMIT FOLDERS & FORMS'}
+															: isHRMO
+																? 'OFFICIAL CIVIL SERVICE & HRMO PERSONNEL FORMS'
+																: 'OFFICIAL PERMIT FOLDERS & FORMS'}
 									{:else}
 										{isMENRO
 											? 'OFFICIAL DOWNLOADABLES & CITIZEN GUIDES'
@@ -1885,7 +1926,9 @@
 														? 'OFFICIAL GSO LOGISTICS & BORROWER FORMS'
 														: isMAO
 															? 'OFFICIAL AGRICULTURE DOSSIERS & DOWNLOADABLE FORMS'
-															: 'OFFICIAL PERMIT FOLDERS & FORMS'}
+															: isHRMO
+																? 'OFFICIAL CIVIL SERVICE & HRMO PERSONNEL FORMS'
+																: 'OFFICIAL PERMIT FOLDERS & FORMS'}
 									{/if}
 								</div>
 								<h2
@@ -1901,7 +1944,9 @@
 													? 'Downloadable Logistics & Equipment Slips'
 													: isMAO
 														? 'Downloadable Agriculture Forms & Checklists'
-														: 'Downloadable Office Forms'}
+														: isHRMO
+															? 'Downloadable Personnel & Civil Service Forms'
+															: 'Downloadable Office Forms'}
 								</h2>
 								<p class="mt-4 text-base leading-relaxed font-normal text-blue-950/80 sm:text-lg">
 									{isMENRO
@@ -1914,7 +1959,9 @@
 													? 'Official General Services Section equipment borrowing slips, return inspection records, and public venue logistical support forms available for direct digital printing and PDF download.'
 													: isMAO
 														? 'Official Registry System for Basic Sectors in Agriculture (RSBSA) registration forms, Philippine Coconut Authority permit checklists, BFAR grow-out applications, and farm tractor service requests available for inspection, printing, and PDF download.'
-														: 'All engineering permit documents are organized into dedicated official folders. Click a folder below to open and access its full collection of downloadable and printable forms.'}
+														: isHRMO
+															? 'Official Civil Service Commission (CSC) and LGU Tanauan Human Resource Management Office clearance certificates, statutory leave applications, and personnel dossiers available for inspection, printing, and download.'
+															: 'All engineering permit documents are organized into dedicated official folders. Click a folder below to open and access its full collection of downloadable and printable forms.'}
 								</p>
 							</div>
 
@@ -1956,7 +2003,9 @@
 										<span class="text-xs font-black tracking-wider text-blue-950 uppercase"
 											>{isHealthOffice
 												? 'OFFICIAL HEALTHCARE DOSSIERS:'
-												: 'OFFICIAL PERMIT DOSSIERS:'}</span
+												: isHRMO
+													? 'OFFICIAL CIVIL SERVICE & HRMO DOSSIERS:'
+													: 'OFFICIAL PERMIT DOSSIERS:'}</span
 										>
 										<span class="text-xs font-bold text-amber-700"
 											>Click a folder to view its contained forms</span
@@ -3386,7 +3435,11 @@
 																		? 'border-2 border-blue-900 bg-amber-400 text-blue-950'
 																		: activeFormModal.category === 'Checklists'
 																			? 'border-2 border-amber-400 bg-amber-400 text-blue-950'
-																			: 'border border-blue-200 bg-blue-50 text-blue-900'}"
+																			: activeFormModal.category === 'Employee Clearance & Separation'
+																				? 'border-2 border-amber-400 bg-blue-950 text-amber-300'
+																				: activeFormModal.category === 'Leave Benefits & Applications'
+																					? 'border-2 border-blue-900 bg-amber-400 text-blue-950'
+																					: 'border border-blue-200 bg-blue-50 text-blue-900'}"
 									>
 										{activeFormModal.category}
 									</span>

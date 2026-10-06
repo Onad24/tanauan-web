@@ -1176,9 +1176,59 @@ export const DEPT_DEFAULTS = {
       { index: '02', code: 'HR-RECORDS', title: 'Personnel Records Management', description: 'Maintains accurate and updated personnel records for all municipal government employees.', tag: 'Records Management', details: ['201 File Maintenance', 'Service Record Updates', 'Leave Card Management'] },
       { index: '03', code: 'CAP-BUILD', title: 'Capacity Building & Training', description: 'Plans and implements training and development programs to enhance employee competencies and performance.', tag: 'Learning & Development', details: ['Training Needs Analysis', 'In-House Training Programs', 'CSC-Required Trainings Coordination'] }
     ],
-    downloadableForms: [],
+    formsAtEnd: true,
+    downloadableForms: [
+      {
+        index: '01',
+        category: 'Employee Clearance & Separation',
+        title: 'CS Form No. 7 (Revised 2018) — Clearance Form',
+        type: 'Official Civil Service Clearance Form • 2 Pages',
+        icon: '',
+        description: 'Official clearance application from money, property, and work-related accountabilities for resignation, retirement, transfer, or leave of absence in LGU Tanauan, Leyte.',
+        format: 'Official 2-Page Document',
+        fileSize: '150 KB',
+        url: '/forms/hrmo/CS_Form_No_7_Clearance_Form.pdf',
+        downloadUrl: '/forms/hrmo/CS_Form_No_7_Clearance_Form.pdf',
+        htmlUrl: '/forms/hrmo/cs-form-7-clearance.html',
+        requirements: [
+          'Duly accomplished CS Form No. 7 prepared in quadruplicate (4 original copies)',
+          'Clearance from Work-Related Accountabilities signed by Immediate Supervisor and Head of Office',
+          'Supply & Property Procurement and Management Services clearance signed by Grace S. Fiel',
+          'Human Resource Welfare & Assistance clearance signed by Atty. Federico C. Tizon',
+          'Agency-accredited Union / Cooperative clearance signed by Mark L. Villero',
+          'Finance & Assets Management clearance: Financial Services & Payroll (Mar P. Villegas), Billing (Restituta C. Cavite)',
+          'Certification of No Pending Administrative Case from Internal Affairs / Legal Office',
+          'Final Agency Clearance Certification executed and signed by Municipal Mayor Hon. Ma. Gina E. Merilo'
+        ]
+      },
+      {
+        index: '02',
+        category: 'Leave Benefits & Applications',
+        title: 'Civil Service Form No. 6 (Revised 2020) — Application for Leave',
+        type: 'CSC Form No. 6 (Annex A) • 2 Pages',
+        icon: '',
+        description: 'Official statutory application for Vacation, Mandatory/Forced, Sick, Maternity (105 days), Paternity, Solo Parent, Study, VAWC, Rehabilitation, Special Leave for Women, Calamity, or Terminal leave.',
+        format: 'Official 2-Page Document',
+        fileSize: '270 KB',
+        url: '/forms/hrmo/CS_Form_No_6_Application_for_Leave.pdf',
+        downloadUrl: '/forms/hrmo/CS_Form_No_6_Application_for_Leave.pdf',
+        htmlUrl: '/forms/hrmo/cs-form-6-application-for-leave.html',
+        requirements: [
+          'Accomplished CS Form No. 6 prepared in duplicate with applicant signature',
+          'Vacation & Special Privilege Leave (3 days): Filed 5 days in advance (indicate travel authority if abroad)',
+          'Mandatory/Forced Leave: Annual 5-day forfeit rule (creditable with 1+ day regular VL)',
+          'Sick Leave: Medical certificate if filed in advance or exceeding 5 days; applicant affidavit if no consultation',
+          'Maternity Leave (105 days): Proof of pregnancy (ultrasound / doctor’s certificate) & CS Form No. 6a',
+          'Paternity Leave (7 days): Proof of child delivery (birth certificate, medical certificate, marriage contract)',
+          'Solo Parent Leave (7 days): Filed 5 days in advance with updated Solo Parent ID card',
+          '10-Day VAWC Leave: Barangay Protection Order (BPO), TPO/PPO, or police report with medical certificate',
+          'Special Emergency (Calamity) Leave: Up to 5 days within 30 days of declared natural calamity in place of residence',
+          'Leaves >= 30 calendar days or Terminal Leave: Must be accompanied by CS Form No. 7 Clearance Certificate'
+        ]
+      }
+    ],
     schedule: { hours: 'Monday – Friday | 8:00 AM – 5:00 PM', location: 'Tanauan Municipal Hall, Real St., Tanauan, Leyte', contactNumber: '', email: 'hrmo@tanauanleyte.gov.ph', helpline: 'HRMO Office, Municipal Hall 2nd Floor' },
-    showStructure: false
+    showStructure: true
   },
   IT: {
     officeName: 'Municipal Information Technology Office',

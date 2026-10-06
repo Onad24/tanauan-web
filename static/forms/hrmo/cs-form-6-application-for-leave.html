@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Civil Service Form No. 6 (Revised 2020) — Application for Leave | LGU Tanauan, Leyte</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --royal-blue: #0b2545;
+      --royal-blue-light: #1e3a8a;
+      --royal-blue-dark: #07192f;
+      --royal-blue-subtle: #eff6ff;
+      --amber-yellow: #f59e0b;
+      --amber-yellow-light: #fef3c7;
+      --amber-yellow-dark: #d97706;
+      --border-dark: #0b2545;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+    }
+
+    body {
+      background: #f8fafc;
+      color: #0b2545;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1.5rem 1rem;
+    }
+
+    /* Print toolbar */
+    .toolbar {
+      width: 100%;
+      max-width: 890px;
+      margin-bottom: 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--royal-blue);
+      border: 2px solid var(--amber-yellow);
+      color: white;
+      padding: 0.85rem 1.5rem;
+      border-radius: 14px;
+      box-shadow: 0 10px 25px -5px rgba(11, 37, 69, 0.4);
+    }
+
+    .toolbar-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .toolbar-badge {
+      background: var(--amber-yellow);
+      color: var(--royal-blue);
+      font-size: 0.7rem;
+      font-weight: 900;
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .toolbar-actions {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .btn {
+      font-size: 0.8rem;
+      font-weight: 800;
+      padding: 0.5rem 1.1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s ease;
+      border: none;
+    }
+
+    .btn-amber {
+      background: var(--amber-yellow);
+      color: var(--royal-blue);
+      border: 1px solid var(--amber-yellow-dark);
+    }
+
+    .btn-amber:hover {
+      background: #fbbf24;
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: #fef3c7;
+      border: 1.5px solid var(--amber-yellow);
+    }
+
+    .btn-outline:hover {
+      background: rgba(245, 158, 11, 0.15);
+    }
+
+    .page-sheet {
+      width: 100%;
+      max-width: 890px;
+      background: white;
+      padding: 2.2rem 2.8rem;
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(11, 37, 69, 0.1);
+      border: 2px solid #cbd5e1;
+      position: relative;
+      margin-bottom: 2rem;
+    }
+
+    .form-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid var(--royal-blue);
+      padding-bottom: 0.85rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .form-header-meta {
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: var(--royal-blue);
+      line-height: 1.3;
+      width: 140px;
+    }
+
+    .form-header-center {
+      text-align: center;
+      flex: 1;
+    }
+
+    .form-header-center .republic {
+      font-size: 0.75rem;
+      color: #475569;
+      font-weight: 600;
+    }
+
+    .form-header-center .sub {
+      font-size: 0.88rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: var(--royal-blue);
+      text-transform: uppercase;
+    }
+
+    .form-header-center .address {
+      font-size: 0.72rem;
+      color: #64748b;
+      margin-bottom: 4px;
+    }
+
+    .form-header-center .main-title {
+      font-size: 1.45rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      color: var(--royal-blue);
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    .form-header-right {
+      width: 140px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.4rem;
+    }
+
+    .receipt-box {
+      border: 1.5px dashed var(--royal-blue);
+      border-radius: 4px;
+      padding: 0.4rem 0.5rem;
+      font-size: 0.65rem;
+      font-weight: 800;
+      text-align: center;
+      color: var(--royal-blue);
+      background: var(--royal-blue-subtle);
+      width: 125px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Structured Boxes */
+    .box-bordered {
+      border: 1.5px solid var(--royal-blue);
+      margin-bottom: 0.6rem;
+    }
+
+    .box-grid-row {
+      display: grid;
+      border-bottom: 1.5px solid var(--royal-blue);
+    }
+
+    .box-grid-row:last-child {
+      border-bottom: none;
+    }
+
+    .box-cell {
+      padding: 0.35rem 0.55rem;
+      font-size: 0.72rem;
+      border-right: 1.5px solid var(--royal-blue);
+    }
+
+    .box-cell:last-child {
+      border-right: none;
+    }
+
+    .box-cell .label {
+      font-weight: 800;
+      color: var(--royal-blue);
+      text-transform: uppercase;
+      font-size: 0.68rem;
+      display: block;
+      margin-bottom: 0.15rem;
+    }
+
+    .section-banner {
+      background: var(--royal-blue);
+      color: white;
+      font-weight: 900;
+      font-size: 0.8rem;
+      padding: 0.35rem 0.75rem;
+      letter-spacing: 0.05em;
+      border-left: 5px solid var(--amber-yellow);
+      text-transform: uppercase;
+    }
+
+    /* 6. DETAILS OF APPLICATION SPLIT GRID */
+    .app-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-bottom: 1.5px solid var(--royal-blue);
+    }
+
+    .app-col {
+      padding: 0.55rem 0.7rem;
+      font-size: 0.72rem;
+    }
+
+    .app-col:first-child {
+      border-right: 1.5px solid var(--royal-blue);
+    }
+
+    .app-col-title {
+      font-weight: 900;
+      font-size: 0.73rem;
+      color: var(--royal-blue);
+      text-transform: uppercase;
+      margin-bottom: 0.45rem;
+      padding-bottom: 0.2rem;
+      border-bottom: 1px solid #cbd5e1;
+    }
+
+    .chk-line {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.4rem;
+      margin-bottom: 0.35rem;
+      line-height: 1.35;
+      color: #1e293b;
+    }
+
+    .chk-box {
+      width: 13px;
+      height: 13px;
+      border: 1.5px solid var(--royal-blue);
+      border-radius: 2px;
+      background: white;
+      display: inline-block;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .chk-line-text {
+      flex: 1;
+    }
+
+    .sub-group-title {
+      font-weight: 800;
+      font-size: 0.7rem;
+      color: var(--royal-blue);
+      margin: 0.5rem 0 0.25rem 0;
+      text-transform: uppercase;
+    }
+
+    .underline-input {
+      border-bottom: 1px solid var(--royal-blue);
+      display: inline-block;
+      min-width: 120px;
+      height: 14px;
+      margin-left: 0.3rem;
+    }
+
+    .credit-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.4rem 0;
+      font-size: 0.7rem;
+    }
+
+    .credit-table th,
+    .credit-table td {
+      border: 1px solid var(--royal-blue);
+      padding: 0.25rem 0.45rem;
+      text-align: center;
+    }
+
+    .credit-table th {
+      background: var(--royal-blue);
+      color: white;
+      font-weight: 800;
+    }
+
+    .credit-table td:first-child {
+      text-align: left;
+      font-weight: 700;
+    }
+
+    .instructions-list {
+      list-style-type: decimal;
+      padding-left: 1.4rem;
+      margin: 0.8rem 0;
+      font-size: 0.75rem;
+      line-height: 1.55;
+      color: #1e293b;
+    }
+
+    .instructions-list li {
+      margin-bottom: 0.65rem;
+      font-weight: 500;
+    }
+
+    .instructions-list li strong {
+      color: var(--royal-blue);
+      font-weight: 800;
+    }
+
+    .footer-note {
+      display: flex;
+      justify-content: space-between;
+      border-top: 1.5px solid #cbd5e1;
+      padding-top: 0.5rem;
+      margin-top: 1.25rem;
+      font-size: 0.7rem;
+      font-weight: 800;
+      color: #64748b;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    @media print {
+      body {
+        background: white;
+        padding: 0;
+      }
+      .toolbar {
+        display: none !important;
+      }
+      .page-sheet {
+        box-shadow: none;
+        border: none;
+        padding: 1.2rem 1.5rem;
+        page-break-after: always;
+        max-width: 100%;
+      }
+      .page-sheet:last-child {
+        page-break-after: auto;
+      }
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Action Toolbar -->
+  <div class="toolbar">
+    <div class="toolbar-title">
+      <span>CS Form No. 6 (Revised 2020)</span>
+      <span class="toolbar-badge">Application for Leave</span>
+    </div>
+    <div class="toolbar-actions">
+      <button class="btn btn-amber" onclick="window.print()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
+        Print / Save as PDF
+      </button>
+      <a class="btn btn-outline" href="/forms/hrmo/CS_Form_No_6_Application_for_Leave.pdf" download="CS_Form_No_6_Application_for_Leave.pdf">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download Official PDF
+      </a>
+    </div>
+  </div>
+
+  <!-- PAGE 1: APPLICATION FOR LEAVE FORM -->
+  <div class="page-sheet">
+    <div class="form-header">
+      <div class="form-header-meta">
+        <div>Civil Service Form No. 6</div>
+        <div>Revised 2020</div>
+      </div>
+      <div class="form-header-center">
+        <img src="/tanauan logo.svg" alt="Seal of Tanauan" style="width: 48px; height: 48px; object-fit: contain; margin-bottom: 2px;" />
+        <div class="republic">Republic of the Philippines • Province of Leyte</div>
+        <div class="sub">LOCAL GOVERNMENT UNIT OF TANAUAN</div>
+        <div class="address">888 Real Street, Tanauan, Leyte</div>
+        <div class="main-title">APPLICATION FOR LEAVE</div>
+      </div>
+      <div class="form-header-right">
+        <span style="font-size: 0.75rem; font-weight: 900; color: var(--royal-blue);">ANNEX A</span>
+        <div class="receipt-box">
+          Stamp of Date of<br>Receipt
+        </div>
+      </div>
+    </div>
+
+    <!-- BOX CONTAINER 1: APPLICANT DETAILS -->
+    <div class="box-bordered">
+      <div class="box-grid-row" style="grid-template-columns: 2fr 3fr;">
+        <div class="box-cell">
+          <span class="label">1. OFFICE / DEPARTMENT</span>
+          <div style="min-height: 18px;"></div>
+        </div>
+        <div class="box-cell">
+          <span class="label">2. NAME (Last, First, Middle)</span>
+          <div style="display: flex; gap: 1rem; color: #64748b; font-size: 0.68rem;">
+            <span style="flex: 1;">(Last)</span>
+            <span style="flex: 1;">(First)</span>
+            <span style="flex: 1;">(Middle)</span>
+          </div>
+        </div>
+      </div>
+      <div class="box-grid-row" style="grid-template-columns: 1fr 1fr 1fr;">
+        <div class="box-cell">
+          <span class="label">3. DATE OF FILING</span>
+          <div style="min-height: 18px;"></div>
+        </div>
+        <div class="box-cell">
+          <span class="label">4. POSITION</span>
+          <div style="min-height: 18px;"></div>
+        </div>
+        <div class="box-cell">
+          <span class="label">5. SALARY</span>
+          <div style="min-height: 18px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOX CONTAINER 2: 6. DETAILS OF APPLICATION -->
+    <div class="box-bordered">
+      <div class="section-banner">6. DETAILS OF APPLICATION</div>
+      
+      <div class="app-split">
+        <!-- 6.A TYPE OF LEAVE -->
+        <div class="app-col">
+          <div class="app-col-title">6.A TYPE OF LEAVE TO BE AVAILED OF</div>
+          
+          <div class="chk-line"><span class="chk-box"></span><span class="chk-line-text"><strong>Vacation Leave</strong> (Sec. 51, Rule XVI, Omnibus Rules Implementing E.O. 292)</span></div>
+          <div class="chk-line"><span class="chk-box"></span><span class="chk-line-text"><strong>Mandatory/Forced Leave</strong> (Sec. 25, Rule XVI, Omnibus Rules E.O. 292)</span></div>
+          <div class="chk-line"><span class="chk-box"></span><span class="chk-line-text"><strong>Sick Leave</strong> (Sec. 43, Rule XVI, Omnibus Rules Implementing E.O. 292)</span></div>
+          <div class="chk-line"><span class="chk-box"></span><span class="chk-line-text"><strong>Maternity Leave</strong> (R.A. No. 11210 / IRR issued by CSC, DOLE and SSS)</span></div>
+          <div class="chk-line"><span class="chk-box"></span><span class="chk-line-text"><strong>Paternity Leave</strong> (R.A. No. 8187 / CSC MC No. 71, s. 1998, as amended)</span></div>
+          <div class="chk-line"><span class="chk-box"></span><span class="chk-line-text"><strong>Special Privilege Leave</strong> (Sec. 21, Rule XVI, Omnibus Rules E.O. 292)</span></div>
+          <div class="chk-line"><span class="chk-box"></span><span class="chk-line-text"><strong>Solo Parent Leave</strong> (RA No. 8972 / CSC MC No. 8, s. 2004)</span></div>
+          <div class="chk-line"><span class="chk-box"></span><span class="chk-line-text"><strong>Study Leave</strong> (Sec. 68, Rule XVI, Omnibus Rules Implementing E.O. 292)</span></div>
+          <div class="chk-line"><span class="chk-box"></span><span class="chk-line-text"><strong>10-Day VAWC Leave</strong> (RA No. 9262 / CSC MC No. 15, s. 2005)</span></div>
+          <div class="chk-line"><span class="chk-box"></span><span class="chk-line-text"><strong>Rehabilitation Privilege</strong> (Sec. 55, Rule XVI, Omnibus Rules E.O. 292)</span></div>
+          <div class="chk-line"><span class="chk-box"></span><span class="chk-line-text"><strong>Special Leave Benefits for Women</strong> (RA No. 9710 / CSC MC No. 25, s. 2010)</span></div>
+          <div class="chk-line"><span class="chk-box"></span><span class="chk-line-text"><strong>Special Emergency (Calamity) Leave</strong> (CSC MC No. 2, s. 2012, as amended)</span></div>
+          <div class="chk-line"><span class="chk-box"></span><span class="chk-line-text"><strong>Adoption Leave</strong> (R.A. No. 8552)</span></div>
+          <div class="chk-line" style="margin-top: 0.35rem;">
+            <span class="chk-box"></span>
+            <span class="chk-line-text">Others: <span class="underline-input" style="min-width: 180px;"></span></span>
+          </div>
+        </div>
+
+        <!-- 6.B DETAILS OF LEAVE -->
+        <div class="app-col">
+          <div class="app-col-title">6.B DETAILS OF LEAVE</div>
+          
+          <div class="sub-group-title" style="margin-top: 0;">In case of Vacation/Special Privilege Leave:</div>
+          <div class="chk-line"><span class="chk-box"></span><span class="chk-line-text">Within the Philippines</span></div>
+          <div class="chk-line"><span class="chk-box"></span><span class="chk-line-text">Abroad (Specify): <span class="underline-input" style="min-width: 140px;"></span></span></div>
+
+          <div class="sub-group-title">In case of Sick Leave:</div>
+          <div class="chk-line"><span class="chk-box"></span><span class="chk-line-text">In Hospital (Specify Illness): <span class="underline-input" style="min-width: 110px;"></span></span></div>
+          <div class="chk-line"><span class="chk-box"></span><span class="chk-line-text">Out Patient (Specify Illness): <span class="underline-input" style="min-width: 110px;"></span></span></div>
+
+          <div class="sub-group-title">In case of Special Leave Benefits for Women:</div>
+          <div class="chk-line"><span class="chk-line-text">(Specify Illness): <span class="underline-input" style="min-width: 180px;"></span></span></div>
+
+          <div class="sub-group-title">In case of Study Leave:</div>
+          <div class="chk-line"><span class="chk-box"></span><span class="chk-line-text">Completion of Master's Degree</span></div>
+          <div class="chk-line"><span class="chk-box"></span><span class="chk-line-text">BAR/Board Examination Review</span></div>
+
+          <div class="sub-group-title">Other purpose:</div>
+          <div class="chk-line"><span class="chk-box"></span><span class="chk-line-text">Monetization of Leave Credits</span></div>
+          <div class="chk-line"><span class="chk-box"></span><span class="chk-line-text">Terminal Leave</span></div>
+        </div>
+      </div>
+
+      <!-- 6.C & 6.D ROW -->
+      <div class="box-grid-row" style="grid-template-columns: 1fr 1fr;">
+        <div class="box-cell">
+          <span class="label">6.C NUMBER OF WORKING DAYS APPLIED FOR</span>
+          <div class="field-underline" style="margin: 0.3rem 0;">
+            <span class="line" style="height: 18px;"></span>
+          </div>
+          <span class="label" style="margin-top: 0.4rem;">INCLUSIVE DATES:</span>
+          <div class="field-underline" style="margin: 0.3rem 0;">
+            <span class="line" style="height: 18px;"></span>
+          </div>
+        </div>
+        <div class="box-cell">
+          <span class="label">6.D COMMUTATION</span>
+          <div style="display: flex; gap: 1rem; margin: 0.4rem 0;">
+            <div class="chk-line"><span class="chk-box"></span><span>Not Requested</span></div>
+            <div class="chk-line"><span class="chk-box"></span><span>Requested</span></div>
+          </div>
+          <div style="margin-top: 1.2rem; text-align: center;">
+            <div style="border-bottom: 1.5px solid var(--royal-blue); width: 85%; margin: 0 auto 0.2rem auto; height: 16px;"></div>
+            <span style="font-size: 0.68rem; font-weight: 800; color: var(--royal-blue);">(Signature of Applicant)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOX CONTAINER 3: 7. DETAILS OF ACTION ON APPLICATION -->
+    <div class="box-bordered">
+      <div class="section-banner">7. DETAILS OF ACTION ON APPLICATION</div>
+      
+      <div class="box-grid-row" style="grid-template-columns: 1fr 1fr;">
+        <!-- 7.A CERTIFICATION -->
+        <div class="box-cell">
+          <span class="label">7.A CERTIFICATION OF LEAVE CREDITS</span>
+          <div style="font-size: 0.7rem; font-weight: 700; margin: 0.2rem 0;">
+            As of <span class="underline-input" style="min-width: 140px;"></span>
+          </div>
+          <table class="credit-table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Vacation Leave</th>
+                <th>Sick Leave</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Total Earned</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td>Less this application</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td>Balance</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>
+            </tbody>
+          </table>
+          <div style="margin-top: 1.4rem; text-align: center;">
+            <div style="border-bottom: 1.5px solid var(--royal-blue); width: 80%; margin: 0 auto 0.2rem auto;"></div>
+            <span style="font-size: 0.72rem; font-weight: 900; color: var(--royal-blue);">HRMO</span>
+          </div>
+        </div>
+
+        <!-- 7.B RECOMMENDATION -->
+        <div class="box-cell">
+          <span class="label">7.B RECOMMENDATION</span>
+          <div class="chk-line" style="margin-top: 0.4rem;"><span class="chk-box"></span><span>For approval</span></div>
+          <div class="chk-line"><span class="chk-box"></span><span>For disapproval due to:</span></div>
+          <div style="border-bottom: 1px solid var(--royal-blue); height: 16px; margin: 0.3rem 0;"></div>
+          <div style="border-bottom: 1px solid var(--royal-blue); height: 16px; margin: 0.3rem 0 1.2rem 0;"></div>
+          <div style="text-align: center;">
+            <div style="border-bottom: 1.5px solid var(--royal-blue); width: 80%; margin: 0 auto 0.2rem auto;"></div>
+            <span style="font-size: 0.72rem; font-weight: 900; color: var(--royal-blue);">DEPARTMENT HEAD</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7.C & 7.D ROW -->
+      <div class="box-grid-row" style="grid-template-columns: 1fr 1fr;">
+        <div class="box-cell">
+          <span class="label">7.C APPROVED FOR:</span>
+          <div style="font-size: 0.72rem; margin: 0.3rem 0;">
+            <span class="underline-input" style="min-width: 50px;"></span> days with pay<br>
+            <span class="underline-input" style="min-width: 50px; margin-top: 0.2rem;"></span> days without pay<br>
+            <span class="underline-input" style="min-width: 50px; margin-top: 0.2rem;"></span> others (Specify)
+          </div>
+        </div>
+        <div class="box-cell">
+          <span class="label">7.D DISAPPROVED DUE TO:</span>
+          <div style="border-bottom: 1px solid var(--royal-blue); height: 16px; margin-top: 0.3rem;"></div>
+          <div style="border-bottom: 1px solid var(--royal-blue); height: 16px; margin-top: 0.3rem;"></div>
+        </div>
+      </div>
+
+      <!-- MAYOR SIGN OFF -->
+      <div style="padding: 1rem 0.55rem; text-align: center;">
+        <div style="font-size: 0.95rem; font-weight: 900; color: var(--royal-blue); letter-spacing: 0.05em; border-bottom: 2px solid var(--royal-blue); width: 340px; margin: 0 auto 0.2rem auto;">
+          HON. MA. GINA E. MERILO
+        </div>
+        <div style="font-size: 0.72rem; font-weight: 800; color: var(--amber-yellow-dark); text-transform: uppercase;">
+          Municipal Mayor
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-note">
+      <span>LGU-TANAUAN • HUMAN RESOURCE MANAGEMENT OFFICE (ANNEX A)</span>
+      <span>PAGE 1 OF 2</span>
+    </div>
+  </div>
+
+  <!-- PAGE 2: INSTRUCTIONS AND REQUIREMENTS -->
+  <div class="page-sheet">
+    <div class="form-header">
+      <div class="form-header-meta">
+        <div>Civil Service Form No. 6</div>
+        <div>Revised 2020</div>
+      </div>
+      <div class="form-header-center">
+        <div class="sub">LGU - TANAUAN, LEYTE</div>
+        <div class="main-title">APPLICATION FOR LEAVE</div>
+        <div style="font-size: 0.75rem; font-weight: 700; color: var(--amber-yellow-dark); text-transform: uppercase;">
+          Instructions and Documentary Requirements
+        </div>
+      </div>
+      <img src="/tanauan logo.svg" alt="Seal of Tanauan" style="width: 48px; height: 48px; object-fit: contain;" />
+    </div>
+
+    <div class="section-banner">INSTRUCTIONS AND REQUIREMENTS</div>
+
+    <p style="font-size: 0.74rem; font-weight: 700; color: var(--royal-blue); margin: 0.6rem 0 0.4rem 0;">
+      Application for any type of leave shall be made on this Form and to be accomplished at least in duplicate with documentary requirements, as follows:
+    </p>
+
+    <ol class="instructions-list">
+      <li>
+        <strong>Vacation leave*</strong> — Shall be filed five (5) days in advance, whenever possible, of the effective date of such leave. Vacation leave within the Philippines or abroad shall be indicated in the form for purposes of securing travel authority and completing clearance from money and work accountabilities.
+      </li>
+      <li>
+        <strong>Mandatory/Forced leave</strong> — Annual five-day vacation leave shall be forfeited if not taken during the year. In case the scheduled leave has been cancelled in the exigency of the service by the head of agency, it shall no longer be deducted from the accumulated vacation leave. Availment of one (1) day or more Vacation Leave (VL) shall be considered for complying the mandatory/forced leave subject to conditions under Section 25, Rule XVI of the Omnibus Rules Implementing E.O. No. 292.
+      </li>
+      <li>
+        <strong>Sick leave*</strong> — Shall be filed immediately upon employee's return from such leave. If filed in advance or exceeding five (5) days, application shall be accompanied by a medical certificate. In case medical consultation was not availed of, an affidavit should be executed by the applicant.
+      </li>
+      <li>
+        <strong>Maternity leave* – 105 days</strong> — Proof of pregnancy (e.g. ultrasound, doctor's certificate on expected date of delivery); Accomplished Notice of Allocation of Maternity Leave Credits (CS Form No. 6a), if needed. Seconded female employees shall enjoy maternity leave with full pay in recipient agency.
+      </li>
+      <li>
+        <strong>Paternity leave – 7 days</strong> — Proof of child's delivery (e.g. birth certificate, medical certificate, and marriage contract).
+      </li>
+      <li>
+        <strong>Special Privilege leave – 3 days</strong> — Shall be filed/approved for at least one (1) week prior to availment, except on emergency cases. Vacation leave within the Philippines or abroad shall be indicated in the form for purposes of securing travel authority and completing clearance from money and work accountabilities.
+      </li>
+      <li>
+        <strong>Solo Parent leave – 7 days</strong> — Shall be filed in advance or whenever possible five (5) days before going on such leave with updated Solo Parent Identification Card.
+      </li>
+      <li>
+        <strong>Study leave* – up to 6 months</strong> — Shall meet the agency's internal requirements, if any; Contract between the agency head or authorized representative and the employee concerned.
+      </li>
+      <li>
+        <strong>VAWC leave – 10 days</strong> — Shall be filed in advance or immediately upon the woman employee's return from such leave. Supported by: (a) Barangay Protection Order (BPO); (b) Temporary/Permanent Protection Order (TPO/PPO) from court; (c) Certification issued by Punong Barangay/Kagawad or Prosecutor or Clerk of Court that application for BPO/TPO/PPO has been filed; or (d) In absence of certification, a police report and medical certificate.
+      </li>
+      <li>
+        <strong>Rehabilitation leave* – up to 6 months</strong> — Application made within one (1) week from time of accident; Letter request supported by police report (if any), Medical certificate on nature of injuries and course of treatment, and written concurrence of government physician.
+      </li>
+      <li>
+        <strong>Special leave benefits for women* – up to 2 months</strong> — Application filed at least five (5) days prior to scheduled gynecological surgery (or immediately upon return in emergencies). Accompanied by medical certificate, clinical summary, histopathological report, operative technique, and estimated recuperation period.
+      </li>
+      <li>
+        <strong>Special Emergency (Calamity) leave – up to 5 days</strong> — Applied for maximum of 5 straight working days or staggered within thirty (30) days from actual occurrence of natural calamity/disaster. Head of office shall verify employee's residence within declared calamity area.
+      </li>
+      <li>
+        <strong>Monetization of leave credits</strong> — Application for monetization of 50% or more of accumulated leave credits shall be accompanied by letter request to head of agency stating valid and justifiable reasons.
+      </li>
+      <li>
+        <strong>Terminal leave*</strong> — Proof of employee's resignation, retirement, or separation from the service.
+      </li>
+      <li>
+        <strong>Adoption Leave</strong> — Filed with authenticated copy of the Pre-Adoptive Placement Authority issued by the Department of Social Welfare and Development (DSWD).
+      </li>
+    </ol>
+
+    <div style="border-top: 1.5px solid var(--royal-blue); padding-top: 0.5rem; font-size: 0.7rem; font-weight: 700; color: var(--royal-blue); line-height: 1.4;">
+      * For leave of absence for thirty (30) calendar days or more and terminal leave, application shall be accompanied by a clearance from money, property and work-related accountabilities (pursuant to CSC Memorandum Circular No. 2, s. 1985).
+    </div>
+
+    <div class="footer-note" style="margin-top: 2.5rem;">
+      <span>LGU-TANAUAN • HUMAN RESOURCE MANAGEMENT OFFICE (ANNEX A)</span>
+      <span>PAGE 2 OF 2</span>
+    </div>
+  </div>
+
+</body>
+</html>
