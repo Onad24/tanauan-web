@@ -168,7 +168,7 @@
 		reviewedBy = null,
 		plaqueHeader = null,
 		plaqueItems = null,
-		showHeroServiceBadges = true
+		showHeroServiceBadges = false
 	} = $props();
 
 	let scrollY = $state(0);
@@ -255,6 +255,55 @@
 		plaqueRotateY = 0;
 		plaqueGlowX = 50;
 		plaqueGlowY = 50;
+	}
+
+	function getFloorBadge(locationStr, deptStr = '') {
+		if (!locationStr) return 'MUNICIPAL HALL';
+		const loc = locationStr.toLowerCase();
+		const dept = (deptStr || department || '').toLowerCase();
+		if (loc.includes('ground floor') || loc.includes('1st floor')) return 'GROUND FLOOR';
+		if (loc.includes('2nd floor') || loc.includes('second floor')) return '2ND FLOOR';
+		if (loc.includes('3rd floor') || loc.includes('third floor')) return '3RD FLOOR';
+		if (loc.includes('executive')) return 'EXECUTIVE WING';
+		if (loc.includes('market')) return 'PUBLIC MARKET';
+		if (loc.includes('cemetery')) return 'CEMETERY';
+		if (loc.includes('health') || loc.includes('clinic') || loc.includes('dental') || loc.includes('sanitation')) return 'HEALTH CTR';
+		if (loc.includes('gso operations') || loc.includes('operations hub')) return 'GSO HUB';
+		if (loc.includes('operations center') || loc.includes('mdrrmo')) return 'OPS CENTER';
+		if (loc.includes('sangguniang') || loc.includes('sb building') || dept.includes('sangguniang') || dept.includes('legislative')) return 'SB BLDG';
+		if (loc.includes('slaughterhouse')) return 'SLAUGHTERHOUSE';
+		if (loc.includes('day care')) return 'DAY CARE CTR';
+		if (
+			dept.includes('mayor') ||
+			dept.includes('administrator') ||
+			dept.includes('budget') ||
+			dept.includes('planning') ||
+			dept.includes('procurement') ||
+			dept.includes('hrmo')
+		)
+			return '2ND FLOOR';
+		if (
+			dept.includes('treasurer') ||
+			dept.includes('assessor') ||
+			dept.includes('licensing') ||
+			dept.includes('bplo') ||
+			dept.includes('civil registrar') ||
+			dept.includes('mswdo') ||
+			dept.includes('osca') ||
+			dept.includes('philhealth') ||
+			dept.includes('accounting') ||
+			dept.includes('it')
+		)
+			return 'GROUND FLOOR';
+		return 'MAIN HALL';
+	}
+
+	function getHoursBadge(hoursStr) {
+		if (!hoursStr) return 'MON – FRI';
+		const h = hoursStr.toLowerCase();
+		if (h.includes('24/7') || h.includes('emergency') || h.includes('24 hours')) return '24/7 DISPATCH';
+		if (h.includes('saturday')) return 'MON – SAT';
+		return 'MON – FRI';
 	}
 
 	const isMAO = $derived(
@@ -1005,7 +1054,7 @@
 					{/if}
 
 					<!-- Citizen Public Service Badges -->
-					{#if showHeroServiceBadges && department !== 'Municipal-Administrator' && department !== 'Licensing' && !plaqueItems}
+					{#if showHeroServiceBadges}
 						<div
 							class="grid max-w-2xl grid-cols-1 gap-3 border-t-2 border-slate-200 pt-4 text-xs sm:grid-cols-3"
 						>
@@ -1084,10 +1133,7 @@
 								<span
 									class="block text-[11px] font-extrabold tracking-wider text-slate-500 uppercase"
 								>
-									{plaqueHeader ||
-										(plaqueItems || department === 'Municipal-Administrator'
-											? 'OFFICE DETAILS:'
-											: 'FRONTLINE SERVICES:')}
+									{plaqueHeader || 'OFFICE DETAILS:'}
 								</span>
 
 								{#if plaqueItems && plaqueItems.length > 0}
@@ -1110,7 +1156,7 @@
 											{/if}
 										</div>
 									{/each}
-								{:else if department === 'Municipal-Administrator'}
+								{:else}
 									<!-- Office Location -->
 									<div
 										class="group flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 p-3 transition-all hover:border-amber-400 hover:bg-amber-50/70"
@@ -1121,12 +1167,12 @@
 											</div>
 											<div class="text-[11px] leading-snug text-slate-600">
 												{schedule?.location ||
-													'2nd Floor, Tanauan Municipal Hall, Real St., Tanauan, Leyte'}
+													'Tanauan Municipal Hall, Real St., Tanauan, Leyte'}
 											</div>
 										</div>
-										<span class="shrink-0 font-mono text-xs font-bold text-amber-700"
-											>2ND FLOOR</span
-										>
+										<span class="shrink-0 font-mono text-xs font-bold text-amber-700">
+											{getFloorBadge(schedule?.location, department)}
+										</span>
 									</div>
 
 									<!-- Service Hours -->
@@ -1138,41 +1184,13 @@
 												Service Hours
 											</div>
 											<div class="text-[11px] leading-snug text-slate-600">
-												{schedule?.hours || 'Monday to Friday | 8:00 AM – 5:00 PM (No Noon Break)'}
+												{schedule?.hours || 'Monday – Friday | 8:00 AM – 5:00 PM (No Noon Break)'}
 											</div>
 										</div>
-										<span class="shrink-0 font-mono text-xs font-bold text-amber-700"
-											>MON – FRI</span
-										>
+										<span class="shrink-0 font-mono text-xs font-bold text-amber-700">
+											{getHoursBadge(schedule?.hours)}
+										</span>
 									</div>
-								{:else}
-									<a
-										href={citizensCharterUrl}
-										class="group flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 p-3 transition-all hover:border-amber-400 hover:bg-amber-50/70"
-									>
-										<div>
-											<div class="text-xs font-black text-blue-950 group-hover:text-blue-900">
-												Public Inquiries & Requests
-											</div>
-											<div class="text-[11px] text-slate-600">General services & transactions</div>
-										</div>
-										<span class="font-mono text-xs font-bold text-amber-700">WINDOW 1</span>
-									</a>
-
-									<a
-										href={citizensCharterUrl}
-										class="group flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 p-3 transition-all hover:border-amber-400 hover:bg-amber-50/70"
-									>
-										<div>
-											<div class="text-xs font-black text-blue-950 group-hover:text-blue-900">
-												Document Processing
-											</div>
-											<div class="text-[11px] text-slate-600">
-												Certifications, clearances & records
-											</div>
-										</div>
-										<span class="font-mono text-xs font-bold text-amber-700">WINDOW 2</span>
-									</a>
 								{/if}
 							</div>
 

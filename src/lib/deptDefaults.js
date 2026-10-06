@@ -2517,12 +2517,22 @@ export function mergeOfficeData(defaults = {}, dynamic = {}) {
 		'vision',
 		'mission',
 		'orgChartImage',
-		'orgChartPdf'
+		'orgChartPdf',
+		'plaqueHeader'
 	];
 	for (const key of stringKeys) {
 		if (typeof dynamic[key] === 'string' && dynamic[key].trim() !== '') {
 			result[key] = dynamic[key].trim();
 		}
+	}
+
+	if (typeof dynamic.showHeroServiceBadges === 'boolean') {
+		result.showHeroServiceBadges = dynamic.showHeroServiceBadges;
+	}
+
+	// Plaque items array: overwrite only if non-empty array
+	if (Array.isArray(dynamic.plaqueItems) && dynamic.plaqueItems.length > 0) {
+		result.plaqueItems = dynamic.plaqueItems;
 	}
 
 	// Services Offered array: overwrite only if non-empty array

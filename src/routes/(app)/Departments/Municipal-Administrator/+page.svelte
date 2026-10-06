@@ -151,7 +151,7 @@
 		showHeroServiceBadges: false
 	};
 
-	const defaults = getDeptDefaults('Municipal-Administrator') ?? adminDefaults;
+	const defaults = adminDefaults;
 
 	// Merge Firestore dynamic data over defaults
 	const pageData = $derived(mergeOfficeData(defaults, data?.officePageData));
