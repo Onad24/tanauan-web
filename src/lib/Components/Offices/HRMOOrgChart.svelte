@@ -13,7 +13,7 @@
 			name: 'Hon. Ma. Gina E. Merilo',
 			title: 'Municipal Mayor',
 			roleBadge: 'Appointing Authority / Local Chief Executive',
-			image: '/HRMO/personnel/merilo.jpg',
+			image: '/HRMO/personnel/merilo.png?v=3',
 			fallbackImage: '/Elected Officials/1.webp',
 			level: 'Mayor',
 			tier: '01 // EXECUTIVE HEAD',
@@ -28,7 +28,7 @@
 			name: 'Atty. Ephrem S. Abando',
 			title: 'Municipal Administrator',
 			roleBadge: 'Executive Management & Municipal Oversight',
-			image: '/HRMO/personnel/abando.jpg',
+			image: '/HRMO/personnel/abando.png?v=3',
 			level: 'Administrator',
 			tier: '02 // EXECUTIVE OVERSIGHT',
 			borderColor: 'border-blue-400',
@@ -42,7 +42,7 @@
 			name: 'Atty. Federico C. Tizon',
 			title: 'HRMO III',
 			roleBadge: 'Department Head / Legal Specialist',
-			image: '/HRMO/personnel/tizon.jpg',
+			image: '/HRMO/personnel/tizon.png?v=3',
 			level: 'Department Head',
 			tier: '03 // DEPARTMENT HEAD',
 			borderColor: 'border-amber-400',
@@ -56,7 +56,7 @@
 			name: 'John Carlo A. Perez',
 			title: 'HRMA',
 			roleBadge: 'Human Resource Management Assistant',
-			image: '/HRMO/personnel/perez.jpg',
+			image: '/HRMO/personnel/perez.png?v=3',
 			level: 'Assistant',
 			tier: '04 // HRMA DESK',
 			borderColor: 'border-blue-300',
@@ -73,7 +73,7 @@
 			name: 'Emerson C. Demegillo',
 			title: 'Clerk I',
 			roleBadge: 'Clerical & Processing Support',
-			image: '/HRMO/personnel/demegillo.jpg',
+			image: '/HRMO/personnel/demegillo.png?v=3',
 			level: 'Staff',
 			tier: 'STAFF 01',
 			borderColor: 'border-blue-300',
@@ -87,7 +87,7 @@
 			name: 'Ronjo R. Ending',
 			title: 'Clerk I',
 			roleBadge: 'Clerical & Records Support',
-			image: '/HRMO/personnel/ending.jpg',
+			image: '/HRMO/personnel/ending.png?v=3',
 			level: 'Staff',
 			tier: 'STAFF 02',
 			borderColor: 'border-blue-300',
@@ -101,7 +101,7 @@
 			name: 'Melissa T. Almarines',
 			title: 'Admin Aide I',
 			roleBadge: 'Administrative Assistance',
-			image: '/HRMO/personnel/almarines.jpg',
+			image: '/HRMO/personnel/almarines.png?v=3',
 			level: 'Staff',
 			tier: 'STAFF 03',
 			borderColor: 'border-blue-300',
@@ -115,7 +115,7 @@
 			name: 'Diana D. Caonte',
 			title: 'Clerical Aide',
 			roleBadge: 'Clerical Support Desk',
-			image: '/HRMO/personnel/caonte.jpg',
+			image: '/HRMO/personnel/caonte.png?v=3',
 			level: 'Staff',
 			tier: 'STAFF 04',
 			borderColor: 'border-blue-300',
@@ -291,13 +291,13 @@
 									<button
 										type="button"
 										onclick={() => openMemberModal(member)}
-										class="relative block h-24 w-24 overflow-hidden rounded-full border-4 border-white bg-slate-900 shadow-xl transition-transform duration-300 group-hover:scale-105 group-hover:border-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-400"
+										class="relative block h-24 w-24 overflow-hidden rounded-full border-4 border-white bg-slate-200 shadow-xl transition-transform duration-300 group-hover:scale-105 group-hover:border-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-400"
 										title="View {member.name}'s profile"
 									>
 										<img
 											src={member.image}
 											alt={member.name}
-											class="h-full w-full object-cover object-top"
+											class="h-full w-full object-cover object-center"
 											onerror={(e) => {
 												if (member.fallbackImage) e.currentTarget.src = member.fallbackImage;
 											}}
@@ -391,13 +391,13 @@
 									<button
 										type="button"
 										onclick={() => openMemberModal(member)}
-										class="relative block h-24 w-24 overflow-hidden rounded-full border-4 border-white bg-slate-900 shadow-xl transition-transform duration-300 group-hover:scale-105 group-hover:border-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-400"
+										class="relative block h-24 w-24 overflow-hidden rounded-full border-4 border-white bg-slate-200 shadow-xl transition-transform duration-300 group-hover:scale-105 group-hover:border-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-400"
 										title="View {member.name}'s profile"
 									>
 										<img
 											src={member.image}
 											alt={member.name}
-											class="h-full w-full object-cover object-top"
+											class="h-full w-full object-cover object-center"
 										/>
 									</button>
 									<span
@@ -518,11 +518,11 @@
 					</div>
 
 					<div class="mt-4 flex items-center gap-4">
-						<div class="h-20 w-20 shrink-0 overflow-hidden rounded-full border-4 border-amber-400 bg-slate-800 shadow-md">
+						<div class="h-20 w-20 shrink-0 overflow-hidden rounded-full border-4 border-amber-400 bg-slate-200 shadow-md">
 							<img
 								src={selectedMember.image}
 								alt={selectedMember.name}
-								class="h-full w-full object-cover object-top"
+								class="h-full w-full object-cover object-center"
 							/>
 						</div>
 						<div>
