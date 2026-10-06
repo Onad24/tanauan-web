@@ -27,7 +27,10 @@ export async function load({ fetch }) {
 
 		if (result?.current) {
 			return {
-				climateData: result.current
+				climateData: {
+					...result.current,
+					location: result.location
+				}
 			};
 		} else {
 			console.error('Unexpected result format:', result);

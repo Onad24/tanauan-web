@@ -1,10 +1,70 @@
 <script>
 	import { onMount } from 'svelte';
+	import {
+		Droplets,
+		Wind,
+		Thermometer,
+		Sun,
+		Gauge,
+		Eye,
+		Compass,
+		MapPin,
+		Clock,
+		Radio
+	} from 'lucide-svelte';
 
 	let visible = $state(false);
 	let activeTab = $state('all'); // 'all' | 'current' | 'monthly'
 
 	let { data } = $props();
+
+	function formatWeatherTime(timeStr) {
+		if (!timeStr) return 'Live';
+		try {
+			const parts = timeStr.split(' ');
+			if (parts.length === 2) {
+				const [hours, minutes] = parts[1].split(':');
+				const h = parseInt(hours, 10);
+				const ampm = h >= 12 ? 'PM' : 'AM';
+				const formattedH = h % 12 || 12;
+				return `${formattedH}:${minutes} ${ampm}`;
+			}
+			return timeStr;
+		} catch {
+			return timeStr;
+		}
+	}
+
+	function getUVStatus(uv) {
+		const val = Number(uv) || 0;
+		if (val <= 2)
+			return {
+				text: 'Low',
+				color: '#34d399',
+				bg: 'rgba(16, 185, 129, 0.15)',
+				border: 'rgba(16, 185, 129, 0.3)'
+			};
+		if (val <= 5)
+			return {
+				text: 'Moderate',
+				color: '#fbbf24',
+				bg: 'rgba(245, 158, 11, 0.15)',
+				border: 'rgba(245, 158, 11, 0.3)'
+			};
+		if (val <= 7)
+			return {
+				text: 'High',
+				color: '#fb923c',
+				bg: 'rgba(249, 115, 22, 0.15)',
+				border: 'rgba(249, 115, 22, 0.3)'
+			};
+		return {
+			text: 'Very High',
+			color: '#f87171',
+			bg: 'rgba(239, 68, 68, 0.15)',
+			border: 'rgba(239, 68, 68, 0.3)'
+		};
+	}
 
 	const months = [
 		{ name: 'January', temp: 26.5, rain: 234, humidity: 86 },
@@ -109,10 +169,18 @@
 						<!-- Live Weather Card -->
 						<div class="clim-card clim-live-card">
 							<div class="clim-card-sheen"></div>
+							<div class="clim-live-glow-radial"></div>
+
 							<div class="clim-card-head">
 								<div>
 									<h2 class="clim-card-title">Current Weather</h2>
 									<p class="clim-card-subtitle">Real-time telemetry via WeatherAPI</p>
+								</div>
+								<div class="clim-live-badge">
+									<span class="clim-pulse-ring">
+										<span class="clim-pulse-dot"></span>
+									</span>
+									<span class="clim-badge-text">LIVE STATION</span>
 								</div>
 							</div>
 
@@ -120,33 +188,185 @@
 
 							{#if data?.climateData}
 								<div class="clim-live-body">
-									<div class="clim-live-main">
-										<div class="clim-icon-wrap">
-											<img
-												src={data.climateData.condition.icon}
-												alt={data.climateData.condition.text}
-												class="clim-weather-icon"
-											/>
+									<!-- Hero Weather Display -->
+									<div class="clim-hero-weather">
+										<div class="clim-hero-weather-main">
+											<div class="clim-icon-wrap">
+												<img
+													src={data.climateData.condition.icon}
+													alt={data.climateData.condition.text}
+													class="clim-weather-icon"
+												/>
+												<div class="clim-icon-glow"></div>
+											</div>
+											<div class="clim-temp-block">
+												<div class="clim-live-temp-wrap">
+													<span class="clim-live-temp">{Math.round(data.climateData.temp_c)}</span>
+													<span class="clim-temp-deg">°C</span>
+												</div>
+												<div class="clim-live-condition">{data.climateData.condition.text}</div>
+											</div>
 										</div>
-										<div>
-											<div class="clim-live-temp">{data.climateData.temp_c}°C</div>
-											<div class="clim-live-condition">{data.climateData.condition.text}</div>
+
+										<div class="clim-hero-weather-meta">
+											{#if data.climateData.feelslike_c !== undefined}
+												<div class="clim-chip clim-chip-feels">
+													<span class="clim-chip-icon text-amber">
+														<Thermometer size={14} />
+													</span>
+													<span>Feels like <strong>{Math.round(data.climateData.feelslike_c)}°C</strong></span>
+												</div>
+											{/if}
+											<div class="clim-chip clim-chip-loc">
+												<span class="clim-chip-icon text-sky">
+													<MapPin size={14} />
+												</span>
+												<span>Tanauan, Leyte</span>
+											</div>
 										</div>
 									</div>
 
-									<div class="clim-live-stats">
-										<div class="clim-substat">
-											<span class="clim-substat-label">Humidity</span>
-											<span class="clim-substat-val clim-val-amber">{data.climateData.humidity}%</span>
+									<!-- 4-Card Telemetry Grid -->
+									<div class="clim-telemetry-grid">
+										<!-- Humidity -->
+										<div class="clim-tele-card">
+											<div class="clim-tele-top">
+												<div class="clim-tele-icon-badge badge-cyan">
+													<span class="clim-tele-icon">
+														<Droplets size={15} />
+													</span>
+												</div>
+												<span class="clim-tele-label">Humidity</span>
+											</div>
+											<div class="clim-tele-val-row">
+												<span class="clim-tele-val">{data.climateData.humidity}</span>
+												<span class="clim-tele-unit">%</span>
+											</div>
+											<div class="clim-meter-track">
+												<div
+													class="clim-meter-bar bar-cyan"
+													style="width: {Math.min(100, Math.max(0, data.climateData.humidity))}%"
+												></div>
+											</div>
+											<div class="clim-tele-subtext">
+												{data.climateData.humidity >= 80 ? 'High moisture' : data.climateData.humidity >= 60 ? 'Optimal air' : 'Normal air'}
+											</div>
 										</div>
-										<div class="clim-substat">
-											<span class="clim-substat-label">Wind Speed</span>
-											<span class="clim-substat-val clim-val-royal">{data.climateData.wind_kph} <span class="clim-substat-unit">kph</span></span>
+
+										<!-- Wind Velocity -->
+										<div class="clim-tele-card">
+											<div class="clim-tele-top">
+												<div class="clim-tele-icon-badge badge-blue">
+													<span class="clim-tele-icon">
+														<Wind size={15} />
+													</span>
+												</div>
+												<span class="clim-tele-label">Wind Velocity</span>
+											</div>
+											<div class="clim-tele-val-row">
+												<span class="clim-tele-val">{data.climateData.wind_kph}</span>
+												<span class="clim-tele-unit">kph</span>
+											</div>
+											<div class="clim-tag-row">
+												<span class="clim-dir-tag">
+													<span class="clim-mini-icon text-sky">
+														<Compass size={13} />
+													</span>
+													<span>{data.climateData.wind_dir || 'NW'}</span>
+													{#if data.climateData.wind_degree}
+														<span class="clim-deg-dim">{data.climateData.wind_degree}°</span>
+													{/if}
+												</span>
+											</div>
+											<div class="clim-tele-subtext">
+												{data.climateData.wind_kph < 10 ? 'Gentle coastal breeze' : data.climateData.wind_kph < 25 ? 'Moderate wind' : 'Strong wind'}
+											</div>
+										</div>
+
+										<!-- UV Index -->
+										<div class="clim-tele-card">
+											<div class="clim-tele-top">
+												<div class="clim-tele-icon-badge badge-amber">
+													<span class="clim-tele-icon">
+														<Sun size={15} />
+													</span>
+												</div>
+												<span class="clim-tele-label">UV Index</span>
+											</div>
+											<div class="clim-tele-val-row">
+												<span class="clim-tele-val">{data.climateData.uv ?? 0}</span>
+												{#if data.climateData.uv !== undefined}
+													{@const uv = getUVStatus(data.climateData.uv)}
+													<span
+														class="clim-uv-pill"
+														style="color: {uv.color}; background: {uv.bg}; border-color: {uv.border};"
+													>
+														{uv.text}
+													</span>
+												{/if}
+											</div>
+											<div class="clim-meter-track">
+												<div
+													class="clim-meter-bar bar-amber"
+													style="width: {Math.min(100, ((data.climateData.uv ?? 0) / 11) * 100)}%"
+												></div>
+											</div>
+											<div class="clim-tele-subtext">
+												{(data.climateData.uv ?? 0) <= 2 ? 'Minimal sun risk' : 'Sun protection advised'}
+											</div>
+										</div>
+
+										<!-- Barometric Pressure -->
+										<div class="clim-tele-card">
+											<div class="clim-tele-top">
+												<div class="clim-tele-icon-badge badge-indigo">
+													<span class="clim-tele-icon">
+														<Gauge size={15} />
+													</span>
+												</div>
+												<span class="clim-tele-label">Pressure</span>
+											</div>
+											<div class="clim-tele-val-row">
+												<span class="clim-tele-val">{data.climateData.pressure_mb}</span>
+												<span class="clim-tele-unit">hPa</span>
+											</div>
+											<div class="clim-tag-row">
+												<span class="clim-vis-tag">
+													<span class="clim-mini-icon text-slate">
+														<Eye size={13} />
+													</span>
+													<span>Vis: {data.climateData.vis_km ?? 10} km</span>
+												</span>
+											</div>
+											<div class="clim-tele-subtext">
+												{data.climateData.pressure_mb >= 1013 ? 'High pressure / Stable' : 'Barometric active'}
+											</div>
+										</div>
+									</div>
+
+									<!-- Station Telemetry Footer -->
+									<div class="clim-station-footer">
+										<div class="clim-station-info">
+											<span class="clim-mini-icon text-amber clim-ping-anim">
+												<Radio size={13} />
+											</span>
+											<span>Tanauan Station &bull; Leyte Gulf Coast</span>
+										</div>
+										<div class="clim-station-time">
+											<span class="clim-mini-icon text-slate">
+												<Clock size={13} />
+											</span>
+											<span>Updated {formatWeatherTime(data.climateData.last_updated)}</span>
 										</div>
 									</div>
 								</div>
 							{:else}
 								<div class="clim-empty-weather">
+									<div class="clim-empty-icon-wrap">
+										<span class="clim-empty-icon">
+											<Radio size={28} />
+										</span>
+									</div>
 									<p class="clim-empty-title">Atmospheric Station Offline</p>
 									<p class="clim-empty-sub">Live telemetry is temporarily unavailable. Displaying historical climate parameters.</p>
 								</div>
@@ -589,121 +809,483 @@
 	.clim-live-card {
 		display: flex;
 		flex-direction: column;
+		position: relative;
+	}
+
+	.clim-live-glow-radial {
+		position: absolute;
+		top: -40px;
+		right: -40px;
+		width: 320px;
+		height: 320px;
+		background: radial-gradient(circle, rgba(245, 158, 11, 0.12) 0%, rgba(37, 99, 235, 0.08) 45%, transparent 70%);
+		filter: blur(40px);
+		pointer-events: none;
+		z-index: 1;
+	}
+
+	.clim-live-badge {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.35rem 0.75rem;
+		border-radius: 9999px;
+		background: rgba(16, 185, 129, 0.12);
+		border: 1px solid rgba(16, 185, 129, 0.35);
+		box-shadow: 0 0 12px rgba(16, 185, 129, 0.15);
+	}
+
+	.clim-badge-text {
+		font-size: 0.6875rem;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		color: #34d399;
+		text-transform: uppercase;
+		font-family: 'Poppins', sans-serif;
+	}
+
+	.clim-pulse-ring {
+		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 8px;
+		height: 8px;
+	}
+
+	.clim-pulse-dot {
+		width: 8px;
+		height: 8px;
+		border-radius: 9999px;
+		background: #10b981;
+		box-shadow: 0 0 10px #10b981;
+		animation: climPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+	}
+
+	@keyframes climPulse {
+		0%,
+		100% {
+			transform: scale(1);
+			opacity: 1;
+		}
+		50% {
+			transform: scale(1.35);
+			opacity: 0.6;
+			box-shadow: 0 0 14px #10b981;
+		}
 	}
 
 	.clim-live-body {
 		display: flex;
 		flex-direction: column;
-		gap: 1.75rem;
+		gap: 1.15rem;
 		flex: 1;
-		justify-content: center;
+		z-index: 2;
 	}
 
-	.clim-live-main {
+	/* Hero Weather Display */
+	.clim-hero-weather {
+		display: flex;
+		flex-direction: column;
+		gap: 0.875rem;
+		padding: 1.25rem 1.35rem;
+		background: rgba(6, 17, 36, 0.65);
+		border: 1px solid rgba(59, 130, 246, 0.28);
+		border-radius: 1.25rem;
+		backdrop-filter: blur(8px);
+		-webkit-backdrop-filter: blur(8px);
+		box-shadow:
+			inset 0 1px 0 rgba(255, 255, 255, 0.06),
+			0 10px 25px -10px rgba(0, 0, 0, 0.5);
+	}
+
+	.clim-hero-weather-main {
 		display: flex;
 		align-items: center;
-		gap: 1.5rem;
-		padding: 1rem 1.25rem;
-		background: rgba(6, 17, 36, 0.6);
-		border: 1px solid rgba(59, 130, 246, 0.25);
-		border-radius: 1.25rem;
+		gap: 1.25rem;
 	}
 
 	.clim-icon-wrap {
-		width: 4.5rem;
-		height: 4.5rem;
-		border-radius: 1rem;
-		background: rgba(14, 34, 70, 0.8);
-		border: 1px solid rgba(245, 158, 11, 0.35);
+		position: relative;
+		width: 4.75rem;
+		height: 4.75rem;
+		border-radius: 1.15rem;
+		background: linear-gradient(135deg, rgba(14, 34, 70, 0.95) 0%, rgba(8, 21, 45, 0.98) 100%);
+		border: 1px solid rgba(245, 158, 11, 0.4);
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		box-shadow: 0 0 20px rgba(245, 158, 11, 0.15);
+		flex-shrink: 0;
+		box-shadow:
+			0 0 24px rgba(245, 158, 11, 0.22),
+			inset 0 0 12px rgba(245, 158, 11, 0.1);
+	}
+
+	.clim-icon-glow {
+		position: absolute;
+		inset: 0;
+		border-radius: inherit;
+		background: radial-gradient(circle, rgba(245, 158, 11, 0.2) 0%, transparent 70%);
+		pointer-events: none;
 	}
 
 	.clim-weather-icon {
 		width: 3.5rem;
 		height: 3.5rem;
 		object-fit: contain;
+		filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.35));
+		z-index: 2;
 	}
 
-	.clim-live-temp {
-		font-size: 2.75rem;
-		font-weight: 900;
-		color: #ffffff;
-		line-height: 1.1;
-		letter-spacing: -0.03em;
+	.clim-temp-block {
+		display: flex;
+		flex-direction: column;
 	}
 
-	.clim-live-condition {
-		font-size: 1rem;
-		font-weight: 600;
-		color: #fbbf24;
-		margin-top: 0.2rem;
-	}
-
-	.clim-live-stats {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 1rem;
-	}
-
-	.clim-substat {
-		background: rgba(8, 21, 45, 0.7);
-		border: 1px solid rgba(255, 255, 255, 0.08);
-		border-radius: 1rem;
-		padding: 1.1rem 1rem;
-		text-align: center;
-		transition: border-color 0.25s ease;
-	}
-
-	.clim-substat:hover {
-		border-color: rgba(59, 130, 246, 0.4);
-	}
-
-	.clim-substat-label {
-		display: block;
-		font-size: 0.75rem;
-		font-weight: 600;
-		color: #94a3b8;
-		text-transform: uppercase;
-		letter-spacing: 0.06em;
-		margin-bottom: 0.35rem;
-	}
-
-	.clim-substat-val {
-		font-size: 1.5rem;
-		font-weight: 800;
+	.clim-live-temp-wrap {
+		display: flex;
+		align-items: baseline;
 		line-height: 1;
 	}
 
-	.clim-substat-unit {
-		font-size: 0.875rem;
+	.clim-live-temp {
+		font-size: 3.125rem;
+		font-weight: 900;
+		color: #ffffff;
+		letter-spacing: -0.04em;
+		text-shadow: 0 4px 20px rgba(255, 255, 255, 0.15);
+	}
+
+	.clim-temp-deg {
+		font-size: 1.5rem;
+		font-weight: 700;
+		color: #fbbf24;
+		margin-left: 0.15rem;
+	}
+
+	.clim-live-condition {
+		font-size: 1.0625rem;
+		font-weight: 600;
+		color: #fbbf24;
+		margin-top: 0.25rem;
+		letter-spacing: -0.01em;
+	}
+
+	.clim-hero-weather-meta {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		align-items: center;
+		padding-top: 0.75rem;
+		border-top: 1px solid rgba(255, 255, 255, 0.07);
+	}
+
+	.clim-chip {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+		padding: 0.3rem 0.75rem;
+		border-radius: 9999px;
+		font-size: 0.75rem;
+		font-weight: 500;
+		color: #cbd5e1;
+	}
+
+	.clim-chip-feels {
+		background: rgba(245, 158, 11, 0.12);
+		border: 1px solid rgba(245, 158, 11, 0.28);
+	}
+
+	.clim-chip-loc {
+		background: rgba(56, 189, 248, 0.1);
+		border: 1px solid rgba(56, 189, 248, 0.25);
+	}
+
+	.clim-chip-icon {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 14px;
+		height: 14px;
+		flex-shrink: 0;
+	}
+
+	/* 4-Card Telemetry Grid */
+	.clim-telemetry-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 0.875rem;
+	}
+
+	.clim-tele-card {
+		position: relative;
+		background: rgba(8, 21, 45, 0.75);
+		border: 1px solid rgba(59, 130, 246, 0.2);
+		border-radius: 1.15rem;
+		padding: 0.95rem 1rem 0.85rem;
+		transition: all 0.25s ease;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		min-height: 112px;
+	}
+
+	.clim-tele-card:hover {
+		transform: translateY(-2px);
+		border-color: rgba(59, 130, 246, 0.45);
+		background: rgba(10, 27, 58, 0.85);
+		box-shadow: 0 10px 22px -6px rgba(0, 0, 0, 0.45);
+	}
+
+	.clim-tele-top {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		margin-bottom: 0.35rem;
+	}
+
+	.clim-tele-icon-badge {
+		width: 1.75rem;
+		height: 1.75rem;
+		border-radius: 0.5rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-shrink: 0;
+	}
+
+	.badge-cyan {
+		background: rgba(6, 182, 212, 0.15);
+		color: #22d3ee;
+		border: 1px solid rgba(6, 182, 212, 0.3);
+	}
+
+	.badge-blue {
+		background: rgba(59, 130, 246, 0.15);
+		color: #60a5fa;
+		border: 1px solid rgba(59, 130, 246, 0.3);
+	}
+
+	.badge-amber {
+		background: rgba(245, 158, 11, 0.15);
+		color: #fbbf24;
+		border: 1px solid rgba(245, 158, 11, 0.3);
+	}
+
+	.badge-indigo {
+		background: rgba(99, 102, 241, 0.15);
+		color: #a5b4fc;
+		border: 1px solid rgba(99, 102, 241, 0.3);
+	}
+
+	.clim-tele-icon {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 15px;
+		height: 15px;
+	}
+
+	.clim-tele-label {
+		font-size: 0.6875rem;
+		font-weight: 700;
+		color: #94a3b8;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		font-family: 'Poppins', sans-serif;
+	}
+
+	.clim-tele-val-row {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 0.35rem;
+		margin-bottom: 0.35rem;
+	}
+
+	.clim-tele-val {
+		font-size: 1.5rem;
+		font-weight: 800;
+		color: #ffffff;
+		line-height: 1;
+		letter-spacing: -0.02em;
+		font-variant-numeric: tabular-nums;
+	}
+
+	.clim-tele-unit {
+		font-size: 0.8125rem;
 		font-weight: 600;
 		color: #94a3b8;
 	}
 
-	.clim-val-amber {
+	.clim-meter-track {
+		width: 100%;
+		height: 4px;
+		background: rgba(255, 255, 255, 0.08);
+		border-radius: 9999px;
+		overflow: hidden;
+		margin-bottom: 0.35rem;
+	}
+
+	.clim-meter-bar {
+		height: 100%;
+		border-radius: 9999px;
+		transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+	}
+
+	.bar-cyan {
+		background: linear-gradient(90deg, #06b6d4, #38bdf8);
+		box-shadow: 0 0 8px rgba(6, 182, 212, 0.4);
+	}
+
+	.bar-amber {
+		background: linear-gradient(90deg, #f59e0b, #fbbf24);
+		box-shadow: 0 0 8px rgba(245, 158, 11, 0.4);
+	}
+
+	.clim-tag-row {
+		display: flex;
+		align-items: center;
+		gap: 0.35rem;
+		margin-bottom: 0.35rem;
+	}
+
+	.clim-dir-tag,
+	.clim-vis-tag {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.3rem;
+		font-size: 0.6875rem;
+		font-weight: 600;
+		color: #cbd5e1;
+		background: rgba(255, 255, 255, 0.05);
+		padding: 0.15rem 0.5rem;
+		border-radius: 0.375rem;
+		border: 1px solid rgba(255, 255, 255, 0.08);
+	}
+
+	.clim-deg-dim {
+		color: #64748b;
+		font-size: 0.625rem;
+		font-weight: 500;
+	}
+
+	.clim-uv-pill {
+		font-size: 0.6875rem;
+		font-weight: 700;
+		padding: 0.12rem 0.5rem;
+		border-radius: 9999px;
+		letter-spacing: 0.02em;
+	}
+
+	.clim-tele-subtext {
+		font-size: 0.6875rem;
+		color: #64748b;
+		font-weight: 500;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	/* Station Footer */
+	.clim-station-footer {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.75rem;
+		padding: 0.65rem 0.875rem;
+		background: rgba(6, 17, 36, 0.6);
+		border: 1px solid rgba(59, 130, 246, 0.2);
+		border-radius: 0.75rem;
+		font-size: 0.6875rem;
+		color: #94a3b8;
+		flex-wrap: wrap;
+	}
+
+	.clim-station-info,
+	.clim-station-time {
+		display: flex;
+		align-items: center;
+		gap: 0.4rem;
+		font-weight: 500;
+	}
+
+	.clim-mini-icon {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 13px;
+		height: 13px;
+		flex-shrink: 0;
+	}
+
+	.clim-ping-anim {
+		animation: climPing 2s infinite ease-in-out;
+	}
+
+	@keyframes climPing {
+		0%,
+		100% {
+			transform: scale(1);
+			opacity: 0.8;
+		}
+		50% {
+			transform: scale(1.15);
+			opacity: 1;
+		}
+	}
+
+	.text-amber {
 		color: #f59e0b;
 	}
 
-	.clim-val-royal {
-		color: #60a5fa;
+	.text-sky {
+		color: #38bdf8;
 	}
 
+	.text-slate {
+		color: #94a3b8;
+	}
+
+	/* Empty / Offline Fallback */
 	.clim-empty-weather {
-		padding: 2.5rem 1.5rem;
+		padding: 3rem 1.5rem;
 		text-align: center;
 		background: rgba(6, 17, 36, 0.5);
 		border-radius: 1.25rem;
 		border: 1px dashed rgba(255, 255, 255, 0.15);
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 0.75rem;
+	}
+
+	.clim-empty-icon-wrap {
+		width: 3.5rem;
+		height: 3.5rem;
+		border-radius: 1rem;
+		background: rgba(245, 158, 11, 0.1);
+		border: 1px solid rgba(245, 158, 11, 0.25);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: #fbbf24;
+	}
+
+	.clim-empty-icon {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 1.75rem;
+		height: 1.75rem;
 	}
 
 	.clim-empty-title {
 		font-size: 1.125rem;
 		font-weight: 700;
 		color: #ffffff;
-		margin-bottom: 0.5rem;
+		margin: 0;
 	}
 
 	.clim-empty-sub {
@@ -711,6 +1293,7 @@
 		color: #94a3b8;
 		line-height: 1.6;
 		margin: 0;
+		max-width: 24rem;
 	}
 
 	/* ==========================================================

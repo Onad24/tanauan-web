@@ -11,7 +11,10 @@ export async function load({ fetch }) {
 
 		const result = await res.json();
 		return {
-			climateData: result.current
+			climateData: {
+				...result.current,
+				location: result.location
+			}
 		};
 	} catch (e) {
 		return {
