@@ -157,6 +157,7 @@
 		showAccomplishments = true,
 		accomplishments = null,
 		showPersonnel = true,
+		showStructure = true,
 		formsAtEnd = false,
 		orgChartImage = '',
 		dutiesAndResponsibilities = null,
@@ -400,7 +401,7 @@
 			: []),
 		...(!isMAO && mandates && mandates.length > 0 ? [{ id: 'mandates', label: 'Mandates' }] : []),
 		{ id: 'leadership', label: 'Leadership' },
-		{ id: 'structure', label: 'Structure' },
+		...(showStructure ? [{ id: 'structure', label: 'Structure' }] : []),
 		...(showAccomplishments
 			? [
 					{
@@ -2951,113 +2952,115 @@
 		</section>
 
 		<!-- Section 4: Organizational Structure (Executive Governance Matrix & Blueprint Viewer) -->
-		<section
-			id="structure"
-			class="relative scroll-mt-44 overflow-hidden border-b-2 border-slate-200 bg-slate-50 py-20 sm:scroll-mt-52"
-		>
-			<!-- Subtle Civic Grid Background -->
-			<div
-				class="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,#cbd5e1_1px,transparent_1px),linear-gradient(to_bottom,#cbd5e1_1px,transparent_1px)] bg-[size:3rem_3rem] opacity-25"
-			></div>
-
-			<div class="relative z-10 container mx-auto max-w-7xl px-6">
-				<!-- Section Header -->
+		{#if showStructure}
+			<section
+				id="structure"
+				class="relative scroll-mt-44 overflow-hidden border-b-2 border-slate-200 bg-slate-50 py-20 sm:scroll-mt-52"
+			>
+				<!-- Subtle Civic Grid Background -->
 				<div
-					class="mb-10 flex flex-col justify-between gap-6 border-b-2 border-slate-200 pb-6 md:flex-row md:items-end"
-				>
-					<div class="max-w-3xl">
-						<div
-							class="mb-3 inline-flex items-center gap-2 rounded-md border border-blue-300 bg-blue-100 px-3.5 py-1 text-xs font-black tracking-wider text-blue-950 uppercase"
-						>
-							<span class="h-2 w-2 rounded-full bg-blue-900"></span>
-							SECTION {structureNavCode} // EXECUTIVE GOVERNANCE & HIERARCHY
-						</div>
-						<h2 class="text-3xl leading-tight font-black tracking-tight text-blue-950 sm:text-4xl">
-							Organizational Structure
-						</h2>
-						<p class="mt-2.5 text-base leading-relaxed font-normal text-slate-800">
-							Official supervisory line of authority, statutory division assignments, and Civil
-							Service Commission-ratified organizational hierarchy for the {officeName}.
-						</p>
-					</div>
+					class="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,#cbd5e1_1px,transparent_1px),linear-gradient(to_bottom,#cbd5e1_1px,transparent_1px)] bg-[size:3rem_3rem] opacity-25"
+				></div>
 
-					<!-- Executive Quick Facts Pill -->
-					<div class="flex shrink-0 flex-wrap items-center gap-3">
-						<div
-							class="rounded-xl border-2 border-slate-300 bg-white px-4 py-2 text-left shadow-sm"
-						>
-							<div class="text-[10px] font-black tracking-wider text-slate-500 uppercase">
-								APPOINTING AUTHORITY
-							</div>
-							<div class="text-xs font-black text-blue-950">Municipal Mayor / CSC</div>
-						</div>
-						<div
-							class="rounded-xl border border-amber-500 bg-amber-400 px-4 py-2 text-left shadow-sm"
-						>
-							<div class="text-[10px] font-black tracking-wider text-blue-950/75 uppercase">
-								CIVIC STATUS
-							</div>
-							<div class="text-xs font-black text-blue-950">Active Roster 2025</div>
-						</div>
-					</div>
-				</div>
-
-				<!-- Executive Governance Overview Deck -->
-				<div class="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+				<div class="relative z-10 container mx-auto max-w-7xl px-6">
+					<!-- Section Header -->
 					<div
-						class="rounded-2xl border-2 border-slate-200 bg-white p-5 shadow-sm transition-colors hover:border-blue-900"
+						class="mb-10 flex flex-col justify-between gap-6 border-b-2 border-slate-200 pb-6 md:flex-row md:items-end"
 					>
-						<div class="mb-1 text-xs font-black tracking-wide text-amber-600 uppercase">
-							01 // EXECUTIVE HEAD
+						<div class="max-w-3xl">
+							<div
+								class="mb-3 inline-flex items-center gap-2 rounded-md border border-blue-300 bg-blue-100 px-3.5 py-1 text-xs font-black tracking-wider text-blue-950 uppercase"
+							>
+								<span class="h-2 w-2 rounded-full bg-blue-900"></span>
+								SECTION {structureNavCode} // EXECUTIVE GOVERNANCE & HIERARCHY
+							</div>
+							<h2 class="text-3xl leading-tight font-black tracking-tight text-blue-950 sm:text-4xl">
+								Organizational Structure
+							</h2>
+							<p class="mt-2.5 text-base leading-relaxed font-normal text-slate-800">
+								Official supervisory line of authority, statutory division assignments, and Civil
+								Service Commission-ratified organizational hierarchy for the {officeName}.
+							</p>
 						</div>
-						<div class="text-base font-black text-blue-950">{head.name}</div>
-						<div class="mt-0.5 text-xs font-semibold text-slate-600">{head.title}</div>
+
+						<!-- Executive Quick Facts Pill -->
+						<div class="flex shrink-0 flex-wrap items-center gap-3">
+							<div
+								class="rounded-xl border-2 border-slate-300 bg-white px-4 py-2 text-left shadow-sm"
+							>
+								<div class="text-[10px] font-black tracking-wider text-slate-500 uppercase">
+									APPOINTING AUTHORITY
+								</div>
+								<div class="text-xs font-black text-blue-950">Municipal Mayor / CSC</div>
+							</div>
+							<div
+								class="rounded-xl border border-amber-500 bg-amber-400 px-4 py-2 text-left shadow-sm"
+							>
+								<div class="text-[10px] font-black tracking-wider text-blue-950/75 uppercase">
+									CIVIC STATUS
+								</div>
+								<div class="text-xs font-black text-blue-950">Active Roster 2025</div>
+							</div>
+						</div>
 					</div>
-					{#if mandates[1]}
+
+					<!-- Executive Governance Overview Deck -->
+					<div class="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
 						<div
 							class="rounded-2xl border-2 border-slate-200 bg-white p-5 shadow-sm transition-colors hover:border-blue-900"
 						>
-							<div class="mb-1 text-xs font-black tracking-wide text-blue-900 uppercase">
-								02 // {mandates[1].code || 'FUNCTION'}
+							<div class="mb-1 text-xs font-black tracking-wide text-amber-600 uppercase">
+								01 // EXECUTIVE HEAD
 							</div>
-							<div class="text-base font-black text-blue-950">{mandates[1].title}</div>
-							<div class="mt-0.5 text-xs font-semibold text-slate-600">{mandates[1].tag}</div>
+							<div class="text-base font-black text-blue-950">{head.name}</div>
+							<div class="mt-0.5 text-xs font-semibold text-slate-600">{head.title}</div>
 						</div>
-					{/if}
-					{#if mandates[2]}
+						{#if mandates[1]}
+							<div
+								class="rounded-2xl border-2 border-slate-200 bg-white p-5 shadow-sm transition-colors hover:border-blue-900"
+							>
+								<div class="mb-1 text-xs font-black tracking-wide text-blue-900 uppercase">
+									02 // {mandates[1].code || 'FUNCTION'}
+								</div>
+								<div class="text-base font-black text-blue-950">{mandates[1].title}</div>
+								<div class="mt-0.5 text-xs font-semibold text-slate-600">{mandates[1].tag}</div>
+							</div>
+						{/if}
+						{#if mandates[2]}
+							<div
+								class="rounded-2xl border-2 border-slate-200 bg-white p-5 shadow-sm transition-colors hover:border-blue-900"
+							>
+								<div class="mb-1 text-xs font-black tracking-wide text-blue-900 uppercase">
+									03 // {mandates[2].code || 'FUNCTION'}
+								</div>
+								<div class="text-base font-black text-blue-950">{mandates[2].title}</div>
+								<div class="mt-0.5 text-xs font-semibold text-slate-600">{mandates[2].tag}</div>
+							</div>
+						{/if}
 						<div
 							class="rounded-2xl border-2 border-slate-200 bg-white p-5 shadow-sm transition-colors hover:border-blue-900"
 						>
-							<div class="mb-1 text-xs font-black tracking-wide text-blue-900 uppercase">
-								03 // {mandates[2].code || 'FUNCTION'}
+							<div
+								class="mb-1 text-xs font-black tracking-wide {isMENRO
+									? 'text-amber-600'
+									: 'text-emerald-700'} uppercase"
+							>
+								04 // STATUTORY BASIS
 							</div>
-							<div class="text-base font-black text-blue-950">{mandates[2].title}</div>
-							<div class="mt-0.5 text-xs font-semibold text-slate-600">{mandates[2].tag}</div>
-						</div>
-					{/if}
-					<div
-						class="rounded-2xl border-2 border-slate-200 bg-white p-5 shadow-sm transition-colors hover:border-blue-900"
-					>
-						<div
-							class="mb-1 text-xs font-black tracking-wide {isMENRO
-								? 'text-amber-600'
-								: 'text-emerald-700'} uppercase"
-						>
-							04 // STATUTORY BASIS
-						</div>
-						<div class="text-base font-black text-blue-950">COA & CSC Compliant</div>
-						<div class="mt-0.5 text-xs font-semibold text-slate-600">
-							Local Government Code of 1991
+							<div class="text-base font-black text-blue-950">COA & CSC Compliant</div>
+							<div class="mt-0.5 text-xs font-semibold text-slate-600">
+								Local Government Code of 1991
+							</div>
 						</div>
 					</div>
-				</div>
 
-				<!-- Interactive Blueprint Canvas Frame -->
-				<div class="rounded-3xl border-2 border-slate-300 bg-white p-6 shadow-sm sm:p-8">
-					<OrgChartSection {department} defaultImage={orgChartImage} cleanLayout={true} />
+					<!-- Interactive Blueprint Canvas Frame -->
+					<div class="rounded-3xl border-2 border-slate-300 bg-white p-6 shadow-sm sm:p-8">
+						<OrgChartSection {department} defaultImage={orgChartImage} cleanLayout={true} />
+					</div>
 				</div>
-			</div>
-		</section>
+			</section>
+		{/if}
 
 		<!-- Section 5: Accomplishment Reports (Audited Fiscal Performance) -->
 		{#if showAccomplishments}

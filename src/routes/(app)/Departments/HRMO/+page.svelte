@@ -6,13 +6,17 @@
 
 	const defaults = {
 		...(getDeptDefaults('HRMO') ?? { department: 'HRMO' }),
-		department: 'HRMO'
+		department: 'HRMO',
+		showStructure: false,
+		downloadableForms: []
 	};
 
 	// Merge Firestore dynamic data over defaults
 	const pageData = $derived({
 		...mergeOfficeData(defaults, data?.officePageData),
-		department: 'HRMO'
+		department: 'HRMO',
+		showStructure: false,
+		downloadableForms: []
 	});
 </script>
 
@@ -20,8 +24,10 @@
 	<title>Human Resource Management Office (HRMO) | Municipality of Tanauan, Leyte</title>
 	<meta
 		name="description"
-		content="Official Civil Service Commission & LGU Tanauan Organizational Chart, Supervisory Structure, and Human Resource Management Systems (PRIME-HRM) for Tanauan, Leyte."
+		content="Official Civil Service Commission & LGU Tanauan Human Resource Management Systems (PRIME-HRM), public personnel services, and leadership directory for Tanauan, Leyte."
 	/>
 </svelte:head>
 
-<OfficeTemplate {...pageData} department="HRMO" />
+<OfficeTemplate {...pageData} department="HRMO" showStructure={false} downloadableForms={[]} />
+
+
