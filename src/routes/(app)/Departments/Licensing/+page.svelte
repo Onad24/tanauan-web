@@ -12,12 +12,30 @@
 		...baseData,
 		department: 'Licensing',
 		showPersonnel: false,
-		formsAtEnd: true
+		formsAtEnd: true,
+		showHeroServiceBadges: false,
+		plaqueHeader: 'OFFICE DETAILS:',
+		plaqueItems: [
+			{
+				title: 'Office Location',
+				subtitle: 'Ground Floor, Tanauan Municipal Hall, Real St., Tanauan, Leyte',
+				badge: 'GROUND FLOOR'
+			},
+			{
+				title: 'Service Hours',
+				subtitle: 'Monday – Friday | 8:00 AM – 5:00 PM (No Noon Break)',
+				badge: 'MON – FRI'
+			}
+		]
 	});
 </script>
 
 <svelte:head>
 	<title>Business Permit &amp; Licensing Office (BPLO) | Municipality of Tanauan, Leyte</title>
+	<meta
+		name="description"
+		content="Official business permit processing, regulatory compliance, licensing requirements, and public service information of the Business Permit & Licensing Office (BPLO), Municipality of Tanauan, Leyte."
+	/>
 </svelte:head>
 
 <OfficeTemplate {...pageData} />

@@ -1289,6 +1289,20 @@ export const DEPT_DEFAULTS = {
       { index: '03', code: 'CLOSURES', title: 'Business Closure & Violation Processing', description: 'Processes business closure notices and violations of local business regulations and ordinances.', tag: 'Enforcement', details: ['Non-Compliant Business Action', 'Violation Notice Issuance', 'Business Closure Processing'] }
     ],
     schedule: { hours: 'Monday – Friday | 8:00 AM – 5:00 PM (No Noon Break)', location: 'Ground Floor, Tanauan Municipal Hall, Real St., Tanauan, Leyte', contactNumber: '', email: 'bplo@tanauanleyte.gov.ph', helpline: 'Business Permit Window, Municipal Hall Ground Floor' },
+    plaqueHeader: 'OFFICE DETAILS:',
+    plaqueItems: [
+      {
+        title: 'Office Location',
+        subtitle: 'Ground Floor, Tanauan Municipal Hall, Real St., Tanauan, Leyte',
+        badge: 'GROUND FLOOR'
+      },
+      {
+        title: 'Service Hours',
+        subtitle: 'Monday – Friday | 8:00 AM – 5:00 PM (No Noon Break)',
+        badge: 'MON – FRI'
+      }
+    ],
+    showHeroServiceBadges: false,
     showPersonnel: false,
     formsAtEnd: true,
     downloadableForms: [
@@ -2003,7 +2017,21 @@ export const DEPT_DEFAULTS = {
       { index: '02', code: 'POLICY', title: 'Policy & Directive Implementation', description: 'Oversees the implementation of executive orders, policies, and directives of the Office of the Mayor.', tag: 'Policy Management', details: ['Executive Directive Enforcement', 'Program Implementation Monitoring', 'Administrative Circular Management'] },
       { index: '03', code: 'PERFORM', title: 'Performance Monitoring & Evaluation', description: 'Monitors and evaluates the performance of all municipal departments against set targets and KPIs.', tag: 'Performance Management', details: ['Departmental Performance Reviews', 'KPI Tracking & Reporting', 'SGLG Preparation & Compliance'] }
     ],
-    schedule: { hours: 'Monday – Friday | 8:00 AM – 5:00 PM', location: "2nd Floor, Tanauan Municipal Hall, Real St., Tanauan, Leyte", contactNumber: '', email: '', helpline: "Municipal Administrator's Office, 2nd Floor" }
+    schedule: { hours: 'Monday to Friday | 8:00 AM – 5:00 PM (No Noon Break)', location: "2nd Floor, Tanauan Municipal Hall, Real St., Tanauan, Leyte", contactNumber: '(053) 888-3456', email: 'administrator@tanauanleyte.gov.ph', helpline: "Municipal Administrator's Office, 2nd Floor Executive Wing" },
+    plaqueHeader: 'OFFICE DETAILS:',
+    plaqueItems: [
+      {
+        title: 'Office Location',
+        subtitle: '2nd Floor, Tanauan Municipal Hall, Real St., Tanauan, Leyte',
+        badge: '2ND FLOOR'
+      },
+      {
+        title: 'Service Hours',
+        subtitle: 'Monday to Friday | 8:00 AM – 5:00 PM (No Noon Break)',
+        badge: 'MON – FRI'
+      }
+    ],
+    showHeroServiceBadges: false
   },
   OSCA: {
     officeName: "Office for Senior Citizens Affairs",

@@ -165,7 +165,10 @@
 		servicesOffered = [],
 		downloadableForms = [],
 		preparedBy = null,
-		reviewedBy = null
+		reviewedBy = null,
+		plaqueHeader = null,
+		plaqueItems = null,
+		showHeroServiceBadges = true
 	} = $props();
 
 	let scrollY = $state(0);
@@ -256,76 +259,115 @@
 
 	const isMAO = $derived(
 		officeCode === 'MAO' ||
-		department === 'Agriculture' ||
-		department === 'MAO' ||
-		(officeName && officeName.toLowerCase().includes('agriculture'))
+			department === 'Agriculture' ||
+			department === 'MAO' ||
+			(officeName && officeName.toLowerCase().includes('agriculture'))
 	);
 
 	const isCivilRegistrar = $derived(
 		department === 'Civil Registrar' ||
-		officeCode === 'MCRO' ||
-		officeCode === 'MCR' ||
-		department === 'Municipal Civil Registrar'
+			officeCode === 'MCRO' ||
+			officeCode === 'MCR' ||
+			department === 'Municipal Civil Registrar'
 	);
 
 	const isMDRRMO = $derived(
 		officeCode === 'MDRRMO' ||
-		department === 'MDRRMO' ||
-		(officeName && officeName.toLowerCase().includes('disaster risk'))
+			department === 'MDRRMO' ||
+			(officeName && officeName.toLowerCase().includes('disaster risk'))
 	);
 
 	const isMENRO = $derived(
 		officeCode === 'MENRO' ||
-		department === 'MENRO' ||
-		(officeName && officeName.toLowerCase().includes('environment'))
+			department === 'MENRO' ||
+			(officeName && officeName.toLowerCase().includes('environment'))
 	);
 
 	const isEngineering = $derived(
 		department === 'Engineering' ||
-		officeCode === 'MEO' ||
-		department === 'Municipal Engineering Office' ||
-		(officeName && officeName.toLowerCase().includes('engineering'))
+			officeCode === 'MEO' ||
+			department === 'Municipal Engineering Office' ||
+			(officeName && officeName.toLowerCase().includes('engineering'))
 	);
 
 	const isHealthOffice = $derived(
 		department === 'Health Office' ||
-		officeCode === 'MHO' ||
-		(officeName && officeName.toLowerCase().includes('health'))
+			officeCode === 'MHO' ||
+			(officeName && officeName.toLowerCase().includes('health'))
 	);
 
 	const isLicensing = $derived(
 		department === 'Licensing' ||
-		officeCode === 'BPLO' ||
-		department === 'Business Permit & Licensing Office' ||
-		(officeName && officeName.toLowerCase().includes('licensing'))
+			officeCode === 'BPLO' ||
+			department === 'Business Permit & Licensing Office' ||
+			(officeName && officeName.toLowerCase().includes('licensing'))
 	);
 
 	const isGSO = $derived(
 		department === 'GSO' ||
-		officeCode === 'GSO' ||
-		department === 'General Services Section' ||
-		department === 'General Services Office' ||
-		(officeName && officeName.toLowerCase().includes('general services'))
+			officeCode === 'GSO' ||
+			department === 'General Services Section' ||
+			department === 'General Services Office' ||
+			(officeName && officeName.toLowerCase().includes('general services'))
 	);
 
-	const shouldShowPersonnel = $derived(showPersonnel && !isCivilRegistrar && !isMDRRMO && !isMENRO && !isEngineering && !isHealthOffice && !isLicensing && !isGSO && !isMAO);
-	const shouldPutFormsAtEnd = $derived(formsAtEnd || isCivilRegistrar || isMDRRMO || isMENRO || isEngineering || isHealthOffice || isLicensing || isGSO || isMAO);
+	const shouldShowPersonnel = $derived(
+		showPersonnel &&
+			!isCivilRegistrar &&
+			!isMDRRMO &&
+			!isMENRO &&
+			!isEngineering &&
+			!isHealthOffice &&
+			!isLicensing &&
+			!isGSO &&
+			!isMAO
+	);
+	const shouldPutFormsAtEnd = $derived(
+		formsAtEnd ||
+			isCivilRegistrar ||
+			isMDRRMO ||
+			isMENRO ||
+			isEngineering ||
+			isHealthOffice ||
+			isLicensing ||
+			isGSO ||
+			isMAO
+	);
 	const shouldShowAwards = $derived(!isMDRRMO && !isMENRO && !isEngineering);
 
 	const baseNav = $derived([
 		{ id: 'overview', label: 'Overview' },
 		...(vision || mission ? [{ id: 'vision-mission', label: 'Vision & Mission' }] : []),
 		...(isMAO || isMENRO || (servicesOffered && servicesOffered.length > 0)
-			? [{ id: isMENRO ? 'collection-schedule' : 'services', label: isMENRO ? 'Waste Schedule' : 'Services' }]
+			? [
+					{
+						id: isMENRO ? 'collection-schedule' : 'services',
+						label: isMENRO ? 'Waste Schedule' : 'Services'
+					}
+				]
 			: []),
-		...(!isMAO && !shouldPutFormsAtEnd && downloadableForms && downloadableForms.length > 0 ? [{ id: 'forms', label: 'Forms' }] : []),
+		...(!isMAO && !shouldPutFormsAtEnd && downloadableForms && downloadableForms.length > 0
+			? [{ id: 'forms', label: 'Forms' }]
+			: []),
 		...(!isMAO && mandates && mandates.length > 0 ? [{ id: 'mandates', label: 'Mandates' }] : []),
 		{ id: 'leadership', label: 'Leadership' },
 		{ id: 'structure', label: 'Structure' },
-		...(showAccomplishments ? [{ id: 'accomplishments', label: isCivilRegistrar || isMDRRMO || isMENRO || isHealthOffice || isLicensing || isMAO ? 'Accomplishments' : 'Reports' }] : []),
+		...(showAccomplishments
+			? [
+					{
+						id: 'accomplishments',
+						label:
+							isCivilRegistrar || isMDRRMO || isMENRO || isHealthOffice || isLicensing || isMAO
+								? 'Accomplishments'
+								: 'Reports'
+					}
+				]
+			: []),
 		...(shouldShowAwards ? [{ id: 'awards', label: 'Recognition' }] : []),
 		...(shouldShowPersonnel ? [{ id: 'personnel', label: 'Personnel' }] : []),
-		...(shouldPutFormsAtEnd && downloadableForms && downloadableForms.length > 0 ? [{ id: 'forms', label: isMENRO || isMAO ? 'Downloadables' : 'Forms' }] : [])
+		...(shouldPutFormsAtEnd && downloadableForms && downloadableForms.length > 0
+			? [{ id: 'forms', label: isMENRO || isMAO ? 'Downloadables' : 'Forms' }]
+			: [])
 	]);
 
 	// Downloadable Forms State & Folder Management
@@ -404,7 +446,8 @@
 			badge: 'Official NBCP Dossier',
 			stat: '7 Official Forms',
 			tagline: 'Presidential Decree No. 1096 • National Building Code of the Philippines',
-			description: 'Official unified filing dossier containing the prerequisite checklist, architectural, electrical, mechanical, electronics, sanitary/plumbing, demolition, and structural permit applications for all building constructions and renovations.',
+			description:
+				'Official unified filing dossier containing the prerequisite checklist, architectural, electrical, mechanical, electronics, sanitary/plumbing, demolition, and structural permit applications for all building constructions and renovations.',
 			keyDocs: [
 				'Checklist of Appended Documents',
 				'Architectural Permit (NBC Form No. A-01)',
@@ -423,11 +466,9 @@
 			badge: 'Official Boundary Dossier',
 			stat: '2 Official Forms',
 			tagline: 'Perimeter Wall & Fence Construction • Line & Grade Clearances',
-			description: 'Official municipal filing dossier containing the appended requirements checklist, line and grade survey verification requirements, and the official DPWH fencing permit application form for all perimeter walls and barriers.',
-			keyDocs: [
-				'Checklist of Fencing Appended Documents',
-				'Fencing Permit Application Form'
-			]
+			description:
+				'Official municipal filing dossier containing the appended requirements checklist, line and grade survey verification requirements, and the official DPWH fencing permit application form for all perimeter walls and barriers.',
+			keyDocs: ['Checklist of Fencing Appended Documents', 'Fencing Permit Application Form']
 		},
 		'Occupancy Permit': {
 			id: 'occupancy-permit',
@@ -437,7 +478,8 @@
 			badge: 'Official Occupancy Dossier',
 			stat: '3 Official Forms',
 			tagline: 'Certificate of Occupancy • Final Inspection & Clearances',
-			description: 'Official municipal dossier containing the Unified Application Form for Occupancy, notarized Certificate of Completion, and the official Certificate of Occupancy under Section 309 of the National Building Code (PD 1096).',
+			description:
+				'Official municipal dossier containing the Unified Application Form for Occupancy, notarized Certificate of Completion, and the official Certificate of Occupancy under Section 309 of the National Building Code (PD 1096).',
 			keyDocs: [
 				'Unified Application Form for Occupancy',
 				'Certificate of Completion Form',
@@ -452,7 +494,8 @@
 			badge: 'Official Prerequisite Dossier',
 			stat: '3 Official Checklists',
 			tagline: 'Utility Connections & Occupancy Prerequisite Checklists',
-			description: 'Official municipal repository containing the prescribed documentary checklists for DORELCO electrical connections, Primewater water service connections, and Certificate of Occupancy clearances.',
+			description:
+				'Official municipal repository containing the prescribed documentary checklists for DORELCO electrical connections, Primewater water service connections, and Certificate of Occupancy clearances.',
 			keyDocs: [
 				'Checklist for Electrical Connection',
 				'Checklist for Water Connection',
@@ -467,10 +510,9 @@
 			badge: 'Official Cemetery Dossier',
 			stat: '1 Official Form',
 			tagline: 'Tanauan New Cemetery Extension • Lot Assignment & Permitting',
-			description: 'Official municipal filing dossier containing the burial permit application and cemetery lot assignment schedule for the Tanauan New Cemetery Extension, covering individual grave lots, perimeter niches, and family lots.',
-			keyDocs: [
-				'Tanauan New Cemetery Extension Burial Permit Form'
-			]
+			description:
+				'Official municipal filing dossier containing the burial permit application and cemetery lot assignment schedule for the Tanauan New Cemetery Extension, covering individual grave lots, perimeter niches, and family lots.',
+			keyDocs: ['Tanauan New Cemetery Extension Burial Permit Form']
 		},
 		'Project Implementation Form': {
 			id: 'project-implementation-form',
@@ -480,7 +522,8 @@
 			badge: 'Official Project Dossier',
 			stat: '3 Official Forms',
 			tagline: 'Program of Work • Concrete Pouring • Final Project Inspection',
-			description: 'Official municipal engineering forms for infrastructure project implementation, including Request for Program of Work (POW) / Detailed Estimate, Concrete Pouring Permit & Pre-Pouring Checklist, and Request for Final Inspection of Completed Projects.',
+			description:
+				'Official municipal engineering forms for infrastructure project implementation, including Request for Program of Work (POW) / Detailed Estimate, Concrete Pouring Permit & Pre-Pouring Checklist, and Request for Final Inspection of Completed Projects.',
 			keyDocs: [
 				'Request for Program of Work / Detailed Estimate',
 				'Concrete Pouring Permit & Request for Pouring Inspection',
@@ -495,7 +538,8 @@
 			badge: 'Official Oral Health Dossier',
 			stat: '1 Official Form',
 			tagline: 'Rural Health Unit Dental Clinic • Oral Health Program',
-			description: 'Official Municipal Health Office oral examination and dental monitoring record for tracking oral health status, DMFT / dft caries indices, gingival condition, dental prophylaxis, temporary/permanent restorations, and tooth extractions across 5 annual clinical monitoring cycles.',
+			description:
+				'Official Municipal Health Office oral examination and dental monitoring record for tracking oral health status, DMFT / dft caries indices, gingival condition, dental prophylaxis, temporary/permanent restorations, and tooth extractions across 5 annual clinical monitoring cycles.',
 			keyDocs: [
 				'Individual Treatment Record (Form 1)',
 				'Oral Health Status & DMF Indices Chart',
@@ -511,7 +555,8 @@
 			badge: 'PhilHealth Konsulta Clinical Dossier',
 			stat: '1 Official Form',
 			tagline: 'Primary Care Consultations • Physical Exam • NCD Assessment',
-			description: 'Comprehensive patient encounter record utilized by RHU physicians and clinical staff for primary healthcare consultations, PhilHealth Konsulta first patient encounters, pediatric growth measurements, comprehensive physical examinations, and non-communicable disease (NCD) cardiovascular/diabetes risk assessments.',
+			description:
+				'Comprehensive patient encounter record utilized by RHU physicians and clinical staff for primary healthcare consultations, PhilHealth Konsulta first patient encounters, pediatric growth measurements, comprehensive physical examinations, and non-communicable disease (NCD) cardiovascular/diabetes risk assessments.',
 			keyDocs: [
 				'Patient Demographic & PhilHealth Profile',
 				'Past Medical, Surgical & Family History',
@@ -528,7 +573,8 @@
 			badge: 'Universal Health Care Statutory Dossier',
 			stat: '1 Official Form',
 			tagline: 'Universal Health Care Act (RA 11223) • Member Registration',
-			description: 'Official statutory registration and data updating document for PhilHealth Universal Health Care coverage, declaration of qualified dependents, member classification (Direct vs. Indirect Contributors), and designation of preferred accredited RHU Konsulta primary care providers.',
+			description:
+				'Official statutory registration and data updating document for PhilHealth Universal Health Care coverage, declaration of qualified dependents, member classification (Direct vs. Indirect Contributors), and designation of preferred accredited RHU Konsulta primary care providers.',
 			keyDocs: [
 				'PhilHealth Member Registration Form (PMRF)',
 				'Declaration of Qualified Dependents',
@@ -544,10 +590,9 @@
 			badge: 'Official BPLO Dossier',
 			stat: '1 Official Form',
 			tagline: 'Ease of Doing Business • ARTA & DILG Unified Permitting',
-			description: 'Official municipal licensing dossier containing the prescribed 2-page Unified Application Form (UAF) for new business registration, annual renewals, and gross sales assessments.',
-			keyDocs: [
-				'Unified Application Form (UAF) for Business Permit (Annex 1)'
-			]
+			description:
+				'Official municipal licensing dossier containing the prescribed 2-page Unified Application Form (UAF) for new business registration, annual renewals, and gross sales assessments.',
+			keyDocs: ['Unified Application Form (UAF) for Business Permit (Annex 1)']
 		},
 		'Public Transport': {
 			id: 'public-transport',
@@ -557,12 +602,11 @@
 			badge: 'Official Transport Dossier',
 			stat: '1 Official Form',
 			tagline: 'Motorized Tricycle & Public Utility Vehicle Franchising',
-			description: 'Official municipal regulatory application form for public utility transport service operators and drivers in Tanauan, covering MCH, e-Trikes, Pedicabs, and Motopots.',
-			keyDocs: [
-				'Application Form for Public Transport Service'
-			]
+			description:
+				'Official municipal regulatory application form for public utility transport service operators and drivers in Tanauan, covering MCH, e-Trikes, Pedicabs, and Motopots.',
+			keyDocs: ['Application Form for Public Transport Service']
 		},
-		'Checklists': {
+		Checklists: {
 			id: 'bplo-checklists',
 			code: 'BPLO CHECKLISTS',
 			icon: '',
@@ -570,7 +614,8 @@
 			badge: 'Official Prerequisite Dossier',
 			stat: '3 Official Checklists',
 			tagline: 'Mandatory Documentary Requirements • Business & Public Transport Clearances',
-			description: 'Official municipal checklist guides detailing all documentary prerequisites for commercial business permit applications (new & renewal), e-Trike/pedicab compliance, and MCH/motopot franchise applications.',
+			description:
+				'Official municipal checklist guides detailing all documentary prerequisites for commercial business permit applications (new & renewal), e-Trike/pedicab compliance, and MCH/motopot franchise applications.',
 			keyDocs: [
 				'Checklist of Documentary Requirements for Business Application',
 				'Checklist Requirements for e-Trike and Pedicab',
@@ -585,7 +630,8 @@
 			badge: 'Official GSO Logistics Dossier',
 			stat: '1 Official Form',
 			tagline: 'Tents, Chairs, Tables & Sound System Loaning • Return Slips',
-			description: 'Official General Services Section issuance and return clearance document for borrowing municipal tents, plastic chairs, folding tables, public address sound systems, and civic event equipment.',
+			description:
+				'Official General Services Section issuance and return clearance document for borrowing municipal tents, plastic chairs, folding tables, public address sound systems, and civic event equipment.',
 			keyDocs: [
 				"Borrower's & Return Slip Form (Tents, Chairs, Sound System)",
 				'Equipment Condition & Inventory Release Verification',
@@ -600,10 +646,9 @@
 			badge: 'Official GSO Form',
 			stat: '1 Official Form',
 			tagline: 'Municipal Equipment Custodial Clearance Form',
-			description: 'Official form required for all civic, barangay, and public event equipment loan requests and return condition checkups.',
-			keyDocs: [
-				"Borrower's & Return Slip Form"
-			]
+			description:
+				'Official form required for all civic, barangay, and public event equipment loan requests and return condition checkups.',
+			keyDocs: ["Borrower's & Return Slip Form"]
 		},
 		'Farmer Registry & Subsidies': {
 			id: 'farmer-registry-subsidies',
@@ -613,10 +658,9 @@
 			badge: 'Official DA-RSBSA',
 			stat: '1 Official Form',
 			tagline: 'RSBSA Registration • Government Subsidies & Benefits',
-			description: 'Official enrollment application in the Registry System for Basic Sectors in Agriculture (RSBSA) for farmers, farm workers, fishers, and agri-youth in Tanauan, Leyte.',
-			keyDocs: [
-				'Registry System for Basic Sectors in Agriculture (RSBSA) Enrollment Form'
-			]
+			description:
+				'Official enrollment application in the Registry System for Basic Sectors in Agriculture (RSBSA) for farmers, farm workers, fishers, and agri-youth in Tanauan, Leyte.',
+			keyDocs: ['Registry System for Basic Sectors in Agriculture (RSBSA) Enrollment Form']
 		},
 		'Coconut Development & Permitting': {
 			id: 'coconut-development-permitting',
@@ -626,10 +670,9 @@
 			badge: 'Official PCA Clearance',
 			stat: '1 Official Checklist',
 			tagline: 'Permit to Cut Coconut Trees • Documentary Checklist',
-			description: 'Official checklist of documentary requirements and procedures for filing a Permit to Cut (PTC) coconut trees with the Philippine Coconut Authority and Tanauan CDO.',
-			keyDocs: [
-				'Permit to Cut Coconut Trees (PTC) Requirements & Checklist'
-			]
+			description:
+				'Official checklist of documentary requirements and procedures for filing a Permit to Cut (PTC) coconut trees with the Philippine Coconut Authority and Tanauan CDO.',
+			keyDocs: ['Permit to Cut Coconut Trees (PTC) Requirements & Checklist']
 		},
 		'Fisheries & Aquaculture': {
 			id: 'fisheries-aquaculture',
@@ -639,10 +682,9 @@
 			badge: 'Official BFAR Form',
 			stat: '1 Official Form',
 			tagline: 'Grow-Out Request • Fish Fingerlings Dispersal & Allocation',
-			description: 'Official BFAR Region 8 application for fish fingerlings assistance, freshwater aquaculture validation, and association member roster attachment.',
-			keyDocs: [
-				'BFAR Request for Grow Out & Fingerlings Dispersal Form'
-			]
+			description:
+				'Official BFAR Region 8 application for fish fingerlings assistance, freshwater aquaculture validation, and association member roster attachment.',
+			keyDocs: ['BFAR Request for Grow Out & Fingerlings Dispersal Form']
 		},
 		'Farm Mechanization & Machinery': {
 			id: 'farm-mechanization-machinery',
@@ -652,10 +694,9 @@
 			badge: 'Official MAO Service',
 			stat: '1 Official Letter Template',
 			tagline: 'Heavy Tractor Plowing & Harrowing Service Request',
-			description: 'Official letter request form in Waray for local farmers (parag-uma) to request municipal tractor operations for land preparation and plowing in their barangay.',
-			keyDocs: [
-				'Hangyu ha Paggamit hin Tractor (Tractor Service Request Form)'
-			]
+			description:
+				'Official letter request form in Waray for local farmers (parag-uma) to request municipal tractor operations for land preparation and plowing in their barangay.',
+			keyDocs: ['Hangyu ha Paggamit hin Tractor (Tractor Service Request Form)']
 		},
 		'Crop Insurance & Indemnity': {
 			id: 'crop-insurance-indemnity',
@@ -665,7 +706,8 @@
 			badge: 'Official PCIC Forms',
 			stat: '2 Official Documents',
 			tagline: 'Rice & Corn Insurance Applications • Claims for Indemnity',
-			description: 'Official Philippine Crop Insurance Corporation forms for insuring rice and corn crops against weather and pest damage, and filing claims for indemnity.',
+			description:
+				'Official Philippine Crop Insurance Corporation forms for insuring rice and corn crops against weather and pest damage, and filing claims for indemnity.',
 			keyDocs: [
 				'Application for Rice/Corn Crop Insurance (Individual Application)',
 				'Claims for Indemnity (Paghahabol Bayad) Damage Assessment Form'
@@ -688,7 +730,9 @@
 	const mandatesNavCode = $derived(navSections.find((s) => s.id === 'mandates')?.code);
 	const leadershipNavCode = $derived(navSections.find((s) => s.id === 'leadership')?.code || '03');
 	const structureNavCode = $derived(navSections.find((s) => s.id === 'structure')?.code || '04');
-	const accomplishmentsNavCode = $derived(navSections.find((s) => s.id === 'accomplishments')?.code || '05');
+	const accomplishmentsNavCode = $derived(
+		navSections.find((s) => s.id === 'accomplishments')?.code || '05'
+	);
 	const awardsNavCode = $derived(navSections.find((s) => s.id === 'awards')?.code || '06');
 	const formsNavCode = $derived(navSections.find((s) => s.id === 'forms')?.code);
 
@@ -742,9 +786,13 @@
 >
 	<!-- Fixed Floating Clean Pill Navigation (Desktop only, positioned safely below site header) -->
 	<header
-		class="fixed top-20 left-1/2 z-30 -translate-x-1/2 transition-all duration-300 hidden md:block {scrollY > 260 && isPillNavVisible && !activeFloatingModal && !activeFormModal
-			? 'translate-y-0 opacity-100 pointer-events-auto'
-			: '-translate-y-8 opacity-0 pointer-events-none'}"
+		class="fixed top-20 left-1/2 z-30 hidden -translate-x-1/2 transition-all duration-300 md:block {scrollY >
+			260 &&
+		isPillNavVisible &&
+		!activeFloatingModal &&
+		!activeFormModal
+			? 'pointer-events-auto translate-y-0 opacity-100'
+			: 'pointer-events-none -translate-y-8 opacity-0'}"
 	>
 		<div
 			class="flex items-center gap-1.5 rounded-full border-2 border-slate-300 bg-white/95 px-4 py-2 shadow-xl shadow-slate-900/10 backdrop-blur-md"
@@ -774,7 +822,7 @@
 	<!-- Executive Hero Section with 3D Ambient Flowing Wave in the Background -->
 	<section
 		id="overview"
-		class="scroll-mt-44 sm:scroll-mt-52 relative overflow-hidden border-b-4 border-amber-400 bg-gradient-to-b from-blue-50/80 via-slate-50 to-white pt-16 pb-16 lg:pt-24 lg:pb-20"
+		class="relative scroll-mt-44 overflow-hidden border-b-4 border-amber-400 bg-gradient-to-b from-blue-50/80 via-slate-50 to-white pt-16 pb-16 sm:scroll-mt-52 lg:pt-24 lg:pb-20"
 	>
 		<!-- 3D Three.js Background Canvas (Coastal Waves & Flow of Public Funds) -->
 		<OfficeHeroCanvas />
@@ -805,7 +853,8 @@
 				</div>
 
 				<div class="flex items-center gap-2 text-xs font-bold text-blue-950">
-					<span class="h-2.5 w-2.5 rounded-full {isMENRO ? 'bg-amber-400' : 'bg-emerald-600'}"></span>
+					<span class="h-2.5 w-2.5 rounded-full {isMENRO ? 'bg-amber-400' : 'bg-emerald-600'}"
+					></span>
 					<span>Official Municipal Public Service Portal</span>
 				</div>
 			</div>
@@ -880,56 +929,72 @@
 					{#if isMDRRMO}
 						<!-- 24/7 Emergency Dispatch Quick-Access Banner -->
 						<div
-							class="mt-6 rounded-2xl border-2 border-amber-400 bg-gradient-to-r from-blue-950 via-slate-900 to-blue-950 p-4 sm:p-5 text-white shadow-xl"
+							class="mt-6 rounded-2xl border-2 border-amber-400 bg-gradient-to-r from-blue-950 via-slate-900 to-blue-950 p-4 text-white shadow-xl sm:p-5"
 						>
-							<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+							<div class="flex flex-col justify-between gap-4 md:flex-row md:items-center">
 								<div class="flex items-center gap-3.5">
-									<div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-amber-400 text-slate-950 text-xl font-black shadow-md">
+									<div
+										class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-amber-400 text-xl font-black text-slate-950 shadow-md"
+									>
 										🚨
 									</div>
 									<div>
 										<div class="flex items-center gap-2">
-											<span class="text-[10px] font-mono font-black tracking-widest text-amber-400 uppercase">
+											<span
+												class="font-mono text-[10px] font-black tracking-widest text-amber-400 uppercase"
+											>
 												24/7 EMERGENCY DISPATCH HOTLINES // RESCUE TANAUAN
 											</span>
-											<span class="inline-block h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+											<span class="inline-block h-2 w-2 animate-pulse rounded-full bg-emerald-400"
+											></span>
 										</div>
-										<div class="flex flex-wrap items-center gap-x-4 gap-y-1.5 mt-1">
+										<div class="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1.5">
 											<a
 												href="tel:09161977360"
-												class="group inline-flex items-center gap-2 font-mono text-sm sm:text-base font-black text-white hover:text-amber-300 transition"
+												class="group inline-flex items-center gap-2 font-mono text-sm font-black text-white transition hover:text-amber-300 sm:text-base"
 											>
-												<span class="rounded bg-blue-600 px-1.5 py-0.5 text-[10px] font-black text-white">GLOBE</span>
+												<span
+													class="rounded bg-blue-600 px-1.5 py-0.5 text-[10px] font-black text-white"
+													>GLOBE</span
+												>
 												<span>0916-197-7360</span>
 											</a>
-											<span class="text-slate-600 hidden sm:inline">•</span>
+											<span class="hidden text-slate-600 sm:inline">•</span>
 											<a
 												href="tel:09317393333"
-												class="group inline-flex items-center gap-2 font-mono text-sm sm:text-base font-black text-white hover:text-emerald-300 transition"
+												class="group inline-flex items-center gap-2 font-mono text-sm font-black text-white transition hover:text-emerald-300 sm:text-base"
 											>
-												<span class="rounded bg-emerald-600 px-1.5 py-0.5 text-[10px] font-black text-white">SMART</span>
+												<span
+													class="rounded bg-emerald-600 px-1.5 py-0.5 text-[10px] font-black text-white"
+													>SMART</span
+												>
 												<span>0931-739-3333</span>
 											</a>
-											<span class="text-slate-600 hidden sm:inline">•</span>
-											<span class="inline-flex items-center gap-2 font-mono text-xs sm:text-sm font-bold text-amber-300">
-												<span class="rounded bg-amber-500 px-1.5 py-0.5 text-[10px] font-black text-slate-950">VHF RADIO</span>
+											<span class="hidden text-slate-600 sm:inline">•</span>
+											<span
+												class="inline-flex items-center gap-2 font-mono text-xs font-bold text-amber-300 sm:text-sm"
+											>
+												<span
+													class="rounded bg-amber-500 px-1.5 py-0.5 text-[10px] font-black text-slate-950"
+													>VHF RADIO</span
+												>
 												<span>167.600 MHz</span>
 											</span>
 										</div>
 									</div>
 								</div>
 
-								<div class="flex items-center gap-2 self-start md:self-auto shrink-0">
+								<div class="flex shrink-0 items-center gap-2 self-start md:self-auto">
 									<a
 										href="tel:09161977360"
-										class="inline-flex items-center gap-2 rounded-xl bg-red-600 px-4 py-2.5 text-xs font-black uppercase tracking-wider text-white shadow-md transition hover:bg-red-500 hover:scale-105 active:scale-95"
+										class="inline-flex items-center gap-2 rounded-xl bg-red-600 px-4 py-2.5 text-xs font-black tracking-wider text-white uppercase shadow-md transition hover:scale-105 hover:bg-red-500 active:scale-95"
 									>
 										<span>Call Globe</span>
 										<span>📞</span>
 									</a>
 									<a
 										href="tel:09317393333"
-										class="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-4 py-2.5 text-xs font-black uppercase tracking-wider text-white shadow-md transition hover:bg-emerald-500 hover:scale-105 active:scale-95"
+										class="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-4 py-2.5 text-xs font-black tracking-wider text-white uppercase shadow-md transition hover:scale-105 hover:bg-emerald-500 active:scale-95"
 									>
 										<span>Call Smart</span>
 										<span>📱</span>
@@ -940,31 +1005,36 @@
 					{/if}
 
 					<!-- Citizen Public Service Badges -->
-					<div
-						class="grid max-w-2xl grid-cols-1 gap-3 border-t-2 border-slate-200 pt-4 text-xs sm:grid-cols-3"
-					>
-						<div class="rounded-xl border-2 border-slate-200 bg-white p-3.5 shadow-sm">
-							<span class="block text-[11px] font-bold text-slate-500 uppercase">SERVICE HOURS</span
-							>
-							<span class="text-sm font-black text-blue-950">{schedule.hours}</span>
+					{#if showHeroServiceBadges && department !== 'Municipal-Administrator' && department !== 'Licensing' && !plaqueItems}
+						<div
+							class="grid max-w-2xl grid-cols-1 gap-3 border-t-2 border-slate-200 pt-4 text-xs sm:grid-cols-3"
+						>
+							<div class="rounded-xl border-2 border-slate-200 bg-white p-3.5 shadow-sm">
+								<span class="block text-[11px] font-bold text-slate-500 uppercase"
+									>SERVICE HOURS</span
+								>
+								<span class="text-sm font-black text-blue-950">{schedule.hours}</span>
+							</div>
+							<div class="rounded-xl border-2 border-slate-200 bg-white p-3.5 shadow-sm">
+								<span class="block text-[11px] font-bold text-slate-500 uppercase"
+									>OFFICE LOCATION</span
+								>
+								<span class="text-sm font-black text-blue-950">{schedule.location}</span>
+							</div>
+							<div class="rounded-xl border-2 border-slate-200 bg-white p-3.5 shadow-sm">
+								<span class="block text-[11px] font-bold text-slate-500 uppercase"
+									>CITIZEN ASSISTANCE</span
+								>
+								<span class="text-sm font-black {isMENRO ? 'text-amber-600' : 'text-emerald-700'}"
+									>Open & Accessible</span
+								>
+								{#if schedule.helpline}<span
+										class="mt-0.5 block text-[11px] font-medium text-slate-600"
+										>{schedule.helpline}</span
+									>{/if}
+							</div>
 						</div>
-						<div class="rounded-xl border-2 border-slate-200 bg-white p-3.5 shadow-sm">
-							<span class="block text-[11px] font-bold text-slate-500 uppercase"
-								>OFFICE LOCATION</span
-							>
-							<span class="text-sm font-black text-blue-950">{schedule.location}</span>
-						</div>
-						<div class="rounded-xl border-2 border-slate-200 bg-white p-3.5 shadow-sm">
-							<span class="block text-[11px] font-bold text-slate-500 uppercase"
-								>CITIZEN ASSISTANCE</span
-							>
-							<span class="text-sm font-black {isMENRO ? 'text-amber-600' : 'text-emerald-700'}">Open & Accessible</span>
-							{#if schedule.helpline}<span
-									class="mt-0.5 block text-[11px] font-medium text-slate-600"
-									>{schedule.helpline}</span
-								>{/if}
-						</div>
-					</div>
+					{/if}
 				</div>
 
 				<!-- Right Column: Official Municipal Identity Plaque with Purposeful 3D Perspective Hover Tilt -->
@@ -1009,41 +1079,101 @@
 								</div>
 							</div>
 
-							<!-- Frontline Citizen Services Quick Links -->
+							<!-- Frontline Citizen Services / Office Plaque Details -->
 							<div class="mb-6 space-y-2.5">
 								<span
 									class="block text-[11px] font-extrabold tracking-wider text-slate-500 uppercase"
 								>
-									FRONTLINE SERVICES:
+									{plaqueHeader ||
+										(plaqueItems || department === 'Municipal-Administrator'
+											? 'OFFICE DETAILS:'
+											: 'FRONTLINE SERVICES:')}
 								</span>
 
-								<a
-									href={citizensCharterUrl}
-									class="group flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 p-3 transition-all hover:border-amber-400 hover:bg-amber-50/70"
-								>
-									<div>
-										<div class="text-xs font-black text-blue-950 group-hover:text-blue-900">
-											Public Inquiries & Requests
+								{#if plaqueItems && plaqueItems.length > 0}
+									{#each plaqueItems as item}
+										<div
+											class="group flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 p-3 transition-all hover:border-amber-400 hover:bg-amber-50/70"
+										>
+											<div class="min-w-0 pr-3">
+												<div class="text-xs font-black text-blue-950 group-hover:text-blue-900">
+													{item.title}
+												</div>
+												<div class="text-[11px] leading-snug text-slate-600">
+													{item.subtitle || item.description || item.value}
+												</div>
+											</div>
+											{#if item.badge || item.tag}
+												<span class="shrink-0 font-mono text-xs font-bold text-amber-700">
+													{item.badge || item.tag}
+												</span>
+											{/if}
 										</div>
-										<div class="text-[11px] text-slate-600">General services & transactions</div>
+									{/each}
+								{:else if department === 'Municipal-Administrator'}
+									<!-- Office Location -->
+									<div
+										class="group flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 p-3 transition-all hover:border-amber-400 hover:bg-amber-50/70"
+									>
+										<div class="min-w-0 pr-3">
+											<div class="text-xs font-black text-blue-950 group-hover:text-blue-900">
+												Office Location
+											</div>
+											<div class="text-[11px] leading-snug text-slate-600">
+												{schedule?.location ||
+													'2nd Floor, Tanauan Municipal Hall, Real St., Tanauan, Leyte'}
+											</div>
+										</div>
+										<span class="shrink-0 font-mono text-xs font-bold text-amber-700"
+											>2ND FLOOR</span
+										>
 									</div>
-									<span class="font-mono text-xs font-bold text-amber-700">WINDOW 1</span>
-								</a>
 
-								<a
-									href={citizensCharterUrl}
-									class="group flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 p-3 transition-all hover:border-amber-400 hover:bg-amber-50/70"
-								>
-									<div>
-										<div class="text-xs font-black text-blue-950 group-hover:text-blue-900">
-											Document Processing
+									<!-- Service Hours -->
+									<div
+										class="group flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 p-3 transition-all hover:border-amber-400 hover:bg-amber-50/70"
+									>
+										<div class="min-w-0 pr-3">
+											<div class="text-xs font-black text-blue-950 group-hover:text-blue-900">
+												Service Hours
+											</div>
+											<div class="text-[11px] leading-snug text-slate-600">
+												{schedule?.hours || 'Monday to Friday | 8:00 AM – 5:00 PM (No Noon Break)'}
+											</div>
 										</div>
-										<div class="text-[11px] text-slate-600">
-											Certifications, clearances & records
-										</div>
+										<span class="shrink-0 font-mono text-xs font-bold text-amber-700"
+											>MON – FRI</span
+										>
 									</div>
-									<span class="font-mono text-xs font-bold text-amber-700">WINDOW 2</span>
-								</a>
+								{:else}
+									<a
+										href={citizensCharterUrl}
+										class="group flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 p-3 transition-all hover:border-amber-400 hover:bg-amber-50/70"
+									>
+										<div>
+											<div class="text-xs font-black text-blue-950 group-hover:text-blue-900">
+												Public Inquiries & Requests
+											</div>
+											<div class="text-[11px] text-slate-600">General services & transactions</div>
+										</div>
+										<span class="font-mono text-xs font-bold text-amber-700">WINDOW 1</span>
+									</a>
+
+									<a
+										href={citizensCharterUrl}
+										class="group flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 p-3 transition-all hover:border-amber-400 hover:bg-amber-50/70"
+									>
+										<div>
+											<div class="text-xs font-black text-blue-950 group-hover:text-blue-900">
+												Document Processing
+											</div>
+											<div class="text-[11px] text-slate-600">
+												Certifications, clearances & records
+											</div>
+										</div>
+										<span class="font-mono text-xs font-bold text-amber-700">WINDOW 2</span>
+									</a>
+								{/if}
 							</div>
 
 							<!-- Bottom Citizen Charter Direct Action Button -->
@@ -1617,767 +1747,947 @@
 			</section>
 		{/if}
 
-	{#snippet formsSection()}
-		<!-- Section: Downloadable Forms (Royal Blue & Amber Yellow Folder System) -->
-		<section id="forms" class="scroll-mt-44 sm:scroll-mt-52 relative bg-gradient-to-b from-blue-50/60 via-white to-blue-50/40 pt-16 pb-32 sm:pt-20 sm:pb-40 overflow-hidden border-t-2 border-amber-400/50">
-			<!-- Decorative background elements in Royal Blue & Amber Yellow -->
-			<div class="pointer-events-none absolute inset-0">
-				<div class="absolute -top-24 -right-24 h-96 w-96 rounded-full bg-blue-900/5 blur-3xl"></div>
-				<div class="absolute -bottom-24 -left-24 h-96 w-96 rounded-full bg-amber-400/10 blur-3xl"></div>
-			</div>
-
-			<div class="relative container mx-auto max-w-7xl px-6">
-				{#if !isFormsSectionOpen}
-					<!-- COLLAPSED BANNER STATE (Click to expand downloadable section) -->
+		{#snippet formsSection()}
+			<!-- Section: Downloadable Forms (Royal Blue & Amber Yellow Folder System) -->
+			<section
+				id="forms"
+				class="relative scroll-mt-44 overflow-hidden border-t-2 border-amber-400/50 bg-gradient-to-b from-blue-50/60 via-white to-blue-50/40 pt-16 pb-32 sm:scroll-mt-52 sm:pt-20 sm:pb-40"
+			>
+				<!-- Decorative background elements in Royal Blue & Amber Yellow -->
+				<div class="pointer-events-none absolute inset-0">
 					<div
-						role="button"
-						tabindex="0"
-						onclick={toggleFormsSection}
-						onkeydown={(e) => e.key === 'Enter' && toggleFormsSection()}
-						class="group cursor-pointer rounded-3xl border-2 border-amber-400 bg-gradient-to-r from-blue-950 via-blue-900 to-blue-950 p-6 sm:p-8 text-white shadow-xl transition-all duration-300 hover:scale-[1.01] hover:border-amber-300 hover:shadow-2xl text-left"
-						title="Click to open Downloadable Forms Section"
-					>
-						<div class="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
-							<div class="space-y-2">
-								<div class="flex flex-wrap items-center gap-2">
-									<span class="rounded-md border border-amber-400 bg-amber-400/20 px-3 py-1 text-[11px] font-black tracking-wider text-amber-300 uppercase">
-										{#if formsNavCode}
-											SECTION {formsNavCode} // {isLicensing ? 'OFFICIAL LICENSING & REGULATORY FORMS' : 'DOWNLOADABLE FORMS'}
-										{:else}
-											OFFICIAL DOWNLOADABLES
-										{/if}
-									</span>
-									<span class="rounded-full border border-amber-400 bg-amber-400 px-2.5 py-0.5 font-mono text-[10px] font-black text-blue-950 uppercase">
-										{downloadableForms.length} Documents Available
-									</span>
-								</div>
-								<h2 class="text-2xl sm:text-3xl font-black text-white group-hover:text-amber-300 transition-colors">
-									{isMENRO ? 'Downloadables & Citizen Guides' : isHealthOffice ? 'Downloadable Health Forms' : isLicensing ? 'Downloadable Office Forms' : isGSO ? 'Downloadable Logistics & Equipment Slips' : isMAO ? 'Downloadable Agriculture Forms & Checklists' : 'Downloadable Office Forms'}
-								</h2>
-								<p class="text-xs sm:text-sm text-blue-100 max-w-2xl font-normal leading-relaxed">
-									{isLicensing
-										? 'Click to expand official business permit applications, unified ARTA forms, public transport franchising documents, and regulatory checklists.'
-										: isGSO
-										? 'Click to expand and access official GSO borrower and return slips for municipal tents, tables, chairs, and sound system units.'
-										: isMAO
-										? 'Click to expand and access official RSBSA farmer enrollment forms, PCA permit to cut checklists, BFAR fingerlings applications, and farm tractor service requests.'
-										: 'Click to expand and access official printable and downloadable municipal forms.'}
-								</p>
-							</div>
-
-							<div class="flex shrink-0 items-center">
-								<div
-									class="inline-flex items-center gap-2 rounded-2xl border-2 border-amber-400 bg-amber-400 px-6 py-3.5 text-xs font-black text-blue-950 uppercase tracking-wider shadow-md transition-all group-hover:bg-amber-300 group-hover:scale-105 active:scale-95"
-								>
-									<span>Open Downloadable Section</span>
-									<span class="text-sm font-black transition-transform group-hover:translate-y-0.5">▼</span>
-								</div>
-							</div>
-						</div>
-					</div>
-				{:else}
-					<!-- EXPANDED STATE -->
-					<div class="mb-12 flex flex-col justify-between gap-6 border-b-2 border-blue-900/15 pb-8 md:flex-row md:items-end">
-						<div class="max-w-3xl">
-							<div
-								class="mb-3 inline-flex items-center gap-2 rounded-md border-2 border-amber-400 bg-blue-950 px-3.5 py-1 text-xs font-black tracking-wider text-amber-400 uppercase shadow-xs"
-							>
-								<span class="h-2 w-2 animate-pulse rounded-full bg-amber-400"></span>
-								{#if formsNavCode}
-									SECTION {formsNavCode} // {isMENRO ? 'OFFICIAL DOWNLOADABLES & CITIZEN GUIDES' : isHealthOffice ? 'OFFICIAL HEALTHCARE RECORDS & CLINICAL FORMS' : isLicensing ? 'OFFICIAL LICENSING & REGULATORY FORMS' : isGSO ? 'OFFICIAL GSO LOGISTICS & BORROWER FORMS' : isMAO ? 'OFFICIAL AGRICULTURE DOSSIERS & DOWNLOADABLE FORMS' : 'OFFICIAL PERMIT FOLDERS & FORMS'}
-								{:else}
-									{isMENRO ? 'OFFICIAL DOWNLOADABLES & CITIZEN GUIDES' : isHealthOffice ? 'OFFICIAL HEALTHCARE RECORDS & CLINICAL FORMS' : isLicensing ? 'OFFICIAL LICENSING & REGULATORY FORMS' : isGSO ? 'OFFICIAL GSO LOGISTICS & BORROWER FORMS' : isMAO ? 'OFFICIAL AGRICULTURE DOSSIERS & DOWNLOADABLE FORMS' : 'OFFICIAL PERMIT FOLDERS & FORMS'}
-								{/if}
-							</div>
-							<h2
-								class="text-3xl leading-tight font-black tracking-tight text-blue-950 sm:text-4xl lg:text-5xl"
-							>
-								{isMENRO ? 'Downloadables & Citizen Guides' : isHealthOffice ? 'Downloadable Health Forms' : isLicensing ? 'Downloadable Office Forms' : isGSO ? 'Downloadable Logistics & Equipment Slips' : isMAO ? 'Downloadable Agriculture Forms & Checklists' : 'Downloadable Office Forms'}
-							</h2>
-							<p class="mt-4 text-base leading-relaxed font-normal text-blue-950/80 sm:text-lg">
-								{isMENRO
-									? 'Official MENRO permit checklists, Citizen’s Charters, and environmental regulatory guides available for direct download and document inspection.'
-									: isHealthOffice
-									? 'All official municipal health records, dental treatment dossiers, and PhilHealth enrollment forms are organized into dedicated official folders. Click a folder below to open and access its full collection of downloadable and printable forms.'
-									: isLicensing
-									? 'Official business permit applications, unified ARTA forms, and public transport service franchise documents available for direct inspection, PDF review, and official download.'
-									: isGSO
-									? 'Official General Services Section equipment borrowing slips, return inspection records, and public venue logistical support forms available for direct digital printing and PDF download.'
-									: isMAO
-									? 'Official Registry System for Basic Sectors in Agriculture (RSBSA) registration forms, Philippine Coconut Authority permit checklists, BFAR grow-out applications, and farm tractor service requests available for inspection, printing, and PDF download.'
-									: 'All engineering permit documents are organized into dedicated official folders. Click a folder below to open and access its full collection of downloadable and printable forms.'}
-							</p>
-						</div>
-
-						<!-- Action Controls: Total Repository Pill & Collapse Button -->
-						<div class="flex shrink-0 flex-wrap items-center gap-3">
-							<div class="rounded-2xl border-2 border-amber-400 bg-blue-950 px-6 py-3.5 text-left shadow-md">
-								<div class="text-[10px] font-black tracking-wider text-amber-400 uppercase">OFFICIAL REPOSITORY</div>
-								<div class="flex items-center gap-2">
-									<span class="text-2xl font-black text-amber-300">{downloadableForms.length}</span>
-									<span class="text-xs font-bold text-blue-100">Documents in {formCategories.length || 1} Folders</span>
-								</div>
-							</div>
-
-							<button
-								type="button"
-								onclick={toggleFormsSection}
-								class="inline-flex items-center gap-2 rounded-2xl border-2 border-blue-950 bg-white hover:bg-blue-950 hover:text-amber-300 px-5 py-3.5 text-xs font-black text-blue-950 transition-all shadow-sm hover:scale-105 active:scale-95"
-								title="Collapse Downloadable Forms Section"
-							>
-								<span>Collapse Section</span>
-								<span class="text-xs font-black">▲</span>
-							</button>
-						</div>
-					</div>
-
-					{#if formCategories.length > 0}
-						<!-- FOLDER OVERVIEW RACK (ROYAL BLUE & AMBER YELLOW) -->
-						<div class="mb-12">
-							<div class="mb-5 flex items-center justify-between">
-								<div class="flex flex-wrap items-center gap-2.5">
-									<span class="text-xs font-black tracking-wider text-blue-950 uppercase">{isHealthOffice ? 'OFFICIAL HEALTHCARE DOSSIERS:' : 'OFFICIAL PERMIT DOSSIERS:'}</span>
-									<span class="text-xs font-bold text-amber-700">Click a folder to view its contained forms</span>
-								</div>
-								{#if selectedFolder}
-									<button
-										type="button"
-										onclick={closeFolderView}
-										class="inline-flex items-center gap-1.5 rounded-xl border-2 border-amber-400 bg-white hover:bg-amber-400 hover:text-blue-950 px-3.5 py-1.5 text-xs font-black text-blue-950 transition-all shadow-xs"
-									>
-										<span>View All Folders</span>
-									</button>
-								{/if}
-							</div>
-
-							<!-- Folder Cards (Business Permits, Public Transport, Checklists, etc.) -->
-							<div class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
-								{#each formCategories as cat}
-									{@const details = folderDetails[cat] || {
-										code: cat.toUpperCase(),
-										title: `${cat} Document Folder`,
-										badge: 'Official Dossier',
-										tagline: 'Prescribed Municipal Technical Forms',
-										description: `Official folder containing all forms and checklists related to ${cat}.`,
-										keyDocs: []
-									}}
-									{@const items = downloadableForms.filter((f) => f.category === cat)}
-									{@const isOpen = selectedFolder === cat}
-
-									<div
-										role="button"
-										tabindex="0"
-										onclick={() => openFolderView(cat)}
-										onkeydown={(e) => e.key === 'Enter' && openFolderView(cat)}
-										class="group relative flex cursor-pointer flex-col overflow-hidden rounded-3xl border-2 {isOpen
-											? 'border-amber-400 ring-4 ring-amber-400/40 shadow-2xl'
-											: 'border-amber-400/80 hover:border-amber-400'} bg-gradient-to-br from-blue-950 via-blue-900 to-blue-950 text-white shadow-xl transition-all duration-300 hover:-translate-y-2 text-left"
-										title="Click to open {cat} folder"
-									>
-										<!-- Realistic Folder Tab on top left (No emoji icons) -->
-										<div class="flex items-center justify-between px-4 pt-4 pb-2 sm:px-6 sm:pt-5">
-											<div class="inline-flex items-center gap-2 rounded-xl border-2 border-amber-400/60 bg-blue-900/90 px-3 py-1 sm:px-3.5 sm:py-1.5 text-[10px] sm:text-[11px] font-black tracking-wider text-amber-300 uppercase shadow-inner">
-												<span>DOSSIER // {details.code}</span>
-											</div>
-											<span class="rounded-full border-2 border-amber-400 bg-amber-400 px-2.5 py-0.5 sm:px-3 sm:py-1 font-mono text-[11px] sm:text-xs font-black text-blue-950 shadow-sm uppercase tracking-wide">
-												{items.length} {items.length === 1 ? 'Form' : 'Forms'}
-											</span>
-										</div>
-
-										<!-- Folder Body -->
-										<div class="flex flex-1 flex-col p-5 sm:p-8">
-											<div class="mb-4">
-												<div class="text-[10px] sm:text-[11px] font-bold text-amber-400 uppercase tracking-widest truncate">
-													{details.tagline}
-												</div>
-												<h3 class="mt-1 text-xl sm:text-2xl font-black text-white group-hover:text-amber-300 transition-colors leading-tight">
-													{details.title}
-												</h3>
-											</div>
-
-											<p class="mb-5 sm:mb-6 text-xs sm:text-sm leading-relaxed text-blue-100 font-normal">
-												{details.description}
-											</p>
-
-											<!-- Folder File Previews / Key Documents -->
-											<div class="mb-5 sm:mb-6 rounded-2xl border border-amber-400/30 bg-blue-950/80 p-3.5 sm:p-4">
-												<div class="mb-2 text-[10px] font-black text-amber-400 uppercase tracking-wider">
-													Documents in this Folder:
-												</div>
-												<div class="flex flex-wrap gap-1.5">
-													{#each items as item}
-														<span class="inline-flex items-center gap-1 rounded-lg border border-blue-700/60 bg-blue-900/80 px-2 py-0.5 sm:px-2.5 sm:py-1 text-[10px] sm:text-[11px] font-semibold text-blue-100 max-w-full">
-															<span class="text-amber-400 font-bold">•</span>
-															<span class="truncate max-w-[280px] sm:max-w-[340px]">{item.title}</span>
-														</span>
-													{/each}
-												</div>
-											</div>
-
-											<!-- Folder Open Action Button -->
-											<div class="mt-auto pt-2">
-												<div
-													class="flex w-full items-center justify-between rounded-2xl border-2 border-amber-400 {isOpen
-														? 'bg-amber-300 text-blue-950 shadow-inner'
-														: 'bg-amber-400 hover:bg-amber-300 text-blue-950'} px-4 py-3 sm:px-6 sm:py-3.5 font-black text-xs sm:text-sm shadow-md transition-all group-hover:shadow-amber-400/30"
-												>
-													<span class="flex items-center gap-2 truncate font-black">
-														<span class="truncate">{isOpen ? `${cat} Folder Open Below` : `Open ${cat} Folder`}</span>
-													</span>
-													<span class="text-base font-black transition-transform group-hover:translate-x-1 shrink-0">→</span>
-												</div>
-											</div>
-										</div>
-									</div>
-								{/each}
-							</div>
-						</div>
-
-						<!-- OPEN FOLDER STAGE (When a folder is selected) -->
-						{#if selectedFolder}
-							<div id="open-folder-stage" class="scroll-mt-44 sm:scroll-mt-52 space-y-6 sm:space-y-8 rounded-3xl border-2 border-amber-400 bg-white p-4 sm:p-8 lg:p-10 shadow-2xl">
-								<!-- Folder Top Bar & Switcher in Royal Blue & Amber Yellow -->
-								<div class="flex flex-col justify-between gap-4 border-b-2 border-amber-400/40 pb-6 md:flex-row md:items-center">
-									<div class="flex flex-wrap items-center gap-3">
-										<button
-											type="button"
-											onclick={closeFolderView}
-											class="inline-flex items-center gap-1.5 rounded-xl border-2 border-blue-950 bg-blue-950 hover:bg-blue-900 px-4 py-2 text-xs font-black text-amber-300 transition-all shadow-sm hover:scale-105 active:scale-95"
-										>
-											<span>← Close Folder</span>
-										</button>
-										<div class="flex items-center gap-2 text-xs font-black text-blue-950 uppercase tracking-wide">
-											<span class="text-slate-400">ARCHIVE</span>
-											<span class="text-amber-500">/</span>
-											<span class="rounded-lg border-2 border-amber-400 bg-amber-100 px-3 py-1 text-blue-950 font-black">
-												{selectedFolder} Folder
-											</span>
-										</div>
-									</div>
-
-									<!-- Quick Switcher Tabs -->
-									<div class="flex flex-wrap items-center gap-2">
-										<span class="text-xs font-black text-blue-950 uppercase mr-1">Switch Folder:</span>
-										{#each formCategories as cat}
-											{@const count = downloadableForms.filter((f) => f.category === cat).length}
-											<button
-												type="button"
-												onclick={() => openFolderView(cat)}
-												class="inline-flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-black transition-all {selectedFolder === cat
-													? 'border-2 border-amber-400 bg-amber-400 text-blue-950 shadow-md scale-105'
-													: 'border-2 border-blue-950 bg-white text-blue-950 hover:bg-blue-50'}"
-											>
-												<span>{cat}</span>
-												<span
-													class="rounded-full px-2 py-0.5 text-[10px] font-black {selectedFolder === cat
-														? 'bg-blue-950 text-amber-300'
-														: 'bg-blue-100 text-blue-950'}"
-												>
-													{count}
-												</span>
-											</button>
-										{/each}
-									</div>
-								</div>
-
-								<!-- Folder Open Interior Banner (Royal Blue & Amber Yellow) -->
-								<div class="relative overflow-hidden rounded-3xl border-2 border-amber-400 bg-gradient-to-r from-blue-950 via-blue-900 to-blue-950 p-6 sm:p-8 text-white shadow-md">
-									<div class="h-1.5 w-full bg-amber-400 absolute top-0 left-0"></div>
-									<div class="flex flex-col justify-between gap-6 md:flex-row md:items-center">
-										<div class="flex items-start gap-4">
-											<div>
-												<div class="flex flex-wrap items-center gap-2">
-													<span class="rounded-md border border-amber-400 bg-amber-400/20 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-amber-300">
-														{folderDetails[selectedFolder]?.code || folderDetails[selectedFolder]?.badge || 'Municipal Permitting Dossier'}
-													</span>
-													<span class="text-xs font-bold text-amber-300">• {activeFolderItems.length} Forms in this Folder</span>
-												</div>
-												<h3 class="mt-1 text-2xl sm:text-3xl font-black text-white">
-													{selectedFolder} Official Forms &amp; Applications
-												</h3>
-												<p class="mt-2 text-xs sm:text-sm text-blue-100 font-normal max-w-3xl leading-relaxed">
-													{folderDetails[selectedFolder]?.description || `Complete set of official documents, forms, and checklists required for ${selectedFolder}. Click any form to inspect details, print the digital form, or download the official PDF.`}
-												</p>
-											</div>
-										</div>
-
-										<div class="flex shrink-0 items-center gap-2 text-right">
-											<div class="rounded-2xl border border-amber-400/50 bg-blue-900/60 px-5 py-3 text-center">
-												<div class="text-[10px] font-black text-amber-400 uppercase">ACTIVE FOLDER</div>
-												<div class="font-mono text-xl font-black text-white">{activeFolderItems.length} FORMS</div>
-											</div>
-										</div>
-									</div>
-								</div>
-
-								<!-- Cards Grid for the Active Folder (No emoji icons) -->
-								<div class="grid gap-6 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
-									{#each activeFolderItems as form, fIdx}
-										<div
-											role="button"
-											tabindex="0"
-											onclick={() => openFormModal(form)}
-											onkeydown={(e) => e.key === 'Enter' && openFormModal(form)}
-											id="form-card-{selectedFolder}-{fIdx}"
-											class="group relative flex cursor-pointer flex-col overflow-hidden rounded-3xl border-2 border-blue-900/20 bg-white text-left shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-amber-400 hover:shadow-2xl"
-											title="Click to view {form.title}"
-										>
-											<!-- Top accent bar in Royal Blue & Amber Yellow -->
-											<div class="h-2 w-full bg-gradient-to-r from-blue-950 via-blue-800 to-amber-400 transition-all duration-300 group-hover:h-2.5"></div>
-
-											<!-- Shine overlay on hover -->
-											<div
-												class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-												style="background: linear-gradient(135deg, rgba(251,191,36,0.1) 0%, transparent 60%);"
-											></div>
-
-											<div class="flex flex-1 flex-col p-5 sm:p-7">
-												<!-- Category Badge & Number Row (No emoji icons) -->
-												<div class="mb-3 flex items-center justify-between">
-													<span class="font-mono text-xs font-black text-blue-950 uppercase tracking-wider">
-														FORM {form.index || String(fIdx + 1).padStart(2, '0')}
-													</span>
-													<span class="rounded-md border border-amber-400 bg-amber-100 px-2.5 py-0.5 text-[9px] font-black text-amber-950 uppercase tracking-wider">
-														{form.category}
-													</span>
-												</div>
-
-												<!-- Form type badge -->
-												{#if form.type}
-													<span class="mb-2 inline-block rounded-full border border-blue-200 bg-blue-50 px-2.5 py-0.5 text-[10px] font-black tracking-wider text-blue-950 uppercase">
-														{form.type}
-													</span>
-												{/if}
-
-												<!-- Title -->
-												<h3 class="mb-2 text-base sm:text-lg leading-snug font-black text-blue-950 transition-colors group-hover:text-blue-800">
-													{form.title}
-												</h3>
-
-												<!-- Description -->
-												{#if form.description}
-													<p class="mb-4 line-clamp-2 text-xs sm:text-sm leading-relaxed font-medium text-slate-700">
-														{form.description}
-													</p>
-												{/if}
-
-												<!-- Checklist highlight box -->
-												{#if form.requirements && form.requirements.length > 0}
-													<div class="mb-4 rounded-xl border border-blue-200 bg-blue-50/70 p-2.5 text-[11px] text-blue-950">
-														<div class="font-bold text-blue-950 mb-1 flex items-center justify-between">
-															<span>Key Prerequisites:</span>
-															<span class="text-[10px] font-mono text-amber-700 font-bold">{form.requirements.length} Items</span>
-														</div>
-														<div class="truncate text-slate-700">
-															• {form.requirements[0]}
-														</div>
-													</div>
-												{/if}
-
-												<!-- CTA Row in Royal Blue & Amber Yellow (No emoji icons) -->
-												<div class="mt-auto flex flex-wrap items-center justify-between gap-2 pt-4 border-t border-slate-100 text-xs">
-													<button
-														type="button"
-														onclick={(e) => {
-															e.stopPropagation();
-															openFormModal(form);
-														}}
-														class="inline-flex items-center gap-1 rounded-xl border-2 border-blue-950 bg-white hover:bg-blue-950 hover:text-amber-300 px-3.5 py-2 font-black text-blue-950 transition-all hover:scale-105 active:scale-95 shadow-2xs"
-													>
-														Review Document
-													</button>
-
-													<div class="flex items-center gap-1.5 ml-auto">
-														{#if form.htmlUrl}
-															<a
-																href={form.htmlUrl}
-																target="_blank"
-																onclick={(e) => e.stopPropagation()}
-																class="inline-flex items-center gap-1 rounded-xl border-2 border-amber-500 bg-amber-400 hover:bg-amber-300 text-blue-950 px-2.5 py-2 font-black transition-all hover:scale-105 active:scale-95 shadow-2xs"
-																title="Open printable fillable HTML form in browser"
-															>
-																Print HTML
-															</a>
-														{/if}
-
-														<a
-															href={form.url || form.downloadUrl}
-															download
-															onclick={(e) => e.stopPropagation()}
-															class="inline-flex items-center gap-1 rounded-xl border-2 border-blue-950 bg-blue-950 hover:bg-blue-900 text-amber-300 px-3.5 py-2 font-black shadow-sm transition-all hover:scale-105 active:scale-95"
-														>
-															Download
-														</a>
-													</div>
-												</div>
-											</div>
-										</div>
-									{/each}
-								</div>
-
-								<!-- Close Folder Action at Bottom -->
-								<div class="pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
-									<button
-										type="button"
-										onclick={closeFolderView}
-										class="inline-flex items-center gap-2 rounded-2xl border-2 border-amber-400 bg-blue-950 hover:bg-blue-900 px-6 py-3 text-xs font-black text-amber-300 transition-all shadow-md hover:scale-105 active:scale-95"
-									>
-										<span>← Close {selectedFolder} Folder &amp; Return to All Folders</span>
-									</button>
-
-									<div class="text-xs font-bold text-blue-950">
-										Viewing {activeFolderItems.length} of {downloadableForms.length} Total Municipal Forms
-									</div>
-								</div>
-							</div>
-						{/if}
-					{:else}
-						<!-- Fallback for offices without categorized folders (No emoji icons) -->
-						<div class="grid gap-6 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
-							{#each downloadableForms as form, fIdx}
-								<div
-									role="button"
-									tabindex="0"
-									onclick={() => openFormModal(form)}
-									onkeydown={(e) => e.key === 'Enter' && openFormModal(form)}
-									id="form-card-{fIdx}"
-									class="group relative flex cursor-pointer flex-col overflow-hidden rounded-3xl border-2 border-blue-900/20 bg-white text-left shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-amber-400 hover:shadow-2xl"
-									title="Click to view {form.title}"
-								>
-									<div class="h-2 w-full bg-gradient-to-r from-blue-950 via-blue-800 to-amber-400"></div>
-									<div class="flex flex-1 flex-col p-6 sm:p-7">
-										<div class="mb-4 flex items-center justify-between">
-											<span class="rounded-md border border-amber-400 bg-amber-100 px-2.5 py-0.5 font-mono text-[10px] font-black text-blue-950 uppercase">
-												{isMENRO ? 'DOC' : 'FORM'} {String(fIdx + 1).padStart(2, '0')}
-											</span>
-											{#if form.category}
-												<span class="rounded-md border border-blue-200 bg-blue-50 px-2 py-0.5 text-[9px] font-black text-blue-950 uppercase">
-													{form.category}
-												</span>
-											{/if}
-										</div>
-										<h3 class="mb-2 text-lg font-black text-blue-950">{form.title}</h3>
-										{#if form.description}
-											<p class="mb-4 text-xs font-medium text-slate-700">{form.description}</p>
-										{/if}
-										<div class="mt-auto flex items-center justify-between gap-2 pt-4 border-t border-slate-100">
-											<button
-												type="button"
-												onclick={(e) => {
-													e.stopPropagation();
-													openFormModal(form);
-												}}
-												class="inline-flex items-center gap-1 rounded-xl border-2 border-blue-950 bg-white px-3.5 py-2 text-xs font-black text-blue-950 hover:bg-blue-950 hover:text-amber-300 transition-all shadow-2xs"
-											>
-												Review Document
-											</button>
-											<a
-												href={form.url || form.downloadUrl}
-												download
-												onclick={(e) => e.stopPropagation()}
-												class="inline-flex items-center gap-1 rounded-xl border-2 border-blue-950 bg-blue-950 px-3.5 py-2 text-xs font-black text-amber-300 hover:bg-blue-900 transition-all shadow-2xs"
-											>
-												Download
-											</a>
-										</div>
-									</div>
-								</div>
-							{/each}
-						</div>
-					{/if}
-
-					<!-- Disclaimer note in Royal Blue & Amber Yellow -->
-					<div class="mt-12 flex items-start gap-3 rounded-2xl border-2 border-amber-400 bg-amber-50 p-5 shadow-xs">
-						<div class="text-xs text-blue-950 leading-relaxed">
-							<span class="font-black text-blue-950">Official {isEngineering ? 'Engineering' : isLicensing ? 'Business Permit & Licensing' : officeName} Document Advisory:</span> All downloadable permit forms, schedules, and checklists are official documents of the Local Government Unit of Tanauan, Leyte under the {officeName}. Both PDF downloads and printable browser forms are accepted for official review, evaluation, and processing at the Tanauan Town Hall.
-						</div>
-					</div>
-
-					<!-- Bottom Collapse Bar -->
-					<div class="mt-8 flex justify-center border-t border-slate-200 pt-6">
-						<button
-							type="button"
-							onclick={toggleFormsSection}
-							class="inline-flex items-center gap-2 rounded-2xl border-2 border-blue-950 bg-white hover:bg-blue-950 hover:text-amber-300 px-6 py-3 text-xs font-black text-blue-950 transition-all shadow-sm hover:scale-105 active:scale-95"
-						>
-							<span>Collapse Downloadable Forms Section</span>
-							<span class="text-xs font-black">▲</span>
-						</button>
-					</div>
-				{/if}
-			</div>
-		</section>
-	{/snippet}
-
-	{#if !isMAO && !shouldPutFormsAtEnd && downloadableForms && downloadableForms.length > 0}
-		{@render formsSection()}
-	{/if}
-
-		<!-- Section 2: Core Mandates & Functions -->
-		{#if !isMAO && mandates && mandates.length > 0}
-			<section id="mandates" class="scroll-mt-44 sm:scroll-mt-52 bg-slate-50 py-20">
-			<div class="container mx-auto max-w-7xl px-6">
-				<!-- Section Header -->
-				<div class="mb-14 max-w-3xl">
+						class="absolute -top-24 -right-24 h-96 w-96 rounded-full bg-blue-900/5 blur-3xl"
+					></div>
 					<div
-						class="mb-3 inline-block rounded-md border border-blue-300 bg-blue-100 px-3.5 py-1 text-xs font-black tracking-wider text-blue-950 uppercase"
-					>
-						SECTION {mandatesNavCode || '02'} // {isMENRO ? 'WASTE CLASSIFICATION & SEGREGATION MANDATES' : 'STATUTORY MANDATES'}
-					</div>
-					<h2
-						class="text-3xl leading-tight font-black tracking-tight text-blue-950 sm:text-4xl lg:text-5xl"
-					>
-						{isMENRO ? 'Waste Segregation & Classification Guidelines' : 'Official Duties & Public Functions'}
-					</h2>
-					<p class="mt-4 text-base leading-relaxed font-normal text-slate-800 sm:text-lg">
-						{#if isMENRO}
-							Official waste classification and mandatory at-source sorting guidelines under Republic Act No. 9003 (Ecological Solid Waste Management Act of 2000) and Tanauan Municipal Ordinance No. 2024-20.
-						{:else}
-							Administered pursuant to Republic Act No. 7160 (Local Government Code of 1991) and
-							municipal ordinances. {tagline}
-						{/if}
-					</p>
+						class="absolute -bottom-24 -left-24 h-96 w-96 rounded-full bg-amber-400/10 blur-3xl"
+					></div>
 				</div>
 
-				<!-- Mandates Grid (Matching exact civic card design with orange top border, badges, and dash items) -->
-				<div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-					{#each mandates as mandate}
+				<div class="relative container mx-auto max-w-7xl px-6">
+					{#if !isFormsSectionOpen}
+						<!-- COLLAPSED BANNER STATE (Click to expand downloadable section) -->
 						<div
-							class="flex flex-col justify-between rounded-2xl border border-t-4 border-slate-200/80 border-t-amber-500 bg-white p-7 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg sm:p-8"
+							role="button"
+							tabindex="0"
+							onclick={toggleFormsSection}
+							onkeydown={(e) => e.key === 'Enter' && toggleFormsSection()}
+							class="group cursor-pointer rounded-3xl border-2 border-amber-400 bg-gradient-to-r from-blue-950 via-blue-900 to-blue-950 p-6 text-left text-white shadow-xl transition-all duration-300 hover:scale-[1.01] hover:border-amber-300 hover:shadow-2xl sm:p-8"
+							title="Click to open Downloadable Forms Section"
 						>
-							<div>
-								<!-- Header: Index Number & Code Badge -->
-								<div class="mb-6 flex items-center justify-between">
-									<span class="text-3xl font-black tracking-tight text-amber-500">
-										{mandate.index}
-									</span>
-									<span
-										class="rounded border border-blue-200 bg-blue-50/70 px-2 py-0.5 font-mono text-[10px] font-bold tracking-wider text-blue-900 uppercase"
-									>
-										{mandate.code}
-									</span>
-								</div>
-
-								<!-- Category Tag -->
-								<span class="mb-2 block text-xs font-black tracking-wider text-blue-900 uppercase">
-									{mandate.tag}
-								</span>
-
-								<!-- Main Function Title -->
-								<h3 class="mb-3 text-xl leading-snug font-black text-slate-900">
-									{mandate.title}
-								</h3>
-
-								<!-- Description -->
-								<p class="mb-8 text-sm leading-relaxed font-normal text-slate-600">
-									{mandate.description}
-								</p>
-							</div>
-
-							<!-- Bullet Points with Orange Dash -->
-							<div class="space-y-3.5 border-t border-slate-100 pt-6">
-								{#each mandate.details as detail}
-									<div
-										class="flex items-start text-xs leading-snug font-medium text-slate-800 sm:text-sm"
-									>
-										<span class="mr-2.5 font-bold text-amber-500 select-none">—</span>
-										<span>{detail}</span>
+							<div class="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+								<div class="space-y-2">
+									<div class="flex flex-wrap items-center gap-2">
+										<span
+											class="rounded-md border border-amber-400 bg-amber-400/20 px-3 py-1 text-[11px] font-black tracking-wider text-amber-300 uppercase"
+										>
+											{#if formsNavCode}
+												SECTION {formsNavCode} // {isLicensing
+													? 'OFFICIAL LICENSING & REGULATORY FORMS'
+													: 'DOWNLOADABLE FORMS'}
+											{:else}
+												OFFICIAL DOWNLOADABLES
+											{/if}
+										</span>
+										<span
+											class="rounded-full border border-amber-400 bg-amber-400 px-2.5 py-0.5 font-mono text-[10px] font-black text-blue-950 uppercase"
+										>
+											{downloadableForms.length} Documents Available
+										</span>
 									</div>
-								{/each}
-							</div>
-						</div>
-					{/each}
-				</div>
-
-				<!-- Optional Expandable Full 17 Statutory Duties (Verbatim COA/CSC Enumeration) -->
-				{#if dutiesAndResponsibilities}
-					<div class="mt-8 flex flex-col items-center">
-						<button
-							type="button"
-							onclick={() => (showFullDuties = !showFullDuties)}
-							class="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-5 py-2.5 text-xs font-black tracking-wider text-blue-950 uppercase shadow-2xs transition-all hover:border-blue-900 hover:bg-slate-50"
-						>
-							<svg
-								class="h-4 w-4 text-amber-600"
-								fill="none"
-								stroke="currentColor"
-								viewBox="0 0 24 24"
-							>
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									stroke-width="2"
-									d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-								/>
-							</svg>
-							<span
-								>{showFullDuties ? 'Hide' : 'View'} Full 17 Statutory Duties & Responsibilities</span
-							>
-							<span class="text-xs text-slate-400">{showFullDuties ? '▲' : '▼'}</span>
-						</button>
-
-						{#if showFullDuties}
-							<div
-								class="mt-6 w-full rounded-3xl border-2 border-slate-300 bg-white p-6 shadow-sm transition-all sm:p-8"
-							>
-								<div class="mb-6 border-b-2 border-slate-100 pb-5">
-									<div
-										class="inline-flex items-center gap-2 rounded-md border border-blue-300 bg-blue-100 px-3 py-1 text-xs font-black tracking-wider text-blue-950 uppercase"
+									<h2
+										class="text-2xl font-black text-white transition-colors group-hover:text-amber-300 sm:text-3xl"
 									>
-										<span class="h-2 w-2 rounded-full bg-blue-900"></span>
-										STATUTORY ENUMERATION // {officeName}
-									</div>
-									<h3 class="mt-2 text-2xl font-black text-blue-950">
-										Complete 17 Duties and Responsibilities
-									</h3>
-									<p
-										class="mt-2 max-w-4xl rounded-r-xl border-l-4 border-amber-500 bg-amber-50/50 py-1 pl-4 text-sm leading-relaxed font-medium text-slate-700"
-									>
-										{dutiesAndResponsibilities.preamble}
+										{isMENRO
+											? 'Downloadables & Citizen Guides'
+											: isHealthOffice
+												? 'Downloadable Health Forms'
+												: isLicensing
+													? 'Downloadable Office Forms'
+													: isGSO
+														? 'Downloadable Logistics & Equipment Slips'
+														: isMAO
+															? 'Downloadable Agriculture Forms & Checklists'
+															: 'Downloadable Office Forms'}
+									</h2>
+									<p class="max-w-2xl text-xs leading-relaxed font-normal text-blue-100 sm:text-sm">
+										{isLicensing
+											? 'Click to expand official business permit applications, unified ARTA forms, public transport franchising documents, and regulatory checklists.'
+											: isGSO
+												? 'Click to expand and access official GSO borrower and return slips for municipal tents, tables, chairs, and sound system units.'
+												: isMAO
+													? 'Click to expand and access official RSBSA farmer enrollment forms, PCA permit to cut checklists, BFAR fingerlings applications, and farm tractor service requests.'
+													: 'Click to expand and access official printable and downloadable municipal forms.'}
 									</p>
 								</div>
 
-								<div class="grid gap-3 sm:grid-cols-2">
-									{#each dutiesAndResponsibilities.list as duty, idx}
-										<div
-											class="flex items-start gap-3 rounded-2xl border border-slate-200 bg-slate-50/60 p-3.5 transition-all hover:border-blue-900 hover:bg-white hover:shadow-xs"
+								<div class="flex shrink-0 items-center">
+									<div
+										class="inline-flex items-center gap-2 rounded-2xl border-2 border-amber-400 bg-amber-400 px-6 py-3.5 text-xs font-black tracking-wider text-blue-950 uppercase shadow-md transition-all group-hover:scale-105 group-hover:bg-amber-300 active:scale-95"
+									>
+										<span>Open Downloadable Section</span>
+										<span
+											class="text-sm font-black transition-transform group-hover:translate-y-0.5"
+											>▼</span
 										>
-											<span
-												class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-blue-950 text-xs font-black text-amber-300 shadow-2xs"
-											>
-												{idx + 1}
-											</span>
-											<p class="text-xs leading-snug font-medium text-slate-800">
-												{duty}
-											</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					{:else}
+						<!-- EXPANDED STATE -->
+						<div
+							class="mb-12 flex flex-col justify-between gap-6 border-b-2 border-blue-900/15 pb-8 md:flex-row md:items-end"
+						>
+							<div class="max-w-3xl">
+								<div
+									class="mb-3 inline-flex items-center gap-2 rounded-md border-2 border-amber-400 bg-blue-950 px-3.5 py-1 text-xs font-black tracking-wider text-amber-400 uppercase shadow-xs"
+								>
+									<span class="h-2 w-2 animate-pulse rounded-full bg-amber-400"></span>
+									{#if formsNavCode}
+										SECTION {formsNavCode} // {isMENRO
+											? 'OFFICIAL DOWNLOADABLES & CITIZEN GUIDES'
+											: isHealthOffice
+												? 'OFFICIAL HEALTHCARE RECORDS & CLINICAL FORMS'
+												: isLicensing
+													? 'OFFICIAL LICENSING & REGULATORY FORMS'
+													: isGSO
+														? 'OFFICIAL GSO LOGISTICS & BORROWER FORMS'
+														: isMAO
+															? 'OFFICIAL AGRICULTURE DOSSIERS & DOWNLOADABLE FORMS'
+															: 'OFFICIAL PERMIT FOLDERS & FORMS'}
+									{:else}
+										{isMENRO
+											? 'OFFICIAL DOWNLOADABLES & CITIZEN GUIDES'
+											: isHealthOffice
+												? 'OFFICIAL HEALTHCARE RECORDS & CLINICAL FORMS'
+												: isLicensing
+													? 'OFFICIAL LICENSING & REGULATORY FORMS'
+													: isGSO
+														? 'OFFICIAL GSO LOGISTICS & BORROWER FORMS'
+														: isMAO
+															? 'OFFICIAL AGRICULTURE DOSSIERS & DOWNLOADABLE FORMS'
+															: 'OFFICIAL PERMIT FOLDERS & FORMS'}
+									{/if}
+								</div>
+								<h2
+									class="text-3xl leading-tight font-black tracking-tight text-blue-950 sm:text-4xl lg:text-5xl"
+								>
+									{isMENRO
+										? 'Downloadables & Citizen Guides'
+										: isHealthOffice
+											? 'Downloadable Health Forms'
+											: isLicensing
+												? 'Downloadable Office Forms'
+												: isGSO
+													? 'Downloadable Logistics & Equipment Slips'
+													: isMAO
+														? 'Downloadable Agriculture Forms & Checklists'
+														: 'Downloadable Office Forms'}
+								</h2>
+								<p class="mt-4 text-base leading-relaxed font-normal text-blue-950/80 sm:text-lg">
+									{isMENRO
+										? 'Official MENRO permit checklists, Citizen’s Charters, and environmental regulatory guides available for direct download and document inspection.'
+										: isHealthOffice
+											? 'All official municipal health records, dental treatment dossiers, and PhilHealth enrollment forms are organized into dedicated official folders. Click a folder below to open and access its full collection of downloadable and printable forms.'
+											: isLicensing
+												? 'Official business permit applications, unified ARTA forms, and public transport service franchise documents available for direct inspection, PDF review, and official download.'
+												: isGSO
+													? 'Official General Services Section equipment borrowing slips, return inspection records, and public venue logistical support forms available for direct digital printing and PDF download.'
+													: isMAO
+														? 'Official Registry System for Basic Sectors in Agriculture (RSBSA) registration forms, Philippine Coconut Authority permit checklists, BFAR grow-out applications, and farm tractor service requests available for inspection, printing, and PDF download.'
+														: 'All engineering permit documents are organized into dedicated official folders. Click a folder below to open and access its full collection of downloadable and printable forms.'}
+								</p>
+							</div>
+
+							<!-- Action Controls: Total Repository Pill & Collapse Button -->
+							<div class="flex shrink-0 flex-wrap items-center gap-3">
+								<div
+									class="rounded-2xl border-2 border-amber-400 bg-blue-950 px-6 py-3.5 text-left shadow-md"
+								>
+									<div class="text-[10px] font-black tracking-wider text-amber-400 uppercase">
+										OFFICIAL REPOSITORY
+									</div>
+									<div class="flex items-center gap-2">
+										<span class="text-2xl font-black text-amber-300"
+											>{downloadableForms.length}</span
+										>
+										<span class="text-xs font-bold text-blue-100"
+											>Documents in {formCategories.length || 1} Folders</span
+										>
+									</div>
+								</div>
+
+								<button
+									type="button"
+									onclick={toggleFormsSection}
+									class="inline-flex items-center gap-2 rounded-2xl border-2 border-blue-950 bg-white px-5 py-3.5 text-xs font-black text-blue-950 shadow-sm transition-all hover:scale-105 hover:bg-blue-950 hover:text-amber-300 active:scale-95"
+									title="Collapse Downloadable Forms Section"
+								>
+									<span>Collapse Section</span>
+									<span class="text-xs font-black">▲</span>
+								</button>
+							</div>
+						</div>
+
+						{#if formCategories.length > 0}
+							<!-- FOLDER OVERVIEW RACK (ROYAL BLUE & AMBER YELLOW) -->
+							<div class="mb-12">
+								<div class="mb-5 flex items-center justify-between">
+									<div class="flex flex-wrap items-center gap-2.5">
+										<span class="text-xs font-black tracking-wider text-blue-950 uppercase"
+											>{isHealthOffice
+												? 'OFFICIAL HEALTHCARE DOSSIERS:'
+												: 'OFFICIAL PERMIT DOSSIERS:'}</span
+										>
+										<span class="text-xs font-bold text-amber-700"
+											>Click a folder to view its contained forms</span
+										>
+									</div>
+									{#if selectedFolder}
+										<button
+											type="button"
+											onclick={closeFolderView}
+											class="inline-flex items-center gap-1.5 rounded-xl border-2 border-amber-400 bg-white px-3.5 py-1.5 text-xs font-black text-blue-950 shadow-xs transition-all hover:bg-amber-400 hover:text-blue-950"
+										>
+											<span>View All Folders</span>
+										</button>
+									{/if}
+								</div>
+
+								<!-- Folder Cards (Business Permits, Public Transport, Checklists, etc.) -->
+								<div class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+									{#each formCategories as cat}
+										{@const details = folderDetails[cat] || {
+											code: cat.toUpperCase(),
+											title: `${cat} Document Folder`,
+											badge: 'Official Dossier',
+											tagline: 'Prescribed Municipal Technical Forms',
+											description: `Official folder containing all forms and checklists related to ${cat}.`,
+											keyDocs: []
+										}}
+										{@const items = downloadableForms.filter((f) => f.category === cat)}
+										{@const isOpen = selectedFolder === cat}
+
+										<div
+											role="button"
+											tabindex="0"
+											onclick={() => openFolderView(cat)}
+											onkeydown={(e) => e.key === 'Enter' && openFolderView(cat)}
+											class="group relative flex cursor-pointer flex-col overflow-hidden rounded-3xl border-2 {isOpen
+												? 'border-amber-400 shadow-2xl ring-4 ring-amber-400/40'
+												: 'border-amber-400/80 hover:border-amber-400'} bg-gradient-to-br from-blue-950 via-blue-900 to-blue-950 text-left text-white shadow-xl transition-all duration-300 hover:-translate-y-2"
+											title="Click to open {cat} folder"
+										>
+											<!-- Realistic Folder Tab on top left (No emoji icons) -->
+											<div class="flex items-center justify-between px-4 pt-4 pb-2 sm:px-6 sm:pt-5">
+												<div
+													class="inline-flex items-center gap-2 rounded-xl border-2 border-amber-400/60 bg-blue-900/90 px-3 py-1 text-[10px] font-black tracking-wider text-amber-300 uppercase shadow-inner sm:px-3.5 sm:py-1.5 sm:text-[11px]"
+												>
+													<span>DOSSIER // {details.code}</span>
+												</div>
+												<span
+													class="rounded-full border-2 border-amber-400 bg-amber-400 px-2.5 py-0.5 font-mono text-[11px] font-black tracking-wide text-blue-950 uppercase shadow-sm sm:px-3 sm:py-1 sm:text-xs"
+												>
+													{items.length}
+													{items.length === 1 ? 'Form' : 'Forms'}
+												</span>
+											</div>
+
+											<!-- Folder Body -->
+											<div class="flex flex-1 flex-col p-5 sm:p-8">
+												<div class="mb-4">
+													<div
+														class="truncate text-[10px] font-bold tracking-widest text-amber-400 uppercase sm:text-[11px]"
+													>
+														{details.tagline}
+													</div>
+													<h3
+														class="mt-1 text-xl leading-tight font-black text-white transition-colors group-hover:text-amber-300 sm:text-2xl"
+													>
+														{details.title}
+													</h3>
+												</div>
+
+												<p
+													class="mb-5 text-xs leading-relaxed font-normal text-blue-100 sm:mb-6 sm:text-sm"
+												>
+													{details.description}
+												</p>
+
+												<!-- Folder File Previews / Key Documents -->
+												<div
+													class="mb-5 rounded-2xl border border-amber-400/30 bg-blue-950/80 p-3.5 sm:mb-6 sm:p-4"
+												>
+													<div
+														class="mb-2 text-[10px] font-black tracking-wider text-amber-400 uppercase"
+													>
+														Documents in this Folder:
+													</div>
+													<div class="flex flex-wrap gap-1.5">
+														{#each items as item}
+															<span
+																class="inline-flex max-w-full items-center gap-1 rounded-lg border border-blue-700/60 bg-blue-900/80 px-2 py-0.5 text-[10px] font-semibold text-blue-100 sm:px-2.5 sm:py-1 sm:text-[11px]"
+															>
+																<span class="font-bold text-amber-400">•</span>
+																<span class="max-w-[280px] truncate sm:max-w-[340px]"
+																	>{item.title}</span
+																>
+															</span>
+														{/each}
+													</div>
+												</div>
+
+												<!-- Folder Open Action Button -->
+												<div class="mt-auto pt-2">
+													<div
+														class="flex w-full items-center justify-between rounded-2xl border-2 border-amber-400 {isOpen
+															? 'bg-amber-300 text-blue-950 shadow-inner'
+															: 'bg-amber-400 text-blue-950 hover:bg-amber-300'} px-4 py-3 text-xs font-black shadow-md transition-all group-hover:shadow-amber-400/30 sm:px-6 sm:py-3.5 sm:text-sm"
+													>
+														<span class="flex items-center gap-2 truncate font-black">
+															<span class="truncate"
+																>{isOpen ? `${cat} Folder Open Below` : `Open ${cat} Folder`}</span
+															>
+														</span>
+														<span
+															class="shrink-0 text-base font-black transition-transform group-hover:translate-x-1"
+															>→</span
+														>
+													</div>
+												</div>
+											</div>
 										</div>
 									{/each}
 								</div>
 							</div>
+
+							<!-- OPEN FOLDER STAGE (When a folder is selected) -->
+							{#if selectedFolder}
+								<div
+									id="open-folder-stage"
+									class="scroll-mt-44 space-y-6 rounded-3xl border-2 border-amber-400 bg-white p-4 shadow-2xl sm:scroll-mt-52 sm:space-y-8 sm:p-8 lg:p-10"
+								>
+									<!-- Folder Top Bar & Switcher in Royal Blue & Amber Yellow -->
+									<div
+										class="flex flex-col justify-between gap-4 border-b-2 border-amber-400/40 pb-6 md:flex-row md:items-center"
+									>
+										<div class="flex flex-wrap items-center gap-3">
+											<button
+												type="button"
+												onclick={closeFolderView}
+												class="inline-flex items-center gap-1.5 rounded-xl border-2 border-blue-950 bg-blue-950 px-4 py-2 text-xs font-black text-amber-300 shadow-sm transition-all hover:scale-105 hover:bg-blue-900 active:scale-95"
+											>
+												<span>← Close Folder</span>
+											</button>
+											<div
+												class="flex items-center gap-2 text-xs font-black tracking-wide text-blue-950 uppercase"
+											>
+												<span class="text-slate-400">ARCHIVE</span>
+												<span class="text-amber-500">/</span>
+												<span
+													class="rounded-lg border-2 border-amber-400 bg-amber-100 px-3 py-1 font-black text-blue-950"
+												>
+													{selectedFolder} Folder
+												</span>
+											</div>
+										</div>
+
+										<!-- Quick Switcher Tabs -->
+										<div class="flex flex-wrap items-center gap-2">
+											<span class="mr-1 text-xs font-black text-blue-950 uppercase"
+												>Switch Folder:</span
+											>
+											{#each formCategories as cat}
+												{@const count = downloadableForms.filter((f) => f.category === cat).length}
+												<button
+													type="button"
+													onclick={() => openFolderView(cat)}
+													class="inline-flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-black transition-all {selectedFolder ===
+													cat
+														? 'scale-105 border-2 border-amber-400 bg-amber-400 text-blue-950 shadow-md'
+														: 'border-2 border-blue-950 bg-white text-blue-950 hover:bg-blue-50'}"
+												>
+													<span>{cat}</span>
+													<span
+														class="rounded-full px-2 py-0.5 text-[10px] font-black {selectedFolder ===
+														cat
+															? 'bg-blue-950 text-amber-300'
+															: 'bg-blue-100 text-blue-950'}"
+													>
+														{count}
+													</span>
+												</button>
+											{/each}
+										</div>
+									</div>
+
+									<!-- Folder Open Interior Banner (Royal Blue & Amber Yellow) -->
+									<div
+										class="relative overflow-hidden rounded-3xl border-2 border-amber-400 bg-gradient-to-r from-blue-950 via-blue-900 to-blue-950 p-6 text-white shadow-md sm:p-8"
+									>
+										<div class="absolute top-0 left-0 h-1.5 w-full bg-amber-400"></div>
+										<div class="flex flex-col justify-between gap-6 md:flex-row md:items-center">
+											<div class="flex items-start gap-4">
+												<div>
+													<div class="flex flex-wrap items-center gap-2">
+														<span
+															class="rounded-md border border-amber-400 bg-amber-400/20 px-2.5 py-0.5 text-[10px] font-black tracking-wider text-amber-300 uppercase"
+														>
+															{folderDetails[selectedFolder]?.code ||
+																folderDetails[selectedFolder]?.badge ||
+																'Municipal Permitting Dossier'}
+														</span>
+														<span class="text-xs font-bold text-amber-300"
+															>• {activeFolderItems.length} Forms in this Folder</span
+														>
+													</div>
+													<h3 class="mt-1 text-2xl font-black text-white sm:text-3xl">
+														{selectedFolder} Official Forms &amp; Applications
+													</h3>
+													<p
+														class="mt-2 max-w-3xl text-xs leading-relaxed font-normal text-blue-100 sm:text-sm"
+													>
+														{folderDetails[selectedFolder]?.description ||
+															`Complete set of official documents, forms, and checklists required for ${selectedFolder}. Click any form to inspect details, print the digital form, or download the official PDF.`}
+													</p>
+												</div>
+											</div>
+
+											<div class="flex shrink-0 items-center gap-2 text-right">
+												<div
+													class="rounded-2xl border border-amber-400/50 bg-blue-900/60 px-5 py-3 text-center"
+												>
+													<div class="text-[10px] font-black text-amber-400 uppercase">
+														ACTIVE FOLDER
+													</div>
+													<div class="font-mono text-xl font-black text-white">
+														{activeFolderItems.length} FORMS
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<!-- Cards Grid for the Active Folder (No emoji icons) -->
+									<div class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+										{#each activeFolderItems as form, fIdx}
+											<div
+												role="button"
+												tabindex="0"
+												onclick={() => openFormModal(form)}
+												onkeydown={(e) => e.key === 'Enter' && openFormModal(form)}
+												id="form-card-{selectedFolder}-{fIdx}"
+												class="group relative flex cursor-pointer flex-col overflow-hidden rounded-3xl border-2 border-blue-900/20 bg-white text-left shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-amber-400 hover:shadow-2xl"
+												title="Click to view {form.title}"
+											>
+												<!-- Top accent bar in Royal Blue & Amber Yellow -->
+												<div
+													class="h-2 w-full bg-gradient-to-r from-blue-950 via-blue-800 to-amber-400 transition-all duration-300 group-hover:h-2.5"
+												></div>
+
+												<!-- Shine overlay on hover -->
+												<div
+													class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+													style="background: linear-gradient(135deg, rgba(251,191,36,0.1) 0%, transparent 60%);"
+												></div>
+
+												<div class="flex flex-1 flex-col p-5 sm:p-7">
+													<!-- Category Badge & Number Row (No emoji icons) -->
+													<div class="mb-3 flex items-center justify-between">
+														<span
+															class="font-mono text-xs font-black tracking-wider text-blue-950 uppercase"
+														>
+															FORM {form.index || String(fIdx + 1).padStart(2, '0')}
+														</span>
+														<span
+															class="rounded-md border border-amber-400 bg-amber-100 px-2.5 py-0.5 text-[9px] font-black tracking-wider text-amber-950 uppercase"
+														>
+															{form.category}
+														</span>
+													</div>
+
+													<!-- Form type badge -->
+													{#if form.type}
+														<span
+															class="mb-2 inline-block rounded-full border border-blue-200 bg-blue-50 px-2.5 py-0.5 text-[10px] font-black tracking-wider text-blue-950 uppercase"
+														>
+															{form.type}
+														</span>
+													{/if}
+
+													<!-- Title -->
+													<h3
+														class="mb-2 text-base leading-snug font-black text-blue-950 transition-colors group-hover:text-blue-800 sm:text-lg"
+													>
+														{form.title}
+													</h3>
+
+													<!-- Description -->
+													{#if form.description}
+														<p
+															class="mb-4 line-clamp-2 text-xs leading-relaxed font-medium text-slate-700 sm:text-sm"
+														>
+															{form.description}
+														</p>
+													{/if}
+
+													<!-- Checklist highlight box -->
+													{#if form.requirements && form.requirements.length > 0}
+														<div
+															class="mb-4 rounded-xl border border-blue-200 bg-blue-50/70 p-2.5 text-[11px] text-blue-950"
+														>
+															<div
+																class="mb-1 flex items-center justify-between font-bold text-blue-950"
+															>
+																<span>Key Prerequisites:</span>
+																<span class="font-mono text-[10px] font-bold text-amber-700"
+																	>{form.requirements.length} Items</span
+																>
+															</div>
+															<div class="truncate text-slate-700">
+																• {form.requirements[0]}
+															</div>
+														</div>
+													{/if}
+
+													<!-- CTA Row in Royal Blue & Amber Yellow (No emoji icons) -->
+													<div
+														class="mt-auto flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 pt-4 text-xs"
+													>
+														<button
+															type="button"
+															onclick={(e) => {
+																e.stopPropagation();
+																openFormModal(form);
+															}}
+															class="inline-flex items-center gap-1 rounded-xl border-2 border-blue-950 bg-white px-3.5 py-2 font-black text-blue-950 shadow-2xs transition-all hover:scale-105 hover:bg-blue-950 hover:text-amber-300 active:scale-95"
+														>
+															Review Document
+														</button>
+
+														<div class="ml-auto flex items-center gap-1.5">
+															{#if form.htmlUrl}
+																<a
+																	href={form.htmlUrl}
+																	target="_blank"
+																	onclick={(e) => e.stopPropagation()}
+																	class="inline-flex items-center gap-1 rounded-xl border-2 border-amber-500 bg-amber-400 px-2.5 py-2 font-black text-blue-950 shadow-2xs transition-all hover:scale-105 hover:bg-amber-300 active:scale-95"
+																	title="Open printable fillable HTML form in browser"
+																>
+																	Print HTML
+																</a>
+															{/if}
+
+															<a
+																href={form.url || form.downloadUrl}
+																download
+																onclick={(e) => e.stopPropagation()}
+																class="inline-flex items-center gap-1 rounded-xl border-2 border-blue-950 bg-blue-950 px-3.5 py-2 font-black text-amber-300 shadow-sm transition-all hover:scale-105 hover:bg-blue-900 active:scale-95"
+															>
+																Download
+															</a>
+														</div>
+													</div>
+												</div>
+											</div>
+										{/each}
+									</div>
+
+									<!-- Close Folder Action at Bottom -->
+									<div
+										class="flex flex-col items-center justify-between gap-4 border-t border-slate-200 pt-6 sm:flex-row"
+									>
+										<button
+											type="button"
+											onclick={closeFolderView}
+											class="inline-flex items-center gap-2 rounded-2xl border-2 border-amber-400 bg-blue-950 px-6 py-3 text-xs font-black text-amber-300 shadow-md transition-all hover:scale-105 hover:bg-blue-900 active:scale-95"
+										>
+											<span>← Close {selectedFolder} Folder &amp; Return to All Folders</span>
+										</button>
+
+										<div class="text-xs font-bold text-blue-950">
+											Viewing {activeFolderItems.length} of {downloadableForms.length} Total Municipal
+											Forms
+										</div>
+									</div>
+								</div>
+							{/if}
+						{:else}
+							<!-- Fallback for offices without categorized folders (No emoji icons) -->
+							<div class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+								{#each downloadableForms as form, fIdx}
+									<div
+										role="button"
+										tabindex="0"
+										onclick={() => openFormModal(form)}
+										onkeydown={(e) => e.key === 'Enter' && openFormModal(form)}
+										id="form-card-{fIdx}"
+										class="group relative flex cursor-pointer flex-col overflow-hidden rounded-3xl border-2 border-blue-900/20 bg-white text-left shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-amber-400 hover:shadow-2xl"
+										title="Click to view {form.title}"
+									>
+										<div
+											class="h-2 w-full bg-gradient-to-r from-blue-950 via-blue-800 to-amber-400"
+										></div>
+										<div class="flex flex-1 flex-col p-6 sm:p-7">
+											<div class="mb-4 flex items-center justify-between">
+												<span
+													class="rounded-md border border-amber-400 bg-amber-100 px-2.5 py-0.5 font-mono text-[10px] font-black text-blue-950 uppercase"
+												>
+													{isMENRO ? 'DOC' : 'FORM'}
+													{String(fIdx + 1).padStart(2, '0')}
+												</span>
+												{#if form.category}
+													<span
+														class="rounded-md border border-blue-200 bg-blue-50 px-2 py-0.5 text-[9px] font-black text-blue-950 uppercase"
+													>
+														{form.category}
+													</span>
+												{/if}
+											</div>
+											<h3 class="mb-2 text-lg font-black text-blue-950">{form.title}</h3>
+											{#if form.description}
+												<p class="mb-4 text-xs font-medium text-slate-700">{form.description}</p>
+											{/if}
+											<div
+												class="mt-auto flex items-center justify-between gap-2 border-t border-slate-100 pt-4"
+											>
+												<button
+													type="button"
+													onclick={(e) => {
+														e.stopPropagation();
+														openFormModal(form);
+													}}
+													class="inline-flex items-center gap-1 rounded-xl border-2 border-blue-950 bg-white px-3.5 py-2 text-xs font-black text-blue-950 shadow-2xs transition-all hover:bg-blue-950 hover:text-amber-300"
+												>
+													Review Document
+												</button>
+												<a
+													href={form.url || form.downloadUrl}
+													download
+													onclick={(e) => e.stopPropagation()}
+													class="inline-flex items-center gap-1 rounded-xl border-2 border-blue-950 bg-blue-950 px-3.5 py-2 text-xs font-black text-amber-300 shadow-2xs transition-all hover:bg-blue-900"
+												>
+													Download
+												</a>
+											</div>
+										</div>
+									</div>
+								{/each}
+							</div>
 						{/if}
-					</div>
-				{/if}
 
-				<!-- Citizen's Charter Spotlight Callout (Direct Service Access) -->
-				{#if department === 'Market' || department === 'Municipal Market Office'}
-					<div
-						class="relative mt-8 overflow-hidden rounded-3xl border-2 border-amber-400 bg-gradient-to-r from-blue-950 via-blue-900 to-slate-950 p-6 text-white shadow-xl sm:p-8"
-					>
+						<!-- Disclaimer note in Royal Blue & Amber Yellow -->
 						<div
-							class="pointer-events-none absolute -right-10 -bottom-10 h-48 w-48 rounded-full bg-amber-400/10 blur-2xl"
-						></div>
-
-						<div
-							class="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between"
+							class="mt-12 flex items-start gap-3 rounded-2xl border-2 border-amber-400 bg-amber-50 p-5 shadow-xs"
 						>
-							<div class="max-w-2xl space-y-2.5">
-								<div
-									class="inline-flex items-center gap-2 rounded-full border border-amber-400/40 bg-amber-400/15 px-3.5 py-1 text-xs font-black tracking-wider text-amber-300 uppercase"
+							<div class="text-xs leading-relaxed text-blue-950">
+								<span class="font-black text-blue-950"
+									>Official {isEngineering
+										? 'Engineering'
+										: isLicensing
+											? 'Business Permit & Licensing'
+											: officeName} Document Advisory:</span
 								>
-									<span class="h-2 w-2 animate-pulse rounded-full bg-emerald-400"></span>
-									Official Citizen's Charter Service
-								</div>
-								<h3 class="text-xl font-black text-white sm:text-2xl">
-									Stall / Space Verification (For Business Permit Issuance)
-								</h3>
-								<p class="text-xs leading-relaxed text-blue-200 sm:text-sm">
-									Official G2B municipal service for market stallholders and commercial lessees
-									verifying stall occupancy, rental receipts, and space compliance.
-								</p>
-								<div class="flex flex-wrap items-center gap-3 pt-1 text-xs">
-									<span
-										class="rounded-lg border border-white/15 bg-white/10 px-2.5 py-1 text-white"
-									>
-										Classification: <strong class="text-amber-300">Simple</strong>
-									</span>
-									<span
-										class="rounded-lg border border-white/15 bg-white/10 px-2.5 py-1 text-white"
-									>
-										Processing: <strong class="text-emerald-400">31 minutes</strong>
-									</span>
-									<span
-										class="rounded-lg border border-white/15 bg-white/10 px-2.5 py-1 text-white"
-									>
-										Fee: <strong class="text-amber-300">None (Free)</strong>
-									</span>
-								</div>
-							</div>
-
-							<div class="flex shrink-0 flex-col gap-3 sm:flex-row">
-								<a
-									href="/citizens-charter/market"
-									class="inline-flex items-center justify-center gap-2 rounded-xl bg-amber-400 px-6 py-3 text-xs font-black tracking-wider text-blue-950 uppercase shadow-md transition-all hover:scale-102 hover:bg-amber-300 active:scale-98"
-								>
-									<span>View Citizen's Charter ↗</span>
-								</a>
+								All downloadable permit forms, schedules, and checklists are official documents of
+								the Local Government Unit of Tanauan, Leyte under the {officeName}. Both PDF
+								downloads and printable browser forms are accepted for official review, evaluation,
+								and processing at the Tanauan Town Hall.
 							</div>
 						</div>
-					</div>
-				{/if}
 
-				<!-- Citizen's Charter Spotlight Callout (GSO) -->
-				{#if department === 'GSO' || department === 'General Services Office'}
-					<div
-						class="relative mt-8 overflow-hidden rounded-3xl border-2 border-amber-400 bg-gradient-to-r from-blue-950 via-blue-900 to-slate-950 p-6 text-white shadow-xl sm:p-8"
-					>
-						<div
-							class="pointer-events-none absolute -right-10 -bottom-10 h-48 w-48 rounded-full bg-amber-400/10 blur-2xl"
-						></div>
+						<!-- Bottom Collapse Bar -->
+						<div class="mt-8 flex justify-center border-t border-slate-200 pt-6">
+							<button
+								type="button"
+								onclick={toggleFormsSection}
+								class="inline-flex items-center gap-2 rounded-2xl border-2 border-blue-950 bg-white px-6 py-3 text-xs font-black text-blue-950 shadow-sm transition-all hover:scale-105 hover:bg-blue-950 hover:text-amber-300 active:scale-95"
+							>
+								<span>Collapse Downloadable Forms Section</span>
+								<span class="text-xs font-black">▲</span>
+							</button>
+						</div>
+					{/if}
+				</div>
+			</section>
+		{/snippet}
 
+		{#if !isMAO && !shouldPutFormsAtEnd && downloadableForms && downloadableForms.length > 0}
+			{@render formsSection()}
+		{/if}
+
+		<!-- Section 2: Core Mandates & Functions -->
+		{#if !isMAO && mandates && mandates.length > 0}
+			<section id="mandates" class="scroll-mt-44 bg-slate-50 py-20 sm:scroll-mt-52">
+				<div class="container mx-auto max-w-7xl px-6">
+					<!-- Section Header -->
+					<div class="mb-14 max-w-3xl">
 						<div
-							class="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between"
+							class="mb-3 inline-block rounded-md border border-blue-300 bg-blue-100 px-3.5 py-1 text-xs font-black tracking-wider text-blue-950 uppercase"
 						>
-							<div class="max-w-2xl space-y-2.5">
-								<div
-									class="inline-flex items-center gap-2 rounded-full border border-amber-400/40 bg-amber-400/15 px-3.5 py-1 text-xs font-black tracking-wider text-amber-300 uppercase"
-								>
-									<span class="h-2 w-2 animate-pulse rounded-full bg-emerald-400"></span>
-									Official Citizen's Charter Frontline Services
+							SECTION {mandatesNavCode || '02'} // {isMENRO
+								? 'WASTE CLASSIFICATION & SEGREGATION MANDATES'
+								: 'STATUTORY MANDATES'}
+						</div>
+						<h2
+							class="text-3xl leading-tight font-black tracking-tight text-blue-950 sm:text-4xl lg:text-5xl"
+						>
+							{isMENRO
+								? 'Waste Segregation & Classification Guidelines'
+								: 'Official Duties & Public Functions'}
+						</h2>
+						<p class="mt-4 text-base leading-relaxed font-normal text-slate-800 sm:text-lg">
+							{#if isMENRO}
+								Official waste classification and mandatory at-source sorting guidelines under
+								Republic Act No. 9003 (Ecological Solid Waste Management Act of 2000) and Tanauan
+								Municipal Ordinance No. 2024-20.
+							{:else}
+								Administered pursuant to Republic Act No. 7160 (Local Government Code of 1991) and
+								municipal ordinances. {tagline}
+							{/if}
+						</p>
+					</div>
+
+					<!-- Mandates Grid (Matching exact civic card design with orange top border, badges, and dash items) -->
+					<div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+						{#each mandates as mandate}
+							<div
+								class="flex flex-col justify-between rounded-2xl border border-t-4 border-slate-200/80 border-t-amber-500 bg-white p-7 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg sm:p-8"
+							>
+								<div>
+									<!-- Header: Index Number & Code Badge -->
+									<div class="mb-6 flex items-center justify-between">
+										<span class="text-3xl font-black tracking-tight text-amber-500">
+											{mandate.index}
+										</span>
+										<span
+											class="rounded border border-blue-200 bg-blue-50/70 px-2 py-0.5 font-mono text-[10px] font-bold tracking-wider text-blue-900 uppercase"
+										>
+											{mandate.code}
+										</span>
+									</div>
+
+									<!-- Category Tag -->
+									<span
+										class="mb-2 block text-xs font-black tracking-wider text-blue-900 uppercase"
+									>
+										{mandate.tag}
+									</span>
+
+									<!-- Main Function Title -->
+									<h3 class="mb-3 text-xl leading-snug font-black text-slate-900">
+										{mandate.title}
+									</h3>
+
+									<!-- Description -->
+									<p class="mb-8 text-sm leading-relaxed font-normal text-slate-600">
+										{mandate.description}
+									</p>
 								</div>
-								<h3 class="text-xl font-black text-white sm:text-2xl">
-									Borrowing of Equipment & Venue Scheduling Requests
-								</h3>
-								<p class="text-xs leading-relaxed text-blue-200 sm:text-sm">
-									Official citizen frontline guidelines for borrowing tents, chairs, sound systems,
-									and scheduling municipal venues (Tanauan Amphitheater, Municipal Lobby, Tanauan
-									Civic Center).
-								</p>
-								<div class="flex flex-wrap items-center gap-3 pt-1 text-xs">
-									<span
-										class="rounded-lg border border-white/15 bg-white/10 px-2.5 py-1 text-white"
-									>
-										Service 1: <strong class="text-amber-300">Borrowing Equipment</strong>
-									</span>
-									<span
-										class="rounded-lg border border-white/15 bg-white/10 px-2.5 py-1 text-white"
-									>
-										Service 2: <strong class="text-emerald-400">Venue Reservation</strong>
-									</span>
-									<span
-										class="rounded-lg border border-white/15 bg-white/10 px-2.5 py-1 text-white"
-									>
-										Availability: <strong class="text-amber-300">Mon - Fri (8AM - 5PM)</strong>
-									</span>
+
+								<!-- Bullet Points with Orange Dash -->
+								<div class="space-y-3.5 border-t border-slate-100 pt-6">
+									{#each mandate.details as detail}
+										<div
+											class="flex items-start text-xs leading-snug font-medium text-slate-800 sm:text-sm"
+										>
+											<span class="mr-2.5 font-bold text-amber-500 select-none">—</span>
+											<span>{detail}</span>
+										</div>
+									{/each}
 								</div>
 							</div>
+						{/each}
+					</div>
 
-							<div class="flex shrink-0 flex-col gap-3 sm:flex-row">
-								<a
-									href="/citizens-charter/gso"
-									class="inline-flex items-center justify-center gap-2 rounded-xl bg-amber-400 px-6 py-3 text-xs font-black tracking-wider text-blue-950 uppercase shadow-md transition-all hover:scale-102 hover:bg-amber-300 active:scale-98"
+					<!-- Optional Expandable Full 17 Statutory Duties (Verbatim COA/CSC Enumeration) -->
+					{#if dutiesAndResponsibilities}
+						<div class="mt-8 flex flex-col items-center">
+							<button
+								type="button"
+								onclick={() => (showFullDuties = !showFullDuties)}
+								class="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-5 py-2.5 text-xs font-black tracking-wider text-blue-950 uppercase shadow-2xs transition-all hover:border-blue-900 hover:bg-slate-50"
+							>
+								<svg
+									class="h-4 w-4 text-amber-600"
+									fill="none"
+									stroke="currentColor"
+									viewBox="0 0 24 24"
 								>
-									<span>View Citizen's Charter ↗</span>
-								</a>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										stroke-width="2"
+										d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+									/>
+								</svg>
+								<span
+									>{showFullDuties ? 'Hide' : 'View'} Full 17 Statutory Duties & Responsibilities</span
+								>
+								<span class="text-xs text-slate-400">{showFullDuties ? '▲' : '▼'}</span>
+							</button>
+
+							{#if showFullDuties}
+								<div
+									class="mt-6 w-full rounded-3xl border-2 border-slate-300 bg-white p-6 shadow-sm transition-all sm:p-8"
+								>
+									<div class="mb-6 border-b-2 border-slate-100 pb-5">
+										<div
+											class="inline-flex items-center gap-2 rounded-md border border-blue-300 bg-blue-100 px-3 py-1 text-xs font-black tracking-wider text-blue-950 uppercase"
+										>
+											<span class="h-2 w-2 rounded-full bg-blue-900"></span>
+											STATUTORY ENUMERATION // {officeName}
+										</div>
+										<h3 class="mt-2 text-2xl font-black text-blue-950">
+											Complete 17 Duties and Responsibilities
+										</h3>
+										<p
+											class="mt-2 max-w-4xl rounded-r-xl border-l-4 border-amber-500 bg-amber-50/50 py-1 pl-4 text-sm leading-relaxed font-medium text-slate-700"
+										>
+											{dutiesAndResponsibilities.preamble}
+										</p>
+									</div>
+
+									<div class="grid gap-3 sm:grid-cols-2">
+										{#each dutiesAndResponsibilities.list as duty, idx}
+											<div
+												class="flex items-start gap-3 rounded-2xl border border-slate-200 bg-slate-50/60 p-3.5 transition-all hover:border-blue-900 hover:bg-white hover:shadow-xs"
+											>
+												<span
+													class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-blue-950 text-xs font-black text-amber-300 shadow-2xs"
+												>
+													{idx + 1}
+												</span>
+												<p class="text-xs leading-snug font-medium text-slate-800">
+													{duty}
+												</p>
+											</div>
+										{/each}
+									</div>
+								</div>
+							{/if}
+						</div>
+					{/if}
+
+					<!-- Citizen's Charter Spotlight Callout (Direct Service Access) -->
+					{#if department === 'Market' || department === 'Municipal Market Office'}
+						<div
+							class="relative mt-8 overflow-hidden rounded-3xl border-2 border-amber-400 bg-gradient-to-r from-blue-950 via-blue-900 to-slate-950 p-6 text-white shadow-xl sm:p-8"
+						>
+							<div
+								class="pointer-events-none absolute -right-10 -bottom-10 h-48 w-48 rounded-full bg-amber-400/10 blur-2xl"
+							></div>
+
+							<div
+								class="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between"
+							>
+								<div class="max-w-2xl space-y-2.5">
+									<div
+										class="inline-flex items-center gap-2 rounded-full border border-amber-400/40 bg-amber-400/15 px-3.5 py-1 text-xs font-black tracking-wider text-amber-300 uppercase"
+									>
+										<span class="h-2 w-2 animate-pulse rounded-full bg-emerald-400"></span>
+										Official Citizen's Charter Service
+									</div>
+									<h3 class="text-xl font-black text-white sm:text-2xl">
+										Stall / Space Verification (For Business Permit Issuance)
+									</h3>
+									<p class="text-xs leading-relaxed text-blue-200 sm:text-sm">
+										Official G2B municipal service for market stallholders and commercial lessees
+										verifying stall occupancy, rental receipts, and space compliance.
+									</p>
+									<div class="flex flex-wrap items-center gap-3 pt-1 text-xs">
+										<span
+											class="rounded-lg border border-white/15 bg-white/10 px-2.5 py-1 text-white"
+										>
+											Classification: <strong class="text-amber-300">Simple</strong>
+										</span>
+										<span
+											class="rounded-lg border border-white/15 bg-white/10 px-2.5 py-1 text-white"
+										>
+											Processing: <strong class="text-emerald-400">31 minutes</strong>
+										</span>
+										<span
+											class="rounded-lg border border-white/15 bg-white/10 px-2.5 py-1 text-white"
+										>
+											Fee: <strong class="text-amber-300">None (Free)</strong>
+										</span>
+									</div>
+								</div>
+
+								<div class="flex shrink-0 flex-col gap-3 sm:flex-row">
+									<a
+										href="/citizens-charter/market"
+										class="inline-flex items-center justify-center gap-2 rounded-xl bg-amber-400 px-6 py-3 text-xs font-black tracking-wider text-blue-950 uppercase shadow-md transition-all hover:scale-102 hover:bg-amber-300 active:scale-98"
+									>
+										<span>View Citizen's Charter ↗</span>
+									</a>
+								</div>
 							</div>
 						</div>
-					</div>
-				{/if}
-			</div>
-		</section>
+					{/if}
+
+					<!-- Citizen's Charter Spotlight Callout (GSO) -->
+					{#if department === 'GSO' || department === 'General Services Office'}
+						<div
+							class="relative mt-8 overflow-hidden rounded-3xl border-2 border-amber-400 bg-gradient-to-r from-blue-950 via-blue-900 to-slate-950 p-6 text-white shadow-xl sm:p-8"
+						>
+							<div
+								class="pointer-events-none absolute -right-10 -bottom-10 h-48 w-48 rounded-full bg-amber-400/10 blur-2xl"
+							></div>
+
+							<div
+								class="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between"
+							>
+								<div class="max-w-2xl space-y-2.5">
+									<div
+										class="inline-flex items-center gap-2 rounded-full border border-amber-400/40 bg-amber-400/15 px-3.5 py-1 text-xs font-black tracking-wider text-amber-300 uppercase"
+									>
+										<span class="h-2 w-2 animate-pulse rounded-full bg-emerald-400"></span>
+										Official Citizen's Charter Frontline Services
+									</div>
+									<h3 class="text-xl font-black text-white sm:text-2xl">
+										Borrowing of Equipment & Venue Scheduling Requests
+									</h3>
+									<p class="text-xs leading-relaxed text-blue-200 sm:text-sm">
+										Official citizen frontline guidelines for borrowing tents, chairs, sound
+										systems, and scheduling municipal venues (Tanauan Amphitheater, Municipal Lobby,
+										Tanauan Civic Center).
+									</p>
+									<div class="flex flex-wrap items-center gap-3 pt-1 text-xs">
+										<span
+											class="rounded-lg border border-white/15 bg-white/10 px-2.5 py-1 text-white"
+										>
+											Service 1: <strong class="text-amber-300">Borrowing Equipment</strong>
+										</span>
+										<span
+											class="rounded-lg border border-white/15 bg-white/10 px-2.5 py-1 text-white"
+										>
+											Service 2: <strong class="text-emerald-400">Venue Reservation</strong>
+										</span>
+										<span
+											class="rounded-lg border border-white/15 bg-white/10 px-2.5 py-1 text-white"
+										>
+											Availability: <strong class="text-amber-300">Mon - Fri (8AM - 5PM)</strong>
+										</span>
+									</div>
+								</div>
+
+								<div class="flex shrink-0 flex-col gap-3 sm:flex-row">
+									<a
+										href="/citizens-charter/gso"
+										class="inline-flex items-center justify-center gap-2 rounded-xl bg-amber-400 px-6 py-3 text-xs font-black tracking-wider text-blue-950 uppercase shadow-md transition-all hover:scale-102 hover:bg-amber-300 active:scale-98"
+									>
+										<span>View Citizen's Charter ↗</span>
+									</a>
+								</div>
+							</div>
+						</div>
+					{/if}
+				</div>
+			</section>
 		{/if}
 
 		<!-- Section 3: Leadership & Executive Profile -->
-		<section id="leadership" class="scroll-mt-44 sm:scroll-mt-52 bg-white py-20">
+		<section id="leadership" class="scroll-mt-44 bg-white py-20 sm:scroll-mt-52">
 			<div class="container mx-auto max-w-7xl px-6">
 				<div class="mb-12 max-w-3xl">
 					<div
@@ -2425,7 +2735,9 @@
 								</div>
 								<div class="text-right text-xs">
 									<div class="font-bold text-slate-500 uppercase">CIVIL SERVICE STATUS</div>
-									<div class="text-sm font-black {isMENRO ? 'text-amber-600' : 'text-emerald-700'}">Regular Appointed Official</div>
+									<div class="text-sm font-black {isMENRO ? 'text-amber-600' : 'text-emerald-700'}">
+										Regular Appointed Official
+									</div>
 								</div>
 							</div>
 
@@ -2483,7 +2795,9 @@
 								<span class="text-xs font-black tracking-wider text-amber-400 uppercase">
 									PUBLIC SERVICE ASSISTANCE
 								</span>
-								<span class="text-xs font-black {isMENRO ? 'text-amber-400' : 'text-emerald-300'}">OPEN TO PUBLIC</span>
+								<span class="text-xs font-black {isMENRO ? 'text-amber-400' : 'text-emerald-300'}"
+									>OPEN TO PUBLIC</span
+								>
 							</div>
 
 							<h4 class="mb-3 text-2xl leading-snug font-black text-white">
@@ -2519,30 +2833,47 @@
 												<!-- Globe -->
 												<a
 													href="tel:09161977360"
-													class="flex items-center justify-between rounded-lg bg-blue-950/80 p-2.5 border border-blue-800 hover:border-amber-400 transition"
+													class="flex items-center justify-between rounded-lg border border-blue-800 bg-blue-950/80 p-2.5 transition hover:border-amber-400"
 												>
 													<div class="flex items-center gap-2">
-														<span class="rounded bg-blue-600 px-2 py-0.5 text-[10px] font-black text-white">GLOBE</span>
-														<span class="font-mono text-sm sm:text-base font-bold text-white">0916-197-7360</span>
+														<span
+															class="rounded bg-blue-600 px-2 py-0.5 text-[10px] font-black text-white"
+															>GLOBE</span
+														>
+														<span class="font-mono text-sm font-bold text-white sm:text-base"
+															>0916-197-7360</span
+														>
 													</div>
 													<span class="text-xs font-bold text-amber-300">Call Now 📞</span>
 												</a>
 												<!-- Smart -->
 												<a
 													href="tel:09317393333"
-													class="flex items-center justify-between rounded-lg bg-blue-950/80 p-2.5 border border-blue-800 hover:border-emerald-400 transition"
+													class="flex items-center justify-between rounded-lg border border-blue-800 bg-blue-950/80 p-2.5 transition hover:border-emerald-400"
 												>
 													<div class="flex items-center gap-2">
-														<span class="rounded bg-emerald-600 px-2 py-0.5 text-[10px] font-black text-white">SMART</span>
-														<span class="font-mono text-sm sm:text-base font-bold text-white">0931-739-3333</span>
+														<span
+															class="rounded bg-emerald-600 px-2 py-0.5 text-[10px] font-black text-white"
+															>SMART</span
+														>
+														<span class="font-mono text-sm font-bold text-white sm:text-base"
+															>0931-739-3333</span
+														>
 													</div>
 													<span class="text-xs font-bold text-emerald-300">Call Now 📱</span>
 												</a>
 												<!-- VHF Base Radio -->
-												<div class="flex items-center justify-between rounded-lg bg-amber-500/10 p-2.5 border border-amber-400/40">
+												<div
+													class="flex items-center justify-between rounded-lg border border-amber-400/40 bg-amber-500/10 p-2.5"
+												>
 													<div class="flex items-center gap-2">
-														<span class="rounded bg-amber-500 px-2 py-0.5 text-[10px] font-black text-slate-950">BASE RADIO</span>
-														<span class="font-mono text-sm sm:text-base font-black text-amber-300">167.600 MHz</span>
+														<span
+															class="rounded bg-amber-500 px-2 py-0.5 text-[10px] font-black text-slate-950"
+															>BASE RADIO</span
+														>
+														<span class="font-mono text-sm font-black text-amber-300 sm:text-base"
+															>167.600 MHz</span
+														>
 													</div>
 													<span class="text-xs font-bold text-amber-200">📡 VHF EOC</span>
 												</div>
@@ -2551,11 +2882,16 @@
 													href="https://www.facebook.com/search/top?q=MDRRMO-TANAUAN%20LEYTE"
 													target="_blank"
 													rel="noopener noreferrer"
-													class="flex items-center justify-between rounded-lg bg-blue-800/40 p-2.5 border border-blue-600/40 hover:bg-blue-800/70 transition"
+													class="flex items-center justify-between rounded-lg border border-blue-600/40 bg-blue-800/40 p-2.5 transition hover:bg-blue-800/70"
 												>
 													<div class="flex items-center gap-2">
-														<span class="rounded bg-blue-500 px-2 py-0.5 text-[10px] font-black text-white">FACEBOOK</span>
-														<span class="text-xs sm:text-sm font-bold text-blue-100">MDRRMO-TANAUAN LEYTE</span>
+														<span
+															class="rounded bg-blue-500 px-2 py-0.5 text-[10px] font-black text-white"
+															>FACEBOOK</span
+														>
+														<span class="text-xs font-bold text-blue-100 sm:text-sm"
+															>MDRRMO-TANAUAN LEYTE</span
+														>
 													</div>
 													<span class="text-xs font-bold text-blue-300">Open Page ↗</span>
 												</a>
@@ -2599,7 +2935,7 @@
 		<!-- Section 4: Organizational Structure (Executive Governance Matrix & Blueprint Viewer) -->
 		<section
 			id="structure"
-			class="scroll-mt-44 sm:scroll-mt-52 relative overflow-hidden border-b-2 border-slate-200 bg-slate-50 py-20"
+			class="relative scroll-mt-44 overflow-hidden border-b-2 border-slate-200 bg-slate-50 py-20 sm:scroll-mt-52"
 		>
 			<!-- Subtle Civic Grid Background -->
 			<div
@@ -2684,7 +3020,11 @@
 					<div
 						class="rounded-2xl border-2 border-slate-200 bg-white p-5 shadow-sm transition-colors hover:border-blue-900"
 					>
-						<div class="mb-1 text-xs font-black tracking-wide {isMENRO ? 'text-amber-600' : 'text-emerald-700'} uppercase">
+						<div
+							class="mb-1 text-xs font-black tracking-wide {isMENRO
+								? 'text-amber-600'
+								: 'text-emerald-700'} uppercase"
+						>
 							04 // STATUTORY BASIS
 						</div>
 						<div class="text-base font-black text-blue-950">COA & CSC Compliant</div>
@@ -2703,34 +3043,72 @@
 
 		<!-- Section 5: Accomplishment Reports (Audited Fiscal Performance) -->
 		{#if showAccomplishments}
-			<section id="accomplishments" class="scroll-mt-44 sm:scroll-mt-52 relative border-b-2 border-slate-200 bg-white py-20">
+			<section
+				id="accomplishments"
+				class="relative scroll-mt-44 border-b-2 border-slate-200 bg-white py-20 sm:scroll-mt-52"
+			>
 				<div class="container mx-auto max-w-7xl px-6">
 					<div class="mb-10 max-w-3xl border-b-2 border-slate-200 pb-6">
 						<div
 							class="mb-3 inline-flex items-center gap-2 rounded-md border border-amber-300 bg-amber-100 px-3.5 py-1 text-xs font-black tracking-wider text-amber-950 uppercase"
 						>
 							<span class="h-2 w-2 rounded-full bg-amber-600"></span>
-							SECTION {accomplishmentsNavCode} // {isLicensing ? 'BUSINESS REGISTRATION & REVENUE SCORECARD' : isCivilRegistrar ? 'CIVIL REGISTRY MILESTONES & SPECIAL PROJECTS' : isMDRRMO ? 'DISASTER PREPAREDNESS & DRILL OPERATIONS' : isMENRO ? 'SOLID WASTE MANAGEMENT & DIVERSION SCORECARD' : isHealthOffice ? 'PUBLIC HEALTH OUTREACH & CLINICAL CARAVAN' : isMAO ? 'AGRI-TRADE FAIR & GULAYAN SA PAARALAN HARVEST SHOWCASE' : 'FISCAL PERFORMANCE & SCORECARDS'}
+							SECTION {accomplishmentsNavCode} // {isLicensing
+								? 'BUSINESS REGISTRATION & REVENUE SCORECARD'
+								: isCivilRegistrar
+									? 'CIVIL REGISTRY MILESTONES & SPECIAL PROJECTS'
+									: isMDRRMO
+										? 'DISASTER PREPAREDNESS & DRILL OPERATIONS'
+										: isMENRO
+											? 'SOLID WASTE MANAGEMENT & DIVERSION SCORECARD'
+											: isHealthOffice
+												? 'PUBLIC HEALTH OUTREACH & CLINICAL CARAVAN'
+												: isMAO
+													? 'AGRI-TRADE FAIR & GULAYAN SA PAARALAN HARVEST SHOWCASE'
+													: 'FISCAL PERFORMANCE & SCORECARDS'}
 						</div>
 						<h2 class="text-3xl leading-tight font-black tracking-tight text-blue-950 sm:text-4xl">
-							{isLicensing ? 'BPLO Accomplishments & Revenue Scorecard' : isMDRRMO ? 'Field Operations & Accomplishments' : isMENRO ? 'Solid Waste Management & Accomplishments' : isCivilRegistrar ? 'Department Accomplishments' : isHealthOffice ? 'Public Health Accomplishments & Outreach' : isMAO ? 'Agricultural Programs & Community Harvest Milestones' : 'Accomplishment Reports'}
+							{isLicensing
+								? 'BPLO Accomplishments & Revenue Scorecard'
+								: isMDRRMO
+									? 'Field Operations & Accomplishments'
+									: isMENRO
+										? 'Solid Waste Management & Accomplishments'
+										: isCivilRegistrar
+											? 'Department Accomplishments'
+											: isHealthOffice
+												? 'Public Health Accomplishments & Outreach'
+												: isMAO
+													? 'Agricultural Programs & Community Harvest Milestones'
+													: 'Accomplishment Reports'}
 						</h2>
 						<p class="mt-2.5 text-base leading-relaxed font-normal text-slate-800">
 							{#if isLicensing}
-								Official comparative summary of business permit registration, public transport regulatory franchise assessments, and municipal local revenue collections as of August 2026.
+								Official comparative summary of business permit registration, public transport
+								regulatory franchise assessments, and municipal local revenue collections as of
+								August 2026.
 							{:else if isCivilRegistrar}
-								Official public service milestones, community outreach records, and flagship civil registration projects of the Municipal Civil Registrar of Tanauan.
+								Official public service milestones, community outreach records, and flagship civil
+								registration projects of the Municipal Civil Registrar of Tanauan.
 							{:else if isMDRRMO}
-								Official disaster preparedness operations, community resilience milestones, and simultaneous earthquake drills led by the Municipal Disaster Risk Reduction & Management Office.
+								Official disaster preparedness operations, community resilience milestones, and
+								simultaneous earthquake drills led by the Municipal Disaster Risk Reduction &
+								Management Office.
 							{:else if isMENRO}
-								Official ecological solid waste management updates, waste diversion performance benchmarks, and statutory accomplishments under RA 9003 and Municipal Ordinance No. 2024-20.
+								Official ecological solid waste management updates, waste diversion performance
+								benchmarks, and statutory accomplishments under RA 9003 and Municipal Ordinance No.
+								2024-20.
 							{:else if isHealthOffice}
-								Official public health outreach missions, community TB Active Case Finding (ACF), mobile chest X-ray caravans, and primary healthcare achievements of the Municipal Health Office of Tanauan.
+								Official public health outreach missions, community TB Active Case Finding (ACF),
+								mobile chest X-ray caravans, and primary healthcare achievements of the Municipal
+								Health Office of Tanauan.
 							{:else if isMAO}
-								Official field documentation and photographic exhibits of the 2026 Tanauan Agri-Trade Fair, Gulayan sa Paaralan school nutrition pavilions, and rural women agricultural enterprise showcases led by the Municipal Agriculture Office.
+								Official field documentation and photographic exhibits of the 2026 Tanauan
+								Agri-Trade Fair, Gulayan sa Paaralan school nutrition pavilions, and rural women
+								agricultural enterprise showcases led by the Municipal Agriculture Office.
 							{:else}
-								Official performance scorecards, program accomplishments, and transparency disclosures
-								of the {officeName} submitted to the Sangguniang Bayan of Tanauan.
+								Official performance scorecards, program accomplishments, and transparency
+								disclosures of the {officeName} submitted to the Sangguniang Bayan of Tanauan.
 							{/if}
 						</p>
 					</div>
@@ -2768,7 +3146,9 @@
 						</h2>
 						<p class="mt-2.5 text-base leading-relaxed font-normal text-slate-800">
 							{#if isCivilRegistrar}
-								Official Philippine Statistics Authority (PSA) provincial citations recognizing outstanding performance, civil registration excellence, and the Birth Registration Assistance Project (BRAP).
+								Official Philippine Statistics Authority (PSA) provincial citations recognizing
+								outstanding performance, civil registration excellence, and the Birth Registration
+								Assistance Project (BRAP).
 							{:else}
 								Provincial and regional citations recognizing outstanding business permitting,
 								year-on-year local revenue growth, and sound fiscal administration.
@@ -2798,8 +3178,8 @@
 							Department Personnel
 						</h2>
 						<p class="mt-2.5 text-base leading-relaxed font-normal text-slate-800">
-							Meet the dedicated public servants of the {officeName} committed to delivering quality services
-							to the people of Tanauan.
+							Meet the dedicated public servants of the {officeName} committed to delivering quality
+							services to the people of Tanauan.
 						</p>
 					</div>
 
@@ -2922,7 +3302,10 @@
 	<!-- ========================================================================= -->
 	{#if activeFormModal}
 		{@const fileUrl = activeFormModal.url || activeFormModal.downloadUrl}
-		{@const previewImg = activeFormModal.preview || activeFormModal.image || (fileUrl && fileUrl.match(/\.(png|jpg|jpeg|webp)$/i) ? fileUrl : null)}
+		{@const previewImg =
+			activeFormModal.preview ||
+			activeFormModal.image ||
+			(fileUrl && fileUrl.match(/\.(png|jpg|jpeg|webp)$/i) ? fileUrl : null)}
 		{@const isPdf = Boolean(fileUrl && fileUrl.match(/\.pdf$/i))}
 		<div
 			class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 md:p-6"
@@ -2943,21 +3326,28 @@
 
 			<!-- Modal Panel -->
 			<div
-				class="relative z-10 flex flex-col w-full max-w-4xl lg:max-w-5xl max-h-[92vh] overflow-hidden rounded-3xl border-2 border-slate-200 bg-white shadow-2xl"
+				class="relative z-10 flex max-h-[92vh] w-full max-w-4xl flex-col overflow-hidden rounded-3xl border-2 border-slate-200 bg-white shadow-2xl lg:max-w-5xl"
 				transition:scale={{ duration: 250, start: 0.94 }}
 			>
 				<!-- Coloured top bar -->
-				<div class="h-2 w-full bg-gradient-to-r from-blue-900 via-amber-500 to-blue-700 shrink-0"></div>
+				<div
+					class="h-2 w-full shrink-0 bg-gradient-to-r from-blue-900 via-amber-500 to-blue-700"
+				></div>
 
 				<!-- Modal Header -->
-				<div class="flex items-center justify-between gap-4 border-b border-slate-200 bg-white px-6 py-4 shrink-0">
-					<div class="flex items-center gap-3 min-w-0">
+				<div
+					class="flex shrink-0 items-center justify-between gap-4 border-b border-slate-200 bg-white px-6 py-4"
+				>
+					<div class="flex min-w-0 items-center gap-3">
 						<div class="min-w-0">
 							<div class="flex flex-wrap items-center gap-2">
-								<span class="text-[10px] font-black uppercase tracking-wider text-blue-700">Official {officeCode || 'Government'} Document</span>
+								<span class="text-[10px] font-black tracking-wider text-blue-700 uppercase"
+									>Official {officeCode || 'Government'} Document</span
+								>
 								{#if activeFormModal.category}
 									<span
-										class="rounded-full px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider {activeFormModal.category === 'Building Permit'
+										class="rounded-full px-2.5 py-0.5 text-[10px] font-black tracking-wider uppercase {activeFormModal.category ===
+										'Building Permit'
 											? 'border border-blue-900 bg-blue-100 text-blue-950'
 											: activeFormModal.category === 'Fencing Permit'
 												? 'border border-amber-400 bg-amber-100 text-amber-950'
@@ -2981,26 +3371,35 @@
 									</span>
 								{/if}
 								{#if activeFormModal.fileSize}
-									<span class="rounded bg-slate-100 border border-slate-200 px-2 py-0.5 font-mono text-[10px] font-bold text-slate-700">
+									<span
+										class="rounded border border-slate-200 bg-slate-100 px-2 py-0.5 font-mono text-[10px] font-bold text-slate-700"
+									>
 										{activeFormModal.fileSize}
 									</span>
 								{/if}
 								{#if activeFormModal.type}
-									<span class="rounded-full bg-blue-50 border border-blue-200 px-2 py-0.5 text-[10px] font-bold text-blue-900 uppercase">
+									<span
+										class="rounded-full border border-blue-200 bg-blue-50 px-2 py-0.5 text-[10px] font-bold text-blue-900 uppercase"
+									>
 										{activeFormModal.type}
 									</span>
 								{/if}
 							</div>
-							<h2 id="form-modal-title" class="truncate text-lg sm:text-xl font-black text-blue-950">{activeFormModal.title}</h2>
+							<h2
+								id="form-modal-title"
+								class="truncate text-lg font-black text-blue-950 sm:text-xl"
+							>
+								{activeFormModal.title}
+							</h2>
 						</div>
 					</div>
-					<div class="flex items-center gap-2 shrink-0">
+					<div class="flex shrink-0 items-center gap-2">
 						{#if fileUrl}
 							<a
 								href={fileUrl}
 								target="_blank"
 								rel="noopener noreferrer"
-								class="hidden sm:inline-flex items-center gap-1.5 rounded-xl border border-blue-200 bg-blue-50 px-3 py-1.5 text-xs font-bold text-blue-900 hover:bg-blue-100 transition"
+								class="hidden items-center gap-1.5 rounded-xl border border-blue-200 bg-blue-50 px-3 py-1.5 text-xs font-bold text-blue-900 transition hover:bg-blue-100 sm:inline-flex"
 								title="Open in new window"
 							>
 								<span>Full Window ↗</span>
@@ -3016,18 +3415,23 @@
 				</div>
 
 				<!-- Modal Body (Scrollable document inspection view) -->
-				<div class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6 bg-slate-50/60">
+				<div class="flex-1 space-y-6 overflow-y-auto bg-slate-50/60 p-4 sm:p-6">
 					<!-- Inspection Mode Banner (Royal Blue & Amber Yellow) -->
-					<div class="flex items-center justify-between rounded-2xl border-2 border-amber-400 bg-amber-50 p-3.5 text-xs">
-						<div class="flex items-center gap-2.5 text-blue-950 font-bold">
-							<span><strong>Document Inspection Mode:</strong> You can review the complete file preview and instructions below to decide whether to download.</span>
+					<div
+						class="flex items-center justify-between rounded-2xl border-2 border-amber-400 bg-amber-50 p-3.5 text-xs"
+					>
+						<div class="flex items-center gap-2.5 font-bold text-blue-950">
+							<span
+								><strong>Document Inspection Mode:</strong> You can review the complete file preview
+								and instructions below to decide whether to download.</span
+							>
 						</div>
 						{#if fileUrl}
 							<a
 								href={fileUrl}
 								target="_blank"
 								rel="noopener noreferrer"
-								class="shrink-0 text-blue-950 font-black underline hover:text-amber-700 ml-2"
+								class="ml-2 shrink-0 font-black text-blue-950 underline hover:text-amber-700"
 							>
 								Open Full Document ↗
 							</a>
@@ -3036,36 +3440,49 @@
 
 					<!-- Document Preview Stage (Large & Clear) -->
 					{#if previewImg}
-						<div class="rounded-2xl border-2 border-amber-400/40 bg-white p-3 sm:p-5 shadow-sm">
-							<div class="mb-3 flex items-center justify-between border-b border-slate-100 pb-2 text-xs">
-								<span class="font-bold text-blue-950">
-									Document High-Resolution Preview
-								</span>
+						<div class="rounded-2xl border-2 border-amber-400/40 bg-white p-3 shadow-sm sm:p-5">
+							<div
+								class="mb-3 flex items-center justify-between border-b border-slate-100 pb-2 text-xs"
+							>
+								<span class="font-bold text-blue-950"> Document High-Resolution Preview </span>
 								{#if isPdf}
-									<span class="font-mono text-[11px] text-amber-700 font-bold">PDF Guide • Ready for Download</span>
+									<span class="font-mono text-[11px] font-bold text-amber-700"
+										>PDF Guide • Ready for Download</span
+									>
 								{/if}
 							</div>
-							<div class="max-h-[540px] overflow-y-auto rounded-xl border border-slate-200 bg-slate-100/50 p-2 text-center">
+							<div
+								class="max-h-[540px] overflow-y-auto rounded-xl border border-slate-200 bg-slate-100/50 p-2 text-center"
+							>
 								<img
 									src={previewImg}
 									alt={activeFormModal.title}
-									class="mx-auto h-auto max-h-[750px] w-auto max-w-full rounded-lg shadow-sm border border-slate-200 bg-white object-contain"
+									class="mx-auto h-auto max-h-[750px] w-auto max-w-full rounded-lg border border-slate-200 bg-white object-contain shadow-sm"
 								/>
 							</div>
 						</div>
 					{:else if isPdf}
-						<div class="rounded-2xl border-2 border-amber-400/40 bg-white p-3 sm:p-5 shadow-sm">
-							<div class="mb-3 flex items-center justify-between border-b border-slate-100 pb-2 text-xs">
+						<div class="rounded-2xl border-2 border-amber-400/40 bg-white p-3 shadow-sm sm:p-5">
+							<div
+								class="mb-3 flex items-center justify-between border-b border-slate-100 pb-2 text-xs"
+							>
 								<span class="font-black text-blue-950">Official PDF Document Preview</span>
-								<a href={fileUrl} target="_blank" rel="noopener noreferrer" class="font-black text-blue-950 hover:text-amber-700 underline">
+								<a
+									href={fileUrl}
+									target="_blank"
+									rel="noopener noreferrer"
+									class="font-black text-blue-950 underline hover:text-amber-700"
+								>
 									Open in New Tab ↗
 								</a>
 							</div>
-							<div class="h-[520px] rounded-xl border border-blue-900/20 overflow-hidden bg-slate-100">
+							<div
+								class="h-[520px] overflow-hidden rounded-xl border border-blue-900/20 bg-slate-100"
+							>
 								<iframe
 									src="{fileUrl}#toolbar=1"
 									title="{activeFormModal.title} Preview"
-									class="w-full h-full bg-white"
+									class="h-full w-full bg-white"
 								></iframe>
 							</div>
 						</div>
@@ -3076,8 +3493,10 @@
 						<!-- Description -->
 						{#if activeFormModal.description}
 							<div class="rounded-2xl border-2 border-blue-900/15 bg-white p-5 shadow-2xs">
-								<div class="text-[10px] font-black uppercase tracking-wider text-amber-700 mb-2">Form Description &amp; Purpose</div>
-								<p class="text-xs sm:text-sm leading-relaxed font-normal text-slate-800">
+								<div class="mb-2 text-[10px] font-black tracking-wider text-amber-700 uppercase">
+									Form Description &amp; Purpose
+								</div>
+								<p class="text-xs leading-relaxed font-normal text-slate-800 sm:text-sm">
 									{activeFormModal.description}
 								</p>
 							</div>
@@ -3085,58 +3504,78 @@
 
 						<!-- Requirements or Official Guidelines -->
 						<div class="rounded-2xl border-2 border-blue-900/15 bg-white p-5 shadow-2xs">
-							<div class="text-[10px] font-black uppercase tracking-wider text-amber-700 mb-2">
-								{activeFormModal.requirements?.length ? 'Prerequisites & Checklist' : 'Official Guidelines'}
+							<div class="mb-2 text-[10px] font-black tracking-wider text-amber-700 uppercase">
+								{activeFormModal.requirements?.length
+									? 'Prerequisites & Checklist'
+									: 'Official Guidelines'}
 							</div>
 							{#if activeFormModal.requirements && activeFormModal.requirements.length > 0}
-								<ul class="space-y-2 text-xs text-blue-950 font-medium">
+								<ul class="space-y-2 text-xs font-medium text-blue-950">
 									{#each activeFormModal.requirements as req}
 										<li class="flex items-start gap-2">
-											<span class="text-amber-500 font-bold">•</span>
+											<span class="font-bold text-amber-500">•</span>
 											<span>{req}</span>
 										</li>
 									{/each}
 								</ul>
 							{:else}
-								<p class="text-xs text-slate-600 leading-relaxed">
-									Verify all entries before submitting. Ensure accurate applicant details and complete required agency attachments.
+								<p class="text-xs leading-relaxed text-slate-600">
+									Verify all entries before submitting. Ensure accurate applicant details and
+									complete required agency attachments.
 								</p>
 							{/if}
 						</div>
 					</div>
 
 					<!-- Office & Format Details in Royal Blue & Amber Yellow -->
-					<div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+					<div class="grid grid-cols-2 gap-3 text-xs sm:grid-cols-4">
 						<div class="rounded-xl border border-blue-900/20 bg-white p-3">
-							<div class="text-[10px] font-black uppercase tracking-wider text-amber-700">Department</div>
-							<div class="font-black text-blue-950 truncate">{officeCode || department}</div>
+							<div class="text-[10px] font-black tracking-wider text-amber-700 uppercase">
+								Department
+							</div>
+							<div class="truncate font-black text-blue-950">{officeCode || department}</div>
 						</div>
 						<div class="rounded-xl border border-blue-900/20 bg-white p-3">
-							<div class="text-[10px] font-black uppercase tracking-wider text-amber-700">Format</div>
-							<div class="font-bold text-blue-950 truncate">{activeFormModal.format || 'Official PDF'}</div>
+							<div class="text-[10px] font-black tracking-wider text-amber-700 uppercase">
+								Format
+							</div>
+							<div class="truncate font-bold text-blue-950">
+								{activeFormModal.format || 'Official PDF'}
+							</div>
 						</div>
 						<div class="rounded-xl border border-blue-900/20 bg-white p-3">
-							<div class="text-[10px] font-black uppercase tracking-wider text-amber-700">File Size</div>
-							<div class="font-bold text-blue-950 truncate">{activeFormModal.fileSize || 'Standard PDF'}</div>
+							<div class="text-[10px] font-black tracking-wider text-amber-700 uppercase">
+								File Size
+							</div>
+							<div class="truncate font-bold text-blue-950">
+								{activeFormModal.fileSize || 'Standard PDF'}
+							</div>
 						</div>
 						<div class="rounded-xl border border-blue-900/20 bg-white p-3">
-							<div class="text-[10px] font-black uppercase tracking-wider text-amber-700">Availability</div>
-							<div class="font-black text-amber-600 truncate">Immediate Access</div>
+							<div class="text-[10px] font-black tracking-wider text-amber-700 uppercase">
+								Availability
+							</div>
+							<div class="truncate font-black text-amber-600">Immediate Access</div>
 						</div>
 					</div>
 				</div>
 
 				<!-- Modal Footer (Decision Bar: Download vs Close) -->
-				<div class="flex flex-col sm:flex-row items-center justify-between gap-4 border-t-2 border-amber-400/40 bg-white px-6 py-4 shrink-0 shadow-sm">
+				<div
+					class="flex shrink-0 flex-col items-center justify-between gap-4 border-t-2 border-amber-400/40 bg-white px-6 py-4 shadow-sm sm:flex-row"
+				>
 					<div class="flex items-center gap-2 text-xs text-blue-950">
-						<span class="flex h-5 w-5 items-center justify-center rounded-full bg-amber-100 text-amber-900 border border-amber-400 text-xs font-bold">•</span>
+						<span
+							class="flex h-5 w-5 items-center justify-center rounded-full border border-amber-400 bg-amber-100 text-xs font-bold text-amber-900"
+							>•</span
+						>
 						<span>Review complete. Decide whether to download or exit:</span>
 					</div>
-					<div class="flex flex-wrap items-center gap-2.5 w-full sm:w-auto justify-end">
+					<div class="flex w-full flex-wrap items-center justify-end gap-2.5 sm:w-auto">
 						<button
 							type="button"
 							onclick={closeFormModal}
-							class="w-full sm:w-auto rounded-xl border-2 border-blue-950 bg-white hover:bg-blue-50 px-4 py-2.5 text-xs font-black text-blue-950 transition"
+							class="w-full rounded-xl border-2 border-blue-950 bg-white px-4 py-2.5 text-xs font-black text-blue-950 transition hover:bg-blue-50 sm:w-auto"
 						>
 							Close / Exit
 						</button>
@@ -3145,7 +3584,7 @@
 								href={activeFormModal.htmlUrl}
 								target="_blank"
 								rel="noopener noreferrer"
-								class="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 rounded-xl border-2 border-amber-500 bg-amber-400 hover:bg-amber-300 text-blue-950 px-4 py-2.5 text-xs font-black shadow-xs transition hover:scale-105 active:scale-95"
+								class="inline-flex w-full items-center justify-center gap-1.5 rounded-xl border-2 border-amber-500 bg-amber-400 px-4 py-2.5 text-xs font-black text-blue-950 shadow-xs transition hover:scale-105 hover:bg-amber-300 active:scale-95 sm:w-auto"
 							>
 								<span>Fill &amp; Print HTML ↗</span>
 							</a>
@@ -3154,7 +3593,7 @@
 								href={fileUrl}
 								target="_blank"
 								rel="noopener noreferrer"
-								class="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 rounded-xl border-2 border-amber-400 bg-amber-400 hover:bg-amber-300 text-blue-950 px-4 py-2.5 text-xs font-black shadow-xs transition hover:scale-105 active:scale-95"
+								class="inline-flex w-full items-center justify-center gap-1.5 rounded-xl border-2 border-amber-400 bg-amber-400 px-4 py-2.5 text-xs font-black text-blue-950 shadow-xs transition hover:scale-105 hover:bg-amber-300 active:scale-95 sm:w-auto"
 							>
 								<span>Print / Open Full Document ↗</span>
 							</a>
@@ -3165,9 +3604,13 @@
 								target="_blank"
 								download
 								rel="noopener noreferrer"
-								class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border-2 border-blue-950 bg-blue-950 hover:bg-blue-900 text-amber-300 px-5 py-2.5 text-xs font-black shadow-md transition hover:scale-105 active:scale-95"
+								class="inline-flex w-full items-center justify-center gap-2 rounded-xl border-2 border-blue-950 bg-blue-950 px-5 py-2.5 text-xs font-black text-amber-300 shadow-md transition hover:scale-105 hover:bg-blue-900 active:scale-95 sm:w-auto"
 							>
-								<span>Download PDF {activeFormModal.fileSize ? `(${activeFormModal.fileSize})` : ''}</span>
+								<span
+									>Download PDF {activeFormModal.fileSize
+										? `(${activeFormModal.fileSize})`
+										: ''}</span
+								>
 							</a>
 						{/if}
 					</div>
