@@ -266,9 +266,8 @@
 			'Segoe UI',
 			Roboto,
 			sans-serif;
-		background: linear-gradient(160deg, #1e40af 0%, #2563eb 30%, #3b82f6 65%, #1d4ed8 100%);
-		background-attachment: fixed;
-		color: #f8fafc;
+		background-color: #061124;
+		color: #e2e8f0;
 		min-height: 100vh;
 		position: relative;
 		overflow-x: hidden;
@@ -279,7 +278,7 @@
 	   ========================================================== */
 	.mv-hero {
 		position: relative;
-		background: linear-gradient(135deg, rgba(30, 64, 175, 0.45) 0%, rgba(37, 99, 235, 0.3) 50%, rgba(59, 130, 246, 0.25) 100%);
+		background: linear-gradient(135deg, #040b17 0%, #0a1b3a 45%, #102a5c 100%);
 		padding: 5rem 1.5rem 6.5rem;
 		border-bottom: 2px solid rgba(245, 158, 11, 0.25);
 		overflow: hidden;
@@ -354,7 +353,6 @@
 		transform: translateY(0);
 	}
 
-
 	/* Pill Badges */
 	.mv-pill-badge {
 		display: inline-flex;
@@ -412,19 +410,17 @@
 		font-weight: 600;
 		letter-spacing: 0.08em;
 		text-transform: uppercase;
-		color: #dbeafe;
+		color: #60a5fa;
 		margin-bottom: 1.25rem;
-		text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 	}
 
 	.mv-hero-description {
 		font-size: 1rem;
 		line-height: 1.7;
-		color: #f1f5f9;
-		max-width: 42rem;
+		color: #cbd5e1;
+		max-width: 44rem;
 		margin: 0 auto 2.25rem;
-		font-weight: 400;
-		text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+		font-weight: 300;
 	}
 
 	@media (min-width: 640px) {
@@ -523,15 +519,15 @@
 		padding: 2.25rem 2rem;
 		box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
 		transition:
-			transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-			border-color 0.4s ease,
-			box-shadow 0.4s ease;
+			transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+			border-color 0.35s ease,
+			box-shadow 0.35s ease;
 		overflow: hidden;
 	}
 
 	.mv-card:hover {
-		transform: translateY(-6px);
-		box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.8);
+		transform: translateY(-4px);
+		box-shadow: 0 25px 50px -15px rgba(0, 0, 0, 0.8);
 	}
 
 	.mv-card-vision:hover {
@@ -679,11 +675,10 @@
 
 	.mv-section-subtitle {
 		font-size: 0.9375rem;
-		color: #e2e8f0;
+		color: #94a3b8;
 		max-width: 36rem;
 		margin: 0 auto;
 		line-height: 1.6;
-		text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
 	}
 
 	.mv-values-grid {
@@ -705,24 +700,25 @@
 	}
 
 	.mv-value-card {
-		background: linear-gradient(170deg, #0b1c3a 0%, #071329 100%);
-		border: 1.5px solid rgba(59, 130, 246, 0.2);
+		background: linear-gradient(165deg, #0e2246 0%, #091733 60%, #061127 100%);
+		border: 1.5px solid rgba(59, 130, 246, 0.25);
 		border-radius: 1.25rem;
 		padding: 1.75rem 1.5rem;
-		transition: all 0.35s ease;
+		box-shadow: 0 15px 35px -15px rgba(0, 0, 0, 0.6);
+		transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 		position: relative;
 		overflow: hidden;
 	}
 
 	.mv-value-card:hover {
-		transform: translateY(-5px);
+		transform: translateY(-4px);
 		border-color: #2563eb;
-		box-shadow: 0 15px 35px -10px rgba(37, 99, 235, 0.3);
+		box-shadow: 0 20px 40px -10px rgba(37, 99, 235, 0.35);
 	}
 
 	.mv-value-amber:hover {
 		border-color: #f59e0b;
-		box-shadow: 0 15px 35px -10px rgba(245, 158, 11, 0.3);
+		box-shadow: 0 20px 40px -10px rgba(245, 158, 11, 0.35);
 	}
 
 
@@ -749,10 +745,10 @@
 
 	.mv-policy-card {
 		position: relative;
-		background: linear-gradient(145deg, #0e244b 0%, #0a1936 60%, #061127 100%);
+		background: linear-gradient(165deg, #0e2246 0%, #091733 60%, #061127 100%);
 		border: 2px solid rgba(245, 158, 11, 0.35);
-		border-radius: 2rem;
-		padding: 2.75rem 2rem;
+		border-radius: 1.75rem;
+		padding: 2.5rem 2rem;
 		overflow: hidden;
 		box-shadow:
 			0 25px 50px -15px rgba(0, 0, 0, 0.65),
