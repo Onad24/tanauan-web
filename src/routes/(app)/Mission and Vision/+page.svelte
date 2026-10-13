@@ -266,8 +266,9 @@
 			'Segoe UI',
 			Roboto,
 			sans-serif;
-		background-color: #061124;
-		color: #e2e8f0;
+		background: linear-gradient(160deg, #1e40af 0%, #2563eb 30%, #3b82f6 65%, #1d4ed8 100%);
+		background-attachment: fixed;
+		color: #f8fafc;
 		min-height: 100vh;
 		position: relative;
 		overflow-x: hidden;
@@ -278,7 +279,7 @@
 	   ========================================================== */
 	.mv-hero {
 		position: relative;
-		background: linear-gradient(135deg, #040b17 0%, #0a1b3a 45%, #102a5c 100%);
+		background: linear-gradient(135deg, rgba(30, 64, 175, 0.45) 0%, rgba(37, 99, 235, 0.3) 50%, rgba(59, 130, 246, 0.25) 100%);
 		padding: 5rem 1.5rem 6.5rem;
 		border-bottom: 2px solid rgba(245, 158, 11, 0.25);
 		overflow: hidden;
@@ -411,17 +412,19 @@
 		font-weight: 600;
 		letter-spacing: 0.08em;
 		text-transform: uppercase;
-		color: #60a5fa;
+		color: #dbeafe;
 		margin-bottom: 1.25rem;
+		text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 	}
 
 	.mv-hero-description {
 		font-size: 1rem;
 		line-height: 1.7;
-		color: #cbd5e1;
+		color: #f1f5f9;
 		max-width: 42rem;
 		margin: 0 auto 2.25rem;
-		font-weight: 300;
+		font-weight: 400;
+		text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
 	}
 
 	@media (min-width: 640px) {
@@ -676,10 +679,11 @@
 
 	.mv-section-subtitle {
 		font-size: 0.9375rem;
-		color: #94a3b8;
+		color: #e2e8f0;
 		max-width: 36rem;
 		margin: 0 auto;
 		line-height: 1.6;
+		text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
 	}
 
 	.mv-values-grid {

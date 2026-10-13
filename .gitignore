@@ -48,6 +48,8 @@ static/images/*
 !static/images/barangays/**
 !static/HRMO/
 !static/HRMO/**
+!static/Vice-Mayor/
+!static/Vice-Mayor/**
 
 .vercel
 .env*

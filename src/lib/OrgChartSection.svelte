@@ -5,6 +5,7 @@
 	import GSOOrgChart from '$lib/Components/Offices/GSOOrgChart.svelte';
 	import AgricultureOrgChart from '$lib/Components/Offices/AgricultureOrgChart.svelte';
 	import HRMOOrgChart from '$lib/Components/Offices/HRMOOrgChart.svelte';
+	import ViceMayorOrgChart from '$lib/Components/Offices/ViceMayorOrgChart.svelte';
 
 	export let department = '';
 	export let cleanLayout = false;
@@ -19,7 +20,9 @@
 		'General Services Office': '/images/gso-personnel/ramos-eugenio.jpg',
 		Licensing: '/bplo-logo-1.jpg',
 		'Business Permit & Licensing Office': '/bplo-logo-1.jpg',
-		BPLO: '/bplo-logo-1.jpg'
+		BPLO: '/bplo-logo-1.jpg',
+		'Vice-Mayors-Office': '/Vice-Mayor/vice-mayor-organizational-structure.jpg',
+		'Office of the Vice Mayor': '/Vice-Mayor/vice-mayor-organizational-structure.jpg'
 	};
 
 	let awards = [];
@@ -63,6 +66,13 @@
 		department === 'Human Resources' ||
 		(typeof department === 'string' && department.toLowerCase().includes('hrmo')) ||
 		(typeof department === 'string' && department.toLowerCase().includes('human resource'));
+	$: isViceMayor =
+		department === 'Vice-Mayors-Office' ||
+		department === 'Vice-Mayor' ||
+		department === 'Office of the Vice Mayor' ||
+		department === "Vice Mayor's Office" ||
+		(typeof department === 'string' && department.toLowerCase().includes('vice mayor')) ||
+		(typeof department === 'string' && department.toLowerCase().includes('vice-mayor'));
 
 	onMount(async () => {
 		if (!department) {
@@ -111,6 +121,8 @@
 		<AgricultureOrgChart />
 	{:else if isHRMO}
 		<HRMOOrgChart />
+	{:else if isViceMayor}
+		<ViceMayorOrgChart />
 	{:else if loading && !currentImage}
 		<div class="flex flex-col items-center justify-center py-16 text-slate-500">
 			<div class="mb-4 h-10 w-10 animate-spin rounded-full border-4 border-amber-400 border-t-blue-900"></div>

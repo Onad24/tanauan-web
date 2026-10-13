@@ -2375,10 +2375,13 @@ export const DEPT_DEFAULTS = {
     schedule: { hours: 'Monday – Friday | 8:00 AM – 5:00 PM', location: 'Tanauan Municipal Hall, Real St., Tanauan, Leyte', contactNumber: '', email: 'tourism@tanauanleyte.gov.ph', helpline: 'Municipal Tourism Office, Municipal Hall' }
   },
   'Vice-Mayors-Office': {
+    department: 'Vice-Mayors-Office',
     officeName: "Office of the Vice Mayor",
     officeCode: 'OVM',
     category: 'Legislative & Executive Administration',
     citizensCharterUrl: '/citizens-charter',
+    showStructure: true,
+    orgChartPdf: '/Vice-Mayor/vice-mayors-office-org-chart.pdf',
     tagline: 'Presiding over the Sangguniang Bayan and supporting the Chief Executive in delivering responsive and accountable governance to the people of Tanauan.',
     typewriterWords: [
       'Legislative Leadership for Tanauan',
@@ -2386,7 +2389,7 @@ export const DEPT_DEFAULTS = {
       'Transparent & Accountable Governance',
       'Serving Tanauan with Dedication'
     ],
-    head: { name: '', title: 'Vice Mayor', term: 'Presiding Officer', quote: 'As Presiding Officer, my commitment is to ensure the Sangguniang Bayan serves as a genuine voice of the people — transparent, responsive, and accountable.', credentials: ['Elected Vice Mayor', 'Presiding Officer, Sangguniang Bayan'], room: "Vice Mayor's Office, 2nd Floor, Municipal Hall Complex", schedule: 'Monday – Friday: 8:00 AM – 5:00 PM' },
+    head: { name: 'Hon. Archie Lawrence R. Kapunan', title: 'Municipal Vice Mayor', image: '/Vice-Mayor/personnel/kapunan.jpg', term: 'Presiding Officer', quote: 'As Presiding Officer, my commitment is to ensure the Sangguniang Bayan serves as a genuine voice of the people — transparent, responsive, and accountable.', credentials: ['Elected Vice Mayor', 'Presiding Officer, Sangguniang Bayan'], room: "Vice Mayor's Office, 2nd Floor, Municipal Hall Complex", schedule: 'Monday – Friday: 8:00 AM – 5:00 PM' },
     stats: [
       { value: '10', suffix: '', label: 'SB Members Presided', description: 'Sangguniang Bayan members under the presiding officer' },
       { value: '54', suffix: '', label: 'Barangays Represented', description: 'All 54 barangays served through the legislative body' },
